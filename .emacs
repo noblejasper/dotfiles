@@ -1,0 +1,10 @@
+(setq load-path (cons "~/.emacs.d/elisp/" load-path)
+      load-path (cons "~/.emacs.d/elisp/apel/" load-path)
+      load-path (cons "~/.emacs.d/elisp/emu/" load-path)
+      load-path (cons "~/.emacs.d/elisp/migemo/" load-path)
+      load-path (cons "~/.emacs.d/elisp/magit/share/emacs/site-lisp/" load-path)
+      load-path (cons "/usr/share/emacs/site-lisp/howm/" load-path)
+      )
+
+(require 'init-loader)
+(init-loader-load "~/.emacs.d/conf")

@@ -1,0 +1,2 @@
+(require 'hiwin)
+(hiwin-mode)
