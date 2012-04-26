@@ -1,0 +1,18 @@
+[user]
+	name = noblejasper
+	email = noblejasper@inblue.co.jp
+[core]
+    pager = lv -c
+[color]
+    # colorの設定(以下のコマンドは自動で色つける)
+    ui = auto
+    status = auto
+    diff = auto
+    branch = auto
+    interactive = auto
+    grep = auto
+[alias]
+    co = checkout
+    ci = commit -a
+    st = status
+    up = pull --rebase

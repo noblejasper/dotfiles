@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/Users/noblejasper/git/server_settings/G-sangoku/cron01/etc/cron.daily'
+let g:netrw_dirhist_2='/Users/noblejasper/git/server_settings/M-sangoku/cron01/etc/cron.daily'
+let g:netrw_dirhist_3='/Users/noblejasper/git/senpoke/data/event'
+let g:netrw_dirhist_4='/Users/noblejasper/git/senpoke/share'
