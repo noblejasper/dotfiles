@@ -1,0 +1,5 @@
+;(add-to-list 'load-path "~/.emacs.d/elisp/magit/share/emacs/site-lisp/")
+;(setq inferior-lisp-program “sbcl”)
+(add-to-list 'exec-path "/usr/local/bin")
+(require 'magit)
+;(require 'git)
