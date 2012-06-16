@@ -16,3 +16,5 @@
     ci = commit -a
     st = status
     up = pull --rebase
+[github]
+	user = noblejasper

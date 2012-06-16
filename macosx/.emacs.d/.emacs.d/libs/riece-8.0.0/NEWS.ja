@@ -1,0 +1,672 @@
+* Riece 8.0.0 の主な変更点
+
+** riece-url の URL 正規表現を拡張 (ueno)
+
+** lexical binding の使用 (ueno)
+
+** doc/ptexinfmt.el の更新 (kaoru)
+
+* Riece 7.0.3 の主な変更点
+
+** チャンネルバッファにカーソルがある状態でのフリーズ動作の修正 (ueno)
+   riece-shrink-buffer にバグがあり、フリーズ状態のチャンネルバッファで
+   カーソルが先頭か末尾に移動することがあったのを修正
+
+** ソースツリー外でのビルドの修正 (kaoru, ueno)
+   いくつかの場所で srcdir を適切にわたしていなかったのを修正
+
+** Emacs 24 のために旧スタイルのバッククオートを除去 (ueno)
+
+* Riece 7.0.2 の主な変更点
+
+** ログ読み出し時の不具合の修正 (ueno)
+   保存時に coding-system が指定されなかった場合に対応
+
+** コントロールシーケンスの扱いを修正 (ueno)
+
+* Riece 7.0.1 の主な変更点
+
+** Emacs 24 でのビルドエラーの修正 (ueno)
+   make-local-hook が定義されない場合に対応
+
+** Emacs 24 でのコンパイル時の警告の抑制 (kaoru)
+   警告 "`save-excursion' defeated by `set-buffer'" を抑制
+
+* Riece 7.0.0 の主な変更点
+
+** メーリングリストのアドレスを riece-discuss@nongnu.org に変更
+
+** XEmacs 21.5 でのビルドを修正 (ueno)
+
+** モードライン上での riece-channel-list-indicator の色付けの修正 (ueno)
+
+* Riece 6.1.0 の主な変更点
+
+** 設定の保存に Custom を使うのをやめた (ueno)
+
+** アドオン管理用のコマンドを Command バッファでも実行できるようにした (kaoru)
+
+* Riece 6.0.0 の主な変更点
+
+** 新規アドオン riece-desktop-notify (bg66)
+
+** Custom を利用した設定保存機構の修正
+
+* Riece 5.0.0 の主な変更点
+
+** 設定の保存に Custom を使うようにした (ueno)
+
+** ツールバーのアイコンに Gtk+ の標準アイコンを使うようにした (ueno)
+
+** 接続時に RFC2812 推奨の手順にしたがうようにした (ueno)
+
+** リアルネームの設定に非 ASCII 文字が使えるようになった (KASUGA Toru)
+
+** riece-keywords の設定上のバグを修正 (Takeru Naito)
+
+* Riece 4.0.0 の主な変更点
+
+** 新規アドオン riece-twitter (ueno)
+
+** riece-rdcc で送信元のポート番号を指定できるようにした (ueno)
+
+* Riece 3.1.2 の主な変更点
+
+** メッセージカタログ (ueno)
+
+* Riece 3.1.1 の主な変更点
+
+** riece-async を再び動作するようにした (ueno)
+
+** riece-shrink-buffer をデフォルトで有効にした (ueno)
+
+** 新規ウィンドウレイアウト "spiral" を追加 (URABE Shyouhei)
+
+* Riece 3.1.0 の主な変更点
+
+** メッセージハンドラの再入禁止にした (ueno)
+
+** riece-ndcc.el が calc に依存しないようにした (ueno)
+
+** 353 ハンドラのバグの修正 (ueno)
+
+* Riece 3.0.0 の主な変更点
+
+** 変数 riece-username の意味を変更 (ueno)
+   この変数を設定しているユーザは、riece-realname に変数名を変更する必
+   要がある。
+
+** 切断済みのサーバを再度切断しようとした場合に、エラーになるようにし
+   た (yoichi)
+
+** 新規アドオン riece-epg.el を導入。GnuPG を使った安全な会話が可能 (ueno)
+
+** ユーザを招待 (invite) する際のバグを 2 つ修正 (Steve Youngs)
+
+** ユーザがチャンネルを離脱した場面での、再描画のバグを修正 (ueno)
+
+** riece-alias-alternate-separator のデフォルト値を "@" に戻した (ueno)
+
+* Riece 2.0.2 の主な変更点
+
+** C-c l (riece-command-list) で、チャンネルのトピックの代わりに参加者
+   数が表示されるバグを修正 (ueno)
+
+** ニックネームやチャンネル名の補完候補の表示で大文字小文字を保存する
+   ようにした (ueno)
+
+** チャンネル名とサーバ名の区切り文字列のデフォルト値を "@" から "%" 
+   に変更 (ueno)
+
+* Riece 2.0.1 の主な変更点
+
+** 直前に選択していたチャンネルに未読メッセージがある場合に unread マー
+   クが表示されない不具合の修正 (ueno)
+
+** 新規アドオン riece-xfaceb.el を導入。BBDB から X-Face/Face を検索し、
+   ユーザ一覧に表示する (Steve Youngs)
+
+* Riece 2.0.0 の主な変更点
+
+** チャンネル毎にエンコーディングを指定できるようにした (ueno)
+   設定例：
+   (setq riece-channel-coding-system-alist
+	 '(("#euc-jp" . euc-jp)
+	   ("#utf-8 irc.freenode.net" . utf-8)))
+
+** アドオンの uninstall, unload (危険) に対応。
+   アドオン一覧モードで riece-addons のカスタマイズが可能 (ueno)
+
+** Ruby のプログラムを評価する機構の導入。
+   利用方法は riece-ruby.el 冒頭のコメントを参照 (ueno)
+
+** 新規アドオン riece-eval-ruby.el を導入。",ruby " に続いて任意の 
+   Ruby のプログラムを発言すると、評価結果をチャンネルに送信する (ueno)
+
+** 定期的にバッファを切り詰める機能をアドオンに分離
+   これまで riece-max-buffer-size を設定していた人は、
+   riece-shrink-buffer アドオンを有効にする必要があるので注意 (ueno)
+
+** 離脱したチャンネルに参加していたユーザが IRC をやめた場合に、エラー
+   が発生する不具合の修正 (ueno)
+
+** ログの保存時に、使用した coding-system の名前をファイル名に埋め込む
+   ようにした。これにより riece-log-coding-system を設定しなくても文字
+   化けが発生しにくくなった (ueno)
+
+** C-c g でチャンネルを移動する際に、新しい発言があったチャンネルから
+   辿るようにした (ueno)
+
+** チャンネル名とサーバ名の区切り文字列として " " 以外に "@" も許すよ
+   うにした (ueno)
+
+** 日本語マニュアル (riece-ja.texi) を初心者を対象に書き直した (ueno)
+
+** *Others* バッファを隠せるようにした (ueno)
+
+** デバッグ出力を専用のバッファに分離 (ueno)
+
+** elisp ファイルを１つずつ byte-compile する make ルールを設けた。
+   configure 後、lisp/ 以下で make compile-individually (ueno)
+
+** 開発者向けの文書 (doc/HACKING{,.ja}) を同梱 (ueno)
+
+* Riece 1.0.8 の主な変更点
+
+** riece-log のロックの緩和 (ueno)
+
+** RPL_WHOISIDLE の秒数を日時分秒形式で表示 (ueno)
+
+** riece-obarray を riece-channel-obarray, riece-user-obarray に分離
+   (kaoru)
+
+** いくつかの個所でチャンネル名の大文字小文字が区別されるバグへの対応 (ueno)
+
+** SXEmacs のバージョン表記に対応 (Steve Youngs)
+
+** CTCP TIME に対応 (Steve Youngs)
+
+** ~/.riece/addons 以下のディレクトリを読み込まないようにした (kaoru)
+
+** riece-command-part がエラーになるバグの修正 (yoichi)
+
+** ~/.riece/addons ディレクトリがないと起動時にエラーになるバグの修正 (ueno)
+
+* Riece 1.0.7 の主な変更点
+
+** 新規アドオン riece-toolbar (ueno)
+   riece-toolbar はツールバーにアイコンを表示します。現時点では全ての
+   アイコンが含まれているわけではありません。
+
+** 新規アドオン riece-keepalive (ueno)
+   riece-keepalive は自発的にサーバに PING メッセージを送ることで IRC
+   のコネクションを持続させます。
+
+** 新規アドオン riece-google (bg66)
+   riece-google は Google での検索結果をチャンネルに送ります。
+
+** 新規アドオン riece-eval (bg66)
+   riece-eval は elisp の式の評価結果をチャンネルに送ります。
+
+** いくつかのアドオンをデフォルトで有効化 (ueno)
+   riece-log, riece-alias, riece-ctlseq, riece-keyword が今回からデフォ
+   ルトで有効になります。
+
+** 新規コマンド riece-command-suspend-resume (ueno)
+   riece-command-suspend-resume は現在のウィンドウ構成を保存・再現します。
+
+** ボタンウィジェットクリック時のカーソル移動の抑止 (ueno)
+
+** モードラインのインジケータを face で装飾 (ueno)
+
+** NAMES リプライに含まれるユーザ数を数えるようになりました (ueno)
+
+** 新規ユーザオプション riece-part-message (ueno)
+
+** riece-addon-directory 以下に置かれたアドオンを自動的に有効化 (ueno)
+
+** riece-buffer-dispose-function のデフォルト値が今回から kill-buffer
+   になりました (ueno)
+
+** process-filter 内でエラーが発生した場合、backtrace を行なうようにな
+   りました (ueno)
+
+** 必要に応じてチャンネルキーを問い合わせるようにしました (ueno)
+
+** バッファの自動的な切り詰めをデフォルトでは無効化 (ueno)
+
+** riece-log のための新しいディレクトリ構成 (ueno)
+
+** user-renamed signal-filter のバグを修正 (kaoru)
+
+** riece-command-enable-addon と riece-command-disable-addon のバグの
+   修正 (yoichi)
+
+* Riece 1.0.6 の主な変更点
+
+** CVS 版 GNU Emacs に同梱された url パッケージの irc: スキーマ対応の
+   バックエンドとして Riece を使用できるようにするプログラム url-riece を
+   同梱 (大和さん)
+
+** "Bug#12345" のような文字列を URL にマップするオプション
+   riece-url-regexp-alist を新設 (Liece からバックポート) (ueno)
+
+** モードラインに自身のチャンネルオペレータの印(@, +)を表示するように
+   した (ueno, thanks to k-to さん)
+
+** バッファを切り詰める際に、一行ずつではなく複数行一度に削除するよう
+   にした (riece-shrink-buffer-remove-lines オプションで設定可能) (ueno,
+   thanks to ysjj さん)
+
+** riece-alias-alist が上手く動いていなかった不具合の修正 (ueno)
+
+** 1.0.4 以降、GNU Emacs で、メッセージ送信時のフロー制御が上手く動い
+   ていなかった不具合の修正 (ueno)
+
+** バグ報告用のコマンド riece-submit-bug-report を新設 (ueno)
+
+** nadoka や Tiarra などの IRC proxy が、IRC サーバ実装の伝統に沿わな
+   いメッセージを返すことへの対処 (ueno, thanks to k-to さん)
+
+** C-c # 数字で指定した番号のチャンネルに移動できるようにした (ueno,
+   thanks to ysjj さん)
+
+** riece-yank で、前置引数を指定することにより、メッセージを NOTICE と
+   して送信できるようにした (bg66)
+
+* Riece 1.0.5 の主な変更点
+
+** ユニットテストを追加。(ueno)
+
+** 複数サーバ接続時に、チャンネル名とサーバ名の区切りに空白以外の文字
+   列を使えるようにした。(ueno)
+
+   riece-alias-alternate-separator == "@" の時の変換規則は以下の通り：
+
+   "#riece" -> "#riece"
+   "#riece localhost" -> "#riece@localhost"
+   "#ch@nnel" -> "#ch@@nnel"
+   "#ch@nnel localhost" -> "#ch@@nnel@localhost"
+
+** DCC が他のクライアントとの間でうまく動かない不具合の修正。(ueno)
+
+** kill-ring から文字列を送信するアドオン riece-yank を追加。(by 大和さん)
+
+** 英語の文書を追加。(ueno)
+
+* Riece 1.0.4 の主な変更点
+
+** 大量のメッセージを送る場合に、フロー制御を行うようにした。(ueno)
+
+** 起動時に複数サーバ上のチャンネルに参加する設定で、
+   riece-startup-server-list の設定を省略可能にした。(ueno)
+
+** riece-mini 使用時に過去のメッセージを閲覧する機能を設けた。(bg66)
+
+* Riece 1.0.3 の主な変更点
+
+** NAMES 発行時に「いないはずのユーザ」をユーザ一覧から除外するように
+   した (Thanks to 山下さん)
+
+** 行の折り返しを各バッファの truncate-lines の値でカスタマイズできる
+   ようにした(Thanks to 山下さん)
+
+** チャンネルバッファのスクロール動作を制御するオプション
+   riece-window-center-line を追加
+
+** コマンドバッファでの補完の不具合を修正 (Thanks to 山下さん)
+
+** 一対一の会話で、相手が quit した場合、チャンネル一覧から除外するよ
+   うにした (Thanks to  森本さん)
+
+** デフォルトの IRC サーバへの接続時にエラーが出た場合には、即座に終了
+   するようにした(Thanks to k-to さん)
+
+* Riece 1.0.2 の主な変更点
+
+** riece-url 使用時にメニューバーのメニューが破壊される不具合の修正
+
+** Jabber 対応に向け、プロトコルインターフェースを分けた
+
+** その他、雑多な修正
+
+* Riece 1.0.1 の主な変更点
+
+** XEmacs で、モードラインに表示されるチャンネルの背景色をモードライン
+   の色にあわせた
+
+** チャンネルのモード変更時に、モード指定の先頭に ":" を付けて送ってい
+   た不具合の修正
+   (Thanks to やまださん)
+
+** チャンネルミスを防ぐアドオン riece-foolproof を追加 (by 高橋さん)
+
+** チャンネルバッファのモードラインに表示される要素の順番を変更 (by 高橋さん)
+
+** NOTICE で発言した時の表示を変更 (by 高橋さん)
+
+** 再起動時にシグナル関数を二重に登録していた不具合の修正
+
+** C-c Home でチャンネルバッファの先頭にカーソルを移動するコマンドを追加
+
+** フリーズ状態のチャンネルでは、チャンネルを移動してもチャンネルバッ
+   ファのカーソル位置を保つようにした
+
+** CVS 版の Emacs で、引数なしの current-word が nil を返すようになったため、
+   riece-command-complete-user がエラーになる不具合の修正 (by 中山さん)
+
+** riece-hangman の乱数発生ロジックの修正 (by 高橋さん)
+
+** 空行の上で、C-c p でメッセージを送ろうとした場合、エラーを通知する
+   ようにした
+
+** riece-ignore 使用時に、設定ファイルで無視するユーザを指定できるよう、
+   オプション riece-startup-ignored-user-list を新設
+
+** riece-rdcc 使用時に、ファイル名に空白が入ったファイルを送受信できる
+   ようにした
+
+* Riece 1.0.0 の主な変更点
+
+** アドオンの一覧表示モードを追加し、実行時にアドオンを有効化・無効化
+   できるようにした (C-c ^)
+
+** GNU Emacs で、パスワード入力中に Quit (C-g) できない不具合の修正
+
+** チャンネル内で hangman(6) で遊ぶアドオン riece-hangman を追加
+
+** プロセスが一つもない場合に C-c q した場合のメッセージを変更
+
+** ユーザを無視するアドオン riece-ignore を追加
+
+** 9 文字以上のニックネームも受け付けるようにした
+
+** 再起動した際に、アドオンを二重に組み込まないようにした
+
+** 他のバッファにいる時に発言があるとモードラインに印 ("[R]") を表示す
+   るアドオン riece-biff を追加 (by 大橋さん)
+
+** 日本語の通らない端末で、日本語をローマ字で表示するアドオン
+   riece-kakasi を追加
+
+** コマンドプロンプトにアクションを示す文字列を追加 (suggested by 山下さん)
+
+* Riece 0.2.2 の主な変更点
+
+** ^B, ^V, ^_ などのコントロールシーケンスによる文字列の強調に対応
+   (riece-ctlseq アドオンを追加)
+
+** プリブが未読扱いされない不具合の修正
+
+** チャンネルバッファ、*Others* バッファを独立に freeze できるようにし
+   た。(各バッファで C-t C-f でトグル)
+
+** riece-log で、ログの保存先ディレクトリを canonicalize したチャンネ
+   ル名から求めるようにした。(by 大橋さん)
+
+* Riece 0.2.0 の主な変更点
+
+** Qt や GTK+ と同様のシグナルを導入し、部分的に再描画するようにした。
+
+** C-c C-n で、チャンネルバッファにも名前の一覧を表示するようにした。
+
+** riece-lsdb 使用時の不具合の修正 (by 中山さん)
+
+* Riece 0.1.8 の主な変更点
+
+** LSDB と連携するアドオン riece-lsdb を追加
+
+** ユーザ一覧に X-Face を表示するアドオン riece-xface を追加 (要 LSDB)．
+スクリーンショット：
+http://wiliki.designflaw.org/riece-xface.png
+
+** チャンネル名の大文字小文字が区別されてしまうバグを修正
+
+** IRC proxy に他のクライアントと一緒に接続している場合でも，自分の発
+   言をきちんと扱うようにした (by 高橋さん)
+
+* Riece 0.1.7 の主な変更点
+
+** Emacs が busy or suspend 状態になることに備え、
+   PING に応答する local proxy 経由で IRC サーバに接続するアドオン
+   riece-async を追加
+
+** riece-away-message が指定された場合に AWAY 状態のトグルに失敗するバ
+   グを修正 (Thanks to 藤村さん)
+
+** GNU Emacs で、ロード時に standard-syntax-table を変更してしまうバグを修正
+   (Thanks to Hori さん)
+
+** riece-startup-channel-list に加え、riece-startup-server-list を指定
+   することで、起動時に複数のサーバ上のチャンネルに参加できるようにした
+
+** riece-log 使用時にログファイルの coding system を指定するオプション
+   riece-log-coding-system を追加
+
+** riece-keyword 使用時に指定したキーワードの発言があった時に呼ばれる
+   riece-keyword-notify-functions を追加。既存の
+   riece-notify-keyword-functions(なんて紛らわしい名前!) の代わりにこちら
+   を使用してください
+
+** riece-log 使用時に riece-log-flashback がハイライトやボタンも復元す
+   るようにした
+
+** riece-{unread,mini} を NOTICE や CTCP ACTION には反応しないようにした
+
+* Riece 0.1.6 の主な変更点
+
+** Emacs 20.7 でうまく動作しない不具合の修正。
+
+** XEmacs 21.1 でコンパイルに失敗する不具合の修正(動作は無保証)。
+
+** riece-rdcc で、巨大なファイルを受信してもメモリを食わないようにした。
+
+** riece-gather-channel-modes == t の場合、チャンネル参加時にチャンネ
+   ルのモードを調べるようにした。
+
+** チャンネルバッファのサイズを切り詰めるタイミングを修正。
+
+** チャンネル移動時に、バッファが自動的にスクロールしない不具合の修正。
+
+** riece-log で、riece-log-directory-map にサーバ名付きのチャンネルを
+   指定できるようにした。(by 大橋さん)
+
+* Riece 0.1.5 の主な変更点
+
+** デフォルトで利用可能なウィンドウレイアウトに、
+   {top,middle,bottom}-{left,right} を追加。
+
+** 選択中のウィンドウレイアウトを保存するようにした。
+
+** アイコンを表示するアドオン (riece-icon) を追加。
+   ([http://wiliki.designflaw.org/riecess1.png スクリーンショット])
+
+** ユーザリストの再描画の高速化。
+
+** CTCP ACTION の改良。(Thanks to knu さん)
+
+** riece-rdcc を使って DCC のファイル転送を始める際に、たまに固まるバグを修正。
+
+** 既に Riece が起動した状態でもう一度起動した場合、エラーを通知するの
+   ではなく、riece-command-configure-windows を呼ぶようにした (Thanks
+   to 大橋さん)
+
+** C-c o (riece-command-set-operators) と C-c v
+   (riece-command-set-speakers) で、3 人以上のユーザを対象にした場合のバ
+   グを修正。
+
+** バッファのサイズが riece-max-buffer-size を越えた場合、自動的に切り
+   詰めるようにした。
+
+* Riece 0.1.4 の主な変更点
+
+** チャンネルバッファで riece-command-names のキーバインドを C-n から
+   N に変更。(thanks to 高橋さん)
+
+** C-c C-t a (riece-command-toggle-away) がエラーになるバグを修正。
+   (thanks to 前田さん)
+
+** Riece のバッファを選択していない時には、再描画を行わないようにした。
+
+** 同名のバッファが Riece 以外のプログラムに使われている時、
+   generate-new-buffer で新しいバッファを作成して利用するようにした。
+
+** ! で初まるチャンネルを作成できないバグを修正。
+
+** riece-keyword 使用時に、自分の発言に含まれるキーワードに反応しない
+   ようにした。
+
+** ひとつもチャンネルに入っていない時、チャンネル内でのみ有効なコマン
+   ドを実行するとエラーを出すようにした。
+
+** メニューバーにメニューを追加するアドオン (riece-menu) を新設。
+
+* Riece 0.1.3 の主な変更点
+
+** PRIVMSG や NOTICE の受信時に，チャンネル名の大文字小文字を区別しな
+   いようにした。
+
+** riece-history 使用時に，ヒストリの先頭にあるチャンネルに "+" マーク
+   をつけるようにした。
+
+** ボタンとポップアップメニューを表示するアドオン (riece-button) を追加。
+
+** キーワードを検出するアドオン (riece-keyword) を追加。
+
+   XEmacs をお使いなら，以下の設定を ~/.riece/init.el に加えることで，
+   "ほげ" や "ふが" に反応して音を鳴らすことができます．
+
+   (load-default-sounds)
+   (setq riece-keywords '("ほげ" "ふが"))
+   (add-hook 'riece-notify-keyword-functions
+	     (lambda (keyword) (play-sound 'cuckoo)))
+
+* Riece 0.1.2 の主な変更点
+
+** パスワード付きのチャンネルに JOIN できないバグを修正
+
+** riece-startup-channel-list を復活
+
+** riece-rdcc-save-directory を新設
+
+** パスワード入力を中断できないバグを修正
+
+** INVITE ハンドラのバグを修正
+
+** INVITE された後に JOIN する場合、デフォルトのチャンネル名を使うようにした。
+
+** JOIN のタイミングにより riece-channel-list-indicator が更新されない
+   バグを修正
+
+* Riece 0.1.1 の主な変更点
+
+** いくつかのアドオンをデフォルトで読み込むようにした
+
+** riece-default-channel-binding が効かないバグを治した
+
+** *Channels* バッファで、現在いるチャンネル名の頭にマーク "*" を付ける
+  ようにした
+
+** riece-debug == nil の場合、切断時のメッセージを簡略化した
+
+** チャンネル移動の履歴を管理するアドオン riece-history を追加
+
+** 移動先のチャンネルを推測するアドオン riece-guess を追加
+
+Tips:
+
+~/.riece/init.el に以下のように指定すると、
+
+  (setq riece-guess-channel-try-functions
+        '(riece-guess-channel-from-unread
+          riece-guess-channel-from-history))
+
+C-c g で以下の順序で移動できます。
+
+# 未読のメッセージのあるチャンネル
+# 最近訪れたチャンネル
+# それ以外
+
+* Riece 0.1.0 の主な変更点
+
+** チャンネルの内部表現を文字列からベクターによる表現に変更した
+
+** プロセス管理をまともにした
+
+*** プロセス名でサーバを識別するように変更した
+
+*** 接続・切断の処理を riece-server.el にまとめた
+
+*** QUIT を投げても応答がない場合、強制的に切断するようにした
+
+** M-x doctor と連携するアドオンを追加
+
+** 発言に SKK の変換中の印▽が混ざらないようにするアドオンを追加 (by 高橋さん)
+
+** ウィンドウレイアウトを変更できるようにした (C-c t l)
+
+** Liece の "top" スタイルに似たウィンドウレイアウトを追加 (by 高橋さん)
+
+* Riece 0.0.4 の主な変更点
+
+** ミニバッファだけで IRC するアドオン riece-mini を追加 (by 大橋さん)
+
+** ログ収集アドオン riece-log を追加 (by 大橋さん)
+
+** riece-command-next-channel (C-c >), riece-command-previous-channel
+   (C-c <) でチャンネルをぐるぐる移動できるようにした (by 中山さん)
+
+** riece-unread アドオン使用時に発言のあったチャンネルに C-c C-u で移
+   動できるようにした (by 大橋さん)
+
+** IRC メッセージに従ってインジケータを更新するようにした
+
+** ptexinfmt.el を APEL free なものに置き換えた (Thanks to 山岡さん)
+
+* Riece 0.0.3 の主な変更点
+
+** パスワードが必要なサーバに二つ以上接続できないバグの修正 (Thanks to
+   中山さん)
+
+** ニックの大文字小文字だけを変更すると一貫性が失われる問題を修正
+
+** ハンドラフックで発生したエラーを捕捉
+
+** DCC によるファイル転送に対応 (riece-ndcc.el, riece-rdcc.el)
+
+** 発言のあったチャンネルに "!" マークをつけるアドオンの追加 (riece-unread.el)
+
+** 日本語のマニュアルの追加
+
+* Riece 0.0.2 の主な変更点
+
+** APEL の関数 (pop, push) の退治
+
+** "depcomp" が同梱されない問題の修正 (autoreconf のバグ?)
+
+** Windows 環境でビルドできない不具合の修正 (Thanks to 大橋さん)
+
+** ニック変更時に一貫性が失われる問題の修正
+
+** C-c C-t u (M-x riece-command-toggle-user-list-mode) の不具合の修正
+
+** アドオンの導入
+
+** CTCP に部分的に対応 (VERSION と PING のみ)
+
+** font-lock モジュール (riece-highlight) のアドオン化
+
+** URL 収集機能のアドオン化
+
+* Riece 0.0.1 の主な変更点
+
+** 最初のリリース
+
+* For details of changes, see the file ChangeLog.
+
+Local variables:
+mode: text
+mode: outline
+paragraph-separate: "[  ]*$"
+coding: utf-8
+end:

@@ -1,0 +1,45 @@
+* これは何か?
+
+Riece は Emacs 向け IRC クライアントです。
+
+Riece には以下に挙げる特長があります:
+
+- 複数の IRC サーバに同時に接続可能
+- アドオンにより拡張機能の追加や取り外しが可能
+- 他の elisp パッケージに依存しないため、インストールが簡単
+- 設定が簡単で、前回起動時の設定を記録・復元する仕組みを提供
+- 段階的な操作説明書 (info 形式) が附属
+- 最新の IRC のクライアントプロトコル (RFC2812) に準拠
+
+* ディレクトリ構成
+
+このパッケージは以下のディレクトリから成ります:
+
+lisp/ - Emacs Lisp のファイル
+doc/  - 文書ファイル
+
+* 必要なもの
+
+- Emacs 20.7 以降、または XEmacs 21.4 以降
+- Ruby 1.8 以降 (任意)
+
+* インストール
+
+$ ./configure
+$ sudo make install
+
+~/.emacs 等に以下の一行を追加してください。
+
+  (autoload 'riece "riece" "Start Riece" t)
+
+XEmacs で使う場合には "--with-xemacs" オプションを configure スクリプ
+トに与えてください。また、"make install" の代わりに "make
+install-package" とすることでXEmacs のパッケージとしてインストールする
+ことができます。
+
+* マニュアル
+
+使い方は同梱のマニュアルに記載されています。
+マニュアルを読むには "M-x info" で以下のメニューを選択します。
+
+  * Riece-ja: (riece-ja).		     An IRC client for Emacsen

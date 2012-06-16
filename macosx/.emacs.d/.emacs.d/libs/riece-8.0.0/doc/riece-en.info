@@ -1,0 +1,464 @@
+Info file: riece-en.info,    -*-Text-*-
+produced by `texinfo-format-buffer'
+from file `riece-en.texi'
+using `texinfmt.el' version 2.42 of  7 Jul 2006.
+
+
+INFO-DIR-SECTION GNU Emacs Lisp
+START-INFO-DIR-ENTRY
+* Riece-en: (riece-en).   An IRC client for Emacsen
+END-INFO-DIR-ENTRY
+
+
+This file describes Riece.
+
+Copyright (C) 2003,2004,2005,2006,2007,2008,2009 Daiki Ueno.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License".
+
+
+
+
+File: riece-en.info, Node: Top, Next: Overview, Prev: (dir), Up: (dir)
+
+Riece user's manual
+*******************
+
+This manual documents Riece version 8.0.0. In addition to this manual,
+you may find useful information about Riece from Riece's official home
+page `http://www.nongnu.org/riece/'.
+
+* Menu:
+
+* Overview::                    Read me first.
+* Getting started::             Let's start chatting with other people.
+* Basic usage::
+* Index::
+* Function Index::
+* Variable Index::
+
+
+
+File: riece-en.info, Node: Overview, Next: Getting started, Prev: Top, Up: Top
+
+Overview
+********
+
+Riece is a user interface for IRC (Internet Relay Chat).  You should
+spell it with the first letter capitalized and pronounce it as /ri:s/.
+
+The features of Riece are as follows:
+
+   * Several IRC servers may be used at the same time.
+
+   * Many features built upon the extension mechanism called add-on.
+     Currently 30 such add-ons are available.
+
+   * Installation is easy.  Riece doesn't depend on other packages.
+
+   * Setup is easy.  Automatically save/restore the configuration.
+
+   * Step-by-step instructions are included.
+
+   * Mostly compliant with the latest IRC client protocol (RFC 2812).
+
+
+
+File: riece-en.info, Node: Getting started, Next: Basic usage, Prev: Overview, Up: Top
+
+Getting started
+***************
+
+To start Riece, follow the instruction below:
+
+  1. `M-x load-library riece'
+
+  2. `M-x riece'
+
+In case that `Cannot open load file: riece' is signalled in (1), you
+should probably have an installation problem.  If you installed Riece
+from source tarball, please read README again.  If you are trying to
+use a package distribution, check out the documentation.
+
+Once Riece started successfully, you will be asked the name of the IRC
+server to connect.  IRC servers publicly available are taken from the
+Web pages of IRC networks:
+
+   * http://www.ircnet.jp
+   * http://freenode.net
+
+You may see the following message:
+
+     Nickname "ueno" already in use.  Choose a new one:
+
+In IRC, users are identified by *nicknames*.  If the nickname you
+selected has already used by another person, you must select the new
+one.
+
+In IRC, users join the *channels* to start multi user conversation.
+To join a channel, type `C-c j'.  On IRCnet, there is a channel named
+`#Riece' where you can do some tests to get experienced with Riece.
+
+After you joined a channel, the layout of windows are changed to the
+following:
+
+     +-----+-----------------+
+     |     |                 |
+     |     |                 |
+     | (1) |       (2)       |
+     |     |                 |
+     |     |                 |
+     +-----+-----------------+
+     |     |       (4)       |
+     |     +-----------------+
+     | (3) |                 |
+     |     |       (5)       |
+     |     |                 |
+     +-----+-----------------+
+
+You can send messages by entering messages in (4).  Messages from
+other persons are shown in (2).
+
+
+
+File: riece-en.info, Node: Basic usage, Next: Index, Prev: Getting started, Up: Top
+
+Basic usage
+***********
+
+To start Riece, you just type `M-x riece'.  Then you will prompted for
+the name of an IRC server.  A typical IRC network may consist of
+several IRC servers and you will need to pick up appropriate one.
+Most of IRC networks provide a list of available servers on their Web
+pages:
+
+   * http://irc.kyoto-u.ac.jp
+   * http://freenode.net
+
+If your nickname is taken, you will be asked to use different one.
+The initial nickname can be set via the variable `riece-nickname'.  By
+default, your nickname is generated from your login name.
+
+After successfully connecting to an IRC server, you can join a channel
+and talk with people there.  To join a channel, type `C-c j'.  By the
+way there is a channel called `#Riece' on IRCnet, so feel free to use
+it for testing.
+
+Now you enter a message and it will be seen by everyone else on the
+channel.  Messages from other people will appear on the top-left
+window.
+
+* Menu:
+
+* Windows::
+* Indicators::
+* Commands::
+* Connecting to multiple servers::
+
+
+
+File: riece-en.info, Node: Windows, Next: Indicators, Prev: Basic usage, Up: Basic usage
+
+Windows
+=======
+
+By default, Riece uses 5 windows to inform user of his status:
+
+     +-----+-----------------+
+     |     |                 |
+     |     |                 |
+     | (1) |       (2)       |
+     |     |                 |
+     |     |                 |
+     +-----+-----------------+
+     |     |       (4)       |
+     |     +-----------------+
+     | (3) |                 |
+     |     |       (5)       |
+     |     |                 |
+     +-----+-----------------+
+
+Each window is used for different purpose:
+
+  1. "user list window" (`*Users XXX*').  Users on the current channel
+     are listed in this window.
+
+  2. "channel window" (`*Channel XXX*').  This window keeps dialogues
+     on the current channel.
+
+  3. "channel list window" (`*Channels*').  All channels you are
+     joined are listed in this window.
+
+  4. "command window" (`*Commands*').  This window is used for either
+     sending messages or issueing commands.
+
+  5. "others buffer" (`*Others*').  This window displays dialogues on
+     channels except the current channel.
+
+
+
+File: riece-en.info, Node: Indicators, Next: Commands, Prev: Windows, Up: Basic usage
+
+Indicators
+==========
+
+Indicators are characters which indicate your status.  Usually they
+are put on the left side of the modeline like:
+
+     Riece: -- ueno #Riece [n]
+
+In this case, `---' are indicators.  From left to right their meanings
+are:
+
+  1. You are not "away". (If you marked yourself as "away", it would be
+     `A')
+
+  2. You are not an IRC operator. (If you entered operator mode, it would be
+     `O')
+
+  3. The channel window is not locked.  (If it was locked, it would be
+     `F'.  If it was locked until next send, it would be `f')
+
+
+
+File: riece-en.info, Node: Commands, Next: Connecting to multiple servers, Prev: Indicators, Up: Basic usage
+
+Commands
+========
+
+The buffer used for sending messages is called "command buffer".  You
+can issue various commands from the command buffer.
+
+
+IRC commands
+------------
+`RET'
+     Send the current line. (`riece-command-enter-message')
+`C-RET'
+     Send the current line as
+     NOTICE. (`riece-command-enter-message-as-notice')
+`C-c j'
+     Join a channel. (`riece-command-join')
+`C-c C-p'
+     Part from a channel. (`riece-command-part')
+`C-c p'
+     Send the current line to particular
+     user. (`riece-command-enter-message-to-user')
+`C-c q'
+     Quit from IRC. (`riece-command-quit')
+`C-c n'
+     Change your nickname. (`riece-command-change-nickname')
+`C-c f'
+     Get information of a user. (`riece-command-finger')
+`C-c C-k'
+     Kick a user from the current channel. (`riece-command-kick')
+`C-c i'
+     Invite a user to the current channel. (`riece-command-invite')
+`C-c l'
+     Issue a LIST command with specified
+     pattern. (`riece-command-list')
+`C-c C-n'
+     Issue a NAMES command with specified
+     pattern. (`riece-command-names')
+`C-c w'
+     Issue a WHO command with specified pattern. (`riece-command-who')
+`C-c t'
+     Set topic of the current channel. (`riece-command-topic')
+`C-c C-m'
+     Change the mode of the current
+     channel. (`riece-command-change-mode')
+`C-c o'
+     Assign channel operator privilege to a user.  If a prefix
+     argument (`C-u') is given, remove the privilege from a
+     user. (`riece-command-set-operators')
+`C-c v'
+     Allow a user to speak in the current channel.  If a prefix
+     argument (`C-u') is given, disallow a user to
+     speak. (`riece-command-set-speakers')
+`C-c V'
+     Display version number of Riece.  If a prefix argument (`C-u') is
+     given, use User-Agent format.
+`C-c /'
+     Send raw IRC command. (`riece-command-raw')
+
+
+Window manipulating commands
+----------------------------
+`C-c r'
+     Redraw windows. (`riece-command-configure-windows')
+`C-c C-j'
+     Switch to the next channel in the channel
+     list. (`riece-command-next-channel')
+`C-c <'
+     Switch to the previous channel in the channel
+     list. (`riece-command-previous-channel')
+`C-c >'
+     Switch to the next channel in the channel
+     list. (`riece-command-next-channel')
+`C-c ^'
+     Browse add-ons currently
+     insinuated. (`riece-command-list-addons')
+`C-c digit'
+     Switch to Nth channel in the channel
+     list. (`riece-command-switch-to-channel-by-number')
+`C-c C-c digit'
+     Switch to N + 10th channel in the channel
+     list. (`riece-command-switch-to-channel-by-number')
+`C-c Home'
+     Move point to the beginning of the buffer in the channel window.
+     (`riece-command-beginning-of-buffer')
+`C-c $'
+     Move point to the end of the buffer in the channel window.
+     (`riece-command-end-of-buffer')
+`C-c SPC'
+     Scroll text of the channel window up. (`riece-command-scroll-up')
+`C-c DEL'
+     Scroll text of the channel window
+     down. (`riece-command-scroll-down')
+
+
+Status toggle commands
+----------------------
+`C-c C-t c'
+     Toggle visibility of the channel
+     window. (`riece-command-toggle-channel-buffer-mode')
+`C-c C-t C'
+     Toggle visibility of the channel list
+     window. (`riece-command-toggle-channel-list-buffer-mode')
+`C-c C-t u'
+     Toggle visibility of the user list
+     window. (`riece-command-toggle-user-list-buffer-mode')
+`C-c C-t f'
+     Disable scrolling of the channel
+     window. (`riece-command-toggle-freeze')
+`C-c C-t o'
+     Disable scrolling of the channel window until next
+     send. (`riece-command-toggle-own-freeze')
+`C-c C-t a'
+     Mark or unmark yourself as "away". (`riece-command-toggle-away')
+
+
+
+File: riece-en.info, Node: Connecting to multiple servers, Prev: Commands, Up: Basic usage
+
+Connecting to multiple servers
+==============================
+
+One of the most important features of Riece is that users can use
+several IRC servers at the same time.
+
+The procedure to use multiple servers consists (1) connecting to the
+foreign server and (2) joinning a channel:
+
+  1. Type `C-c O' (`riece-command-open-server'), and then you will be
+     asked the server name.
+
+  2. Type `C-c j' (`riece-command-join') to join a channel.  Here the
+     server name follows the channel name.  To input a space
+     character, use `C-q'.  For example, if you want to join the
+     channel `#Riece' on the server `irc6', type `C-c j #Riece C-q SPC
+     irc6'.
+
+If you want to send IRC command without joinning a channel, `C-c M'
+(`riece-command-universal-server-name-argument') may be useful.
+
+Commands used for connection management are listed below:
+
+`C-c O'
+     Connect to the foreign server. (`riece-command-open-server')
+`C-c C'
+     Close the connection to the
+     server. (`riece-command-close-server')
+`C-c M'
+     Issue a command on the specified
+     server. (`riece-command-universal-server-name-argument')
+
+
+
+File: riece-en.info, Node: Index, Next: Function Index, Prev: Basic usage, Up: Top
+
+Index
+*****
+
+* Menu:
+
+
+
+
+File: riece-en.info, Node: Function Index, Next: Variable Index, Prev: Index, Up: Top
+
+Function Index
+**************
+
+* Menu:
+
+* riece-command-beginning-of-buffer: Commands.          (line  93)
+* riece-command-change-mode:    Commands.               (line  60)
+* riece-command-change-nickname: Commands.              (line  34)
+* riece-command-close-server:   Connecting to multiple servers.  (line  31)
+* riece-command-configure-windows: Commands.            (line  66)
+* riece-command-end-of-buffer:  Commands.               (line  97)
+* riece-command-enter-message:  Commands.               (line  14)
+* riece-command-enter-message-as-notice: Commands.      (line  17)
+* riece-command-enter-message-to-user: Commands.        (line  27)
+* riece-command-finger:         Commands.               (line  37)
+* riece-command-invite:         Commands.               (line  43)
+* riece-command-join:           Commands.               (line  21)
+* riece-command-kick:           Commands.               (line  40)
+* riece-command-list:           Commands.               (line  46)
+* riece-command-list-addons:    Commands.               (line  81)
+* riece-command-names:          Commands.               (line  50)
+* riece-command-next-channel:   Commands.               (line  69)
+* riece-command-next-channel:   Commands.               (line  77)
+* riece-command-open-server:    Connecting to multiple servers.  (line  28)
+* riece-command-part:           Commands.               (line  24)
+* riece-command-previous-channel: Commands.             (line  73)
+* riece-command-quit:           Commands.               (line  31)
+* riece-command-raw:            Commands.               (line  78)
+* riece-command-scroll-down:    Commands.               (line 104)
+* riece-command-scroll-up:      Commands.               (line 101)
+* riece-command-set-operators:  Commands.               (line  64)
+* riece-command-set-speakers:   Commands.               (line  69)
+* riece-command-switch-to-channel-by-number: Commands.  (line  85)
+* riece-command-switch-to-channel-by-number: Commands.  (line  89)
+* riece-command-toggle-away:    Commands.               (line 121)
+* riece-command-toggle-channel-buffer-mode: Commands.   (line 101)
+* riece-command-toggle-channel-list-buffer-mode: Commands.  (line 105)
+* riece-command-toggle-freeze:  Commands.               (line 113)
+* riece-command-toggle-own-freeze: Commands.            (line 117)
+* riece-command-toggle-user-list-buffer-mode: Commands.  (line 109)
+* riece-command-topic:          Commands.               (line  57)
+* riece-command-universal-server-name-argument: Connecting to multiple servers.  (line  35)
+* riece-command-who:            Commands.               (line  54)
+* riece-version:                Commands.               (line  74)
+
+
+
+File: riece-en.info, Node: Variable Index, Prev: Function Index, Up: Top
+
+Variable Index
+**************
+
+* Menu:
+
+* riece-nickname:               Basic usage.            (line  18)
+
+Tag table:
+Node: Top754
+Node: Overview1243
+Node: Getting started1951
+Node: Basic usage3683
+Node: Windows4784
+Node: Indicators5943
+Node: Commands6586
+Node: Connecting to multiple servers10327
+Node: Index11542
+Node: Function Index11652
+Node: Variable Index14444
+
+End tag table

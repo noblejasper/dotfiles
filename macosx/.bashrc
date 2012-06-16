@@ -7,6 +7,7 @@ shopt -u histappend   # .bash_history追記モードは不要なのでOFFに
 shopt -s checkwinsize
 
 # alias
+export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
 export GIT_EDITOR=vim
 export IGNOREEOF=2 # 間違ってCtl+dしても3回は許してくれる
 export FIGNORE=".bak:.o:~:.pyc" # 補完時に無視するsuffix
@@ -16,7 +17,8 @@ export SCREENDIR=$HOME/.screendir
 export HISTSIZE=10000000000000  # 履歴のMAX保存数を指定
 
 # macports
-export PATH=$PATH:~/bin
+export PATH=$PATH:/Users/noblejasper/byobu/bin:/Users/noblejasper/bin:/Applications/android-sdk-mac_86/tools
+export PYTHONPATH=/opt/local/lib/python2.5/site-packages
 
 # save history of screen
 function share_history {  # 以下の内容を関数として定義
@@ -53,3 +55,5 @@ if [ "`echo $BASH_VERSION | cut -b 1`" -eq "4" ]; then
     shopt -s cdspell  # cdするときディレクトリ名をよしなに修正する。
     export PROMPT_DIRTRIM=3 # PS1が短くなる
 fi
+
+VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
