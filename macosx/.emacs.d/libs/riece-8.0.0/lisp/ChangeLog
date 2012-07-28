@@ -1,0 +1,5032 @@
+2011-04-20  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-commands.el (riece-command-set-operators)
+	(riece-command-set-speakers): Revert the arglist change in the
+	last commit.
+
+2011-04-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* Use lexical binding.
+
+2011-03-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-url.el (riece-url-regexp): Update the default value.
+
+2011-03-16  Daiki Ueno  <ueno@unixuser.org>
+
+	* COMPILE (riece-compile-module, riece-update-mcat)
+	(riece-compile): Add workaround for XEmacs 21.5.
+
+2011-01-25  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-ignore.el: Add newline at end of file.
+	* riece-keyword.el: Ditto.
+	* riece-mode.el: Ditto.
+
+2010-12-20  Daiki Ueno  <ueno@unixuser.org>
+
+	* COMPILE (riece-examine): Supply srcdir to riece-examine-modules.
+	(riece-compile-package): Ditto.
+	(riece-install-package): Ditto.
+
+2010-12-16  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-shrink-buffer.el (riece-shrink-buffer): Make sure not to
+	move cursor.
+	* riece-misc.el (riece-insert): Save the current point, if the
+	buffer is frozen.
+
+2010-12-11  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* COMPILE (riece-update-mcat): Fix "Wrong number of arguments"
+	on `riece-examine-modules'.
+	* Makefile.am: Add $(srcdir) to update-mcat target.
+
+2010-12-10  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-log.el (riece-log-make-file-name): Don't append
+	coding-system name to the filename when coding-system is nil.
+
+2010-10-15  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ctlseq.el (riece-ctlseq-put-attributes): Fix typo.
+
+2010-10-15  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ctlseq.el (riece-ctlseq-colors): Add an example setting to
+	the doc.
+	(riece-ctlseq-regexp, riece-ctlseq-update-attribute): Make
+	"^C<fg>[,<bg>]" matching robuster.
+	Thanks to Akira TAGOH.
+
+2010-10-15  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ctlseq.el (riece-ctlseq-regexp): New constant.
+	(riece-ctlseq-update-attribute): Rename from
+	riece-ctlseq-update-attributes.
+	(riece-ctlseq-put-attributes): New function.
+	(riece-ctlseq-message-filter): Rewrite the parsing logic.
+
+2010-10-14  Daiki Ueno  <ueno@unixuser.org>
+
+	* COMPILE: Support "make distcheck".
+	* Makefile.am: Support "make distcheck".
+
+	* test/test-riece-log.el (test-riece-log-delete-directory)
+	(test-riece-log-display-message-function): Don't bind
+	default-file-name-coding-system.
+
+	* riece-log.el (riece-log-display-message-function)
+	(riece-log-insert): Don't bind default-file-name-coding-system.
+
+2010-10-14  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-compat.el (riece-make-local-hook): Check if
+	make-local-hook exists.  Thanks to Makoto Fujiwara.
+
+2010-09-12  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-develop.el (riece-insert-struct-template): Use "\n"
+	instead of newline in `interactive'. For
+	`delete-trailing-whitespace' safe.
+
+	* riece-rdcc.el (riece-rdcc-filter, riece-rdcc-sentinel): Suppress
+	byte-compile warnings; `save-excursion' defeated by `set-buffer'.
+
+	* riece-misc.el (riece-insert): Suppress byte-compile warnings;
+	`save-excursion' defeated by `set-buffer'.
+
+	* riece-keepalive.el (riece-keepalive-after-login-hook): Suppress
+	byte-compile warnings; `save-excursion' defeated by `set-buffer'.
+
+	* riece-kakasi.el (riece-kakasi-convert-string): Suppress
+	byte-compile warnings; `save-excursion' defeated by `set-buffer'.
+
+	* riece-ignore.el (riece-ignore-message-filter): Suppress
+	byte-compile warnings; `save-excursion' defeated by `set-buffer'.
+
+	* riece-hangman.el (riece-hangman-word): Suppress byte-compile
+	warnings; `save-excursion' defeated by `set-buffer'.
+
+	* riece-server.el (riece-reset-process-buffer): Suppress
+	byte-compile warnings; `save-excursion' defeated by `set-buffer'.
+
+	* riece-filter.el (riece-filter): Suppress byte-compile warnings;
+	`save-excursion' defeated by `set-buffer'.
+
+	* riece.el (riece-create-buffers): Suppress byte-compile
+	warnings; `save-excursion' defeated by `set-buffer'.
+
+	* riece-display.el (riece-display-connect-signals)
+	(riece-update-buffers): Suppress byte-compile
+	warnings; `save-excursion' defeated by `set-buffer'.
+
+	* riece-button.el (riece-identity-button-popup-menu)
+	(riece-identity-button-click): Suppress byte-compile warnings;
+	`save-excursion' defeated by `set-buffer'.
+
+	* riece-async.el (riece-async-open-network-stream): Suppress
+	byte-compile warnings; `save-excursion' defeated by `set-buffer'.
+
+2010-09-04  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-mcat.el (riece-mcat-update): Suppress byte-compile
+	warnings; `save-excursion' defeated by `set-buffer'.
+
+	* riece-shrink-buffer.el (riece-shrink-buffer): Suppress
+	byte-compile warnings; `save-excursion' defeated by `set-buffer'.
+
+	* riece-ruby.el (riece-ruby-reset-process-buffer)
+	(riece-ruby-execute, riece-ruby-filter)
+	(riece-ruby-inspect): Suppress byte-compile warnings;
+	`save-excursion' defeated by `set-buffer'.
+
+	* riece-doctor.el (riece-doctor-after-privmsg-hook): Suppress
+	byte-compile warnings; `save-excursion' defeated by `set-buffer'.
+
+2010-09-01  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-debug.el (riece-debug-1)
+	(riece-debug-reset-standard-output, riece-ignore-errors): Suppress
+	byte-compile warnings; `save-excursion' defeated by `set-buffer'.
+
+2010-05-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-globals.el (riece-mode-line-buffer-identification)
+	(riece-channel-indicator, riece-long-channel-indicator)
+	(riece-channel-list-indicator, riece-user-indicator)
+	(riece-away-indicator, riece-operator-indicator)
+	(riece-channel-status-indicator): Mark as risky-local-variable.
+
+2010-04-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* COMPILE (riece-install): Add workaround for XEmacs 21.5.
+
+2009-09-10  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 6.1.0 released.
+
+	* riece.el (riece-read-variables-files)
+	(riece-save-variables-files): Revert to use setq instead of
+	custom-set-variables.  Fixes #27384.
+	<http://savannah.nongnu.org/bugs/?27384>
+
+2009-08-28  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-addon.el (riece-command-insinuate-addon)
+	(riece-command-uninstall-addon, riece-command-unload-addon): Fix
+	"Wrong type argument" error on not riece-addon-list-mode.
+
+2009-07-26  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-skk-kakutei.el: Fix Author header.
+	* riece-foolproof.el: Ditto.
+	* riece-layout.el: Ditto.
+
+2009-05-30  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 6.0.0 released.
+
+2009-04-23  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-submit-bug-report): Just visit the tracker URL.
+
+2009-04-22  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-addon-modules.el (riece-addon-modules): Don't mention
+	riece-notify.
+	* Makefile.am (EXTRA_DIST): Remove riece-notify.el.
+	* riece-notify.el: Remove; use riece-desktop-notify.el.
+
+2009-03-30  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-desktop-notify.el: New add-on.
+	* riece-addon-modules.el (riece-addon-modules): Add
+	riece-desktop-notify.
+	* riece-mcat-japanese.el (riece-mcat-japanese-alist): Translate
+	"Display notification to desktop.".
+	* Makefile.am (EXTRA_DIST): Add riece-desktop-notify.el.
+
+2009-03-30  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-keyword.el (riece-keyword-message-filter): Fix for the infinite
+	loop.
+
+2008-10-13  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-mini.el (riece-mini-show-backlog): Fix for multibyte
+	characters.
+
+2008-09-08  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-notify.el: New add-on.
+	* riece-addon-modules.el (riece-addon-modules): Add
+	riece-notify (commented).
+	* Makefile.am (EXTRA_DIST): Add riece-notify.el.
+
+2008-08-25  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-commands.el (riece-command-enter-message): Fix behavior at
+	last line of buffer.
+	(riece-command-enter-message-to-user): Ditto.
+	(riece-command-enter-message-as-notice): Ditto.
+
+2008-06-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-use-full-window): Abolish unused option.
+	* riece-layout.el (riece-layout-alist): New layout "one-window".
+	(riece-configure-windows-one-window): New function.
+
+2008-06-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-server-alist): Accept an integer for
+	:service.
+
+2008-06-06  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-compat.el (riece-make-local-hook): New alias.
+	(riece-derived-mode-p): New alias.
+	(riece-set-process-query-on-exit-flag): New alias.
+
+2008-06-05  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-options.el (riece-server-alist): Fix :value for username,
+	password, function and coding-system.
+
+2008-06-02  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-read-variables-files): Re-evaluate custom settings.
+
+2008-05-30  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 5.0.0 released.
+
+2008-05-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-save-variables-files): Generate
+	custom-set-variables instead of a list of setq.
+
+	* riece-options.el (riece-server-alist): Simplify custom-type.
+	* riece-coding.el: Move defcustom to riece-options; require
+	'riece-options.
+
+2008-05-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-menu.el (riece-menu-create-channels-menu): Remove
+	placeholder channels.
+
+2008-05-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-addon-modules.el (riece-addon-modules): Translate add-on
+	description.
+
+	* riece-menu.el (riece-menu-items): Define with defcustom; use
+	riece-mcat to translate menu labels; bind
+	riece-command-configure-windows.
+	(riece-menu-requires): Depend on riece-mcat.
+	(riece-menu-insinuate): Re-evaluate riece-menu-items.
+
+	* riece-url.el (riece-url-command-mode-hook): Translate "Open URL...".
+
+2008-05-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-update-status-indicators): Don't update
+	riece-user-indicator if riece-real-nickname is not fixed.
+
+	* COMPILE (riece-icons): Re-order filenames.
+	* Makefile.am (EXTRA_DIST): Add new toolbar icons.
+
+	* riece-command-change-layout.xpm:
+	* riece-command-configure-windows.xpm:
+	* riece-command-join.xpm:
+	* riece-command-part.xpm:
+	* riece-command-quit.xpm: New toolbar icons.
+
+2008-04-15  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-mcat-japanese.el (riece-mcat-japanese-alist): Translate
+	"No information given".
+
+	* riece-server.el (riece-open-server): Record errors for debug.
+
+	* riece-irc.el (riece-irc-open-server): Send NICK before USER,
+	following the recommendation in "3.1 Connection Registration" of
+	RFC2812.
+	(riece-irc-open-server): Fixed typo in the commit on 2008-04-04.
+
+2008-04-04  春日 玄 KASUGA Toru  <kasuga.toru@jp.fujitsu.com>
+
+	* riece-irc.el (riece-irc-open-server): Encode realname when
+	issueing a USER command.
+
+2008-03-26  Takeru Naito  <takeru.naito@gmail.com>
+
+	* riece-keyword.el (riece-keyword-message-filter): Don't match to
+	empty string if riece-keywords is nil, or it only contains regexp
+	matchers.
+
+2008-02-01  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-save-variables-files): Display message
+	before/after saving files.
+	* riece-mcat-japanese.el (riece-mcat-japanese-alist): Translate
+	these mesasges for riece-save-variables-files.
+
+2007-12-21  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-mini.el (riece-mini-send-message): Use riece-format-identity.
+
+2007-10-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-twitter.el (riece-twitter-update): Don't send extra
+	headers only if it is called interactively.
+
+2007-10-12  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-twitter.el (riece-twitter-update): Don't send extra headers.
+
+2007-09-04  Didier Verna  <didier@xemacs.org>
+
+        * riece-addon.el (riece-addon-list-mark-face-alist): Fix misuse of
+        the list widget type.
+        * riece-google.el (riece-google-program): Ditto.
+        * riece-highlight.el (riece-channel-list-mark-face-alist): Ditto.
+        * riece-keyword.el (riece-notify-keyword-functions)
+        (riece-keyword-notify-functions): Ditto.
+        * riece-layout.el (riece-layout-alist): Ditto.
+        * riece-rdcc.el (riece-rdcc-send-program)
+        (riece-rdcc-decode-address-program): Ditto.
+
+2007-08-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-commands.el (riece-command-kick-with-ban): New command.
+
+2007-06-21  Nikita Danilov <nikita@clusterfs.com>
+
+	* riece-000.el (riece-handle-001-message): Run
+	riece-after-login-hook before joining in startup channels.
+
+	* riece-mcat.el (riece-mcat): Don't load localized messages if
+	mule is off.
+
+2007-06-06  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-twitter.el (riece-twitter-set-credential): New command.
+	(riece-twitter-update): New command.
+	(riece-twitter-message-filter): Use it.
+	(riece-twitter-sentinel): New function.
+
+2007-06-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-twitter.el (riece-twitter-message-filter): Send a "source"
+	parameter.
+
+2007-05-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 4.0.0 released.
+
+2007-05-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-twitter.el (riece-twitter-credential): Define with defcustom.
+	(riece-twitter-cache-credential): New user option.
+	(riece-twitter-message-filter): Ask Twitter username and password.
+
+2007-05-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-log.el (riece-log-display-message-function): Just call
+	riece-format-message.
+
+	* riece-message.el (riece-format-message-1): Renamed from
+	riece-format-message.
+	(riece-format-message): Pick a function from
+	riece-message-format-function-alist.
+
+2007-04-24  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-log.el (riece-log-display-message-function): Use
+	riece-message-format-function-alist.
+
+2007-04-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-twitter.el: New add-on.
+	* riece-addon-modules.el (riece-addon-modules): Add riece-twitter.
+	* Makefile.am (EXTRA_DIST): Add riece-twitter.el.
+
+	* riece-ctcp.el (riece-ctcp-action-format-message): New function.
+	(riece-handle-ctcp-action-request): Use it.
+	(riece-command-ctcp-action): Use it.
+
+	* riece-message.el (riece-message-format-function-alist): New user
+	option.
+	(riece-display-message-1): Pick a format function from
+	riece-message-format-function-alist.
+
+2007-04-16  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-rdcc.el (riece-rdcc-server-port): New user option.
+	(riece-rdcc-send-program): Bind `port'.
+
+2007-02-12  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-handle.el (riece-handle-notice-message): Don't check the
+	scope of the message if riece-real-nickname is nil.
+
+2007-01-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 3.1.2 released.
+
+2007-01-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ctcp.el (riece-handle-ctcp-ping-request): Removed useless
+	argument for `format'.
+	* riece-mcat.el (riece-mcat-extract): New local variable `pointer'.
+	* riece-epg.el (epg-cancel): Autoload.
+	* riece-options.el (riece): Specify :group.
+
+2007-01-22  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-mcat.el (riece-mcat-extract): Abolished ALIST arg.
+
+2007-01-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-addons): Insinuate riece-mcat by default.
+	* riece-addon-modules.el (riece-addon-modules): Add riece-mcat.
+	* riece-mcat.el: Implement add-on interface.
+	(riece-mcat-alist): Removed.
+	(riece-mcat-description): New constant.
+	(riece-mcat-insinuate): New function.
+	(riece-mcat-uninstall): New function.
+
+2007-01-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-mcat.el (riece-mcat-update): New function.
+	* Makefile.am (update-mcat): New target.
+	* COMPILE (riece-modules): Moved riece-mcat-japanese.el to
+	riece-mcat-modules.
+	(riece-mcat-modules): New variable.
+	(riece-examine-modules): Append riece-mcat-modules.
+	(riece-update-mcat): New function.
+
+2007-01-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-mcat.el: New file.
+	* riece-mcat-japanese.el: New file.
+	* COMPILE (riece-modules): Added riece-mcat and riece-mcat-japanese.
+	* Makefile.am (EXTRA_DIST): Added riece-mcat.el and
+	riece-mcat-japanese.el.
+
+2006-12-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-package-info.el.in: New file.
+	* COMPILE (riece-modules): Added riece-package-info.
+	* Makefile.am (DISTCLEANFILES): Added riece-package-info.el.
+
+2006-09-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 3.1.1 released.
+	* configure.ac: Bump up version to 3.1.1.
+
+2006-09-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-addon.el (riece-command-list-addons): Describe "save the
+	current setting".
+	(riece-command-enable-addon): Make sure the addon to be insinuated.
+
+2006-08-30  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-layout.el (riece-layout-alist): Added
+	riece-configure-windows-spiral.
+	(riece-configure-windows-spiral): New window layout.  Written by
+	URABE Shyouhei <root@mput.dip.jp>.
+
+	* riece-options.el (riece-addons): Enable riece-shrink-buffer by
+	default.
+
+	* aproxy.rb (AProxy::start): Fixed a typo (@out -> $stdout).
+
+2006-07-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 3.1.0 released.
+	* configure.ac: Bump up version to 3.1.0.
+
+2006-07-17  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-commands.el (riece-command-join-channel): Simplified by
+	using riece-server-opened.
+	(riece-command-part-channel): Ditto.
+
+2006-07-16  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-save-variables-files): Place ";;; Do not edit
+	this file!" at the beginning of ~/.riece/save.
+
+	* riece-server.el (riece-reset-process-buffer): Make
+	riece-filter-running local to the server buffer.
+	* riece-filter.el (riece-filter): Allow only a message handler to
+	run at a time.
+	* riece-globals.el (riece-filter-running): New variable.
+
+2006-06-01  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ndcc.el: Don't use calc.
+
+	* riece-300.el (riece-handle-353-message): Append " " to every 353
+	line before inserting it to riece-353-message-alist.
+
+2006-05-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 3.0.0 released.
+	* configure.ac: Bump up version to 3.0.0.
+
+2006-05-16  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-realname): New user option.
+
+	* riece-irc.el (riece-irc-open-server): Changed the meaning of
+	riece-username.  i.e. now riece-username represents the user's
+	login name and riece-realname is the replacement of the former
+	riece-username.
+	* riece-server.el (riece-server-keyword-map): New keyword :realname.
+
+2006-05-06  Yoichi NAKAYAMA  <yoichi@geiin.org>
+
+	* riece-commands.el (riece-command-close-server): Cause error
+	on non-existent server process.
+
+2006-04-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-skk-kakutei.el: Declare some variables and autoload
+	'skk-kakutei to suppress compilation warnings.
+
+	* riece-xfaceb.el: Don't enclose autoloads with ignore-errors;
+	autoloads should not report errors.
+
+	* riece-commands.el (riece-command-save-variables): New command.
+
+	* riece-epg.el
+	(riece-epg-passphrase-callback-function-for-decrypt): New
+	function.
+	(riece-command-set-passphrase): Renamed.
+	(riece-epg-message-filter): Don't query passphrase; if decryption
+	fails add button to try again.
+	(riece-epg-add-encrypted-button): New function.
+	(riece-epg-encrypted-button-notify): New function.
+
+2006-04-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-epg.el: New add-on.
+	* riece-addon-modules.el (riece-addon-modules): Added riece-epg.
+	* Makefile.am (EXTRA_DIST): Added riece-epg.el.
+
+2006-04-13  Steve Youngs  <steve@sxemacs.org>
+
+	* riece-commands.el (riece-command-invite): Add missing `:' to
+	string sent to server.
+
+	* riece-300.el (riece-handle-341-message): swap values for
+	`channel' and `user'.
+
+2006-04-03  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-buffer-alist): " *Debug*" -> "*Debug*".
+	(riece-save-variables-files): Fixed a typo in the docstring.
+
+2006-01-14  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-part-channel): Emit
+	'channel-list-changed signal.
+
+2005-12-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-alias.el (riece-alias-alternate-separator): Reverted the
+	default value.
+
+2005-11-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 2.0.2 released.
+	* configure.ac: Bump up version to 2.0.2.
+
+2005-11-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-alias.el (riece-alias-alternate-separator): Changed from
+	"@" -> "%".
+
+	* test/test-riece-cache.el: New test cases.
+	* test/Makefile.am (EXTRA_DIST): Added test-riece-cache.el.
+
+	* Makefile.am (EXTRA_DIST): Added riece-cache.el.
+
+	* riece-commands.el (riece-command-part-channel): Signal an error
+	if TARGET server has not opened.
+
+	* riece-channel.el: Require 'riece-cache.
+	(riece-find-channel): Increase priority of given channel name in
+	riece-channel-cache.
+	(riece-forget-channel): Remove given channel name from
+	riece-channel-cache.
+	(riece-get-channel): Register given channel name in
+	riece-channel-cache (if it is being added to riece-channel-obarray.)
+	* riece-server.el (riece-reset-process-buffer): Initialize
+	riece-channel-cache.
+	* riece-options.el (riece-channel-cache-max-size): New user
+	option.
+	* riece-misc.el (riece-get-channels-on-server): Get channel names
+	from riece-channel-cache.
+	* riece-globals.el (riece-channel-cache): New variable.
+
+2005-11-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-cache.el: Renamed from riece-lru.el.
+
+2005-11-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-user.el: Require 'riece-lru.
+	(riece-find-user): Increase priority of given username in
+	riece-user-lru.
+	(riece-forget-user): Remove given username from riece-user-lru.
+	(riece-rename-user): Rename given username in riece-user-lru.
+	(riece-get-user): Register given username in riece-user-lru (if
+	it is being added to riece-user-obarray.)
+	* riece-server.el: Require 'riece-lru.
+	(riece-reset-process-buffer): Initialize riece-user-lru.
+	* riece-options.el (riece-user-lru-max-size): New user option.
+	* riece-misc.el: Require 'riece-lru.
+	(riece-get-users-on-server): Get usernames from riece-user-lru.
+	* riece-globals.el (riece-user-lru): New variable.
+	* COMPILE (riece-modules): Added riece-lru.
+	* riece-lru.el: New file.
+
+	* riece-develop.el: New file.
+
+2005-10-27  Masatake YAMATO  <jet@gyve.org>
+
+	* url-riece.el (url-irc-riece): Use `server-name'
+	to create an argument for `riece-parse-identity'.
+	`server' was used.
+
+2005-09-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 2.0.1 released.
+	* configure.ac: Bump up version to 2.0.1.
+
+2005-09-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-addon.el (riece-command-list-addons): Adjust width of 2nd
+	column to the length of the longest add-on name.
+
+2005-09-10  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-alias.el (riece-alias-abbrev-identity-string): Compare car
+	of riece-alias-alist with identities case insensitively.
+
+2005-09-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* Makefile.am (EXTRA_DIST): Added riece-xfaceb.el.
+	* riece-addon-modules.el (riece-addon-modules): Added riece-xfaceb.
+
+2005-09-03  Steve Youngs  <steve@sxemacs.org>
+
+	* riece-xfaceb.el: New file.  Display X-Face and colour Face
+	images in IRC buffer, getting the image data from BBDB records.
+
+2005-08-31  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el (riece-unread-requires): Require 'riece-history.
+
+2005-08-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 2.0.0 released.
+	* riece-version.el (riece-version-number): Bump up to 2.0.0.
+
+2005-08-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* test/test-riece-log.el
+	(test-riece-log-display-message-function): Enable riece-log addon.
+
+	* test/test-riece-ruby.el (lunit-test-case-teardown): Reset
+	riece-ruby-output-handler-alist and riece-ruby-output-queue-alist.
+
+	* riece-server.el (riece-server-keyword-map): Abolished
+	:coding-system-alist keyword.
+	(riece-send-string): Take the target identity as the 2nd argument.
+
+	* riece-identity.el (riece-channel-coding-system-alist): Renamed
+	from riece-coding-system-alist.
+
+	* riece-globals.el (riece-coding-system-alist): Abolished.
+
+	* riece-commands.el (riece-command-topic): Pass the target
+	identity to riece-send-string.
+	(riece-command-kick): Ditto.
+	(riece-command-send-message): Ditto.
+	(riece-command-enter-message-to-user): Ditto.
+	(riece-command-join-channel): Ditto.
+	(riece-command-part-channel): Ditto.
+
+2005-08-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-identity.el (riece-coding-system-for-identity): Moved from
+	riece-coding.el.
+	(riece-decoded-string-for-identity): Ditto.
+
+	* riece-300.el (riece-handle-322-message): Decode message per
+	channel.
+	(riece-handle-set-topic): Ditto.
+
+	* riece-handle.el (riece-handle-notice-message): Decode message
+	per channel.
+	(riece-handle-part-message): Ditto.
+	(riece-handle-kick-message): Ditto.
+	(riece-handle-topic-message): Ditto.
+
+2005-08-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-handle.el (riece-handle-privmsg-message): Use
+	riece-decoded-string & riece-decoded-string-for-identity.
+
+	* riece-coding.el (riece-coding-system-alist): New user option.
+	(riece-coding-system-for-identity): New function.
+	(riece-encoded-string): New function.
+	(riece-decoded-string): New alias.
+	(riece-decoded-string-for-identity): New function.
+
+2005-08-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-addon.el (riece-uninstall-addon): Don't check the add-on
+	is enabled.
+	(riece-uninstall-addon): Don't use riece-remprop.
+	(riece-enable-addon): Put 'riece-addon-enabled property on the
+	add-on feature.
+	(riece-disable-addon): Ditto.
+	(riece-command-list-addons): Check 'riece-addon-enabled property
+	instead of riece-*-enabled variables.
+
+2005-08-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-shrink-buffer-idle-time-delay):
+	Abolished; moved to riece-shrink-buffer.el.
+	(riece-max-buffer-size): Ditto.
+	(riece-shrink-buffer-remove-chars): Ditto.
+
+	* riece.el (riece-shrink-buffer-idle-timer): Abolished; moved to
+	riece-shrink-buffer.el.
+	(riece): Don't set riece-shrink-buffer-idle-timer here.
+	(riece-exit): Don't cancel riece-shrink-buffer-idle-timer here.
+
+	* riece-shrink-buffer.el: New add-on.
+	* riece-addon-modules.el (riece-addon-modules): Added
+	riece-shrink-buffer.
+	* Makefile.am (EXTRA_DIST): Added riece-shrink-buffer.el.
+
+2005-08-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-highlight.el (riece-highlight-uninstall): Use
+	riece-remprop instead of remprop.
+
+	* riece-addon.el (riece-uninstall-addon): Use riece-remprop
+	instead of remprop.
+
+	* riece-xemacs.el (riece-remprop): New alias.
+	* riece-emacs.el (riece-remprop): New function.
+
+	* COMPILE (riece-compile-modules): Add current directory to load-path.
+
+	* riece-history.el (riece-history-requires): New function.
+	* riece-addon.el (riece-insinuate-addon-1): Require add-on feature.
+
+2005-08-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-foolproof.el (riece-foolproof-description): Made it more
+	descriptive.
+
+	* riece-url.el (riece-url-uninstall): Call easy-menu-remove-item.
+
+	* riece-addon.el (riece-addon-list-mode-map): Bind
+	riece-command-unload-addon.
+	(riece-insinuate-addon-1): New function; renamed from
+	riece-insinuate-addon.
+	(riece-insinuate-addon): Use it; re-insinuate add-ons preceding to
+	the add-on.
+	(riece-addon-list-set-point): New function.
+	(riece-command-unload-addon): New command.
+
+2005-08-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-menu.el (riece-menu-uninstall): Call easy-menu-remove.
+
+	* riece-toolbar.el (riece-toolbar-original-toolbar) [XEmacs]: New
+	variable.
+	(riece-unset-toolbar): New function.
+	(riece-toolbar-uninstall): Call riece-unset-toolbar.
+	(riece-toolbar-command-mode-hook): Renamed from
+	riece-toolbar-insinuate-in-command-buffer.
+
+	* riece-icon.el (riece-icon-enable): Update
+	mode-line-buffer-identification here.
+	(riece-icon-disable): Ditto.
+
+2005-08-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-addon.el (riece-uninstall-addon): Update
+	riece-addon-dependencies.
+
+2005-08-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-command-mode): Set
+	riece-mode-line-buffer-identification.
+	(riece-dialogue-mode): Ditto.
+	(riece-channel-mode): Ditto.
+	(riece-channel-list-mode): Ditto.
+	(riece-user-list-mode): Ditto.
+	* riece-icon.el
+	(riece-icon-update-mode-line-buffer-identification): New function.
+	(riece-icon-insinuate): Use it.
+	(riece-icon-uninstall): Use it.
+	* riece-globals.el (riece-mode-line-buffer-identification): New
+	variable.
+
+2005-08-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* Make add-ons uninstallable.
+
+	* riece-xface.el (riece-xface-user-list-mode-hook): New function.
+	(riece-xface-insinuate): Use it.
+	(riece-xface-uninstall): New function.
+	* riece-url.el (riece-url-command-mode-hook): New function.
+	(riece-url-insinuate): Use it.
+	(riece-url-uninstall): New function.
+	* riece-unread.el (riece-unread-uninstall): New function.
+	* riece-toolbar.el (riece-toolbar-uninstall): New function.
+	* riece-rdcc.el (riece-rdcc-uninstall): New function.
+	* riece-ndcc.el (riece-ndcc-uninstall): New function.
+	* riece-mini.el (riece-mini-uninstall): New function.
+	* riece-menu.el (riece-menu-uninstall): New function.
+	* riece-lsdb.el: New function.
+	* riece-log.el (riece-log-uninstall): New function.
+	* riece-keyword.el (riece-keyword-uninstall): New function.
+	* riece-keepalive.el (riece-keepalive-uninstall): New function.
+	* riece-kakasi.el (riece-kakasi-uninstall): New function.
+	* riece-ignore.el (riece-ignore-uninstall): New function.
+	* riece-icon.el (riece-icon-user-list-mode-hook): New function.
+	(riece-icon-channel-list-mode-hook): New function.
+	(riece-icon-original-mode-line-buffer-identification): New variable.
+	(riece-icon-insinuate): Use them.
+	(riece-icon-uninstall): New function.
+	* riece-history.el
+	(riece-history-after-switch-to-channel-functions): New function.
+	(riece-history-insinuate): Use it.
+	(riece-history-uninstall): New function.
+	* riece-highlight.el (riece-highlight-uninstall): New function.
+	* riece-hangman.el (riece-hangman-uninstall): New function.
+	* riece-google.el (riece-google-uninstall): New function.
+	* riece-foolproof.el (riece-foolproof-uninstall): New function.
+	* riece-eval.el (riece-eval-uninstall): New function.
+	* riece-eval-ruby.el (riece-eval-ruby-uninstall): New function.
+	* riece-doctor.el (riece-doctor-uninstall): New function.
+	* riece-ctlseq.el (riece-ctlseq-uninstall): New function.
+	* riece-ctcp.el (riece-ctcp-dialogue-font-lock-keywords): New variable.
+	(riece-ctcp-uninstall): New function.
+	* riece-button.el (riece-button-channel-list-mode-hook): New function.
+	* riece-biff.el (riece-biff-uninstall): New function.
+
+2005-08-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-saved-forms): Added riece-addons.
+
+	* riece-addon.el: Require 'riece-addon-modules.
+	(riece-command-list-addons): List all available add-ons from
+	riece-addon-modules.
+	(riece-addon-list-mode-map): Bind riece-command-insinuate-addon
+	and riece-command-uninstall-addon.
+	(riece-insinuate-addon): Rebuild riece-addon-dependencies.
+	(riece-command-insinuate-addon): New command.
+	(riece-command-uninstall-addon): New command.
+
+	* COMPILE (riece-examine-modules): New function.
+	(riece-examine): Use it.
+	(riece-compile): Use it.
+	(riece-install): Use it.
+	(riece-compile-package): Use it.
+	(riece-install-package): Use it.
+
+	* Makefile.am (EXTRA_DIST): Added riece-addon-modules.el.
+
+	* riece-addon-modules.el: New file.
+
+2005-08-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-addon.el (riece-command-list-addons): Use
+	riece-addon-dependencies instead of riece-addons.
+	(riece-command-enable-addon): Ditto.
+	(riece-command-disable-addon): Ditto.
+	(riece-uninstall-addon): New function.
+
+2005-08-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece): Don't override riece-addons setting.
+
+	* riece-globals.el (riece-addon-dependencies): New variable.
+
+	* riece-addon.el (riece-sort-addon-dependencies): Rename from
+	riece-resolve-addon-dependencies; return addon dependencies as an
+	alist, instead of returning a list of addons.
+
+2005-08-20  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-addon.el (riece-command-enable-addon): Redraw entire
+	add-on list.
+	(riece-command-disable-addon): Ditto.
+
+2005-08-17  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-filter.el (riece-handle-message): Use
+	riece-funcall-ignore-errors instead of riece-ignore-errors.
+
+	* riece-ctcp.el (riece-handle-ctcp-request): Use
+	riece-funcall-ignore-errors instead of riece-ignore-errors.
+	(riece-handle-ctcp-response): Ditto.
+
+2005-08-16  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-data-directory): Use load-file-name.
+
+2005-08-15  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-options.el (riece-data-directory): Avoid compile time
+	error when locate-data-directory undefined.
+
+2005-08-15  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-quit-timeout): Set default to 1.
+
+	* riece-irc.el (riece-irc-quit-server-process): Display message
+	before/after sending QUIT.
+
+2005-08-14  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-addons-insinuated): Abolished.
+	(riece): Don't check riece-addons-insinuated.
+
+	* riece-addon.el (riece-insinuate-addon): Put
+	'riece-addon-insinuated property on add-on feature.
+
+2005-08-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* COMPILE (riece-install-package): Install *.xpm and *.rb in etc/riece.
+
+	* riece-async.el (riece-async-open-network-stream): Locate Ruby
+	script files in riece-data-directory.
+	* riece-toolbar.el (riece-make-toolbar-from-menu): Locate icon
+	files in riece-data-directory.
+	* riece-ruby.el (riece-ruby-execute): Locate Ruby script files in
+	riece-data-directory.
+	* riece-options.el (riece-data-directory): New user option.
+
+2005-08-12  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ruby.el (riece-ruby-filter): Pass timestamp of output
+	event to output-handler.
+
+2005-08-12  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-button.el (riece-user-button-popup-menu): Simplified
+	menu item titles.
+
+	* COMPILE (riece-compile-module): New function.
+	(riece-examine): New function.
+
+	* Makefile.am (compile-individually): New rule.
+
+	* riece-log.el (riece-log-file-name-regexp): New constant.
+	(riece-log-get-file): Add 2nd argument coding-system.
+	(riece-log-get-files): Add 2nd argument time.
+	(riece-log-insert): Simplified; determine coding-system from
+	suffix of each log file.
+	(riece-log-dired): Renamed from riece-log-open-directory.
+	(riece-log-open-directory-function): Abolished.
+	(riece-log-make-file-name): Renamed from riece-log-get-file.
+	(riece-log-list-files): Renamed from riece-log-get-files.
+	(riece-log-directory): Renamed from riece-log-get-directory.
+
+	* Makefile.am (EXTRA_DIST): Added aproxy.rb.
+
+	* COMPILE (riece-scripts): Added "aproxy.rb".
+
+	* riece-async.el (riece-async-buffer-size): Renamed from
+	riece-async-max-buffer-size.
+	(riece-async-backup-file): New user option.
+	(riece-async-server-program): New variable.
+	(riece-async-server-program-arguments): New variable.
+	(riece-async-open-network-stream): Use aproxy.rb.
+
+	* aproxy.rb: New file.
+
+	* riece-ruby.el (riece-ruby-out-file): New user option.
+	(riece-ruby-err-file): New user option.
+	(riece-ruby-log-file): New user option..
+	(riece-ruby-server-program-arguments): New variable.
+	(riece-ruby-filter): Call output-handler within
+	riece-debug-with-backtrace; erase process output.
+	(riece-ruby-run-exit-handler): Call exit-handler within
+	riece-debug-with-backtrace.
+
+	* server.rb: Don't bind @err in execution environment;
+	added logging feature.
+
+2005-08-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* server.rb: Connect $stdout and $stderr to StringIO objects.
+
+	* riece-async.el: Use riece-ruby (partially).
+
+	* riece-eval-ruby.el (riece-eval-ruby-prefix-regexp): New user option.
+	(riece-eval-ruby-exit-handler): Print "nil".
+
+2005-08-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-hangman.el (riece-hangman-hello-regexp): Changed regexp.
+	(riece-hangman-bye-regexp): Ditto.
+
+	* riece-doctor.el (riece-doctor-hello-regexp): Changed regexp.
+	(riece-doctor-bye-regexp): Ditto.
+
+	* riece-ruby.el: Moved add-on stuff to riece-eval-ruby.el.
+
+	* riece-eval-ruby.el: New add-on.
+	* COMPILE (riece-modules): Add riece-eval-ruby.
+	* Makefile.am (EXTRA_DIST): Add riece-eval-ruby.el.
+
+2005-08-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* server.rb (Server::unescape): Fixed.
+
+	* riece-ruby.el: Implement add-on API.
+	(riece-ruby-filter): Fixed regexp; fixed argument order of
+	output-handler.
+	(riece-ruby-run-exit-handler): Remove exit-handler entry before
+	running it to avoid recursion; call riece-ruby-clear if
+	exit-handler is specified.
+	(riece-ruby-exit-handler): Don't call riece-ruby-clear.
+
+	* riece-rdcc.el: Use riece-ruby.
+
+2005-08-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ruby.el (riece-ruby-property-alist): New variable
+	(riece-ruby-set-property): New function.
+	(riece-ruby-property): New function.
+	(riece-ruby-execute): Locate server.rb from load-path.
+
+	* Makefile.am (EXTRA_DIST): Added riece-ruby.el and server.rb.
+
+	* COMPILE (riece-modules): Added riece-ruby.
+	(riece-icons): Use filename instead of symbol.
+	(riece-scripts): New variable.
+	(riece-install-icons): Use filename instead of symbol.
+	(riece-install-scripts): New function.
+	(riece-install): Call riece-install-scripts.
+	(riece-install-package): Ditto.
+
+2005-08-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ruby.el: Add docs for variables.
+	(riece-ruby-substitute-variables): Substitute multiple variables.
+	(riece-ruby-filter): Call output-handler/exit-handler with program
+	name.
+
+2005-08-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* server.rb: Renamed from rubyserv.rb; s/RubyServ/Server/.
+	* riece-ruby.el (riece-ruby-server-program): Follow the filename
+	change.
+	(riece-ruby-set-output-handler): New function.
+
+2005-08-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ruby.el: Fixed example.
+	(riece-ruby-server-program): New variable.
+	(riece-ruby-status-alist): New variable.
+	(riece-ruby-status): Abolished.
+	(riece-ruby-escaped-data): Renamed from riece-ruby-input.
+	(riece-ruby-reset-process-buffer): New function.
+	(riece-ruby-send-exit): New function.
+	(riece-ruby-filter): Call riece-ruby-run-exit-handler if the
+	program is exited.
+	(riece-ruby-run-exit-handler): New function.
+	(riece-ruby-execute): Don't expect program name.
+	(riece-ruby-clear): New function.
+	(riece-ruby-set-exit-handler): New function.
+
+	* rubyserv.rb (RubyServ::dispatch_eval): Don't expect program
+	name; eval under the binding of RubyServ::C.
+	(RubyServ::dispatch_poll): Don't clear @thr.
+	(RubyServ::dispatch_exit): New method.
+
+2005-08-10  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ruby.el: New file.
+	* rubyserv.rb: Rewrite.
+
+2005-08-09  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-mini.el (riece-mini-message-no-log): Defined as a
+	function.
+	(riece-mini-requires): Fixed indent.
+
+2005-08-08  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-dialogue-mode-map): Bind
+	riece-command-toggle-others-buffer-mode.
+
+	* riece-commands.el (riece-command-toggle-others-buffer-mode): New
+	command.
+
+	* riece-layout.el (riece-configure-windows): Hide
+	riece-others-buffer if riece-others-buffer-mode is nil.
+
+	* riece-options.el (riece-saved-forms): Add
+	riece-others-buffer-mode and riece-channel-list-buffer-mode.
+	(riece-others-buffer-mode): New user option.
+
+2005-08-06  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-alias.el (riece-alias-alternate-separator): Set to "@".
+
+2005-07-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-debug.el: Don't bind unused variable; prepend time to
+	debug message.
+
+2005-07-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el (riece-guess-channel-from-unread): Return
+	reversed copy of riece-unread-channels.
+
+	* riece-server.el (riece-server-parse-string): Use
+	string-to-number instead of string-to-int.
+
+2005-07-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-channel-buffer): Return nil when
+	channel-buffer is killed.
+
+	* riece-debug.el (riece-debug-1): New function.
+	(riece-debug): Always return nil.
+
+2005-06-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-server.el (riece-server-keyword-map): Add :coding-system-alist.
+
+	* riece-irc.el (riece-irc-open-server): Init riece-coding-system-alist.
+
+	* riece-handle.el (riece-handle-privmsg-message): Retry with the
+	channel's coding-system if it differs from the server's
+	coding-system.
+
+	* riece-commands.el (riece-command-send-message): Pass prefix to
+	riece-send-string.
+
+	* riece-globals.el (riece-coding-system-alist): New variable.
+
+	* riece-coding.el (riece-decode-coding-string-1): Split from
+	riece-decode-coding-string; set riece-coding-encoded-string and
+	riece-coding-decoded-coding-system properties on decoded string.
+	(riece-retry-decode-coding-string): New function.
+	(riece-decoded-coding-system): Use it.
+
+2005-06-03  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ruby.el: New file.
+
+2005-04-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-misc.el (riece-get-channels-on-server): New function.
+	(riece-get-users-on-server): Don't use riece-user-p.
+	(riece-get-identities-on-server): Call
+	riece-get-channels-on-server and riece-get-users-on-server.
+
+	* riece-identity.el (riece-completing-read-identity): Don't signal
+	an error when input string does not match riece-channel-regexp nor
+	riece-user-regexp.
+
+	* riece-300.el (riece-handle-366-message): Don't use riece-user-regexp.
+	(riece-handle-302-message): Ditto.
+	(riece-handle-313-message): Ditto.
+
+2005-03-22  Daiki Ueno  <ueno@unixuser.org>
+
+	* rubyserv.rb: New file.
+
+2005-03-20  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-toolbar.el [XEmacs] (riece-make-toolbar-from-menu):
+	Pick up toolbar icons from etc/riece/.
+
+2005-03-12  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-buffer-alist): Init riece-debug-buffer.
+	(riece-submit-bug-report): Insert content of riece-debug-buffer.
+
+	* riece-globals.el (riece-debug-buffer): New variable.
+	* riece-filter.el (riece-sentinel): Use riece-debug.
+	* riece-display.el (riece-channel-buffer-name): Use riece-debug.
+	* riece-button.el (riece-identity-button-click): Use riece-debug.
+	* riece-debug.el (riece-debug): New function.
+	(riece-ignore-errors): Use it.
+
+	* riece-filter.el (riece-filter): Removed (eobp) check.
+
+2005-03-06  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 1.0.8 released.
+	* riece-version.el (riece-version-number): Bump up to 1.0.8.
+
+2005-03-06  Daiki Ueno  <ueno@unixuser.org>
+
+	* COMPILE (riece-compile-modules): Print summary.
+
+2005-03-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-version.el: Bind emacs-program-version.
+	* riece-debug.el: Require 'riece-options for riece-debug.
+
+	* riece-log.el (riece-log-insinuate): Use user-uid instead of
+	user-login-name and escape system-name for riece-log-lock-file.
+
+2005-03-02  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-log.el (riece-log-lock-file): Define with defvar.
+	(riece-log-display-message-function): Use riece-log-lock-file as
+	LOCKNAME of write-region.
+	(riece-log-insinuate): Generate name for riece-log-lock-file.
+
+2005-02-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-300.el (riece-handle-317-message): Format idle seconds in
+	human readable form.
+	(riece-handle-301-message): Don't use riece-user-regexp.
+	(riece-handle-311-message): Ditto.
+	(riece-handle-312-message): Ditto.
+	(riece-handle-317-message): Ditto.
+	(riece-handle-319-message): Ditto.
+
+	* riece-ctcp.el (riece-handle-ctcp-action-request): Prepend target.
+	(riece-command-ctcp-action): Ditto.
+
+2005-02-25  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-globals.el (riece-obarray-size, riece-obarray): Abolish.
+	(riece-channel-obarray-size, riece-user-obarray-size)
+	(riece-channel-obaary, riece-user-obarray): New variables.
+	* riece-user.el (riece-find-user, riece-forget-user)
+	(riece-rename-user, riece-get-user): Use `riece-user-obarray'
+	instead of `riece-user-obarray'.
+	* riece-channel.el (riece-find-channel, riece-forget-channel)
+	(riece-get-channel): Use `riece-channel-obarray' instead of
+	`riece-obarray'.
+	* riece-misc.el (riece-get-identities-on-server): Ditto.
+	* riece-server.el (riece-reset-process-buffer): Ditto.
+
+2005-02-24  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el (riece-unread-after-switch-to-channel-function):
+	Clear riece-unread-channels case insensitively.
+
+	* riece-300.el (riece-handle-353-message): Use
+	riece-identity-assoc to pick an entry from
+	riece-353-message-alist.
+	(riece-handle-366-message): Ditto.
+	Reported by Steve Youngs <steve@sxemacs.org>.
+
+2005-02-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-debug.el (riece-funcall-ignore-errors): New function.
+	* riece-signal.el (riece-emit-signal): Use riece-funcall-ignore-errors.
+	* riece-filter.el (riece-handle-numeric-reply): Use
+	riece-funcall-ignore-errors.
+	(riece-handle-message): Ditto.
+	* riece-ctcp.el (riece-handle-ctcp-request): Use
+	riece-funcall-ignore-errors.
+
+2005-02-18  Steve Youngs  <steve@sxemacs.org>
+
+	* riece-ctcp.el (riece-handle-ctcp-time-request): New.
+	(riece-handle-ctcp-time-response): New.
+	(riece-command-ctcp-time): New.
+	(riece-ctcp-enable): Add `riece-command-ctcp-time'.
+	(riece-ctcp-disable): Ditto.
+	
+	* riece-layout.el (riece-layout-alist): Minor doc string fix --
+	escape a couple of parens.
+	
+	* riece-version.el: defvar sxemacs-codename at compile time.
+	(riece-extended-version): Simplify the XEmacs section, add support
+	for SXEmacs.
+
+2005-02-17  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-addon.el (riece-resolve-addons): Fixed
+	avoid add directory to addons condition.
+
+2005-02-10  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-addon.el (riece-resolve-addons): Don't add directory to
+	addons.
+
+2005-02-09  Yoichi NAKAYAMA  <yoichi@geiin.org>
+
+	* riece-commands.el (riece-command-part): Fix argument.
+
+2005-02-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-filter.el (riece-filter): Simplified.
+
+	* riece-addon.el (riece-resolve-addons): Check the existence of
+	riece-addon-directory.
+
+2005-02-06  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-filter.el (riece-filter): Modified regexp.
+
+2005-02-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-exit): Clear riece-window-configuration frame
+	parameter.
+	* riece-commands.el (riece-command-suspend-resume): Don't attempt
+	to restore window-configuration if the cdr of
+	riece-window-configuration frame parameter is nil.
+
+	* riece-filter.el (riece-chomp-string): New function.
+	(riece-filter): Use it.
+
+2005-02-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 1.0.7 released.
+	* riece-version.el (riece-version-number): Bump up to 1.0.7.
+
+2005-02-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-keyword.el (riece-keyword-face): Change defface spec for tty.
+
+	* riece-toolbar.el (riece-toolbar-description): New constant.
+
+	* riece-keepalive.el: Require 'riece-options.
+	(riece-keepalive-ping-repeat): Define with defcustom.
+	(riece-keepalive-description): New constant.
+
+	* riece.el (riece-dialogue-mode-map): Bind
+	riece-command-suspend-resume.
+	* riece-commands.el (riece-command-suspend-resume): New command.
+
+	* riece-options.el (riece-addons): Enable riece-keyword by default.
+
+	* riece-button.el (riece-identity-button-popup-menu): Changed
+	interactivbe spect "@e" -> "e".
+	(riece-identity-button-click): New function.
+	(riece-make-identity-button-map): Bind riece-identity-button-click.
+
+2005-02-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-part-message): New user option.
+	(riece-addons): Enable riece-alias and riece-ctlseq by default.
+	(riece-max-buffer-size): Change the default value to nil.
+
+	* riece-commands.el (riece-command-part): Use riece-part-message.
+
+2005-02-04  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-eval.el (riece-eval-form): New function.
+	(riece-eval-display-message-function): Use it.
+
+2005-02-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-000.el (riece-handle-001-message): Use
+	riece-command-join-channel to join startup channels.
+
+	* riece-filter.el (riece-filter): Accept lines which end with LF.
+
+	* riece-300.el (riece-353-message-alist): Renamed from riece-353-users.
+	(riece-handle-353-message): Don't parse the reply.
+	(riece-handle-366-message): Parse 353 replies here; count users.
+
+	* riece-log.el (riece-log-enable): Add debug message.
+
+	* riece-keepalive.el: New add-on.
+	* COMPILE (riece-modules): Add riece-keepalive.
+	* Makefile.am (EXTRA_DIST): Add riece-keepalive.el.
+
+2005-02-04  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-biff.el (riece-biff-functions): Abolish.
+	(riece-biff-after-display-message-function): Follow the change above.
+
+2005-02-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-server.el (riece-close-server-process): Switch to process
+	buffer when running riece-after-close-hook.
+
+	* COMPILE (riece-icons): Add all symbols from riece-toolbar-items.
+
+	* Makefile.am (EXTRA_DIST): Add riece-command-previous-channel.xpm,
+	riece-command-next-channel.xpm, and riece-submit-bug-report.xpm.
+
+	* riece-menu.el (riece-menu-items): Add "Submit Bug Report".
+
+	* riece-toolbar.el (riece-toolbar-items): Add riece-submit-bug-report.
+
+	* riece-compat.el (riece-read-passwd): Changed default value.
+
+	* riece-400.el (riece-handle-475-message): Don't bind inhibit-quit
+	when reading channel key.
+
+	* riece-irc.el (riece-irc-open-server): Don't bind inhibit-quit
+	when reading password.
+
+	* riece-compat.el (riece-read-passwd): Bind inhibit-quit.
+
+	* riece-commands.el (riece-command-join): Abolished prefix-arg
+	(channel key).
+
+	* riece-options.el (riece-buffer-dispose-function): Changed the
+	default value from bury-buffer to kill-buffer.
+	* riece-log.el (riece-log-lock-directory): New user option.
+	(riece-log-enable): Create lock directory.
+	(riece-log-disable): Remove lock directory.
+
+	* riece-addon.el (riece-resolve-addons): Don't use FILES-ONLY
+	argument of directory-files.
+
+2005-02-04  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-google.el (riece-google-default-lang): Change value.
+	(riece-google-display-message-function): Follow the change above.
+
+2005-02-03  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-google.el: New add-on.
+	* COMPILE (riece-modules): Add riece-google.
+	* Makefile.am (EXTRA_DIST): Add riece-google.el.
+
+2005-02-03  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-400.el (riece-handle-475-message): New handler; query
+	channel key.
+
+2005-02-03  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-addon.el (riece-resolve-addon-dependencies): Rename from
+	riece-resolve-addon.
+	(riece-resolve-addon): Append add-ons under riece-addon-directory.
+
+2005-02-02  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-message.el (riece-display-message): When filter-function
+	return nil, escape from while loop.
+
+2005-02-02  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-debug.el (riece-debug-standard-output-buffer): Use
+	riece-temp-buffer.
+	* riece.el: Add riece-temp-buffer.
+	* riece-globals.el (riece-temp-buffer): New variable.
+
+2005-02-02  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-signal.el (riece-emit-signal): Use riece-ignore-errors.
+
+	* riece-filter.el (riece-handle-numeric-reply): Use
+	riece-ignore-errors.
+	(riece-handle-message): Ditto.
+
+	* riece-ctcp.el (riece-handle-ctcp-request): Use
+	riece-ignore-errors.
+	(riece-handle-ctcp-response): Ditto.
+
+	* riece-debug.el: New file.
+	* COMPILE (riece-modules): Add riece-debug.
+	* Makefile.am (EXTRA_DIST): Add riece-debug.el.
+
+2005-02-02  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-eval.el (riece-eval-regexp): Fix regexp.
+	(riece-eval-display-message-function): Follow the change above.
+
+2005-02-02  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-server.el (riece-close-server-process): Run
+	riece-after-close-hook.
+
+	* riece-log.el (riece-log-insert): Bind file-name-coding-system
+	and default-file-name-coding-system to nil.
+
+2005-02-01  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-eval.el: New add-on.
+	* COMPILE (riece-modules): Add riece-eval.
+	* Makefile.am (EXTRA_DIST): Add riece-eval.el.
+
+2005-01-30  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-display.el (riece-display-connect-signals): Check nick or
+	channel, before call `riece-channel-get-users'.
+
+2004-12-15  Yoichi NAKAYAMA  <yoichi@geiin.org>
+
+	* riece-addon.el (riece-command-enable-addon): Fixed.
+	(riece-command-disable-addon): Ditto.
+
+2004-12-14  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-alias.el (riece-alias-abbrev-identity-string): Return a
+	copy of a string since text properties will be set on it.
+	(riece-alias-expand-identity-string): Ditto.
+
+	* riece-emacs.el (riece-normalize-modeline-string): Don't
+	concatenate elements in modeline string.
+
+2004-12-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-update-channel-list-indicator):
+	Normalize modeline indicator.
+
+	* riece-xemacs.el (riece-normalize-modeline-string): New alias.
+	* riece-emacs.el (riece-normalize-modeline-string): New function.
+	(riece-normalize-modeline-string-1): New function.
+
+2004-12-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* test/Makefile.am (EXTRA_DIST): Add test-riece.el.
+	* test/test-riece.el: New test cases.
+
+	* riece.el (riece-shrink-buffer): Fixed bug.
+
+	* riece-options.el (riece-username): Changed the default value to
+	user-full-name.
+
+2004-12-12  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-command-previous-channel.xpm: New file.
+	* riece-command-next-channel.xpm: New file.
+
+	* COMPILE (riece-icons): New variable.
+	(riece-install-icons): New function.
+	(riece-install): Install icons.
+	(riece-install-package): Ditto.
+
+2004-12-12  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-addons): Add riece-toolbar.
+
+	* riece-log.el (riece-log-flashback): Fixed regexp.
+
+	* riece-menu.el (riece-menu-items): Add "Next Channel" and
+	"Previous Channel".
+
+	* riece-toolbar.el: Support XEmacs.
+	(riece-toolbar-items): Renamed from
+	riece-toolbar-item-list.
+	(riece-tool-bar-local-item-from-menu): Abolished.
+	(riece-toolbar-find-menu-item): New function.
+	(riece-make-toolbar-from-menu): New function.
+	(riece-set-toolbar): New function.
+	(riece-toolbar-insinuate-in-command-buffer): Use them.
+
+2004-12-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-toolbar.el: New add-on.
+	* COMPILE (riece-modules): Add riece-toolbar.
+	* Makefile.am (EXTRA_DIST): Add riece-toolbar.el.
+
+2004-12-10  Daiki Ueno  <ueno@unixuser.org>
+
+	* test/test-riece-log.el
+	(test-riece-log-display-message-function): "yes" -> "true".
+
+	* test/Makefile.am (EXTRA_DIST): Add lunit-report.el and
+	test-riece-log.el.
+
+2004-12-10  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-shrink-buffer): Shrink buffer based on chars
+	instead of lines.
+
+	* riece-options.el (riece-shrink-buffer-remove-chars): New user option.
+	(riece-shrink-buffer-remove-lines): Abolish.
+
+2004-12-08  Daiki Ueno  <ueno@unixuser.org>
+
+	* test/test-riece-log.el (test-riece-log-delete-directory):
+	Suppress file-name encoding.
+
+	* riece-log.el (riece-log-get-directory): Fixed bug in
+	riece-log-directory-map handling.
+
+	* test/test-riece-log.el
+	(test-riece-log-display-message-function): New test case.
+
+2004-12-08  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-log.el (riece-log-flashback): Fixed custom spec.
+	(riece-log-date-face): New face.
+	(riece-log-insert): Don't append date string to the end of log
+	lines if they arrived today.
+	(riece-log-flashback): Insert "Recent messages ...:"; call
+	riece-after-insert-functions.
+
+	* riece-handle.el (riece-handle-part-message): Call riece-naming
+	assert-part after inserting changes in channel buffers.
+	* riece-display.el (riece-part-channel): Call
+	riece-buffer-dispose-function on parted channel buffer.
+
+2004-12-08  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-log.el (riece-log-display-message-function): Suppress
+	further file-name encoding.
+
+2004-12-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* test/lunit-report.el: New file split from lunit.el.
+
+	* riece-options.el (riece-addons): Add 'riece-log.
+
+	* test/test-riece-log.el (lunit-test-case-setup): #riece -> =23riece.
+
+	* riece-log.el (riece-log-insert): Renamed from
+	riece-log-flashback-1; simplified.
+	(riece-log-get-files): Check existence of directory.
+	(riece-log-get-directory): New implementation.
+	[cf. <Liece:00396>]
+
+2004-12-07  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-foolproof.el (riece-foolproof-command-send-message-function): 
+	Check invisible text.
+
+2004-12-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* test/test-riece-log.el (test-riece-log-encode-file-name): New
+	test case.
+	(test-riece-log-encode-file-name-mule): New test case.
+	(test-riece-log-decode-file-name): New test case.
+	(test-riece-log-decode-file-name-mule): New test case.
+
+	* riece-log.el (riece-log-file-name-coding-system): New user option.
+	(riece-log-encode-file-name): New function.
+	(riece-log-decode-file-name): New function.
+
+2004-12-06  Daiki Ueno  <ueno@unixuser.org>
+
+	* test/test-riece-log.el: New test cases.
+
+	* riece-log.el: Collect logs across dates.
+	(riece-log-get-files): New function.
+	(riece-log-flashback-1): New function.
+	(riece-log-flashback): Use it.
+
+2004-12-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-message.el (riece-display-message-1): Call
+	riece-after-display-message-functions in riece-message-buffer.
+	[cf. <Liece:00391>]
+
+2004-12-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 1.0.6 released.
+	* riece-version.el (riece-version-number): Bump up to 1.0.6.
+
+2004-12-01  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-update-channel-status-indicator): Fixed typo.
+
+2004-11-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* test/lunit.el (lunit-report): Accept output filename as the 2nd arg.
+	* Makefile.am (check-local): Supply riece-test with output filename.
+	* COMPILE (riece-test): Supply lunit-report with output filename.
+
+	* test/lunit.el: Require 'pp.
+	(lunit-escape-quote): Rename from lunit-test-reporter-format-sexp.
+	(lunit-report): Add "emacs-version" property.
+
+2004-11-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* COMPILE (riece-test): Use lunit-report instead of lunit.
+
+	* test/lunit.el: Report test result as XML.
+	(lunit-time-since): New function.
+	(lunit-test-reporter): New test-listener.
+	(lunit-test-reporter-format-sexp): New function.
+	(lunit-report): New function.
+
+2004-11-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* test/lunit.el: Update copyright year.
+	(lunit-test-result-run): Fixed the argument of
+	lunit-test-listener-error listener.
+
+2004-11-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* COMPILE (riece-test): Require 'lunit after when ./test is added
+	to load-path.
+
+	* test/test-riece-yank.el (test-riece-yank-strip-space): Use
+	lunit-assert-2 instead of lunit-assert.
+
+	* test/test-riece-url.el (test-riece-url-replace-match): Use
+	lunit-assert-2 instead of lunit-assert.
+	(test-riece-url-regexp-alist): Ditto.
+
+	* test/test-riece-alias.el (test-riece-alias-percent-hack): Use
+	lunit-assert-2 instead of lunit-assert.
+	(test-riece-alias-alist-1): Ditto.
+	(test-riece-alias-alist-2): Ditto.
+	(test-riece-alias-altsep-1): Ditto.
+	(test-riece-alias-altsep-2): Ditto.
+	(test-riece-alias-altsep-3): Ditto.
+	(test-riece-alias-altsep-4): Ditto.
+
+	* test/test-riece-addon.el (test-riece-resolve-addons-1): Use
+	lunit-assert-2 instead of lunit-assert.
+	(test-riece-resolve-addons-2): Ditto.
+
+	* test/lunit.el: Count assertions in test-case methods.
+	(lunit-test-result): Add assert-count slot.
+	(lunit-make-test-result): Reset assert-count to 0.
+	(lunit-test-result-run): Count assertions.
+	(lunit-test-result-failure): Abolished.
+	(lunit-test-case): Add assert-count slot; define internal
+	accesssors for them.
+	(lunit-make-test-case): Reset assert-count to 0.
+	(lunit-assert-2): New macro.
+	(lunit): Display assertion count.
+
+2004-11-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* Makefile.am (EXTRA_DIST): Add url-riece.el.
+	* url-riece.el: url-irc backend provided by Masatake YAMATO
+	<jet@gyve.org>.
+	[cf. <Liece:00373>]
+
+2004-11-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* test/Makefile.am (EXTRA_DIST): Add test-riece-url.el.
+	* test/test-riece-url.el: New test cases.
+
+	* riece-url.el (riece-url-regexp-alist): Backport from Liece 2.0.
+	(riece-url-replace-match): New function.
+	(riece-url-scan-region): Handle riece-url-regexp-alist.
+
+2004-11-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-server.el (riece-server-properties): New function.
+
+2004-11-22  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-update-status-indicators): Format
+	riece-user-indicator as an identity.
+
+2004-11-22  Daiki Ueno  <ueno@unixuser.org>
+
+	* test/test-riece-alias.el (test-riece-alias-alist-1): New test case.
+	(test-riece-alias-alist-2): New test case.
+
+	* riece-alias.el (riece-alias-abbrev-identity-string): Fixed
+	riece-alias-alist handling.
+	(riece-alias-expand-identity-string): Ditto.
+
+2004-11-21  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-shrink-buffer-remove-lines): New user option.
+	* riece.el (riece-shrink-buffer): Remove lines specified by
+	riece-shrink-buffer-remove-lines at a time.
+
+2004-11-21  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece): Remove nonexistent buffer from
+	riece-buffer-list when running riece-shrink-buffer.
+
+2004-11-20  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-update-buffers): Check existence of each
+	buffer in riece-buffer-list.
+	* riece.el (riece): Ditto.
+
+2004-11-20  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el: Bind reporter-prompt-for-summary-p.
+
+2004-11-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-submit-bug-report): Query VERSION.
+
+2004-11-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-submit-bug-report): Query CTCP VERSION before
+	inspecting *IRC* buffer.
+
+2004-11-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-submit-bug-report): use
+	riece-server-process-opened instead of process-live-p.
+
+	* riece-server.el (riece-flush-send-queue): Use
+	riece-server-process-opened instead of process-live-p.
+
+	* riece-yank.el (riece-yank-strip-space): Bind space-width.
+
+	* riece-xemacs.el (riece-recent-messages): New function.
+	* riece-emacs.el (riece-recent-messages): New function.
+	* riece.el (riece-submit-bug-report): Use riece-recent-messages
+	instead of (with-output-string (print-recent-messages ...)).
+
+2004-11-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-submit-bug-report): New command.
+
+2004-11-15  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-misc.el (riece-insert): Don't bind unused variable `buffer'.
+
+2004-11-15  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-300.el (riece-handle-302-message): Don't expect leading
+	":" before parameter list.
+	(riece-handle-301-message): Ditto.
+	(riece-handle-311-message): Ditto.
+	(riece-handle-312-message): Ditto.
+	(riece-handle-317-message): Ditto.
+	(riece-handle-319-message): Ditto.
+	(riece-handle-351-message): Ditto.
+	(riece-handle-353-message): Ditto.
+	(riece-handle-322-message): Ditto.
+	(riece-handle-set-topic): Ditto.
+	(riece-handle-366-message): Ditto.
+
+2004-11-14  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-exit): Reset riece-channel-status-indicator.
+	(riece-command-mode): Display riece-channel-status-indicator.
+	(riece-dialogue-mode): Ditto.
+	(riece-channel-mode): Ditto.
+
+	* riece-display.el (riece-update-channel-status-indicator): New
+	function.
+	(riece-update-indicator-functions): Add it.
+
+	* riece-globals.el (riece-channel-status-indicator): New indicator.
+
+2004-11-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-select-keys): Bind
+	riece-command-switch-to-channel-by-number to "#".
+
+2004-11-11  Masatake YAMATO  <jet@gyve.org>
+
+	* riece-yank.el (riece-command-yank): Fix a typo in comments.
+
+2004-11-09  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-yank.el (riece-command-yank): Take a 1st argument to send
+	messages as notice.
+
+2004-11-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 1.0.5 released.
+	* riece-version.el (riece-version-number): Bump up to 1.0.5.
+
+2004-11-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-yank.el (riece-yank-strip-space): New function split from
+	riece-command-yank.
+	* test/test-riece-addon.el: New test cases.
+	* test/test-riece-yank.el: New test cases.
+
+2004-11-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* COMPILE (riece-test): New function.
+	* Makefile.am (check-local): New target.
+	* test/luna.el: New file.
+	* test/lunit.el: New file.
+	* test/test-riece-alias.el: New test cases.
+
+2004-11-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-alias.el (riece-alias-alternate-separator): New user
+	option.
+	(riece-alias-use-atmark): Abolished.
+	(riece-alias-escape-alternate-separator): Renamed from
+	riece-alias-escape-atmark; use riece-alias-alternate-separator
+	instead of hard-coded "@".
+	(riece-alias-abbrev-alternate-separator): Renamed from
+	riece-alias-abbrev-atmark; use riece-alias-alternate-separator
+	instead of hard-coded "@".
+	(riece-alias-expand-alternate-separator): Renamed from
+	riece-alias-expand-atmark; use riece-alias-alternate-separator
+	instead of hard-coded "@".
+
+2004-11-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-alias.el (riece-alias-abbrev-atmark): Don't append "@" to
+	a channel on default server.
+
+2004-11-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-alias.el (riece-alias-use-atmark): New user option.  If
+	this option enabled, atmark "@" will be used to separate prefix
+	and server. (e.g. "#riece@server")
+	(riece-alias-escape-atmark): New function.
+	(riece-alias-abbrev-atmark): New function.
+	(riece-alias-expand-atmark): New function.
+	(riece-alias-abbrev-identity-string): Call
+	riece-alias-abbrev-atmark.
+	(riece-alias-expand-identity-string): Call
+	riece-alias-expand-atmark.
+
+	* riece-rdcc.el (riece-rdcc-block-size): Changed default value to
+	1024 due to the DCC specification.
+	(riece-rdcc-send-program): Wait ack from a recipient.
+	(riece-rdcc-filter): Send ack each time data arrives.
+
+2004-10-30  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-yank.el (riece-yank-strip-space): New user option.
+	(riece-command-yank): Strip spaces if riece-yank-strip-space is
+	non-nil.
+
+2004-10-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-yank.el: New add-on from Masatake YAMATO <jet@gyve.org>.
+	* COMPILE (riece-modules): Add riece-yank.
+	* Makefile.am (EXTRA_DIST): Add riece-yank.el.
+
+2004-10-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 1.0.4 released.
+	* riece-version.el (riece-version-number): Bump up to 1.0.4.
+
+2004-10-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece): Scan riece-startup-channel-list and open servers.
+
+2004-09-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-send-delay): Set default to 2.
+
+	* riece-server.el (riece-make-queue): New function.
+	(riece-queue-enqueue): New function.
+	(riece-queue-dequeue): New function.
+	(riece-queue-empty): New function.
+	(riece-flush-send-queue): Use a queue object; check the process
+	is active.
+
+2004-09-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-server.el: Implement flood protection.
+	(riece-flush-send-queue): New function.
+	(riece-process-send-string): Use it.
+	(riece-reset-process-buffer): Reset riece-send-queue,
+	riece-send-size, and riece-last-send-time.
+	(riece-seconds-to-time): New function.
+	(riece-time-less-p): New function.
+	(riece-time-since): New function.
+	* riece-options.el (riece-max-send-size): New user option.
+	(riece-send-delay): New user option.
+	* riece-globals.el (riece-send-queue): New variable.
+	(riece-send-size): New variable.
+
+2004-09-14  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-log.el (riece-log-flashback): Run riece-button-update-buffer
+	only when riece-button is enabled.
+
+	* riece-mini.el: Require 'riece-biff.
+	(riece-mini-requires): New function.
+	(riece-mini-show-backlog): Run riece-biff-clear when riece-biff is
+	enabled.
+
+2004-09-13  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-mini.el (riece-mini-show-backlog): Fix for long messages.
+	(riece-mini-backlog-size): Change default value.
+
+2004-09-12  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-mini.el (riece-mini-show-backlog): Protect 1st arg of
+	`riece-mini-message-no-log'.
+
+2004-09-11  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-mini.el (riece-mini-display-message-function): Remove
+	properties and "\n" of the end.
+	(riece-mini-show-backlog): Follow the change above.
+	(riece-mini-display-message-function): Save the history always.
+
+2004-09-10  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-mini.el (riece-mini-display-message-function): Don't use
+	cl macro.
+	(riece-mini-show-backlog): Follow the change above.
+
+	* riece-mini.el (riece-mini): New group.
+	(riece-mini-backlog-size): New user option.
+	(riece-mini-backlog-history): New internal variable.
+	(riece-mini-backlog-shown): Ditto.
+	(riece-mini-show-backlog): New function.
+	(riece-mini-pre-command): Ditto.
+	(riece-mini-display-message-function): Use them.
+	(riece-mini-insinuate): Ditto.
+
+	* riece-biff.el (toplevel): Remove eval-when-compile.
+	* riece-log.el (toplevel): Ditto.
+	* riece-mini.el (toplevel): Ditto.
+
+2004-09-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 1.0.3 released.
+	* riece-version.el (riece-version-number): Bump up to 1.0.3.
+
+2004-09-01  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-naming.el (riece-naming-assert-channel-users): Remove
+	nonexistent users.
+	* riece-300.el (riece-353-users): New variable.
+	(riece-handle-353-message): Don't update user-list.
+	(riece-handle-366-message): Update user-list here.
+
+	* riece-channel.el (riece-channel-toggle-operator): Don't add ?o
+	if it already appears in user's mode.
+	(riece-channel-toggle-speaker): Don't add ?v if it already appears
+	in user's mode.
+
+2004-08-31  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-command-mode): Set truncate-lines to nil.
+	(riece-dialogue-mode): Ditto.
+	(riece-channel-list-mode): Make
+	truncate-partial-width-windows local to channel buffers and set it
+	to nil.
+	(riece-user-list-mode): Ditto.
+
+2004-08-31  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-dialogue-mode): Make
+	truncate-partial-width-windows local to channel buffers and set it
+	to nil.
+	(riece-command-mode): Ditto.
+
+	* riece-layout.el (riece-configure-windows): Don't affect
+	truncate-partial-width-windows.
+	(riece-configure-windows-top): Ditto.
+	* riece-options.el (riece-truncate-partial-width-windows):
+	Abolished unused user option.
+
+2004-08-30  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-window-center-line): New user option.
+	* riece-misc.el (riece-insert): Check if the current point is not
+	visible in the window.
+
+2004-08-30  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-misc.el (riece-insert): Don't use 2nd argument WINDOW of
+	recenter since it is not supported by GNU Emacs.
+
+2004-08-30  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-misc.el (riece-insert): Use (recenter -1) to set window
+	point instead of doing so manually.
+
+2004-08-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-xemacs.el (riece-put-text-property-nonsticky): New function.
+	* riece-emacs.el (riece-put-text-property-nonsticky): New function.
+	* riece-identity.el (riece-format-identity): Use it instead of
+	put-text-property.
+
+2004-08-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-commands.el (riece-command-complete-user): Move point to
+	the end of the current word.
+
+2004-08-23  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-irc.el (riece-irc-open-server): Display error message if
+	connection-function fails.
+	* riece-server.el (riece-open-server): Ignore errors from
+	riece-*-open-server function.
+	* riece.el (riece): If no server process is available, exit
+	immediately.
+
+2004-08-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-handle.el (riece-handle-quit-message): Pass
+	riece-part-channel the identity object of the quitting user
+	instead of his name.
+
+2004-08-16  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-highlight.el (riece-highlight-server-match): Simplified.
+
+2004-08-16  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 1.0.2 released.
+	* riece-version.el (riece-version-number): Bump up to 1.0.2.
+
+2004-08-16  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-highlight.el (riece-highlight-server-match): New match
+	function for font-lock-keywords to highlight "(from XXX)" only if
+	'riece-server-name property is set.
+	(riece-dialogue-font-lock-keywords): Use it.
+
+2004-08-15  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-handle.el (riece-handle-nick-message): Remove nil from
+	channel buffers.
+	(riece-handle-quit-message): Ditto.
+	(riece-handle-kill-message): Ditto.
+
+	* riece-misc.el (riece-concat-server-name): Put 'riece-server-name
+	property on "(from XXX)".
+
+2004-07-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-menu.el: Do not support enable/disable addon since
+	easy-menu-remove is not working.
+
+2004-07-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-server.el (riece-open-server): Call protocol interface.
+	(riece-quit-server-process): Ditto.
+
+	* riece-options.el (riece-protocol): New user option.
+
+	* riece-server.el: Don't require 'riece-filter.
+
+	* riece-irc.el: New file split from riece-server.el.
+	* COMPILE (riece-modules): Add riece-irc.
+	* Makefile.am (EXTRA_DIST): Add riece-irc.el.
+
+2004-07-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el: Don't require 'riece-filter.
+	* riece-server.el: Require 'riece-filter.
+
+	* riece-500.el: Autoload riece-default-handle-numeric-reply from
+	"riece-handle".
+	* riece-400.el: Autoload riece-default-handle-numeric-reply from
+	"riece-handle".
+	* riece-300.el: Don't require 'riece-filter; autoload
+	riece-default-handle-numeric-reply from "riece-handle".
+	* riece-200.el: Autoload riece-default-handle-numeric-reply from
+	"riece-handle".
+	* riece-000.el: Don't require 'riece-filter; autoload
+	riece-default-handle-numeric-reply from "riece-handle".
+
+	* riece-filter.el (riece-filter): Simplified.
+
+	* riece-server.el (riece-server-keyword-map): Add :protocol.
+
+	* riece-handle.el (riece-300): Require 'riece-000, 'riece-200,
+	'riece-300, 'riece-400, and 'riece-500.
+	(riece-default-handle-numeric-reply): Moved from riece-filter.el.
+	* riece-filter.el (riece-handle-numeric-reply): Don't load
+	riece-{000,200,300,400,500}.el on demand.
+
+2004-07-10  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 1.0.1 released.
+	* riece-version.el (riece-version-number): Bump up to 1.0.1.
+
+2004-07-09  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ignore.el (riece-startup-ignored-user-list): New user
+	option.
+	(riece-ignore-insinuate): Add identity objects from
+	riece-startup-ignored-user-list to riece-ignored-user-list.
+
+2004-07-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-commands.el (riece-command-enter-message-to-user): Signal
+	"No text to send" error if user attempt to call this command on
+	an empty line.
+
+2004-07-04  Yoichi NAKAYAMA  <yoichi@geiin.org>
+
+	* riece-commands.el (riece-command-complete-user): current-word
+	can return nil (follow the change in emacs-cvs).
+
+2004-07-01  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-exit): Clear signal-slots.
+	* riece-signal.el (riece-clear-signal-slots): New function.
+
+2004-06-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-misc.el (riece-split-parameters): Fixed parenthesis.
+
+2004-06-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-commands.el (riece-command-change-mode): Don't send ":".
+	[cf. <Liece:00191>]
+
+2004-06-18  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-display.el (riece-update-long-channel-indicator): Change
+	order to channel, mode, topic.
+
+	* riece-message.el (riece-message-make-open-bracket): Come in
+	first notice message.
+	(riece-message-make-close-bracket): Ditto.
+
+2004-06-16  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-commands.el (riece-command-beginning-of-buffer): New command.
+	* riece.el (riece-dialogue-mode-map): Bind beginning-of-buffer to Home.
+	(riece-command-map): Bind riece-command-beginning-of-buffer to Home.
+
+2004-06-15  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-dialogue-mode-map): Bind end-of-buffer to End.
+	(riece-command-map): Bind riece-command-end-of-buffer to End.
+
+2004-06-12  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-commands.el (riece-command-send-message): Run
+	riece-command-send-message-hook.
+
+	* riece-foolproof.el (riece-foolproof-dmacro-override): Removed.
+	(riece-foolproof-command-send-message-function): New function.
+	(riece-foolproof-insinuate): Use hook instead of advice.
+	(riece-foolproof-enable, riece-foolproof-disable): Simplified.
+
+2004-06-11  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-foolproof.el (riece-foolproof-dmacro-override): New
+	function.
+	(riece-foolproof-insinuate): Check keyboard macro.
+
+2004-06-10  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-foolproof.el: New add-on.
+	* COMPILE (riece-modules): Add riece-foolproof.
+	* Makefile.am (EXTRA_DIST): Add riece-foolproof.el.
+
+2004-06-10  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-commands.el (riece-command-change-mode): Don't send ":" to
+	query a channel mode.
+	* riece-mode.el (riece-parse-modes): Accept mode spec not
+	delimited with " " such as "-n+s".
+
+2004-06-10  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-layout.el (riece-set-window-points): Restore window-point
+	of the channel buffer from riece-channel-buffer-window-point.
+
+	* riece-display.el (riece-switch-to-channel): Set
+	riece-channel-buffer-window-point.
+
+	* riece.el (riece-channel-mode): Make
+	riece-channel-buffer-window-point buffer local.
+
+	* riece-globals.el (riece-channel-buffer-window-point): New variable.
+
+2004-06-06  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-rdcc.el (riece-command-dcc-send): Replace whitespace with
+	"_".
+	(riece-command-dcc-receive): Convert default filename with
+	convert-standard-filename.
+	(riece-handle-dcc-request): Handle filenames enclosed with "...".
+
+2004-06-04  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-hangman.el (riece-hangman-word): Check killed-buffer or
+	not.  Fix random number generation logic.
+
+2004-06-03  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-server.el (riece-open-server): When password input is
+	quitted, delete the current server process manually.
+	(riece-close-server-process): Always kill process buffer.
+	(riece-quit-server-process): If the connection is timed out,
+	delete the current server process manually.
+
+2004-06-02  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el: Use riece-facep to check existence of
+	'riece-modeline-unread-face.
+	* riece-history.el: Use riece-facep to check existence of
+	'riece-modeline-history-face.
+	* riece-highlight.el: Use riece-facep to check existence of
+	'riece-modeline-current-face.
+
+	* riece-xemacs.el (riece-facep): Define as an alias of 'find-face.
+	* riece-emacs.el (riece-facep): Define as an alias of 'facep.
+
+2004-06-01  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-button.el (riece-button-disable): On XEmacs, BUFFER arg of
+	widget-map-buttons is ignored.
+
+2004-06-01  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el (riece-modeline-unread-face): New face;
+	setup the properties are inherited from 'modeline.
+	* riece-history.el (riece-modeline-history-face): New face;
+	setup the properties are inherited from 'modeline.
+	* riece-highlight.el (riece-modeline-current-face): New face;
+	setup the properties are inherited from 'modeline.
+
+	* riece-server.el (riece-close-server-process): Reset
+	process-filter/process-sentinel.
+
+2004-05-31  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-hangman.el (riece-hangman-after-privmsg-hook): Display answer.
+	(riece-hangman-enable): Initialize random seed.
+
+2004-05-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 1.0.0 released.
+	* riece-version.el (riece-version-number): Bump up to 1.0.0.
+
+2004-05-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-commands.el (riece-command-finger): Complete user names
+	without server-name.
+	(riece-command-invite): Ditto.
+	(riece-command-change-mode): Ditto.
+	(riece-command-enter-message-to-user): Ditto.
+
+	* riece-identity.el (riece-completing-read-identity): Add extra
+	8th arg "no-server".
+
+2004-05-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-server.el: Move autoload setting for 'riece-exit before
+	riece-open-server.
+
+	* riece-message.el (riece-format-message): Use speaker's
+	server-name instead of the current server-name.
+
+	* riece-ignore.el: Autoload 'riece-dialogue-mode.
+
+	* riece-identity.el (riece-format-identity): Put
+	'riece-format-identity-prefix-only property.
+
+	* riece-icon.el: Require 'riece-globals and 'riece-signal.
+
+	* riece-history.el: Require 'riece-signal.
+
+	* riece-highlight.el: Require 'riece-misc.
+
+	* riece-alias.el: Require 'riece-signal.
+
+	* riece-addon.el: Require 'font-lock, 'riece-options,
+	'riece-compat, and 'riece-misc.
+
+2004-05-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-commands.el (riece-command-switch-to-channel): Change prompt.
+	(riece-command-switch-to-channel-by-number): Ditto.
+	(riece-command-change-layout): Ditto.
+	(riece-command-finger): Ditto.
+	(riece-command-topic): Ditto.
+	(riece-command-invite): Ditto.
+	(riece-command-kick): Ditto.
+	(riece-command-names): Ditto.
+	(riece-command-who): Ditto.
+	(riece-command-list): Ditto.
+	(riece-command-change-mode): Ditto.
+	(riece-command-set-operators): Ditto.
+	(riece-command-set-speakers): Ditto.
+	(riece-command-enter-message-to-user): Ditto.
+	(riece-command-join): Ditto.
+	(riece-command-part): Ditto.
+	(riece-command-open-server): Ditto.
+	(riece-command-close-server): Ditto.
+
+2004-05-28  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-biff.el (riece-biff-insinuate): Add riece-biff-disable to
+	riece-exit-hook.
+
+2004-05-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-message.el (riece-message-set-speaker): New function.
+	(riece-message-set-target): New function.
+	(riece-message-set-text): New function.
+	(riece-message-set-type): New function.
+	(riece-message-set-own-p): New function.
+
+	* riece-kakasi.el: New add-on.
+	* COMPILE (riece-modules): Add riece-kakasi.
+	* Makefile.am (EXTRA_DIST): Add riece-kakasi.el.
+
+2004-05-27  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-biff.el: New add-on.
+	* COMPILE (riece-modules): Add riece-biff.
+	* Makefile.am (EXTRA_DIST): Add riece-biff.el.
+
+2004-05-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-exit): Don't disable addons.
+
+	* riece-commands.el (riece-command-quit): Don't query user to
+	input y/n if there is no server process.
+
+2004-05-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-highlight.el: Require 'derived.
+	(riece-highlight-setup-dialogue): Turn on font-lock if
+	riece-highlight-enabled.
+	(riece-highlight-setup-channel-list): Ditto.
+
+2004-05-24  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-addon.el (riece-command-list-addons): Sort add-ons.
+
+2004-05-23  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-menu.el: Don't put 'riece-addon-default-disabled property.
+
+	* riece-log.el (riece-log-flashback): Don't check riece-log-enabled.
+
+	* riece.el (riece): Enable add-ons after startup.
+
+2004-05-23  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el (riece-unread-disable): Reset riece-unread-channels.
+
+2004-05-22  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-message.el (riece-format-message): Don't append
+	server-name if the 2nd arg is not specified.
+
+	* riece-hangman.el (riece-hangman-word): Fixed regexp.
+
+2004-05-22  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-xface.el: Support enable/disable.
+	(riece-xface-enabled): New flag.
+	(riece-xface-description): New variable.
+	(riece-xface-update-user-list-buffer): Check riece-xface-enabled.
+	(riece-xface-enable): New function.
+	(riece-xface-disable): New function.
+
+	* riece-url.el: Support enable/disable.
+	(riece-url-enabled): New flag.
+	(riece-url-description): New variable.
+	(riece-url-enable): New function; bind command keys here.
+	(riece-url-disable): New function.
+
+	* riece-unread.el: Support enable/disable.
+	(riece-unread-enabled): New flag.
+	(riece-unread-description): New variable.
+	(riece-unread-after-display-message-function): Check
+	riece-unread-enabled.
+	(riece-unread-after-switch-to-channel-function): Ditto.
+	(riece-unread-format-identity-for-channel-list-buffer): Ditto.
+	(riece-unread-format-identity-for-channel-list-indicator): Ditto.
+	(riece-unread-enable): New function; bind command keys here.
+	(riece-unread-disable): New function.
+
+	* riece-rdcc.el: Support enable/disable.
+	(riece-rdcc-enabled): New flag.
+	(riece-rdcc-description): New variable.
+	(riece-handle-dcc-request): Check riece-rdcc-enabled.
+	(riece-rdcc-enable): New function; bind command keys here.
+	(riece-rdcc-disable): New function.
+
+	* riece-ndcc.el: Support enable/disable.
+	(riece-ndcc-enabled): New flag.
+	(riece-ndcc-description): New variable.
+	(riece-handle-dcc-request): Check riece-ndcc-enabled.
+	(riece-ndcc-enable): New function; bind command keys here.
+	(riece-ndcc-disable): New function.
+
+	* riece-menu.el: Support enable/disable; put
+	riece-addon-default-disabled property.
+	(riece-menu-enabled): New flag.
+	(riece-menu-description): New variable.
+	(riece-menu-enable): New function.
+	(riece-menu-disable): New function.
+
+	* riece-lsdb.el: Support enable/disable.
+	(riece-lsdb-enabled): New flag.
+	(riece-lsdb-description): New variable.
+	(riece-lsdb-enable): New function; bind command keys here.
+	(riece-lsdb-disable): New function.
+
+	* riece-keyword.el: Support enable/disable.
+	(riece-keyword-enabled): New flag.
+	(riece-keyword-description): New variable.
+	(riece-keyword-message-filter): Check riece-keyword-enabled.
+	(riece-keyword-enable): New function.
+	(riece-keyword-disable): New function.
+
+	* riece-ignore.el: Support enable/disable.
+	(riece-ignore-enabled): New flag.
+	(riece-ignore-description): New variable.
+	(riece-ignore-message-filter): Check riece-ignore-enabled.
+	(riece-ignore-enable): New function; bind command keys here.
+	(riece-ignore-disable): New function.
+
+	* riece-icon.el: Support enable/disable.
+	(riece-icon-enabled): New flag.
+	(riece-icon-description): New variable.
+	(riece-icon-update-user-list-buffer): Check riece-icon-enabled.
+	(riece-icon-update-channel-list-buffer): Check riece-icon-enabled.
+	(riece-icon-enable): New function.
+	(riece-icon-disable): New function.
+
+	* riece-history.el: Support enable/disable.
+	(riece-history-enabled): New flag.
+	(riece-history-description): New variable.
+	(riece-history-format-identity-for-channel-list-buffer): Check
+	riece-history-enabled.
+	(riece-history-format-identity-for-channel-list-indicator): Ditto.
+	(riece-history-enable): New function.
+	(riece-history-disable): New function.
+
+	* riece-hangman.el: Support enable/disable; put
+	riece-addon-default-disabled property.
+	(riece-hangman-enabled): New flag.
+	(riece-hangman-description): New variable.
+	(riece-hangman-after-privmsg-hook): Check riece-hangman-enabled.
+	(riece-hangman-enable): New function.
+	(riece-hangman-disable): New function.
+
+	* riece-guess.el: Support enable/disable.
+	(riece-guess-enabled): New flag.
+	(riece-guess-description): New variable.
+	(riece-guess-insinuate): Nothing to do.
+	(riece-guess-enable): New function; bind command keys here.
+	(riece-guess-disable): New function.
+
+	* riece-doctor.el: Support enable/disable; put
+	'riece-addon-default-disabled property.
+	(riece-doctor-enabled): New flag.
+	(riece-doctor-description): New variable.
+	(riece-doctor-after-privmsg-hook): Check riece-doctor-enabled.
+	(riece-doctor-enable): New function.
+	(riece-doctor-disable): New function.
+
+	* riece-ctlseq.el: Support enable/disable.
+	(riece-ctlseq-enabled): New flag.
+	(riece-ctlseq-description): New variable.
+	(riece-ctlseq-message-filter): Check riece-ctlseq-enabled.
+	(riece-ctlseq-enable): New function.
+	(riece-ctlseq-disable): New function.
+
+	* riece-button.el: Support enable/disable.
+	(riece-button-enabled): New flag
+	(riece-button-description): New variable.
+	(riece-button-enable): New function.
+	(riece-button-disable): New function.
+
+	* riece-async.el (riece-async-description): New variable.
+
+	* riece-alias.el: Support enable/disable.
+	(riece-alias-enabled): New flag.
+	(riece-alias-description): New variable.
+	(riece-alias-insinuate): Nothing to do.
+	(riece-alias-enable): New function.
+	(riece-alias-disable): New function.
+
+	* riece-addon.el (riece-addon-list-mark-face-alist): Change mark
+	for addons which does not support enable/disable.
+	(riece-addon-list-font-lock-keywords): Follow the above change.
+	(riece-command-list-addons): Ditto.
+
+	* riece.el (riece): Check 'riece-addon-default-disabled property.
+	(riece-exit): Disable addons.
+
+2004-05-22  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-addon.el (riece-addon-list-mode): Call font-lock-set-defaults.
+
+	* riece-highlight.el (riece-highlight-setup-dialogue): Call
+	font-lock-set-defaults.
+	(riece-highlight-setup-channel-list): Ditto.
+
+	* riece.el (riece): Enable add-ons after startup.
+
+2004-05-21  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-dialogue-mode-map): Bind
+	riece-command-list-addons as "^".
+
+2004-05-21  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-skk-kakutei.el (riece-skk-kakutei-enabled): New flag.
+	(riece-skk-kakutei-description): New variable.
+	(riece-skk-kakutei-insinuate): Nothing to do.
+	(riece-skk-kakutei-enable): New function.
+	(riece-skk-kakutei-disable): New function.
+
+2004-05-21  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-highlight.el (riece-highlight-setup-dialogue): Simplified.
+	(riece-highlight-setup-channel-list): Simplified.
+
+	* riece.el (riece): Enable add-ons just after insinuate them.
+
+	* riece-addon.el (riece-addon-list-enabled-face): New face.
+	(riece-addon-list-disabled-face): New face.
+	(riece-addon-list-unsupported-face): New face.
+	(riece-addon-list-unknown-face): New face.
+	(riece-addon-list-description-face): New face.
+	(riece-addon-list-mark-face-alist): New user option.
+	(riece-addon-list-font-lock-keywords): New variable.
+	(riece-addon-list-mode-map): Bind some keys.
+
+2004-05-21  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-addon.el (riece-insinuate-addon): Add optional 2nd
+	argument `verbose'
+	(riece-enable-addon): Ditto.
+	(riece-disable-addon): Ditto.
+	(riece-command-enable-addon): Call riece-enable-addon with the 2nd
+	arg.
+	(riece-command-disable-addon): Call riece-disable-addon with the
+	2nd arg.
+
+2004-05-21  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-addon.el (riece-command-list-addons): Change "no
+	description" -> "(no description)"; show key bindings.
+
+	* riece-ctcp.el (riece-ctcp-description): New variable.
+	* riece-highlight.el (riece-highlight-description): New variable
+	* riece-log.el (riece-log-description): New variable.
+	* riece-mini.el (riece-mini-description): New variable.
+
+2004-05-21  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ctcp.el (riece-ctcp-enable): Fixed typo.
+
+	* riece-addon.el (riece-addon-list-mode-map): New keymap.
+	(riece-addon-list-mode): New function.
+	(riece-command-list-addons): New command.
+	(riece-command-enable-addon): New command.
+	(riece-command-disable-addon): New command.
+	(riece-disable-addon): Fixed typo.
+
+2004-05-21  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-mini.el (riece-mini-enabled): New flag.
+	(riece-mini-display-message-function): Check riece-mini-enabled.
+	(riece-mini-enable): New function.
+	(riece-mini-disable): New function.
+
+	* riece-log.el (riece-log-enabled): New flag.
+	(riece-log-display-message-function): Check riece-log-enabled.
+	(riece-log-insinuate): Don't bind command key.
+	(riece-log-enable): New function.
+	(riece-log-disable): New function.
+
+	* riece-highlight.el (riece-highlight-enabled): New flag.
+	(riece-highlight-setup-dialogue): Renamed from
+	riece-dialogue-turn-on-font-lock; don't call turn-on-font-lock.
+	(riece-highlight-setup-channel-list): Renamed from
+	riece-channel-list-turn-on-font-lock; don't call
+	turn-on-font-lock.
+	(riece-highlight-hide-prefix): Renamed from
+	riece-dialogue-hide-prefix.
+	(riece-highlight-put-overlay-faces): Renamed from
+	riece-put-overlay-faces; check riece-highlight-enabled.
+	(riece-highlight-format-identity-for-channel-list-indicator):
+	Check riece-highlight-enabled.
+	(riece-highlight-insinuate): Follow the name changes.
+	(riece-highlight-enable): New function.
+	(riece-highlight-disable): New function.
+
+	* riece-ctcp.el (riece-ctcp-enabled): New flag.
+	(riece-ctcp-insinuate): Don't bind command keys.
+	(riece-ctcp-enable): New function.
+	(riece-ctcp-disable): New function.
+	(riece-handle-ctcp-request): Check riece-ctcp-enabled.
+	(riece-handle-ctcp-response): Ditto.
+
+	* riece.el: Moved add-on arrangement code to riece-addon.el.
+	(riece-addons-insinuated): New flag.
+	(riece): Don't (re)insinuate add-ons if at least an IRC server is
+	opened; enable add-ons after calling riece-startup-hook.
+
+	* riece-addon.el: New file.
+	* COMPILE (riece-modules): Add riece-addon.
+	* Makefile.am (EXTRA_DIST): Add riece-addon.el.
+
+2004-05-20  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-doctor.el (riece-doctor-buffer-name): Assume that the 1st
+	argument is nickname rather than identity object.
+	(riece-doctor-after-privmsg-hook): Don't send formatted identity
+	as a patient's nickname.
+
+2004-05-20  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-hangman.el (riece-hangman-player-context-alist): Renamed
+	from riece-hangman-players.
+	(riece-hangman-make-context): Add doc.
+	(riece-hangman-context-word): Add doc.
+	(riece-hangman-context-guessed): Add doc.
+	(riece-hangman-context-missed-count): Add doc.
+	(riece-hangman-context-set-guessed): Add doc.
+	(riece-hangman-context-set-missed-count): Add doc.
+	(riece-hangman-word): Add doc.
+	(riece-hangman-reply-with-context): Prefix user name.
+
+2004-05-20  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-doctor.el (riece-doctor-after-privmsg-hook): Prefix user
+	name to reply.
+
+	* riece-hangman.el: New add-on.
+	* COMPILE (riece-modules): Add riece-hangman.
+	* Makefile.am (EXTRA_DIST): Add riece-hangman.el.
+
+2004-05-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-400.el (riece-handle-read-string): Append "Quit" to prompt
+	if user quits input.
+
+2004-05-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-commands.el (riece-command-complete-user): New command.
+	* riece.el: Bind riece-command-complete-user.
+
+2004-05-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-400.el (riece-handle-read-string): New function.
+	(riece-handle-432-message): Use it.
+	(riece-handle-433-message): Use it.
+
+	* riece-server.el (riece-open-server): Don't inhibit quit and
+	catch it when reading server password.
+
+2004-05-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ignore.el (riece-ignore-message-filter): Set the
+	major-mode of riece-ignore-buffer riece-dialogue-mode.
+
+2004-05-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ignore.el (riece-ignore-buffer-name): New user option.
+	(riece-ignore-discard-message): Fixed custom spec to follow the
+	logging option.
+	(riece-ignore-buffer): New variable.
+
+	* riece-log.el (riece-log-display-message-function): Use
+	riece-format-message.
+
+	* riece-message.el (riece-format-message): New function splitted
+	from riece-display-message-1.
+	(riece-display-message-1): Use it.
+
+2004-05-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ignore.el (riece-ignore-user): Renamed from
+	riece-ignore-by-user.
+
+2004-05-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-signal.el (riece-connect-signal): Fixed doc.
+	(riece-disconnect-signal): New function.
+
+	* riece-ignore.el (riece-ignore-discard-message): New user option.
+	(riece-ignored-user-list): Renamed from riece-ignored-user.
+	(riece-ignore-by-user): Support unignore.
+
+2004-05-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-url.el (riece-url-regexp): Accept ";".
+
+	* riece-ignore.el: New add-on.
+	* COMPILE (riece-modules): Add riece-ignore.
+	* Makefile.am (EXTRA_DIST): Add riece-ignore.el.
+
+2004-05-13  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-log.el (riece-log-get-directory): Follow the name change
+	of riece-channel-regexp.
+
+2004-05-12  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-globals.el (riece-strict-channel-regexp): Renamed from
+	riece-channel-regexp.
+	(riece-strict-user-regexp): Renamed from riece-user-regexp.
+	(riece-laxed-channel-regexp): New constant.
+	(riece-laxed-user-regexp): New constant.
+	(riece-channel-regexp): Define as variable (its default value is
+	set to riece-laxed-channel-regexp).
+	(riece-user-regexp): Define as variable (its default value is set
+	to riece-laxed-user-regexp).
+
+2004-05-10  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ctlseq.el (riece-ctlseq-scan-region): Abolish.
+	(riece-ctlseq-requires): New function.
+	(riece-ctlseq-message-filter): Assume the existence of
+	riece-put-overlay-faces, add 'riece-overlay-face property.
+
+	* riece-keyword.el (riece-keyword-scan-region): Abolish.
+	(riece-keyword-message-filter): Assume the existence of
+	riece-put-overlay-faces, add 'riece-overlay-face property.
+
+	* riece-highlight.el (riece-put-overlay-faces): New function.
+	(riece-highlight-insinuate): Add riece-put-overlay-faces to
+	riece-after-insert-functions.
+
+2004-05-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-misc.el (riece-split-parameters): Don't remove a trailing
+	string even if it is empty.
+
+2004-05-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ctlseq.el: Require 'riece-message for riece-message-text;
+	require 'riece-misc for riece-scan-property-region.
+
+	* riece-ctcp.el: Require 'riece-display for riece-channel-buffer.
+
+2004-05-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-300.el (riece-handle-312-message): Use server name
+	returned by WHOIS instead of riece-real-server-name.
+	[cf. <Liece:00170>]
+
+2004-05-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.2.2 released.
+	* riece-version.el (riece-version-number): Bump up to 0.2.2.
+
+	* riece-ctlseq.el (riece-ctlseq-hide-controls): New user option.
+
+	* riece-keyword.el (riece-keyword): Fixed the parent custom group.
+	* riece-url.el (riece-url): Fixed the parent custom group.
+
+2004-05-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ctlseq.el: New add-on.
+	* COMPILE (riece-modules): Add riece-ctlseq.
+	* Makefile.am (EXTRA_DIST): Add riece-ctlseq.el.
+
+2004-04-29  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-log.el (riece-log-get-directory): Use a canonicalized
+	channel name.
+	(riece-log-open-directory-function): New user option.
+	(riece-log-open-directory): Use it.
+	(riece-log-insinuate): Add new key bind.
+
+2004-04-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-button.el (riece-button-requires): Abolish.
+
+2004-03-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-buffer-alist): Rename *Commands* -> *Command*.
+	(riece-command-mode): Rename Commands -> Command.
+
+2004-03-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-signal.el: Require 'riece-options for riece-debug.
+	* riece-async.el: Require 'riece-options for riece-debug.
+
+2004-03-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-command-mode): Don't display
+	riece-freeze-indicator on the modeline of the command buffer.
+	(riece-dialogue-mode): Make riece-freeze-indicator local to the
+	buffer whose major-mode is derived from riece-dialogue-mode.
+
+	* riece-display.el: Add autoload setting for derived-mode-class.
+	(riece-update-status-indicators): Check riece-freeze flag for each
+	buffer visible in the selected frame.
+
+	* riece-commands.el: Add autoload setting for derived-mode-class.
+	(riece-command-toggle-freeze): Don't switch to the channel buffer
+	if major-mode of the current buffer is derived from
+	riece-dialogue-mode.  Which allows to lock "*Others*" buffer.
+	(riece-command-toggle-own-freeze): Ditto.
+
+	* riece-globals.el (riece-freeze): Fix doc.
+	(riece-freeze-indicator): Add doc.
+	(riece-channel-indicator): Fix doc.
+	(riece-long-channel-indicator): Fix doc.
+	(riece-channel-list-indicator): Fix doc.
+	(riece-user-indicator): Fix doc.
+	(riece-away-indicator): Add doc.
+	(riece-operator-indicator): Add doc.
+
+2004-03-24  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el (riece-unread-after-display-message-function):
+	Treat private messages as unread.
+
+2004-03-21  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-exit): Don't clear riece-user-list-buffer and
+	riece-channel-list-buffer.
+
+2004-03-21  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-exit): Clear riece-channel-buffer,
+	riece-user-list-buffer, and riece-channel-list-buffer.
+
+2004-03-20  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-server.el (riece-open-server): Append the server-name to
+	the prompt string.
+
+2004-03-14  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-display-connect-signals): Update
+	riece-long-channel-indicator on 'channel-modes-changed signal.
+
+	* riece-naming.el (riece-naming-assert-channel-modes): New
+	function renamed from riece-handle-channel-modes.
+
+	* riece-misc.el: Require 'riece-mode.
+	(riece-concat-channel-modes): Display mode parameter.
+
+	* riece-channel.el: Require 'riece-mode.
+	(riece-channel-toggle-mode): Store mode "objects" instead of mode
+	"flags".
+	* riece-user.el: Require 'riece-mode.
+	(riece-user-toggle-mode): Store mode "objects" instead of mode
+	"flags".
+
+	* riece-handle.el: Require 'riece-mode.
+	(riece-handle-mode-message): Use riece-parse-mode.
+	(riece-parse-mode): Moved to riece-mode.el.
+	(riece-handle-channel-modes): Moved to riece-naming.el.
+
+	* riece-300.el: Require 'riece-mode.
+	(riece-handle-324-message): Use riece-parse-mode.
+
+	* riece-mode.el: New file.
+	* Makefile.am (EXTRA_DIST): Add riece-mode.el.
+	* COMPILE (riece-modules): Add riece-mode.
+
+2004-03-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ctcp.el: "Error occurred in XXX" -> "Error in XXX".
+	* riece-filter.el: "Error occurred in XXX" -> "Error in XXX".
+	* riece-signal.el: "Error occurred in XXX" -> "Error in XXX".
+
+2004-03-09  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.2.1 released.
+	* riece-version.el (riece-version-number): Bump up to 0.2.1.
+
+2004-03-09  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-emacs.el (riece-propertize-modeline-string): Fix arguments
+	for add-text-properties.
+
+2004-03-08  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-xface.el (riece-xface-insinuate): Use
+	riece-user-list-mode-hook to setup riece-update-buffer-functions
+	in user-list buffer.
+
+2004-03-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.2.0 released.
+	* riece-version.el (riece-version-number): Bump up to 0.2.0.
+
+	* riece-ctcp.el (riece-handle-ctcp-version-request): Fixed bug in
+	formatting target identity.
+	(riece-handle-ctcp-ping-request): Ditto.
+	(riece-handle-ctcp-clientinfo-request): Ditto.
+
+2004-03-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el: Rename some signals.
+
+	* riece-commands.el (riece-command-set-operators): Reverse user-list.
+	(riece-command-set-speakers): Ditto.
+
+2004-03-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el
+	(riece-unread-format-identity-for-channel-list-indicator): Escape
+	% -> %%; use riece-propertize-modeline-string.
+
+	* riece-history.el
+	(riece-history-format-identity-for-channel-list-indicator): Escape
+	% -> %%; use riece-propertize-modeline-string.
+
+	* riece-highlight.el
+	(riece-highlight-format-identity-for-channel-list-indicator):
+	Escape % -> %%; use riece-propertize-modeline-string.
+
+	* riece-display.el
+	(riece-format-identity-for-channel-list-indicator): Escape % ->
+	%%.
+	(riece-update-channel-list-indicator): Rewrite.
+
+	* riece-emacs.el (riece-propertize-modeline-string): New function.
+	* riece-xemacs.el (riece-propertize-modeline-string): New function.
+
+2004-03-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el
+	(riece-unread-format-identity-for-channel-list-indicator): New
+	function.
+	(riece-unread-insinuate): Setup
+	riece-format-identity-for-channel-list-indicator-functions.
+
+	* riece-history.el
+	(riece-history-format-identity-for-channel-list-buffer): New
+	function.
+	(riece-history-insinuate): Setup
+	riece-format-identity-for-channel-list-indicator-functions.
+
+	* riece-highlight.el
+	(riece-highlight-format-identity-for-channel-list-indicator): New
+	function.
+	(riece-highlight-insinuate): Setup
+	riece-format-identity-for-channel-list-indicator-functions.
+
+	* riece-display.el
+	(riece-format-identity-for-channel-list-buffer): Rename from
+	riece-format-channel-list-line.
+	(riece-format-identity-for-channel-list-indicator): New function.
+	(riece-update-channel-list-indicator): Use it.
+
+2004-03-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-handle.el (riece-parse-modes): Make sure that mode params
+	are started at the beginning of the mode string.
+	(riece-handle-channel-modes): Fixed arguments passed to
+	riece-channel-toggle-*.
+
+2004-03-06  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-xface.el (riece-xface-insinuate): Set
+	'riece-update-buffer-functions local to the user-list buffer.
+
+	* riece-unread.el: Require 'riece-signal instead of
+	'riece-display.
+	(riece-unread-after-display-message-function): Emit
+	'riece-update-buffer signal instead of
+	'riece-unread-channel-list-update signal.
+
+	* riece-ndcc.el: Don't require 'riece-display.
+
+	* riece-naming.el: Require 'riece-signal instead of
+	'riece-display.
+	(riece-naming-assert-rename): Don't rename buffer.
+
+	* riece-history.el (riece-history-format-channel-list-line): Don't
+	append "\n".
+
+	* riece-handle.el: Require 'riece-signal instead of
+	'riece-display.
+	(riece-parse-modes): Rename from riece-parse-channel-modes; don't
+	update channel modes.
+	(riece-handle-channel-modes): New function which processes the
+	result of riece-parse-modes.
+	(riece-handle-mode-message): Use it.
+
+	* riece-filter.el: Don't require 'riece-display.
+	* riece-display.el: Require 'riece-signal; connect
+	'riece-update-buffer signal.
+
+	* riece-ctcp.el: Don't require 'riece-display.
+
+	* riece-signal.el: New module splitted from riece-display.el.
+	* Makefile.am (EXTRA_DIST): Add riece-signal.
+	* COMPILE (riece-modules): Add riece-signal.
+
+2004-03-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el (riece-unread-after-display-message-function):
+	Emit 'riece-unread-channel-list-update signal.
+	(riece-unread-insinuate): Connect the signal to the function which
+	updates channel-list buffer.
+
+	* riece-display.el (riece-display-connect-signals): Fix parenthesis.
+
+2004-03-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-emit-signal): Fixed bug that errors
+	during signal filter execution were not caught.
+	(riece-display-connect-signals): Check riece-current-channel is set.
+
+2004-03-01  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-display-connect-signals): Fixed bug in
+	signal filters.
+
+	* riece-handle.el (riece-handle-mode-message): Don't call
+	riece-parse-channel-modes if channel doesn't match with
+	riece-channel-regexp.
+
+2004-02-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-display-connect-signals): Connect some
+	signals.
+
+	* riece-naming.el (riece-naming-assert-join): Don't change the
+	current channel manually.
+	(riece-naming-assert-part): Ditto.
+	(riece-naming-assert-rename): Ditto.
+	(riece-naming-assert-channel-users): Ditto.
+
+2004-02-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-emit-signal): Create signal object
+	internally.
+
+	* riece-message.el (riece-display-message-1): Emit
+	'riece-buffer-toggle-freeze signal.
+
+	* riece-commands.el (riece-command-toggle-freeze): Emit
+	'riece-buffer-toggle-freeze signal; don't update status indicators
+	manually.
+	(riece-command-toggle-own-freeze): Ditto.
+	
+	* riece-naming.el (riece-naming-assert-join): Rename signal 'join
+	-> 'riece-naming-assert-join.
+	(riece-naming-assert-part): Rename signal 'part ->
+	'riece-naming-assert-part.
+	(riece-naming-assert-rename): Rename signal 'rename ->
+	'riece-naming-assert-rename.
+	(riece-naming-assert-channel-users): Rename from
+	riece-naming-assert-users; rename signal 'users ->
+	'riece-naming-assert-channel-users.
+
+	* riece-handle.el (riece-handle-topic-message): Emit
+	'riece-channel-set-topic signal.
+	(riece-parse-channel-modes): Emit 'riece-channel-toggle-operator,
+	'riece-channel-toggle-speaker, and 'riece-channel-toggle-modes signals.
+
+	* riece-display.el (riece-display-connect-signals): Rename some
+	signals; connect more signals.
+
+	* riece-300.el (riece-handle-302-message): Emit
+	'riece-user-toggle-away, and 'riece-user-toggle-operator signals;
+	don't update status indicators manually.
+	(riece-handle-301-message): Emit 'riece-user-toggle-away signal;
+	don't update status indicators manually.
+	(riece-handle-305-message): Ditto.
+	(riece-handle-306-message): Ditto.
+	(riece-handle-353-message): Follow the name change of
+	riece-naming-assert-users.
+	(riece-handle-324-message): Emit 'riece-channel-toggle-modes
+	signal; don't update status indicators manually.
+	(riece-handle-set-topic): Emit 'riece-channel-set-topic signal;
+	don't update channel indicator manually.
+	(riece-handle-352-message): Emit 'riece-user-toggle-away, and
+	'riece-user-toggle-operator signals; don't update status
+	indicators manually.
+
+2004-02-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-connect-signal): Create slot object
+	internally.
+
+2004-02-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece): Setup signal slots.
+
+	* riece-unread.el (riece-unread-after-display-message-function):
+	Don't call riece-redisplay-buffers.
+
+	* riece-naming.el (riece-naming-assert-names): New function.
+	(riece-naming-assert-join): Emit 'join signal.
+	(riece-naming-assert-part): Emit 'part signal.
+	(riece-naming-assert-rename): Emit 'rename signal.
+
+	* riece-message.el (riece-message-buffer): Don't call
+	riece-redisplay-buffers.
+
+	* riece-handle.el (riece-handle-nick-message): Don't call
+	riece-redisplay-buffers.
+	(riece-handle-join-message): Ditto.
+	(riece-handle-part-message): Ditto.
+	(riece-handle-kick-message): Ditto.
+	(riece-handle-kill-message): Ditto.
+	(riece-handle-topic-message): Ditto.
+	(riece-parse-channel-modes): Ditto.
+
+	* riece-display.el (riece-update-user-list-buffer): Use
+	riece-with-server-buffer.
+	(riece-emit-signal): Notify if signal filter fails.
+	(riece-display-connect-signals): New function.
+	(riece-update-user-list-buffer): Don't switch to user-list buffer.
+	(riece-update-channel-list-buffer): Don't switch to channel-list
+	buffer.
+	(riece-switch-to-channel): Emit 'switch-to-channel signal.
+	(riece-switch-to-nearest-channel): Ditto.
+
+	* riece-commands.el (riece-command-switch-to-channel): Don't call
+	riece-redisplay-buffers.
+	(riece-command-join-partner): Ditto.
+	(riece-command-part): Ditto.
+
+	* riece-300.el (riece-handle-353-message): Save match data before
+	calling riece-naming-assert-names; don't call riece-redisplay-buffers.
+	(riece-handle-322-message): Don't call riece-redisplay-buffers.
+
+2004-02-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el: Introduce Qt like "signal-slot" abstraction
+	for routing display events.
+	(riece-signal-slot-obarray): New variable.
+	(riece-make-slot): New function.
+	(riece-slot-function): New function.
+	(riece-slot-filter): New function.
+	(riece-slot-handback): New function.
+	(riece-make-signal): New function.
+	(riece-signal-name): New function.
+	(riece-signal-args): New function.
+	(riece-connect-signal): New function.
+	(riece-emit-signal): New function.
+
+2004-02-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-300.el (riece-handle-353-message): Add 'riece-identity
+	property on user list string.
+
+2004-02-17  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-lsdb.el: Add autoload setting for
+	lsdb-rebuild-secondary-hash-tables to suppress warning.
+
+2004-02-16  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-300.el (riece-handle-353-message): Print user list in
+	channel buffer.
+
+2004-02-14  Yoichi NAKAYAMA  <yoichi@geiin.org>
+
+	* riece-lsdb.el (riece-lsdb-lookup-records): Build
+	riece-lsdb-cache if necessary.
+
+2004-01-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ctcp.el (riece-handle-ctcp-version-request): Format target
+	identity before display.
+	(riece-handle-ctcp-ping-request): Ditto.
+	(riece-handle-ctcp-clientinfo-request): Ditto.
+
+2004-01-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.1.8 released.
+	* riece-version.el (riece-version-number): Bump up to 0.1.8.
+
+2004-01-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-lsdb.el: Require 'riece-identity; add autoload setting for
+	lsdb-update-record; bind lsdb-hash-table, riece-command-mode-map.
+
+2004-01-23  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-handle.el (riece-handle-privmsg-message): Check own
+	message from server. For deal with another client that connected
+	same irc proxy (e.g. plum, pirc).
+	(riece-handle-notice-message): Ditto.
+
+2004-01-21  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-identity.el (riece-identity-canonicalize-prefix): Convert
+	characters in prefix to lower case.
+
+2004-01-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-misc.el (riece-concat-user-status): New function.
+
+	* riece-300.el (riece-handle-302-message): Simplify user status
+	display.  (i.e. don't display "not operator", "not away", ...)
+	(riece-handle-352-message): Ditto.
+
+2004-01-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-lsdb.el (riece-lsdb-add-user): Always pass canonical
+	address for 'net entry.
+
+2004-01-04  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-300.el (riece-handle-317-message): Fix regexp for signon
+	time extenstion.
+
+2004-01-03  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-lsdb.el: Add autoload setting for lsdb-maphash.
+	(riece-lsdb-update-cache): Don't alter existing entry.
+	(riece-lsdb-delete-cache): Ditto.
+	(riece-lsdb-add-user): New command.
+	(riece-lsdb-insinuate): Bind riece-lsdb-add-user.
+
+2004-01-03  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-lsdb.el (riece-lsdb-insinuate): Don't require 'lsdb.
+
+2004-01-02  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-lsdb.el: New add-on.
+	* COMPILE (riece-modules): Add riece-lsdb.
+	* Makefile.am (EXTRA_DIST): Add riece-lsdb.el
+
+	* riece-xface.el: New add-on.
+	* COMPILE (riece-modules): Add riece-xface.
+	* Makefile.am (EXTRA_DIST): Add riece-xface.el
+
+2003-12-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.1.7 released.
+	* riece-version.el (riece-version-number): Bump up to 0.1.7.
+
+2003-12-22  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-keyword.el (riece-notify-keyword-functions): Mark as
+	obsolete.
+	(riece-keyword-notify-functions): New user option.
+	(riece-keyword-message-filter): Don't restore the match data when
+	calling riece-notify-keyword-functions; call
+	riece-keyword-notify-functions with the matched message object.
+	Thanks to OHASHI Akira <bg66@koka-in.org>
+	[cf. <Liece:00134>]
+
+2003-12-17  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-log.el (riece-log-flashback): Use
+	riece-match-string-no-properties instead of match-string-no-properties.
+
+	* riece-xemacs.el (riece-match-string-no-properties): New function.
+	* riece-emacs.el (riece-match-string-no-properties): New alias.
+
+	* riece-identity.el: Don't require 'riece-compat.
+	(riece-identity-prefix-case-table): Abolish.
+	(riece-identity-prefix-case-pair-alist): New constant.
+	(riece-identity-canonicalize-prefix): Don't use case-table.
+
+	* riece-emacs.el (riece-set-case-syntax-pair): Abolish.
+	(riece-copy-case-table): Abolish.
+	* riece-xmacs.el (riece-set-case-syntax-pair): Abolish.
+	(riece-copy-case-table): Abolish.
+
+2003-12-15  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el: Require 'riece-version.
+	(riece-quit-message): Set default to (riece-extended-version).
+	(riece-away-message): Set default to "Gone".
+
+	* riece-commands.el: Don't require 'riece-version.
+	(riece-command-quit): Don't check riece-quit-message.
+	(riece-command-close-server): Ditto.
+	(riece-command-toggle-away): Always supply a parameter to the AWAY
+	command when the user is not away.  Thanks to Yuki Fujimura
+	<fujimura@wakhok.ac.jp>
+	[cf. <Liece:00139>]
+
+2003-12-14  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece): Connect to servers in riece-startup-server-list.
+
+	* riece-000.el (riece-handle-001-message): Ignore entries in
+	riece-startup-channel-list which doesn't match riece-server-name. 
+
+	* riece-options.el (riece-startup-server-list): New user option.
+
+	* riece-async.el (riece-async-max-buffer-size): New user option.
+	(riece-async-server-program): Use io/nonblock & IO#syswrite to
+	check whether the write end of pipe (i.e. input to emacs process)
+	would block.
+
+2003-12-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-default-open-connection-function): New
+	user option.
+
+	* riece-server.el (riece-server-keyword-map): Use
+	riece-default-open-connection-function.
+
+	* riece-async.el: New add-on.
+	* COMPILE (riece-modules): Add riece-async.
+	* Makefile.am (EXTRA_DIST): Add riece-async.el
+
+2003-12-09  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-mini.el (riece-mini-display-message-function): Don't set
+	riece-mini-last-channel when message is not a privmsg.
+
+2003-12-04  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-server.el (riece-with-server-buffer): Store 'edebug-form-spec
+	property.
+
+2003-12-03  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-log.el (riece-log-requires): New function.
+	(riece-log-flashback): Revert 'riece-identity property and button.
+
+2003-11-28  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-unread.el (riece-unread-after-display-message-function):
+	Do nothing when message is not a privmsg.
+
+2003-11-22  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-log.el (riece-log-coding-system): New user option.
+	(riece-log-display-message-function): Bind
+	coding-system-for-write; don't create temp buffer.
+
+	* riece-rdcc.el (riece-rdcc-filter): Use write-region instead of
+	append-to-file to suppress "Wrote file" messages.
+
+2003-11-10  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.1.6 released.
+	* riece-version.el (riece-version-number): Bump up to 0.1.6.
+
+2003-11-08  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ctcp.el (riece-command-ctcp-action): Display channel names
+	in "*Others*" buffer.
+
+2003-11-05  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-unread.el (riece-unread-switch-to-channel): Protect
+	switching to the channel not existing.
+
+2003-10-29  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-log.el (riece-log-get-directory): Support riece-identity
+	for mapping.
+
+2003-10-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-layout.el (riece-set-window-points): Move point in
+	the channel-buffer's window.
+
+	* riece-ctcp.el (riece-command-ctcp-version): Prompt to select
+	an identity on the current server.
+	(riece-command-ctcp-ping): Ditto.
+	(riece-command-ctcp-clientinfo): Ditto.
+	(riece-command-ctcp-action): Ditto.
+
+	* riece-commands.el (riece-command-change-mode): Prompt to select
+	an identity on the current server.
+	(riece-command-join): Ditto.
+
+2003-10-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-keyword.el (riece-keywords): Change custom spec.
+	(riece-keyword-message-filter): Normalize riece-keywords.
+
+	* riece-identity.el (riece-identity-prefix-case-table): Use
+	riece-copy-case-table to define.
+
+	* riece-xemacs.el (riece-set-case-syntax-pair): Workaround for
+	XEmacs 21.1.
+	(riece-copy-case-table): Ditto.
+
+	* riece-emacs.el (riece-copy-case-table): New alias.
+
+	* riece-globals.el (riece-channel-regexp): Use
+	riece-make-interval-regexp to define.
+	(riece-user-regexp): Ditto.
+
+	* riece-compat.el (riece-make-interval-regexp): New function.
+
+	* riece-icon.el (riece-icon-available-p): Check
+	the existence of image-type-available-p.
+
+2003-10-27  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-log.el (riece-log-get-directory): Fix for server name and
+	private messages handling.
+
+2003-10-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-xemacs.el (riece-run-with-idle-timer): Pass an integer to
+	the RESTART argument of start-itimer.
+
+	* riece-commands.el (riece-command-user-list-scroll-down): Rename
+	from riece-command-nick-scroll-down.
+	(riece-command-user-list-scroll-up): Rename from
+	riece-command-nick-scroll-up.
+	(riece-command-scroll-down): Check if riece-current-channel is bound.
+	(riece-command-scroll-up): Ditto.
+	(riece-command-quit): Clean up if no server process is available.
+
+2003-10-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-rdcc.el: Bind temporary-file-directory.
+	(riece-rdcc-send-program): Allow block-size to be controlled from
+	elisp.
+	(riece-rdcc-block-size): New user option.
+	(riece-rdcc-temp-file): New variable.
+	(riece-rdcc-received-size): New variable.
+	(riece-rdcc-filter): Don't keep received bytes in the process
+	buffer; use riece-rdcc-format-size to display progress.
+	(riece-command-dcc-receive): Create a temporary directory which
+	holds a received file.
+
+2003-10-24  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-gather-channel-modes): Default to nil.
+	* riece-handle.el (riece-handle-join-message): Send MODE if
+	riece-gather-channel-modes is non-nil.
+
+	* riece-url.el: Add autoload setting for 'browse-url.
+
+	* riece-menu.el: Require 'riece-options, 'riece-globals,
+	'riece-identity, 'riece-layout, and 'riece-server; bind
+	riece-command-mode-map.
+
+	* riece-history.el: Require 'riece-options, 'riece-globals,
+	'riece-highlight, and 'riece-identity.
+
+	* riece-naming.el (riece-naming-assert-rename): Fixed.
+
+2003-10-24  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.1.5 released.
+	* riece-version.el (riece-version-number): Bump up to 0.1.5.
+
+2003-10-24  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ctcp.el (riece-command-ctcp-action): If the current
+	command line is not empty, insert it into the minibuffer before
+	reading input.  Thanks to Akinori MUSHA  <knu@iDaemons.org>
+	[cf. <Liece:00123>]
+
+	* riece.el: Add autoload setting for derived-mode-class.
+	(riece-shrink-buffer-idle-timer): New variable.
+	(riece): Set idle timer to shrink channel buffers.
+	(riece-shrink-buffer): New function.
+
+	* riece-xemacs.el (riece-overlays-in): New function.
+	(riece-delete-overlay): New alias.
+	(riece-kill-all-overlays): New function.
+
+	* riece-server.el (riece-quit-server-process): Don't set timer if
+	riece-quit-timeout is nil.
+
+	* riece-options.el (riece-quit-timeout): Change custom type.
+	(riece-shrink-buffer-idle-time-delay): New user option.
+	(riece-max-buffer-size): New user option.
+
+	* riece-icon.el (riece-icon-add-image-region) [XEmacs]: Delete
+	extents if already exists.
+
+	* riece-emacs.el (riece-overlays-in): New alias.
+	(riece-delete-overlay): New alias.
+	(riece-kill-all-overlays): New function.
+	(riece-run-with-idle-timer): New alias.
+	(riece-cancel-timer): New alias.
+
+	* riece-display.el (riece-update-user-list-buffer): Kill all
+	overlays in buffer.
+	(riece-update-channel-list-buffer): Ditto.
+
+	* riece-commands.el (riece-command-set-operators): Reset group.
+	(riece-command-set-speakers): Ditto.
+
+2003-10-23  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-naming.el (riece-naming-assert-rename): Follow the
+	change of riece-channel.el.
+
+	* riece-message.el (riece-message-external-p): Follow the
+	change of riece-channel.el.
+
+	* riece-display.el (riece-update-user-list-buffer): Follow the
+	change of riece-channel.el.
+
+	* riece-commands.el (riece-command-kick): Follow the change of
+	riece-channel.el.
+	(riece-command-set-operators): Ditto.
+	(riece-command-set-speakers): Ditto.
+
+	* riece-button.el (riece-user-button-set-operators): Follow the
+	change of riece-channel.el.
+	(riece-user-button-set-speakers): Ditto.
+
+	* riece-channel.el (riece-make-channel): Abolish 2nd and 3rd
+	arguments.
+	(riece-get-channel): Follow the change of riece-make-channel.
+	(riece-channel-operators): Abolish.
+	(riece-channel-speakers): Abolish.
+	(riece-channel-set-operators): Abolish.
+	(riece-channel-set-speakers): Abolish.
+	(riece-channel-get-operators): Abolish.
+	(riece-channel-get-speakers): Abolish.
+	(riece-channel-toggle-user): Follow the change of the return type
+	of riece-channel-users.
+	(riece-channel-toggle-operator): Ditto.
+	(riece-channel-toggle-speaker): Ditto.
+	(riece-channel-operator-p): Abolish.
+	(riece-channel-speaker-p): Abolish.
+	(riece-channel-intern-user): Abolish.
+
+2003-10-23  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-identity.el (riece-identity-member): Take an optional 3rd
+	argument to instruct to use riece-identity-equal-no-server.
+	(riece-identity-assoc): Ditto.
+
+	* riece-display.el (riece-update-user-list-buffer): Use
+	riece-channel-operator-p and riece-channel-speaker-p.
+
+	* riece-button.el (riece-user-button-set-operators): Use
+	riece-channel-operator-p.
+	(riece-user-button-set-speakers): Use riece-channel-speaker-p.
+
+	* riece-channel.el (riece-channel-intern-user): New function.
+	(riece-channel-toggle-operator): Use it.
+	(riece-channel-toggle-speaker): Use it.
+	(riece-channel-operator-p): New function.
+	(riece-channel-speaker-p): New function.
+
+2003-10-23  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-log.el (riece-log-get-directory): Follow the change of
+	`riece-channel-regexp'.
+
+2003-10-22  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-identity.el (riece-format-identity): Return copied strings.
+
+2003-10-22  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece.el (riece): When riece server was opened, Do
+	`riece-command-configure-windows' instead of signaling.
+
+2003-10-22  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-rdcc.el (riece-rdcc-send-program): Flush $stdout before
+	accepting a connection.
+	(riece-command-dcc-send): Use riece-completing-read-identity; take
+	an identity object in the 1st argument.
+	(riece-rdcc-format-size): New function.
+	(riece-handle-dcc-request): Use it.
+
+	* riece-ndcc.el (riece-command-dcc-send): Use
+	riece-completing-read-identity; take an identity object in the 1st
+	argument.
+
+	* riece-display.el (riece-update-buffers): Run
+	riece-update-buffer-hook.
+
+	* riece-button.el (riece-user-button-finger): Pass an identity
+	object instead of the prefix.
+
+	* riece-ctcp.el: Require 'riece-highlight.
+	(riece-ctcp-action-face): New face.
+	(riece-ctcp-action-face): New variable.
+	(riece-ctcp-action-prefix): New variable.
+	(riece-ctcp-requires): Require 'riece-highlight if it is enabled.
+	(riece-ctcp-insinuate): Modify riece-dialogue-font-lock-keywords
+	if 'riece-highlight is enabled.
+	(riece-handle-ctcp-action-request): Prepend
+	riece-ctcp-action-prefix instead of riece-change-prefix.
+	(riece-command-ctcp-action): Ditto.
+
+	* riece-server.el (riece-quit-server-process): Use riece-run-at-time.
+	* riece-xemacs.el (riece-run-at-time): New function.
+	* riece-emacs.el (riece-run-at-time): New alias.
+
+	* riece-misc.el (riece-get-identities-on-server): New function.
+	(riece-get-users-on-server): Use it.
+
+	* riece-ctcp.el (riece-ctcp-completing-read-identity): Abolish.
+	(riece-command-ctcp-version): Use riece-completing-read-identity
+	and riece-get-identities-on-server.
+	(riece-command-ctcp-ping): Ditto.
+	(riece-command-ctcp-clientinfo): Ditto.
+	(riece-command-ctcp-action): Ditto.
+
+	* riece-commands.el (riece-command-finger): Pass the current
+	server name to riece-get-users-on-server; use
+	riece-completing-read-identity.
+	(riece-command-invite): Ditto.
+	(riece-command-enter-message-to-user): Ditto.
+
+	* riece-000.el (riece-handle-001-message): Register myself with
+	riece-obarray.
+
+2003-10-21  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ctcp.el (riece-ctcp-completing-read-identity): New
+	function.
+	(riece-command-ctcp-version): Use it.
+	(riece-command-ctcp-ping): Ditto.
+	(riece-command-ctcp-clientinfo): Ditto.
+	(riece-command-ctcp-action): Ditto; don't encode CHANNEL identity
+	twice.
+
+2003-10-20  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-xemacs.el (riece-xemacs-mode-line-buffer-identification):
+	Abolish.
+	(riece-mode-line-buffer-identification): Don't define alias.
+
+	* riece-server.el (riece-open-server): Handle errors occurred
+	during reading password.
+
+	* riece-options.el (riece-addons): Add riece-icon.
+
+	* riece-layout.el (riece-configure-windows-top): Collect arguments.
+
+	* riece-icon.el: New add-on.
+	* COMPILE (riece-modules): Add riece-icon.
+	* Makefile.am (EXTRA_DIST): Add riece-icon.el
+
+2003-10-20  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-saved-forms): Add riece-layout.
+
+	* riece-layout.el (riece-layout-alist): Change format.
+	(riece-configure-windows): Take 2 args to specify the position of
+	the command buffer window.
+
+	* riece-commands.el (riece-command-change-layout): Set
+	riece-save-variables-are-dirty.
+
+2003-10-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.1.4 released.
+	* riece-version.el (riece-version-number): Bump up to 0.1.4.
+
+2003-10-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-server.el (riece-server-process-opened): Return t.
+
+	* riece.el (riece-dialogue-mode-map): Bind "p" to
+	riece-command-enter-message-to-user.
+
+	* riece-misc.el (riece-current-nickname): Use
+	riece-current-server-name.
+	(riece-get-users-on-server): Ditto.
+
+	* riece-server.el (riece-current-server-name): New function.
+	(riece-send-string): Use it.
+
+	* riece-commands.el (riece-command-enter-message-to-user): New command.
+
+2003-10-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-menu.el (riece-menu-create-layouts-menu): New function.
+	(riece-menu-items): Use it.
+
+	* riece-server.el (riece-server-process-opened): New function.
+	(riece-server-opened): Use it.
+
+	* riece-url.el: Require 'riece-menu.
+	(riece-url-insinuate): Add "Open URL..." menu in
+	riece-command-mode-hook.
+
+	* riece-options.el (riece-addons): Add riece-menu.
+
+	* riece-menu.el: New add-on.
+	* COMPILE (riece-modules): Add riece-menu.
+	* Makefile.am (EXTRA_DIST): Add riece-menu.el
+
+2003-10-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-version.el (riece-extended-version): Remove interactive spec.
+	(riece-version): New command.
+	* riece.el (riece-command-map): Bind "V" to riece-version.
+
+	* riece-options.el (riece-command-prefix): New user option.
+	(riece-tab-stop-list): Abolish.
+
+	* riece.el (riece-define-keys-1): If keymap is a list, eval the
+	2nd element of it.
+	(riece-select-keys): Use riece-command-prefix instead of "\C-c".
+	(riece-command-map): Ditto.
+	(riece-dialogue-mode): Don't set tab-stop-list.
+
+2003-10-18  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-keyword.el (riece-keyword-message-filter): Ignore messages
+	which belongs to myself.
+
+	* riece-commands.el (riece-command-topic): Use
+	riece-check-channel-commands-are-usable.
+	(riece-command-invite): Ditto.
+	(riece-command-kick): Ditto.
+	(riece-command-change-mode): Ditto.
+	(riece-command-set-operators): Ditto.
+	(riece-command-set-speakers): Ditto.
+	(riece-command-send-message): Ditto.
+	(riece-command-part): Ditto.
+
+	* riece-misc.el (riece-get-users-on-server): If
+	riece-current-channel is not set, check the default server.
+	(riece-check-channel-commands-are-usable): New function.
+
+	* riece-globals.el (riece-channel-regexp): Accept channel names
+	beginning with "!!".
+
+2003-10-16  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-commands.el (riece-command-universal-server-name-argument):
+	Fix parenthesis.
+
+2003-10-16  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-buffer-alist): Rename from
+	riece-buffer-mode-alist.
+
+	* riece-misc.el (riece-get-buffer-create): Takes an optional 2nd
+	argument, init-major-mode, which is used to assert the major-mode
+	of the created buffer.
+
+	* riece-naming.el (riece-naming-assert-rename): Merged buffer
+	renaming logic that riece-handle-nick-message was responsible for.
+
+	* riece-globals.el (riece-server-process-alist): Revive.
+	(riece-process-list): Abolish.
+	(riece-command-buffer): Set default to nil.
+	(riece-dialogue-buffer): Ditto.
+	(riece-others-buffer): Ditto.
+	(riece-channel-list-buffer): Ditto.
+	(riece-user-list-buffer): Ditto.
+	(riece-private-buffer): Abolish.
+	(riece-wallops-buffer): Abolish.
+
+	* riece-display.el (riece-channel-buffer-format): Moved from
+	riece-globals.
+	(riece-channel-buffer-alist): New variable.
+	(riece-channel-buffer-create): Assert the major-mode of the
+	created buffer is 'riece-channel-mode.
+	(riece-channel-buffer): New function.
+	(riece-switch-to-channel): Use riece-channel-buffer instead of
+	directly using get-buffer.
+
+2003-10-14  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-commands.el (riece-command-toggle-away): Check user away
+	status in the server buffer.
+	[cf. <Liece:00119>]
+	(riece-command-names): Use identity prefix
+	instead of formatted identity.
+	(riece-command-who): Ditto.
+
+2003-10-14  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece.el (riece-dialogue-mode-map): Bind "N" instead of "\C-n"
+	to `riece-command-name'.
+
+2003-10-14  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-layout.el (riece-reconfigure-windows-predicate): Simplified.
+
+2003-10-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.1.3 released.
+	* riece-version.el (riece-version-number): Bump up to 0.1.3.
+
+2003-10-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-button.el (riece-button-map-identity-region): Abolish.
+	(riece-user-button-set-operators): Use riece-scan-property-region.
+	(riece-user-button-set-speakers): Ditto.
+	(riece-button-add-identity-button): Ditto.
+
+	* riece-keyword.el: Require 'riece-message.
+	(riece-keyword-map-region): Abolish.
+	(riece-keyword-scan-region): Use riece-scan-property-region.
+
+	* riece-misc.el (riece-scan-property-region): New function.
+
+2003-10-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-xemacs.el (riece-make-overlay): New alias.
+	(riece-overlay-put): New alias.
+	(riece-overlay-start): New alias.
+	(riece-overlay-buffer): New alias.
+
+	* riece-emacs.el (riece-make-overlay): New alias.
+	(riece-overlay-put): New alias.
+	(riece-overlay-start): New alias.
+	(riece-overlay-buffer): New alias.
+
+	* riece-keyword.el: New add-on.
+	* COMPILE (riece-modules): Add riece-keyword.
+	* Makefile.am (EXTRA_DIST): Add riece-keyword.el
+
+	* riece-message.el (riece-message-filter-functions): New user option.
+	(riece-display-message-1): New function.
+	(riece-display-message): Use it.
+
+2003-10-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-channel-list-mode): Initialize
+	riece-update-buffer-functions.
+	(riece-user-list-mode): Ditto.
+
+	* riece-globals.el (riece-channel-indicator): Rename from
+	riece-short-channel-indicator.
+	(riece-long-channel-indicator): Rename from
+	riece-channel-indicator.
+
+	* riece-display.el (riece-update-buffer-functions): Default to
+	nil.
+	(riece-update-indicator-functions): New variable splitted from
+	riece-update-buffer-functions.
+	(riece-update-channel-indicator): Rename from
+	riece-update-short-channel-indicator.
+	(riece-update-long-channel-indicator): Rename from
+	riece-update-channel-indicator.
+	(riece-update-buffers): Don't set riece-channel-buffer.
+	(riece-switch-to-channel): Set riece-channel-buffer here.
+
+	* riece-button.el (riece-user-button-popup-menu): Change order.
+	(riece-button-update-buffer): Unify
+	riece-button-update-channel-list-buffer and
+	riece-button-update-user-list-buffer.
+
+2003-10-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-history.el (riece-history-insinuate): In
+	riece-after-switch-to-channel-functions, check whether the last
+	channel is nil.
+
+	* riece-xemacs.el (riece-event-buffer): New alias.
+	(riece-event-point): New alias.
+
+	* riece-emacs.el (riece-event-buffer): New function.
+	(riece-event-point): New function.
+
+	* riece-display.el (riece-update-user-list-buffer): Use
+	riece-format-identity to add 'riece-identity property to user
+	names.
+
+	* riece-button.el (riece-user-button-popup-menu): New variable.
+	(riece-identity-button): Rename from riece-channel-button.
+	(riece-button-switch-to-identity): Rename from
+	riece-channel-button-action.
+	(riece-identity-button-popup-menu): Rename from
+	riece-channel-button-popup-menu; set point to the position the
+	event occurred.
+	(riece-user-button-join-partner): New function.
+	(riece-user-button-set-operators): New function.
+	(riece-user-button-set-speakers): New function.
+	(riece-user-button-finger): New function.
+	(riece-make-identity-button-map): New function.
+	(riece-button-map-identity-region): New function; splitted from
+	riece-button-add-identity-button.
+	(riece-button-add-identity-button): Use it.
+	(riece-button-update-user-list-buffer): New function.
+	(riece-button-insinuate): Add riece-button-update-user-list-buffer
+	to riece-update-buffer-functions.
+
+2003-10-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-xemacs.el (riece-mouse-2): New variable.
+	(riece-popup-menu-popup): New function.
+
+	* riece-emacs.el (riece-mouse-2): New variable.
+	(riece-popup-menu-bogus-filter-constructor): New macro.
+	(riece-popup-menu-popup): New function.
+
+	* riece-commands.el (riece-command-list): Use identity prefix
+	instead of formatted identity.
+
+	* riece-button.el (riece-channel-button-popup-menu): New variable.
+	(riece-channel-button): Arrange help-echo.
+	(riece-channel-button-switch-to-channel): New function.
+	(riece-channel-button-part): New function.
+	(riece-channel-button-list): New function.
+	(riece-channel-button-map): New variable.
+	(riece-button-add-channel-buttons): Add 'local-map and 'keymap
+	properties on channel buttons.
+
+2003-10-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-button.el (riece-button-insinuate): Buttonize channel buffers.
+
+	* riece-history.el (riece-channel-list-history-face): New face.
+	(riece-history-format-channel-list-line): New function.
+	(riece-history-insinuate): Add ?+ to
+	riece-channel-list-mark-face-alist; add
+	riece-history-format-channel-list-line to
+	riece-format-channel-list-line-functions.
+
+	* riece-highlight.el (riece-channel-list-current-face): Arrange colors.
+
+2003-10-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el (riece-unread-after-display-message-function):
+	Do nothing when message-target is already in
+	riece-unread-channels; call riece-redisplay-buffers.
+	(riece-unread-update-channel-list-buffer): Abolish.
+	(riece-unread-after-switch-to-channel-function): Don't call
+	riece-unread-update-channel-list-buffer.
+	(riece-unread-format-channel-list-line): New function.
+	(riece-unread-insinuate): Add
+	riece-unread-format-channel-list-line to
+	riece-format-channel-list-line; don't add
+	riece-unread-update-channel-list-buffer to
+	riece-update-buffer-functions.
+
+	* riece-highlight.el (riece-channel-list-mark-current-channel):
+	Abolish; merged into riece-update-channel-list-buffer.
+	(riece-highlight-insinuate): Don't add
+	riece-channel-list-mark-current-channel to
+	riece-after-switch-to-channel-functions.
+
+	* riece-display.el (riece-channel-list-changed): Abolish.
+	(riece-update-channel-list-buffer): Always redisplay channel-list
+	buffer.
+	(riece-update-channel-list-indicator): Always redisplay
+	channel-list indicator.
+	(riece-format-channel-list-line): New function.
+	(riece-update-buffers): Don't clear riece-channel-list-changed.
+	(riece-join-channel): Don't set riece-channel-list-changed.
+	(riece-part-channel): Ditto.
+
+2003-10-13  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-addons): Add riece-button.
+
+	* riece-display.el (riece-update-channel-list-buffer): Avoid to
+	use format to preserve 'riece-identity property.
+
+	* riece-unread.el (riece-unread-update-channel-list-buffer):
+	Simplified.
+	(riece-unread-insinuate): Delay adding
+	riece-unread-update-channel-list-buffer to
+	riece-update-buffer-functions.
+
+	* riece-button.el: New add-on.
+	* COMPILE (riece-modules): Add riece-button.
+	* Makefile.am (EXTRA_DIST): Add riece-button.el
+
+2003-10-08  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-server.el (riece-close-server-process): 
+	(riece-quit-server-process): Call riece-close-server-process
+	instead of kill-process; call riece-exit if no process is available.
+
+2003-10-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-channel-buffer-name): Check whether
+	IDENTITY is a member of riece-current-channels.
+
+2003-10-07  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-commands.el (riece-command-kick): Fix completing-read
+	collection argument.
+
+2003-10-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-000.el: Require 'riece-commands.
+	* riece-200.el: Don't require 'riece-commands.
+	* riece-300.el: Ditto.
+
+2003-10-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.1.2 released.
+	* riece-version.el (riece-version-number): Bump up to 0.1.2.
+
+2003-10-05  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-filter.el (riece-sentinel): Don't clear
+	riece-reconnect-with-password.
+	* riece-server.el (riece-open-server): Clear
+	riece-reconnect-with-password here.
+
+2003-10-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-globals.el (riece-join-channel-candidate): New variable.
+	* riece-commands.el (riece-command-join): Prompt
+	riece-join-channel-candidate.
+
+	* riece-handle.el (riece-handle-invite-message): Set
+	riece-join-channel-candidate when the user is invited.
+	* riece-naming.el (riece-naming-assert-join): Clear
+	riece-join-channel-candidate.
+
+2003-10-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-identity.el (riece-completing-read-identity): Pass 6th &
+	7th arguments to completing-read.
+
+	* riece-commands.el (riece-command-part): Use 6th argument DEFAULT
+	of riece-completing-read-identity.
+
+	* riece-handle.el (riece-handle-invite-message): Fix parsing of
+	parameters.
+
+	* riece-display.el (riece-update-channel-list-buffer): Don't clear
+	riece-channel-list-changed.
+	(riece-update-buffers): Clear it.
+
+2003-10-01  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-rdcc.el (riece-rdcc-save-directory): New user option.
+
+2003-09-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-000.el (riece-handle-001-message): Parse elements in
+	riece-startup-channel-list.
+
+2003-09-21  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-skk-kakutei.el
+	(riece-skk-kakutei-command-enter-message-as-notice): Fix typo.
+
+2003-09-20  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-startup-channel-list): Revive.
+	* riece-000.el (riece-handle-001-message): Process
+	riece-startup-channel-list.
+
+	* riece-server.el (riece-open-server): Display "Logging in to
+	XXX..." message.
+	* riece-000.el (riece-handle-001-message): Clear "Logging in to
+	XXX..." message; call riece-after-login-hook.
+
+2003-09-07  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el (riece-unread-after-display-message-function):
+	Simplified.
+
+2003-09-02  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-commands.el (riece-command-join): Extract target
+	identity-prefix before applying riece-channel-p; format target.
+
+2003-08-30  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.1.1 released.
+	* riece-version.el (riece-version-number): Bump up to 0.1.1.
+
+2003-08-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-guess.el (riece-guess-channel-try-functions): Default to
+	nil.
+	(riece-default-guess-channel): Abolish.
+	(riece-command-guess-switch-to-channel): Reconstruct
+	riece-guess-candidates when it is empty.
+
+2003-08-28  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-highlight.el (riece-dialogue-change-face): Use defvar to
+	define.
+	(riece-dialogue-notice-face): Ditto.
+	(riece-dialogue-wallops-face): Ditto.
+	(riece-dialogue-error-face): Ditto.
+	(riece-dialogue-info-face): Ditto.
+	(riece-dialogue-server-face): Ditto.
+	(riece-dialogue-prefix-face): Ditto.
+	(riece-channel-list-default-face): Ditto.
+	(riece-channel-list-current-face): Ditto.
+
+	* riece-unread.el (riece-channel-list-unread-face): Use defvar to
+	define.
+
+2003-08-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-history.el (riece-history-insinuate): Don't set
+	riece-guess-channel-try-functions here.
+	(riece-history-requires): Don't require riece-guess.
+
+	* riece-unread.el (riece-unread-requires): Don't require
+	riece-guess.
+	(riece-unread-insinuate): Don't set
+	riece-guess-channel-try-functions here.
+
+2003-08-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el (riece-unread-after-display-message-function):
+	Rename from riece-unread-display-message-function.
+	(riece-unread-after-switch-to-channel-function): Rename from
+	riece-unread-channel-switch-hook.
+	(riece-guess-channel-from-unread): New function.
+	(riece-unread-requires): Require 'riece-guess and 'riece-history.
+	(riece-unread-insinuate): Setup riece-guess-channel-try-functions.
+
+	* riece-options.el (riece-addons): Add riece-guess, riece-history,
+	and riece-url.
+
+	* riece-layout.el (riece-reconfigure-windows-predicate): Don't
+	check riece-last-channel.
+
+	* riece-display.el (riece-switch-to-channel): Rename
+	riece-channel-switch-hook to
+	riece-after-switch-to-channel-functions.
+	(riece-switch-to-nearest-channel): Ditto.
+
+	* riece-guess.el: New add-on.
+	* COMPILE (riece-modules): Add riece-guess.
+	* Makefile.am (EXTRA_DIST): Add riece-guess.el
+
+	* riece-history.el: New add-on.
+	* COMPILE (riece-modules): Add riece-history.
+	* Makefile.am (EXTRA_DIST): Add riece-history.el
+
+2003-08-27  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-connection-timeout): Abolish.
+
+	* riece-server.el (riece-clear-system): Abolish.
+	* riece.el (riece-exit): Merge riece-clear-system.
+
+2003-08-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-filter.el (riece-sentinel): Suppress status message when
+	riece-debug is nil.
+
+2003-08-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-highlight.el (riece-channel-list-mark-current-channel):
+	New function.
+
+	* riece-display.el (riece-channel-list-changed): New variable.
+	(riece-update-channel-list-buffer): Check riece-channel-list-changed.
+	(riece-update-channel-list-indicator): Ditto.
+
+2003-08-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-addons): Enable riece-unread by default.
+
+	* riece-highlight.el (riece-channel-list-current-face): New variable.
+	(riece-channel-list-default-face): New face.
+
+	* riece-globals.el (riece-channel-list-buffer): Strip leading
+	whitespace.
+
+2003-08-26  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el: Require 'riece-highlight when compiling.
+	(riece-unread): New custom group.
+	(riece-channel-list-unread-face): New variable.
+	(riece-channel-list-unread-face): New face.
+	(riece-unread-requires): New function.
+	(riece-unread-insinuate): Add ?! to riece-channel-list-mark-face-alist.
+
+	* riece-highlight.el: Highlight *Channels* buffer; rename
+	riece-*-face -> riece-dialogue-*-face, riece-highlight-* ->
+	riece-dialogue-*.
+	(riece-channel-list-font-lock-keywords): New variable.
+	(riece-channel-list-mark-face-alist): New variable.
+
+2003-08-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el (riece-unread-update-channel-list-buffer):
+	Restore channel marks if exist.
+
+	* riece-naming.el (riece-naming-assert-join): Don't set
+	riece-redisplay-buffers.
+	(riece-naming-assert-part): Ditto.
+	(riece-naming-assert-rename): Ditto.
+
+	* riece-display.el (riece-redisplay-buffers): Abolish.
+	(riece-update-user-list-buffer): Don't check
+	riece-redisplay-buffers.
+	(riece-update-channel-list-buffer): Ditto; prefix "*" at the
+	beginning of the current channel.
+	(riece-switch-to-channel): Don't set riece-redisplay-buffers.
+	(riece-join-channel): Ditto.
+	(riece-part-channel): Ditto.
+
+2003-08-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-join-channel): Parse non-nil elements in
+	riece-default-channel-binding.
+
+2003-08-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-identity.el (riece-format-identity): Add 'riece-identity
+	property to the resulting string.
+
+	* riece-misc.el (riece-concat-channel-topic): Don't append ":" if
+	topic is "".
+
+	* riece-300.el (riece-handle-322-message): Simplify message.
+
+	* riece-commands.el (riece-command-change-layout): Call
+	riece-command-configure-windows; Use setq instead of
+	custom-set-variables.
+
+2003-08-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.1.0 released.
+	* riece-version.el (riece-version-number): Bump up to 0.1.0.
+
+2003-08-25  Daiki Ueno  <ueno@unixuser.org>
+
+	* COMPILE (riece-compile-modules): Ignore errors during byte
+	compilation.
+	(riece-install-modules): If there lacks a compiled module, don't
+	attempt to install it.
+
+	* riece-options.el (riece-quit-timeout): Default to 10.
+
+	* riece.el (riece-dialogue-mode-map): Bind riece-command-change-layout.
+	(riece): Switch to riece-command-buffer before riece-redisplay-buffers.
+
+	* riece-unread.el: Require 'riece-commands.
+
+	* riece-server.el: Require 'riece-identity and 'riece-compat.
+
+	* riece-ndcc.el: Require 'riece-globals, 'riece-options,
+	'riece-display.
+	(riece-handle-dcc-request): Use riece-channel-buffer-name.
+
+	* riece-identity.el: Don't require 'riece-server.
+
+	* riece-doctor.el: Require 'riece-globals, 'riece-identity,
+	'riece-message, and 'riece-server.
+
+	* riece-ctcp.el: Require 'riece-display.
+
+	* riece-commands.el: Require 'riece-layout.
+	(riece-command-change-layout): New command.
+
+	* riece-alias.el: Require 'riece-identity.
+
+	* riece-layout.el: No longer provided as an add-on.
+	* riece-display.el: Remove window configuration stuff.
+
+2003-08-24  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-rdcc.el (riece-command-dcc-send): Bind
+	process-connection-type to nil.
+
+	* riece-300.el (riece-handle-319-message): New handler.
+
+	* riece.el (riece-buffer-mode-alist): Add riece-command-buffer.
+	(riece): Signal an error when a server is opened;
+	No need to initialize riece-command-buffer specially.
+
+2003-08-22  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-display.el (riece-configure-windows-top): Set
+	`truncate-partial-width-windows' nil, when horizontal window
+	split.
+
+2003-08-21  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-display.el (riece-configure-windows-top): Change
+	user-list-buffer and channel-list-buffer window create logic.
+
+	* riece-skk-kakutei.el (riece-skk-kakutei-insinuate): Add
+	require riece.el when compile.
+
+	* riece.el (riece): Use `riece-redisplay-buffers' instead of
+	`riece-configure-windows'.
+
+2003-08-20  TAKAHASHI Kaoru  <kaoru@kaisei.org>
+
+	* riece-display.el (riece-configure-windows-top): New function.
+	* riece-layout.el (riece-layout-alist): Add top.
+
+	* riece-skk-kakutei.el: New add-on.
+	* COMPILE (riece-modules): Add riece-skk-kakutei.
+	* Makefile.am (EXTRA_DIST): Add riece-skk-kakutei.el
+
+2003-08-19  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-layout.el: New add-on.
+	* COMPILE (riece-modules): Add riece-layout.
+	* Makefile.am (EXTRA_DIST): Add riece-layout.el
+
+2003-08-17  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-options.el (riece-quit-timeout): New user option.
+	* riece-server.el (riece-quit-server-process): New function.
+	* riece-commands.el (riece-command-quit): Use it.
+	(riece-command-close-server): Use it.
+
+2003-08-17  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-commands.el (riece-command-previous-channel): Skip nil in
+	riece-current-channels.
+
+2003-08-09  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-rdcc.el (riece-command-dcc-send): Accept output only from
+	the ruby process.
+
+	* riece-xemacs.el: Don't require 'riece-compat.
+
+2003-08-06  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-unread.el (riece-unread-update-channel-list-buffer): Call
+	riece-parse-identity.
+
+2003-08-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-server.el (riece-find-server-name): Abolish.
+
+	* riece-alias.el: Add usage.
+
+2003-08-04  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-mini.el (riece-mini-send-message): Use
+	riece-completing-read-identity; don't use riece-own-channel-message.
+
+	* riece-identity.el: Require 'riece-compat.
+	(riece-identity-prefix-case-table): New variable.
+	(riece-abbrev-identity-string-function): New variable.
+	(riece-expand-identity-string-function): New variable.
+	(riece-format-identity): Rename from riece-decode-identity.
+	(riece-parse-identity): Rename from riece-encode-identity.
+	(riece-with-identity-buffer): Abolish.
+	(riece-identity-canonicalize-prefix): Use case-table.	
+
+	* riece-filter.el (riece-handle-numeric-reply): Decode messages.
+	(riece-handle-message): Ditto.
+
+	* riece-alias.el: New add-on.
+	* COMPILE (riece-modules): Add riece-alias.
+	* Makefile.am (EXTRA_DIST): Add riece-alias.el.
+
+	* riece-emacs.el (riece-set-case-syntax-pair): New alias.
+	* riece-xemacs.el (riece-set-case-syntax-pair): New alias.
+	* riece-identity.el (riece-identity-canonicalize-prefix): Simplified.
+
+2003-08-03  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.0.4 released.
+	* riece-version.el (riece-version-number): Bump up to 0.0.4.
+
+2003-06-24  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-unread.el (riece-unread-display-message-function): Don't check
+	`selected-window'. It doesn't work as expected.
+
+2003-06-23  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-misc.el (riece-channel-p): Moved from riece-channel.el.
+
+	* riece-300.el: Rewrite using riece-decode-identity.
+
+	* riece-identity.el (riece-completing-read-identity): Signal an
+	error when the encoded channel name is not matched with
+	riece-channel-regexp.
+
+	* riece-globals.el (riece-channel-regexp): Moved from
+	riece-channel.el.
+	(riece-user-regexp): Moved form riece-user.el.
+
+2003-06-23  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-handle.el (riece-handle-join-message): Don't call
+	riece-switch-to-channel.
+	(riece-handle-part-message): Don't decode message if it is empty.
+	(riece-handle-kick-message): Ditto.
+	(riece-handle-quit-message): Ditto.
+	(riece-handle-kill-message): Ditto.
+
+	* riece-commands.el (riece-command-part): Show the current channel
+	as default candidate.
+
+	* riece-identity.el (riece-completing-read-identity): Accept
+	optional 5th argument `initial'.
+
+	* riece-unread.el (riece-unread-update-channel-list-buffer):
+	Simplified.
+
+	* riece-filter.el (riece-sentinel): Don't bind
+	riece-inhibit-update-buffers.
+
+	* riece-display.el (riece-redisplay-buffer): New variable.
+	(riece-inhibit-update-buffers): Abolish.
+	(riece-update-channel-list-buffer): Memorize
+	encoded identity as text property on each line.	
+
+	* riece.el (riece-channel-list-mode): Make riece-redisplay-buffer
+	buffer local.
+	(riece-user-list-mode): Ditto.
+
+2003-06-22  Yoichi NAKAYAMA  <yoichi@geiin.org>
+
+	* riece-log.el, riece-mini.el, riece-unread.el, riece-url.el:
+	Fix example setting, don't use 3rd arg of add-to-list.
+
+	* riece-coding.el (riece-default-coding-system): Fix default value.
+
+2003-06-22  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-inhibit-update-buffers): New variable.
+	* riece-filter.el (riece-sentinel): Bind
+	riece-inhibit-update-buffers while removing channels from
+	riece-current-channels.
+	* riece-unread.el (riece-unread-display-message-function): Don't
+	update channel list buffer when riece-inhibit-update-buffers is
+	non-nil.
+	(riece-unread-channel-switch-hook): Ditto.
+	(riece-unread-insinuate): Add
+	riece-unread-update-channel-list-buffer to
+	riece-update-buffer-functions.
+
+	* riece-commands.el (riece-command-switch-to-channel): Call
+	riece-redisplay-buffers instead of riece-command-configure-windows.
+
+	* riece-identity.el (riece-completing-read-identity): Remove nil
+	from riece-current-channels before converting it to an alist.
+
+2003-06-17  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-unread.el (riece-unread-display-message-function): Check a
+	`selected-window'.
+
+	* riece-mini.el: New add-on.
+	* COMPILE (riece-modules): Add `riece-mini'.
+	* Makefile.am (EXTRA_DIST): Add `riece-mini.el'.
+
+	* riece-display.el (riece-channel-buffer-create): Add new hook.
+	* riece-log.el: New add-on for saving irc logs.
+	* COMPILE (riece-modules): Add `riece-log'.
+	* Makefile.am (EXTRA_DIST): Add `riece-log.el'.
+
+	* riece-commands.el (riece-command-join): Use `let*' instead of `let'.
+	(riece-command-part): Ditto.
+
+2003-06-12  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-naming.el (riece-naming-assert-join): Call
+	riece-update-buffers.
+	(riece-naming-assert-part): Ditto.
+
+	* riece-filter.el (riece-sentinel): Don't bind
+	riece-overriding-server-name; use riece-part-channel.
+
+	* riece-display.el (riece-switch-to-channel): Don't set
+	riece-channel-buffer.
+	(riece-update-buffers): Set riece-channel-buffer here.
+
+	* riece-commands.el (riece-command-switch-to-channel-by-number): Fixed.
+	(riece-command-close-server): Fixed completion bug.
+	(riece-command-universal-server-name-argument): Ditto.
+
+2003-06-12  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-doctor.el: Don't require 'doctor; autoload doctor-mode and
+	doctor-read-print.
+
+	* riece-handle.el (riece-handle-nick-message): Use
+	riece-decode-identity to decode user.
+	(riece-handle-join-message): Ditto.
+	(riece-handle-part-message): Ditto.
+	(riece-handle-kick-message): Ditto.
+	(riece-handle-quit-message): Ditto.
+	(riece-handle-kill-message): Ditto.
+	(riece-handle-invite-message): Ditto.
+	(riece-handle-topic-message): Ditto.
+	(riece-handle-mode-message): Ditto.
+
+2003-06-12  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-message.el (riece-own-channel-message): Abolish.
+
+	* riece-commands.el (riece-command-send-message): Don't use
+	riece-own-channel-message.
+
+	* riece-doctor.el (riece-doctor-reply): Don't use
+	riece-own-channel-message.
+	(riece-doctor-hello-regexp): New user option.
+	(riece-doctor-bye-regexp): New user option.
+
+2003-06-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-identity.el (riece-identity-member-no-server): Abolish.
+
+	* riece-doctor.el (riece-doctor-patients): Make it global variable.
+	(riece-doctor-after-privmsg-hook): Use riece-identity-member
+	instead of riece-identity-member-no-server.
+
+2003-06-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-doctor.el: New add-on.
+	* COMPILE (riece-modules): Add riece-doctor.
+	* Makefile.am (EXTRA_DIST): Add riece-doctor.el
+
+2003-06-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-handle.el (riece-handle-nick-message): Follow the change
+	of riece-identity-member.
+
+	* riece-commands.el (riece-command-next-channel): Use
+	riece-identity-member instead of riece-identity-member-no-server.
+	(riece-command-previous-channel): Ditto.
+
+2003-06-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-identity.el (riece-completing-read-identity): Remove nil
+	from channels before completing-read.
+
+	* riece-message.el (riece-message-make-name): Fix condition for priv.
+	(riece-message-make-global-name): Ditto.
+	(riece-message-buffer): Ditto.
+
+	* riece-misc.el (riece-current-nickname): Use
+	riece-with-identity-buffer.
+
+2003-06-11  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-message.el (riece-message-parent-buffers): Regard message's
+	speaker as target when priv mode.
+
+	* riece-display.el (riece-update-channel-indicator): Decode
+	riece-current-channel even in priv mode.
+
+	* riece-identity.el (riece-decode-identity): Respect prefix-only.
+	(riece-completing-read-identity): Check if illegal characters in
+	channel name.
+
+2003-06-08  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-buffer-mode-alist): Add riece-user-list-buffer.
+	* riece-globals.el (riece-user-buffer-format): Abolish.
+	(riece-user-list-buffer): Default to " *Users*".
+	* riece-display.el (riece-user-list-buffer-name): Abolish.
+	(riece-user-list-buffer-create): Abolish.
+
+2003-06-08  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-filter.el (riece-handle-numeric-reply): Don't decode messages.
+	(riece-handle-message): Ditto.
+	(riece-sentinel): Clear system here.
+
+	* riece-server.el (riece-server-process-name): New function.
+	(riece-server-process): New function.
+	(riece-close-server): Abolish.
+
+	* riece-identity.el: Adopt vector object representation for
+	identity objects.
+	(riece-with-identity-buffer): New macro.
+	(riece-decode-identity): New function.
+	(riece-encode-identity): New function.
+
+	* riece-globals.el (riece-process-list): New variable.
+	(riece-server-process-alist): Abolish.
+	(riece-channel-buffer-alist): Abolish.
+	(riece-user-list-buffer-alist): Abolish.
+	(riece-short-channel-indicator): New variable.
+
+	* riece-channel.el: Assume that we are already in the server buffer.
+	* riece-user.el: Likewise.
+
+2003-06-06  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-ndcc.el (riece-ndcc-server-sentinel): Close a parenthesis.
+
+	* riece-rdcc.el (riece-rdcc-insinuate): Don't use the 3rd argument of
+	`add-to-list'.
+
+2003-06-06  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-channel.el (riece-forget-channel): Fixed.
+	(riece-channel-modeless-regexp): Abolish.
+	(riece-channel-modeless-p): Abolish.
+
+2003-06-06  OHASHI Akira  <bg66@koka-in.org>
+
+	* riece-unread.el (riece-unread-display-message-function): Delete the
+	target before adding to list.
+	(riece-unread-switch-to-channel): New function.
+	(riece-unread-insinuate): Bind "\C-c\C-u" to riece-command-mode-map.
+	Bind "u" to riece-dialogue-mode-map.
+	Bind "u" to riece-channel-list-mode-map.
+
+	* riece.el (riece-channel-list-mode-map): Don't bind
+	`riece-command-unread-channel'.
+
+2003-06-04  Yoichi NAKAYAMA  <yoichi@geiin.org>
+
+	* riece-000.el,riece-200.el,riece-300.el,riece-400.el,riece-500.el,
+	riece-commands.el,riece-filter.el,riece-handle.el,riece-highlight.el
+	riece-identity.el,riece-message.el,riece-misc.el,riece-naming.el,
+	riece.el: Don't require riece-inlines since it has been removed.
+
+2003-06-03  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-update-user-list-buffer): Rename from
+	riece-user-list-update-buffer.
+	(riece-update-channel-list-buffer): Rename from
+	riece-channel-list-update-buffer.
+
+2003-06-03  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-identity.el (riece-identity-canonicalize-prefix): Moved
+	from riece-inlines.el; renamed from scandinavian-downcase.
+	(riece-identity-equal-no-server): Moved from riece-inlines.el;
+	renamed from scandinavian-equal-ignore-case.
+	(riece-identity-equal-no-server-safe): New function.
+	(riece-identity-member-no-server): Moved from riece-inlines.el;
+	renamed from scandinavian-member-ignore-case.
+	(riece-identity-member-no-server-safe): New function.
+
+	* riece-inlines.el: Removed.
+	* COMPILE (riece-modules): Remove riece-inlines.
+	* Makefile.am (EXTRA_DIST): Remove riece-inlines.el.
+
+2003-06-03  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-rdcc.el (riece-rdcc-sentinel): Don't call delete-process
+	explicitly.
+	* riece-ndcc.el: Don't call delete-process explicitly.
+	* riece-server.el (riece-close-server-process): Don't call
+	delete-process explicitly unless riece-debug == t.
+
+2003-06-03  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-inlines.el (scandinavian-downcase): New inline function.
+	(scandinavian-equal-ignore-case): Rename from
+	string-equal-ignore-case.
+	(scandinavian-member-ignore-case): Rename from
+	string-list-member-ignore-case.
+
+	* riece-identity.el (riece-identity-equal): Rename from
+	riece-identity-equal-no-server; use scandinavian-equal-ignore-case.
+	(riece-identity-equal-safe): Rename from riece-identity-equal.
+	(riece-identity-member): Rename from riece-identity-member-no-server.
+	(riece-identity-member-safe): Rename from riece-identity-member.
+	(riece-identity-assoc): Rename from riece-identity-assoc-no-server.
+	(riece-identity-assoc-safe): Rename from riece-identity-assoc.
+
+2003-06-03  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-rdcc.el: Require 'riece-ctcp.
+	(riece-rdcc-insinuate): Add "DCC" to
+	riece-ctcp-additional-clientinfo.
+
+	* riece-ctcp.el (riece-ctcp-additional-clientinfo): New variable.
+	(riece-command-ctcp-clientinfo): New command.
+	(riece-ctcp-insinuate): Bind it in riece-dialogue-mode-map.
+	(riece-handle-ctcp-clientinfo-request): New handler.
+	(riece-handle-ctcp-clientinfo-response): New handler.
+
+	* riece-server.el (riece-open-server): No need to use
+	get-buffer-create to reuse process buffer.
+
+2003-06-03  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-rdcc.el (riece-command-dcc-send): Generate new buffer for
+	DCC process.
+	(riece-command-dcc-receive): Likewise; don't set buffer-file-name.
+
+	* riece-server.el (riece-server-keyword-map): `:coding-system' ->
+	`:coding'.
+	(riece-open-server): Follow the change.
+
+	* riece-ctcp.el (riece-command-ctcp-action): New command.
+	(riece-ctcp-insinuate): Bind it in riece-dialogue-mode-map.
+	(riece-handle-ctcp-action-request): New handler.
+
+	* riece.el (riece-command-mode): Enclose status indicators with
+	`{}'; show riece-user-indicator.
+	(riece-channel-mode): Likewise.
+	(riece-dialogue-mode): Enclose status indicators with `{}'.
+	* riece-globals.el (riece-user-indicator): New indicator.
+	(riece-freeze-indicator): Default to "-".
+	* riece-display.el (riece-update-channel-indicator): Don't update
+	modeline.
+	(riece-update-status-indicators): Set riece-user-indicator.
+	* riece-300.el (riece-handle-324-message): Update channel indicator.
+
+2003-06-02  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-command-mode): Don't set riece-freeze-indicator.
+	(riece-dialogue-mode): Call riece-update-status-indicators.
+	(riece-channel-mode): Add riece-operator-indicator to
+	mode-line-buffer-identification.
+	* riece-user.el (riece-make-user): New attribute `operator'.
+	(riece-user-operator): New function.
+	(riece-user-set-operator): New function.
+	(riece-user-toggle-away): New function.
+	(riece-user-toggle-operator): New function.
+	* riece-misc.el (riece-own-frozen): Revive.
+	* riece-message.el (riece-display-message): Reset riece-freeze if
+	riece-freeze == 'own && (riece-message-own-p message).
+	* riece-globals.el (riece-own-freeze): Abolish; use riece-freeze.
+	(riece-operator-indicator): New variable.
+	* riece-display.el (riece-update-status-indicators): New function.
+	(riece-update-buffer-functions): Add it.
+	* riece-commands.el (riece-command-toggle-freeze): Don't call
+	riece-freeze.
+	(riece-command-toggle-own-freeze): Don't call riece-own-freeze.
+	* riece-300.el (riece-handle-302-message): Use
+	riece-user-toggle-away instead of riece-user-set-away.
+	(riece-handle-301-message): Ditto.
+	(riece-handle-305-message): Ditto.
+	(riece-handle-306-message): Ditto.
+	(riece-handle-352-message): Ditto.
+
+2003-06-02  Yoichi NAKAYAMA  <yoichi@geiin.org>
+
+	* riece-commands.el (riece-command-next-channel): Circularly
+	follow the channel list.
+	(riece-command-previous-channel): Ditto.
+
+2003-06-02  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece.el (riece-command-mode): Set default value of riece-freeze
+	& riece-own-freeze.
+	* riece-options.el (riece-away-message): New user option.
+	* riece-commands.el (riece-command-toggle-away): Query user away
+	message.
+	* riece-300.el (riece-handle-301-message): Set user's away status.
+	(riece-handle-305-message): Ditto.
+	(riece-handle-306-message): Ditto.
+	(riece-handle-302-message): Ditto.
+	(riece-handle-352-message): Ditto.
+
+2003-06-02  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-rdcc.el: Require riece-globals, riece-misc, riece-channel,
+	and riece-identity.
+	(riece-command-dcc-receive): Check the existence of
+	set-buffer-multibyte.
+
+2003-06-02  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.0.3 released.
+	* riece-version.el (riece-version-number): Bump up to 0.0.3.
+
+	* riece-ctcp.el (riece-handle-ctcp-request): Catch errors occured
+	in hooks.
+	(riece-handle-ctcp-response): Ditto.
+
+2003-06-01  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-user.el (riece-rename-user): Don't modify entry when
+	old-name == new-name.
+
+	* riece-display.el (riece-configure-windows): Use window-buffer
+	instead of current-buffer.
+
+	* riece-rdcc.el (riece-rdcc-server-address): Default to nil.
+	(riece-rdcc-ruby-command): New user option.
+	(riece-rdcc-send-program): New user option.
+	(riece-rdcc-decode-address-program): New user option.
+	(riece-rdcc-substitute-variables): New function.
+	(riece-command-dcc-send): Use it.
+	(riece-rdcc-decode-address): Use it.
+
+2003-06-01  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-rdcc.el: New add-on.
+
+	* Makefile.am (EXTRA_DIST): Add riece-rdcc.el
+
+2003-06-01  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ndcc.el: New add-on.
+	* Makefile.am (EXTRA_DIST): Add riece-ndcc.el
+
+2003-05-31  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-server.el (riece-open-server): Simplify message.
+
+	* riece-commands.el (riece-command-open-server): Throw an error
+	when the server is already opened.
+
+	* riece-filter.el (riece-sentinel): Simplified.
+
+	* riece-display.el (riece-user-list-update-buffer): Check the
+	existence of riece-user-list-buffer.
+	(riece-channel-list-update-buffer): Check the existence of
+	riece-channel-list-buffer.
+	(riece-set-window-points): Ditto.
+
+	* riece-commands.el (riece-command-open-server): Simplified.
+	(riece-command-toggle-channel-buffer-mode): Set
+	riece-save-variables-are-dirty to t.
+	(riece-command-toggle-user-list-buffer-mode): Ditto.
+	(riece-command-toggle-channel-list-buffer-mode): Ditto.
+
+	* riece-server.el (riece-start-server): Abolish.
+	(riece-open-server): Set riece-server-process-alist and
+	riece-server-process here.
+
+2003-05-31  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-filter.el (riece-sentinel): Close process even if
+	riece-reconnect-with-password == t.
+	(riece-handle-message): Catch errors occured in hooks.
+
+	* riece-server.el (riece-open-server): Reuse server buffer.
+	(riece-close-server-process): Delete process even if process is
+	not running.
+
+2003-05-31  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-server.el (riece-open-server): No need to reset
+	riece-reconnect-with-password.
+
+	* riece-filter.el (riece-sentinel): Don't call riece when
+	riece-reconnect-with-password = t and process !=
+	riece-server-process.
+
+	* riece-url.el: Fix usage.
+
+	* riece-inlines.el (string-list-member-ignore-case): Remove docstring.
+
+	* riece-unread.el: New add-on.
+	* COMPILE (riece-modules): Add riece-unread.
+	* Makefile.am (EXTRA_DIST): Add riece-unread.el
+
+	* riece-300.el (riece-handle-322-message): New handler.
+	(riece-handle-323-message): New handler.
+
+2003-05-30  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-display.el (riece-configure-windows): Select other window
+	when minibuffer is active.
+
+	* riece-commands.el (riece-command-list): New command.
+	(riece-command-enter-message-as-notice): New command.
+	* riece.el (riece-command-mode-map): Bind
+	riece-command-enter-message-as-notice and riece-command-list.
+
+	* riece-server.el (riece-close-server): Skip nil when leaving
+	channels before closing server.
+
+2003-05-30  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.0.2 released.
+	* riece-version.el (riece-version-number): Bump up to 0.0.2.
+
+	* riece.el (riece-load-and-build-addon-dependencies): Fixed.
+	* riece-url.el (riece-url-requires): Don't assert dependency on
+	riece-highlight unless it appears in riece-addons.
+
+	* riece-url.el: New add-on.
+	* COMPILE (riece-modules): Add riece-url.
+
+	* riece-message.el (riece-message-make-bracket): Abolish.
+	* riece-highlight.el (riece-highlight-font-lock-keywords):
+	Give up to fontify "-nick-" or "-nick server-".
+
+	* riece-highlight.el (riece-highlight-font-lock-keywords):
+	Simplified regexp.
+
+	* riece-ctcp.el (riece-handle-ctcp-request): Don't bind user.
+	(riece-handle-ctcp-response): Ditto.
+
+	* riece-highlight.el: Make it an add-on.
+	(riece-highlight-insinuate): New function.
+	* riece.el: Don't require 'riece-highlight.
+	* riece-options.el (riece-addons): Turn on riece-highlight and
+	riece-ctcp by default.
+
+	* riece-display.el (riece-configure-windows-predicate): New function.
+	(riece-configure-windows-predicate): New user option.
+	(riece-redisplay-buffers): Use it.
+
+	* riece-complete.el: Require 'cl for butlast.
+
+	* Makefile.am (elc): Renamed from "compile".
+
+	* riece.el (riece-dialogue-mode-map): Bind
+	riece-command-toggle-channel-list-buffer-mode.
+
+	* riece-display.el (riece-configure-windows): Typo fixed.
+
+	* riece-user.el (riece-user-toggle-channel): Use member instead of
+	memq.
+
+2003-05-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* riece-ctcp.el (riece-ctcp-insinuate): New function.
+
+	* riece-options.el (riece-addons): New user option.
+	(riece-addon-directory): New user option.
+
+	* riece.el (riece-load-and-build-addon-dependencies): New function.
+	(riece-insinuate-addons): New function.
+	(riece): Call riece-insinuate-addons.
+
+	* riece-misc.el (riece-get-users-on-server): Moved from
+	riece-commands.el.
+
+	* riece-ctcp.el: New file.
+	* COMPILE (riece-modules): Add riece-ctcp.
+	* Makefile.am (EXTRA_DIST): Add riece-ctcp.el
+
+2003-05-29  Daiki Ueno  <ueno@unixuser.org>
+
+	* Riece: Version 0.0.1 released.
+
+	* riece-commands.el (riece-command-names): New command.
+	(riece-command-who): New command.
+
+	* riece.el (riece-dialogue-mode-map): Bind riece-command-names and
+	riece-command-who.
+
+	* riece-300.el (riece-handle-341-message): New handler.
+	(riece-handle-352-message): New handler.
+
+	* riece-commands.el (riece-command-invite): Don't accept channel
+	argument; throw an error when user is not on a channel.
+	(riece-command-kick): New command.

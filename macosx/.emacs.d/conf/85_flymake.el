@@ -5,10 +5,10 @@
 (require 'flymake)
 
 ;; GUIの警告は表示しない
-(setq flymake-gui-warnings-enabled nil)
+;; (setq flymake-gui-warnings-enabled nil)
 
 ;; 全てのファイルで flymakeを有効化
-(add-hook 'find-file-hook 'flymake-find-file-hook)
+;; (add-hook 'find-file-hook 'flymake-find-file-hook)
 
 (defun flymake-show-and-sit ()
   "Displays the error/warning for the current line in the minibuffer"

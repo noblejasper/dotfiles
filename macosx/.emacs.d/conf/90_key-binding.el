@@ -10,6 +10,10 @@
 (global-set-key "\C-c\C-r" 'recentf-open-files)
 (global-set-key "\C-c\C-y" 'browse-kill-ring)
 
+;; align
+(global-set-key "\C-c|" 'align)
+(global-set-key "\C-c\\" 'align-regex)
+
 ;; C-t is other-window
 (global-set-key "\C-t" 'other-window)
 
@@ -66,3 +70,5 @@
 (require 'sequential-command-config)
 (sequential-command-setup-keys)
 
+;; etags find-tag
+(global-set-key "\M-." 'find-tag)

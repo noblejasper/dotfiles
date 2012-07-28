@@ -1,0 +1,853 @@
+\input texinfo                  @c -*- mode: texinfo; coding: utf-8 -*-
+@c %**start of header
+@setfilename riece-ja.info
+@settitle Riece -- An IRC client for Emacsen --
+@c %**end of header
+@include version-ja.texi
+@c @documentlanguage ja
+@c @documentencoding utf-8
+
+@dircategory GNU Emacs Lisp
+@direntry
+* Riece-ja: (riece-ja).   An IRC client for Emacsen
+@end direntry
+
+@ifinfo
+This file describes Riece.
+
+Copyright (C) 2003,2004,2005,2006,2007,2008,2009,2010 Daiki Ueno.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License".
+@end ifinfo
+
+@tex
+
+@titlepage
+@title Riece
+
+@author by Daiki Ueno
+@page
+
+@vskip 0pt plus 1filll
+Copyright @copyright{} 2003,2004,2005,2006 Daiki Ueno.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License".
+@end titlepage
+@page
+
+@end tex
+
+@node Top, Overview, (dir), (dir)
+@top Riece user's manual
+
+このマニュアルでは、Riece バージョン @value{VERSION} について解説します。
+このマニュアルで扱う範囲を越えた情報は Riece の公式ホームページ 
+@uref{http://www.nongnu.org/riece/} から得られるかもしれません。
+
+@menu
+* Overview::                    はじめに読んでね
+* Getting started::             IRC サーバに接続して会話してみよう
+* Basic usage::                 基本的な使い方
+* Advanced usage::              進んだ使い方
+* Tips::                        便利な設定
+* Index::                       
+* Function Index::              
+* Variable Index::              
+@end menu
+
+@node Overview, Getting started, Top, Top
+@chapter Overview
+
+Riece は IRC (Internet Relay Chat) の世界でチャットを楽しむためのユーザ
+インターフェースです。Riece は「りーす」と読みます。
+
+Riece の主な特長は以下の通りです。
+
+@itemize @bullet
+@item 複数の IRC サーバに同時に接続可能
+@item アドオンにより機能の追加や取り外しが容易
+@item 他の elisp パッケージに依存しないため、インストールが簡単
+@item 設定が簡単で、前回起動時の設定を記録・復元する仕組みを提供
+@item 段階的な操作説明書が附属
+@item 最新の IRC のクライアントプロトコル (RFC2812) に準拠
+@end itemize
+
+@node Getting started, Basic usage, Overview, Top
+@chapter Getting started
+
+Riece を起動する手順は次の通りです。
+
+@enumerate
+@item
+@kbd{M-x load-library riece}
+
+@item
+@kbd{M-x riece}
+@end enumerate
+
+もし (1) で @samp{Cannot open load file: riece} のエラーが発生する場合に
+はインストールに失敗しています。自分でソースからインストールした場合には 
+README をもう一度読み直してください。OS・ディストリビューションのパッケー
+ジからインストールした場合には、パッケージに含まれる文書をご確認ください。
+
+Riece を起動すると、IRC サーバの名前を聞かれます。公共に利用可能な IRC 
+サーバの一覧は Web ページなどから得ることができます。
+
+@itemize @bullet
+@item http://www.ircnet.jp
+@item http://freenode.net
+@end itemize
+
+また、以下のようなメッセージが表示されるかもしれません。
+
+@example
+Nickname "ueno" already in use.  Choose a new one: 
+@end example
+
+IRC では、参加者を表すのに@emph{ニックネーム}と呼ばれる短い呼称が使われ
+ます。もし希望のニックネームが他の誰かに使用されている場合、別のニックネー
+ムを選ぶ必要があります。
+
+IRC サーバに接続できたら、次は会話をしてみましょう。IRC では@emph{チャンネル}
+と呼ばれる仮想的な会議室に参加して会話を行ないます。チャンネルに入るには 
+@kbd{C-c j} とタイプします。参加するチャンネル名を尋ねられたら、適切なチャ
+ンネル名を入力しましょう。IRCnet には @samp{#Riece} というチャンネルがあ
+るので、テストをしたい場合には自由にお使いください。
+
+チャンネルに入ると、下の図に示すような 5 つのウィンドウ
+@footnote{まぎらわしいですが、Emacs の世界ではバッファを表示する領域をウィ
+ンドウと呼びます。}からなる画面に切り替わります。
+
+@example
++-----+-----------------+
+|     |                 |
+|     |                 |
+| (1) |       (2)       |
+|     |                 |
+|     |                 |
++-----+-----------------+
+|     |       (4)       |
+|     +-----------------+
+| (3) |                 |
+|     |       (5)       |
+|     |                 |
++-----+-----------------+
+@end example
+
+(4) のウィンドウに表示されるバッファに文章を入力してリターンキーを押すと
+発言できます。他の参加者の発言は (2) のウィンドウに表示されます。
+
+@node Basic usage, Advanced usage, Getting started, Top
+@chapter Basic usage
+
+@menu
+* Windows::                     画面構成
+* Indicators::                  自分の状態の表示
+* Commands::                    コマンドの一覧
+@end menu
+
+@node Windows, Indicators, Basic usage, Basic usage
+@section Windows
+
+@example
++-----+-----------------+
+|     |                 |
+|     |                 |
+| (1) |       (2)       |
+|     |                 |
+|     |                 |
++-----+-----------------+
+|     |       (4)       |
+|     +-----------------+
+| (3) |                 |
+|     |       (5)       |
+|     |                 |
++-----+-----------------+
+@end example
+
+各ウィンドウに表示されるバッファの役割は以下の通りです。
+
+@enumerate
+@item
+ユーザリストバッファ (@samp{ *Users*})。チャンネルに参加しているユー
+ザのニックネームの一覧が表示されます。
+
+@item
+チャンネルバッファ (@samp{ *Channel:XXX*})。チャンネル内の会話が表示され
+ます。
+
+@item
+チャンネルリストバッファ (@samp{ *Channels*})。自分が参加しているチャンネ
+ルの一覧が表示されます。
+
+@item
+コマンドバッファ (@samp{*Command*})。文章やコマンドを送信するために使い
+ます。
+
+@item
+アザーズバッファ (@samp{ *Others*})。現在選択中のチャンネル以外の会話が流
+れます。
+@end enumerate
+
+@node Indicators, Commands, Windows, Basic usage
+@section Indicators
+
+モードラインの左端には、現在の自分の状態を示す印が表示されます。
+@footnote{もし画像を表示できる Emacs をお使いなら、左端に "R" のアイコン
+が表示されます。}
+
+@example
+Riece: ---- ueno #Riece [n]
+@end example
+
+ここで、@samp{----} の部分には左から順に以下の意味があります。
+
+@enumerate
+@item
+離席状態 (離席していれば @samp{A})
+
+@item
+IRC オペレータ状態 (IRC ネットワークの管理者権限を持っていれば @samp{O})
+
+@item
+ウィンドウの自動スクロールの禁止 (完全に禁止していれば @samp{F}、自分の
+次回の発言まで禁止しているのであれば @samp{f})
+
+@item
+チャンネルオペレータ状態 (チャンネルの管理者権限を持っていれば @samp{@@})
+@end enumerate
+
+@node Commands,  , Indicators, Basic usage
+@section Commands
+
+@ref{Basic usage}で文章を入力したバッファはコマンドバッファと呼ばれます。
+コマンドバッファからは文章を送信する以外に、様々なコマンドを発行すること
+ができます。以下に一部を挙げます。
+
+最初はなかなか覚えにくいですが、@kbd{C-h b}
+ (@kbd{M-x describe-bindings}) で使用可能なキー操作の一覧が表示されるの
+で少しずつ覚えていくと良いでしょう。
+
+@subsection IRC commands
+@table @kbd
+@item RET
+@findex riece-command-enter-message
+文章を送ります(@code{riece-command-enter-message})
+@item C-RET
+@findex riece-command-enter-message-as-notice
+文章を NOTICE として送ります(@code{riece-command-enter-message-as-notice})
+@item C-c j
+@findex riece-command-join
+チャンネルに参加します(@code{riece-command-join})
+@item C-c C-p
+@findex riece-command-part
+チャンネルから離脱します(@code{riece-command-part})
+@item C-c p
+@findex riece-command-enter-message-to-user
+宛先を指定して現在の行を送ります(@code{riece-command-enter-message-to-user})
+@item C-c q
+@findex riece-command-quit
+IRC をやめます(@code{riece-command-quit})
+@item C-c n
+@findex riece-command-change-nickname
+自分のニックネームを変更します(@code{riece-command-change-nickname})
+@item C-c f
+@findex riece-command-finger
+ユーザの情報を調べます(@code{riece-command-finger})
+@item C-c C-k
+@findex riece-command-kick
+ユーザをチャンネルから蹴り出します(@code{riece-command-kick})
+@item C-c i
+@findex riece-command-invite
+ユーザをチャンネルに招待します(@code{riece-command-invite})
+@item C-c l
+@findex riece-command-list
+パターンに対して LIST を発行します(@code{riece-command-list})
+@item C-c C-n
+@findex riece-command-names
+パターンに対して NAMES を発行します(@code{riece-command-names})
+@item C-c w
+@findex riece-command-who
+パターンに対して WHO を発行します(@code{riece-command-who})
+@item C-c t
+@findex riece-command-topic
+チャンネルのトピックを設定します(@code{riece-command-topic})
+@item C-c C-m
+@findex riece-command-change-mode
+チャンネルのモードを設定します(@code{riece-command-change-mode})
+@item C-c o
+@findex riece-command-set-operators
+ユーザにチャンネルの管理者権限を与えます。@kbd{C-u C-c o} では逆に、ユーザからチャンネルの管理者権限を奪います(@code{riece-command-set-operators})
+@item C-c v
+@findex riece-command-set-speakers
+ユーザにチャンネルでの発言権を与えます。@kbd{C-u C-c v} では逆に、ユーザからチャンネルでの発言権を奪います(@code{riece-command-set-speakers})
+@item C-c V
+@findex riece-version
+Riece のバージョンを表示します。(@kbd{C-u C-c V}) で、より詳細な情報を表示します。
+@item C-c /
+@findex riece-command-raw
+IRC コマンドを直接送ります(@code{riece-command-raw})
+@end table
+
+@subsection Window manipulating commands
+@table @kbd
+@item C-c r
+@findex riece-command-configure-windows
+フレーム全体を再描画します(@code{riece-command-configure-windows})
+@item C-c C-j または C-c >
+@findex riece-command-next-channel
+チャンネル一覧で次のチャンネルを選択します(@code{riece-command-next-channel})
+@item C-c <
+@findex riece-command-previous-channel
+チャンネル一覧で前のチャンネルを選択します(@code{riece-command-previous-channel})
+@item C-c ^
+@findex riece-command-list-addons
+アドオンの一覧を表示します(@code{riece-command-list-addons})
+@item C-c 数字
+@findex riece-command-switch-to-channel-by-number
+チャンネル一覧で @var{n}番目のチャンネルを選択します(@code{riece-command-switch-to-channel-by-number})
+@item C-c C-c 数字
+@findex riece-command-switch-to-channel-by-number
+チャンネル一覧で @var{n} + 10番目のチャンネルを選択します(@code{riece-command-switch-to-channel-by-number})
+@item C-c Home
+@findex riece-command-beginning-of-buffer
+チャンネルバッファ、またはダイアログバッファを上端までスクロールします(@code{riece-command-beginning-of-buffer})
+@item C-c $
+@findex riece-command-end-of-buffer
+チャンネルバッファ、またはダイアログバッファを下端までスクロールします(@code{riece-command-end-of-buffer})
+@item C-c SPC
+@findex riece-command-scroll-up
+チャンネルバッファ、またはダイアログバッファを上方向にスクロールします(@code{riece-command-scroll-up})
+@item C-c DEL
+@findex riece-command-scroll-down
+チャンネルバッファ、またはダイアログバッファを下方向にスクロールします(@code{riece-command-scroll-down})
+@end table
+
+@subsection Status toggle commands
+@table @kbd
+@item C-c C-t c
+@findex riece-command-toggle-channel-buffer-mode
+チャンネルバッファの表示・非表示を切り替えます(@code{riece-command-toggle-channel-buffer-mode})
+@item C-c C-t C
+@findex riece-command-toggle-channel-list-buffer-mode
+チャンネルリストバッファの表示・非表示を切り替えます(@code{riece-command-toggle-channel-list-buffer-mode})
+@item C-c C-t u
+@findex riece-command-toggle-user-list-buffer-mode
+ユーザリストバッファの表示・非表示を切り替えます(@code{riece-command-toggle-user-list-buffer-mode})
+@item C-c C-t f
+@findex riece-command-toggle-freeze
+チャンネルバッファ、またはダイアログバッファの自動スクロールを禁止しま
+す(@code{riece-command-toggle-freeze})
+@item C-c C-t o
+@findex riece-command-toggle-own-freeze
+チャンネルバッファ、またはダイアログバッファを、自分が発言するまで、自動
+スクロールを禁止します(@code{riece-command-toggle-own-freeze})
+@item C-c C-t a
+@findex riece-command-toggle-away
+自分の離席状態を切り替えます(@code{riece-command-toggle-away})
+@end table
+
+@node Advanced usage, Tips, Basic usage, Top
+@chapter Advanced usage
+
+この章では、もっと進んだ使い方を解説します。
+
+@menu
+* Startup File::                設定ファイル
+* Server settings::             サーバの詳細設定
+* Multiple servers::            複数のサーバに接続するには
+* Add-ons::                     アドオンとは
+@end menu
+
+@node Startup File, Server settings, Advanced usage, Advanced usage
+@section Startup file
+
+Riece の設定は Emacs の設定ファイルに書いても良いですが、Riece に固有の
+設定はなるべく @file{~/.riece/init} に書くことを推奨します。
+
+また、Riece を起動して終了すると @file{~/.riece/save} というファイルが
+作成されます。このファイルには前回起動時の設定の一部が自動的に保存され
+ます。
+
+起動時には、最初に @file{~/.riece/save} を、次に @file{~/.riece/init}を
+読み込みます。つまり、前回起動時に @file{~/.riece/save} に保存された内容
+は、@file{~/.riece/init} の内容で上書きされます。
+
+@node Server settings, Multiple servers, Startup File, Advanced usage
+@section Server settings
+
+起動時に接続する IRC サーバは変数 @code{riece-server} で指定します。
+@vindex riece-server
+
+@code{riece-server} は文字列で、その形式は次のいずれかです。
+
+@enumerate
+@item
+@code{IRC サーバのホスト名}
+
+@item
+@code{IRC サーバのホスト名:ポート番号}
+
+@item
+@code{IRC サーバのホスト名:ポート番号:パスワード}
+
+@item
+詳細設定の名前
+@end enumerate
+
+4. の場合には、@code{riece-server} の値をキーに
+@code{riece-server-alist} を検索します。@code{riece-server-alist} は次
+のような形式の連想配列です。
+@vindex riece-server-alist
+
+@example
+(setq riece-server-alist
+      '(("foo" :host "irc.example.com" :coding shift_jis)
+        ("bar" :host "irc.example.net" :nickname "baz")))
+@end example
+
+この設定の意味は以下の通りです。
+
+@itemize
+@item
+@samp{foo} という名前の設定では、IRC サーバのホスト名に @samp{irc.example.com}、使用する文字コードに Shift_JIS を使う
+
+@item
+@samp{bar} という名前の設定では、IRC サーバのホスト名は @samp{irc.example.net}、このサーバではニックネーム @samp{baz} を使う
+@end itemize
+
+指定できるキーワードの一覧は以下の通りです。
+
+@table @code
+@item :host
+サーバのホスト名または IP アドレス
+@item :service
+サーバのサービス名またはポート番号 (既定値は @code{6667})
+@item :nickname
+接続時のニックネーム (既定値は変数 @code{user-real-login-name} の値)
+@item :username
+接続時のユーザネーム (既定値は変数 @code{user-full-name} の値)
+@item :password
+接続時のパスワード
+@item :function
+接続用関数 (既定値は @code{open-network-stream})
+@item :coding
+文字コード (既定値は @code{riece-default-coding-system} の値)
+@end table
+
+@code{riece-server-alist} を対話的に設定するには次のコマンドを使うと便利です。
+
+@example
+M-x load-library riece
+M-x customize-variable riece-server-alist
+@end example
+
+@node Multiple servers, Add-ons, Server settings, Advanced usage
+@section Multiple servers
+
+同時に複数のサーバに接続する手順を以下に示します。
+
+既に特定のサーバに接続している状態で、別のサーバに接続するには @kbd{C-c O} (@code{riece-command-open-server}) を使います。
+
+別のサーバ上のチャンネルに参加するには、@kbd{C-c j}
+(@code{riece-command-join})でチャンネル名に @samp{@@} に続いてサーバ名を
+続けます。
+
+たとえば、サーバ @samp{irc.freenode.net} 上の @samp{#Riece} は次のよう
+に表記します。
+
+@example
+#Riece@@irc.freenode.net
+@end example
+
+チャンネル名とサーバの区切り文字 @samp{@@} は
+変数 @code{riece-alias-alternate-separator} で変更できます。
+
+または、空白文字でも代用できます。この時には、@kbd{C-q SPC} と入力する
+必要があります。
+
+複数の接続を操作するコマンドを以下にまとめます。
+
+@table @kbd
+@item C-c O
+@findex riece-command-open-server
+別のサーバに接続します(@code{riece-command-open-server})
+@item C-c C
+@findex riece-command-close-server
+サーバとの接続を切断します(@code{riece-command-close-server})
+@item C-c M
+@findex riece-command-universal-server-name-argument
+特定のサーバに対して、続くコマンドを発行します(@code{riece-command-universal-server-name-argument})
+@end table
+
+@node Add-ons,  , Multiple servers, Advanced usage
+@section Add-ons
+
+Riece では、雑多な機能を選択的に利用できるよう、アドオンと呼ばれる機構
+を用意しています。アドオンは通常の elisp モジュールを拡張したもので、
+安全な取り外しや、アドオン間の初期化処理の依存関係などの面倒をみます。
+
+アドオンには次の四種類の状態があります。
+
+@table @asis
+@item unloaded
+読み込み前。アドオンの elisp モジュールが読み込まれていない状態
+
+@item insinuated
+組み込み済み。アドオンの elisp モジュールが読み込まれ、初期化処理が完了した状態
+
+@item enabled
+有効。アドオンが動作中
+
+@item disabled
+無効。アドオンの動作が停止中
+
+@end table
+
+@menu
+* Add-on browser::              アドオンの一覧表示
+* Available add-ons::           標準添付のアドオンの紹介
+@end menu
+
+@node Add-on browser, Available add-ons, Add-ons, Add-ons
+@subsection Add-on browser
+
+Riece の動作中にアドオンの一覧を眺めるにはアドオンブラウザを使うと便利です。
+コマンドバッファで @kbd{C-c ^} とすると、次のように表示されます。
+
+@example
++ riece-alias         Define aliases for IRC names.
+  riece-async         Connect to IRC server via async proxy.
+  riece-biff          Be notified if messages arrives.
++ riece-button        Display useful buttons in IRC buffers.
++ riece-ctcp          CTCP (Client To Client Protocol) support.
++ riece-ctlseq        Mark up control sequences in IRC buffers.
+@end example
+
+各行の左端のマークはアドオンの状態を表わしています。@samp{+} は組込ま
+れて有効なアドオン、空白はロードされていないアドオンです。
+
+ここで、riece-button を無効にしたい場合、四行目の先頭で @kbd{-} としま
+す。すると、先頭のマークが @samp{+} から @samp{-} に変化します。
+
+@example
++ riece-alias         Define aliases for IRC names.
+  riece-async         Connect to IRC server via async proxy.
+  riece-biff          Be notified if messages arrives.
+- riece-button        Display useful buttons in IRC buffers.
++ riece-ctcp          CTCP (Client To Client Protocol) support.
++ riece-ctlseq        Mark up control sequences in IRC buffers.
+@end example
+
+さらに、@samp{u} とすると、riece-button をアドオンの設定から除外します。
+さらに、@samp{U} とすると、riece-button を完全にアンロードします。
+
+この状態で、@samp{s} または @samp{M-x riece-command-save-variables} と
+すると、設定を保存します。
+
+@file{~/.riece/init} でアドオンを組み込むには @code{riece-addons} を設
+定します。たとえば @samp{riece-alias} を組み込む場合には、以下のように
+記述します。
+@vindex riece-addons
+
+@example
+(add-to-list 'riece-addons 'riece-mini)
+@end example
+
+@node Available add-ons,  , Add-on browser, Add-ons
+@subsection Available add-ons
+
+利用可能なアドオンは次の通りです。これらのうちの多くは標準で組み込まれ
+ています。
+
+@table @samp
+@item riece-alias
+チャンネル名やニックネームの別名を定義
+@item riece-async
+Emacs が busy or suspend 状態になることに備え、
+PING に応答する local proxy 経由で IRC サーバに接続
+@item riece-biff
+他のバッファにいる時に発言があるとモードラインに印 ("[R]") を表示
+@item riece-button
+ボタンやポップアップメニューの表示
+@item riece-ctcp
+CTCP (Client To Client Protocol)
+@item riece-ctlseq
+コントロールシーケンス (^B など) による強調表示
+@item riece-desktop-notify
+メッセージの到着をデスクトップに通知
+@item riece-doctor
+doctor.el と連携して精神科医になりすます
+@item riece-epg
+EasyPG @uref{http://www.easypg.org} による会話の暗号化
+@item riece-eval-ruby
+入力された文字列を Ruby の式として評価
+@item riece-eval
+入力された文字列を Emacs Lisp の式として評価
+@item riece-foolproof
+チャンネルミスを防ぐ
+@item riece-google
+キーワードを Google で検索
+@item riece-guess
+色々な方法で移動先のチャンネルを推測
+@item reice-hangman
+チャンネル内で hangman で遊ぶ
+@item riece-highlight
+バッファの色付け
+@item riece-history
+チャンネル移動の履歴管理
+@item riece-icon
+バッファ中にアイコンを表示
+@item riece-ignore
+指定したユーザの発言を無視
+@item riece-kakasi
+日本語の通らない端末で、日本語をローマ字で表示
+@item riece-keepalive
+IRC サーバとの接続を保持
+@item riece-keyword
+キーワードの強調表示
+@item riece-log
+会話のログをファイルに保存
+@item riece-lsdb
+アドレス帳 LSDB (Lovely Sister Database)
+@uref{http://lsdb.sourceforge.jp} と連携
+@item riece-mcat
+メッセージカタログ
+@item riece-menu
+メニューバーにメニューを登録
+@item riece-mini
+ミニバッファのみで IRC をする
+@item riece-ndcc
+DCC (Direct Client to Client protocol) によるファイル転送
+(Emacs 22 でのみ動作)
+@item riece-rdcc
+DCC (Direct Client to Client protocol) によるファイル転送
+@item riece-shrink-buffer
+メモリ確保のため、バッファを定期的に切り詰める
+@item riece-skk-kakutei
+SKK 使用時に変換モードの印を発言から取り除く
+@item riece-toolbar
+ツールバーを表示
+@item riece-twitter
+CTCP ACTION (@kbd{C-c C-c a}) と同時に Twitter に状態を送信
+@item riece-unread
+発言のあったチャンネルに@samp{!}マークをつける
+@item riece-url
+会話に現れた URL の収集
+@item riece-xface
+ユーザリストバッファにユーザの X-Face を表示
+@item riece-xfaceb
+ユーザリストバッファにユーザの X-Face を表示
+(BBDB @uref{http://bbdb.sourceforge.net} が必要)
+@item riece-yank
+@kbd{C-c y} で kill-ring から文字列を送信
+@end table
+
+@node Tips, Index, Advanced usage, Top
+@comment  node-name,  next,  previous,  up
+@chapter Tips
+
+この章では、よく聞かれる質問に対する答えと便利な設定例を紹介します。
+
+@section 直前に選択していたチャンネルに移動したい
+@vindex riece-guess-channel-try-functions
+
+以下の行を @file{~/.riece/init} に追加することで、@kbd{C-c g} で履歴を辿
+りつつ移動できます。@samp{riece-guess} アドオンは、チャンネル選択の履歴
+や未読メッセージの有無などから次に選択するチャンネルを推測してくれるアド
+オンで、標準で組み込まれています。
+
+@example
+(add-hook 'riece-guess-channel-try-functions
+          'riece-guess-channel-from-history)
+@end example
+
+@section 発言があるとバッファがスクロールするのを止めたい
+
+@kbd{C-c C-t f} です。@emph{t}oggle @emph{f}reeze と覚えると良いでしょう。
+
+@section 装飾を抑制したい
+
+@code{riece-addons} から装飾のためのアドオンを除外します。
+通常有効になっている装飾のためのアドオンは次の通りです。
+
+@itemize
+@item
+色付け (@samp{riece-highlight})
+
+@item
+ボタン表示 (@samp{riece-button})
+
+@item
+アイコン画像の表示 (@samp{riece-icon})
+@end itemize
+
+たとえば色付けをやめたいのであれば、以下の行を @file{~/.riece/init} に追
+加します：
+
+@example
+(setq riece-addons (delq 'riece-highlight riece-addons))
+@end example
+
+@section 特定の文字列を受信したら音を鳴らしたい
+@vindex riece-keyword-notify-functions
+
+以下の設定を @file{~/.riece/init} に加えます。@samp{riece-keywords} アド
+オンを使うと特定の文字列を受信した際の動作を指定できます。
+
+@example
+(setq riece-keywords '("ほげ" "ふが"))
+(add-hook 'riece-keyword-notify-functions
+          (lambda (keyword message) (ding)))
+@end example
+
+@section SKK を使っていて、変換中の印 (▽) を送信してしまうことがある
+
+以下の行を @file{~/.riece/init} に追加します。
+
+@example
+(add-to-list 'riece-addons 'riece-skk-kakutei)
+@end example
+
+@section チャンネル一覧の並び順を固定したい
+@vindex riece-default-channel-binding
+
+以下の行を @file{~/.riece/init} に追加します。
+
+@example
+(setq riece-default-channel-binding
+     '("#Riece" "#emacsen" nil "#debianjp"))
+@end example
+
+この設定例では、チャンネル一覧の並び順は次のようになります。
+
+@enumerate
+@item
+#Riece
+@item
+#emacsen
+@item
+なし
+@item
+#debianjp
+@end enumerate
+
+3 番目のチャンネルが空席となっていることにご注意ください。新たなチャンネ
+ルに参加した場合、そのチャンネルが 3 番目の位置に割当てられます。
+
+@section 起動時に自動的にチャンネルに参加したい
+@vindex riece-startup-channel-list
+
+変数 @samp{riece-startup-channel-list} を設定します。
+
+@example
+(setq riece-startup-channel-list
+     '("#Riece" "#public"))
+@end example
+
+この設定例は、@samp{#Riece} と @samp{#public} に参加することを意味してい
+ます。チャンネルに参加する際にパスワードが必要な場合には次のように設定し
+ます。
+
+@example
+(setq riece-startup-channel-list
+     '("#Riece" "#public" ("#private" "password")))
+@end example
+
+@section 起動時に自動的に複数の IRC サーバに接続したい
+@vindex riece-startup-server-list
+
+変数 @samp{riece-startup-server-list} を設定します。
+
+@example
+(setq riece-server "ircnet"
+      riece-server-alist '(("ircnet" :host "irc.tokyo.wide.ad.jp")
+                           ("freenode" :host "irc.ipv6.freenode.net")))
+@end example
+
+この設定例では、起動時に接続するのは "ircnet" だけです。
+@samp{riece-startup-server-list} を以下のように設定すると、
+"freenode" にも接続するようになります。
+
+@example
+(setq riece-startup-server-list '("freenode"))
+@end example
+
+@section HTTP プロキシを介して IRC サーバに接続したい
+@file{relay.el} と @file{connect.c} を使うと、
+HTTP プロキシを介して IRC サーバに接続することができます。
+
+@table @asis
+@item relay.el
+@uref{http://www.taiyo.co.jp/~gotoh/lisp/relay.el}
+
+@item connect.c
+@uref{http://www.taiyo.co.jp/~gotoh/ssh/connect.html}
+@end table
+
+たとえば、@samp{proxy.example.com:8080} 経由で 
+@samp{irc.tokyo.wide.ad.jp} に接続する場合には、以下の行を 
+@file{~/.riece/init} に追加します。
+
+@example
+(require 'relay)
+(setq relay-command-alist (cons '("^irc\.tokyo\.wide\.ad\.jp$"
+                                  "connect" "-H" "proxy.example.com:8080"
+                                  host service)
+                                relay-command-alist)
+      riece-server-alist (cons '("proxy-tokyo" :host "irc.tokyo.wide.ad.jp"
+                                 :function relay-open-network-stream)
+                               riece-server-alist))
+@end example
+
+@section 会話のログをファイルに保存したい
+@vindex riece-log-directory-map
+
+@samp{riece-log} アドオンを使うと、会話のログをファイルに保存し、再起動
+時に参照できます。@samp{riece-log} アドオンは標準で組み込まれています。
+
+通常は @file{~/.riece/log} の下に IRC サーバの名前、チャンネル名のディレ
+クリが作成され、その中に日にち毎に分別されて保存されます。
+
+ディレクトリ名が文字化けする場合には、
+@code{file-name-coding-system} の値を適切に設定するか、あるいは 
+@code{riece-log-directory-map} を使ってチャンネル名を US-ASCII 文字列に
+変換する必要があります。
+
+@example
+(setq riece-log-directory-map '(("#りーす" . "riece")))
+@end example
+
+@section ウィンドウ間を自由に移動したい
+
+GNU Emacs に附属の @samp{windmove.el} を使うと便利です。詳細は 
+@samp{windmove.el} のコメントを参照ください。@samp{windmove.el} は 
+作者のページ (@uref{http://hovav.net/elisp/}) からも取得できます。
+
+@node Index, Function Index, Tips, Top
+@chapter Index
+@printindex cp
+
+@node Function Index, Variable Index, Index, Top
+@chapter Function Index
+@printindex fn
+
+@node Variable Index,  , Function Index, Top
+@chapter Variable Index
+@printindex vr
+
+@summarycontents
+@contents
+@bye
+
+@c End:
