@@ -1,3 +1,0 @@
-set show-line-numbers = no
-set show-rev-graph = yes
-bind generic G move-last-line
