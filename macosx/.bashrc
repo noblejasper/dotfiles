@@ -7,18 +7,22 @@ shopt -u histappend   # .bash_history追記モードは不要なのでOFFに
 shopt -s checkwinsize
 
 # alias
-export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
+export EDITOR=vim
 export GIT_EDITOR=vim
 export IGNOREEOF=2 # 間違ってCtl+dしても3回は許してくれる
 export FIGNORE=".bak:.o:~:.pyc" # 補完時に無視するsuffix
+export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' 
 export HISTCONTROL=ignoreboth
 export HISTIGNORE=?:??:???:exit
 export SCREENDIR=$HOME/.screendir
 export HISTSIZE=10000000000000  # 履歴のMAX保存数を指定
 
 # macports
-export PATH=$PATH:/Users/noblejasper/byobu/bin:/Users/noblejasper/bin:/Applications/android-sdk-mac_86/tools
-export PYTHONPATH=/opt/local/lib/python2.5/site-packages
+export PATH=~/bin:/usr/local/bin:/usr/local/sbin:$PATH:~/bin/AWS-ElasticBeanstalk-CLI-2.0/eb/macosx/python2.7
+PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+# AWS ElasticBeanstalk
+export ELASTICBEANSTALK_URL=elasticbeanstalk.ap-northeast-1.amazonaws.com
+export AWS_CREDENTIAL_FILE=~/.nobjas_amazon_credencial
 
 # save history of screen
 function share_history {  # 以下の内容を関数として定義
@@ -33,10 +37,11 @@ export PROMPT_COMMAND='share_history'  # 上記関数をプロンプト毎に自
 if [ -f `brew --prefix`/etc/bash_completion ]; then
   . `brew --prefix`/etc/bash_completion
 fi
+NAME='HOME'
 if [ -f $BASH_COMPLETION_DIR/git-completion.bash ]; then
-    PS1='\[\e[1;32m\]NOBJAS:\[\e[m\] \[\e[1;37m\]\w\[\e[m\]\n\[\e[1;33m\]h:\! \[\e[0;33m\] \[\e[1;31m\]j:\j$(__git_ps1) \$\[\e[m\] '
+    PS1='\[\e[0;37m\]${NAME}\[\e[0;37m\][\t]\[\e[0;37m\]: \[\e[1;37m\]\w\n\[\e[1;33m\]h:\! j:\j\[\e[0;36m\]$(__git_ps1) \[\e[0;34m\]\$\[\e[m\] '
 else
-    PS1='\[\e[1;32m\]NOBJAS:\[\e[m\] \[\e[1;37m\]\w\[\e[m\]\n\[\e[1;33m\]h:\! \[\e[0;33m\] \[\e[1;31m\]j:\j \$\[\e[m\] '
+    PS1='\[\e[0;37m\]${NAME}\[\e[0;37m\][\t]\[\e[0;37m\]: \[\e[1;37m\]\w\n\[\e[1;33m\]h:\! j:\j \[\e[0;34m\]\$\[\e[m\] '
 fi
 
 # keychain

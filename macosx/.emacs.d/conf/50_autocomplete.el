@@ -7,7 +7,15 @@
 
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
-(setq ac-dwim 0)
+
+(setq ac-dwim t)
+(setq ac-auto-start 2)
+(setq ac-auto-show-menu t)
+(setq ac-quick-help-delay 0.1)
+(setq ac-delay 0)
+;(setq ac-auto-show-menu 0)
+(setq popup-use-optimized-column-computation nil)
+(ac-config-default)
 
 ;; 日本語入力中にonだとうざいので切る
 (defadvice ac-on-post-command

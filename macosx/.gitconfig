@@ -18,3 +18,4 @@
     up = pull --rebase
 [github]
 	user = noblejasper
+	token = 2a9980c3c3149e74a4f25815e1a562dd

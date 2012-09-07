@@ -72,4 +72,6 @@
                                         ("pdb" . "import pdb; pdb.set_trace()")
                                         ("hblink" . "<span style=\"text-decoration:blink\"><blink>$${body}</blink></span>")
                                         ("spanc" . "<span style=\"color:$${color}\">$${body}</span>")
+                                        ("ret" . "return $${Return}")
+                                        ("stash" . "self.stash[$${StashKey}]")
                                         )))

@@ -1,12 +1,16 @@
 ; anything
 (require 'anything-config)
 (require 'anything)
+;(require 'anything-startup)
 
 (global-set-key "\C-xb" 'anything)
 
 (define-key anything-map (kbd "C-M-n") 'anything-next-source)
 (define-key anything-map (kbd "C-M-p") 'anything-previous-source)
 (define-key anything-map (kbd "L") 'anything-execute-persistent-action)
+
+(setq anything-enable-digit-shortcuts t)
+(setq anything-enable-shortcuts 'alphabet)
 
 ;; anything-match-plugin
 (require 'anything-match-plugin)
@@ -56,14 +60,25 @@
 ;;              (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
 
 (setq anything-sources (list anything-c-source-buffers+
-                             anything-c-source-recentf
+                             ;; anything-c-source-recentf
                              anything-c-source-bookmarks
-                             anything-c-source-file-cache
+                             ;; anything-c-source-file-cache
                              anything-c-source-man-pages
                              anything-c-source-file-name-history
+                             anything-c-source-calculation-result
                              anything-c-source-locate
                              anything-c-source-complex-command-history
                              anything-c-source-emacs-commands
                              anything-c-source-emacs-functions
-                             anything-c-source-buffer-not-found
+                             ;; anything-c-source-buffer-not-found
                              anything-c-source-files-in-current-dir+))
+
+;; kill-ring
+(defun anything-kill-ring ()
+  (interactive)
+  (anything 'anything-c-source-kill-ring nil nil nil nil "*anything kill ring*"))
+(global-set-key (kbd "M-y") 'anything-kill-ring)
+
+;; with auto-complete
+(require 'ac-anything)
+(define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-anything)

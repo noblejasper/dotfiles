@@ -1,1 +1,0 @@
-(autoload 'trr "/Users/nobjas/.emacs.d/lib/trr/trr.elc" nil t)

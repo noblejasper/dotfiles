@@ -174,3 +174,12 @@
                 (set-file-modes name (logior mode (logand (/ mode 4) 73)))
                 (message (concat "Wrote " name " (+x)"))))))))
 (add-hook 'after-save-hook 'make-file-executable)
+
+(defun toggle-truncate-lines ()
+  "折り返し表示をトグル動作します."
+  (interactive)
+  (if truncate-lines
+      (setq truncate-lines nil)
+    (setq truncate-lines t))
+  (recenter))
+(global-set-key "\C-c\C-l" 'toggle-truncate-lines)
