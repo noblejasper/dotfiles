@@ -6,9 +6,13 @@
 
 ; なんかいろいろ
 (global-set-key "\C-cu" 'w3m-browse-url)
-(global-set-key "\C-cr" 'replace-string)
 (global-set-key "\C-c\C-r" 'recentf-open-files)
 (global-set-key "\C-c\C-y" 'browse-kill-ring)
+;; (global-set-key "\C-cr" 'replace-string)
+(global-set-key "\C-cr" (lambda ()
+                          (interactive)
+                          (revert-buffer t t t)
+                          (message "buffer is reverted")))
 
 ;; align
 (global-set-key "\C-c|" 'align)

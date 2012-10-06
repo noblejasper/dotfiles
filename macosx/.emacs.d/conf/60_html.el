@@ -30,16 +30,14 @@
 
 (defvar html-helper-new-buffer-template
   '(html-helper-htmldtd-version
-    "<html> <head>\n"
-    "<title>" p "</title>\n</head>\n\n"
-    "<body>\n"
-    "<h1>" p "</h1>\n\n"
+    "{% from \"parts.html\" import h2,line,line3,owner_status_view with context %}\n"
+    "{% extends g.base_template %}\n"
+    "{% block header %}\n"
+    "{% endblock %}\n"
+    "{% block body %}\n"
     p
-    "\n\n<hr>\n"
-    "<address>" html-helper-address-string "</address>\n"
-    html-helper-timestamp-start
-    html-helper-timestamp-end
-    "\n</body> </html>\n")
+    "{% endblock %}")
   "*Template for new buffers.
 Inserted by `html-helper-insert-new-buffer-strings' if
 `html-helper-build-new-buffer' is set to t")
+

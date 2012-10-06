@@ -17,6 +17,13 @@
 (setq popup-use-optimized-column-computation nil)
 (ac-config-default)
 
+;情報源
+(setq-default ac-sources '(ac-source-words-in-same-mode-buffers ;bufferにある同一modeからsuggest
+                           ;; ac-source-filename ;file name suggest
+                           ac-source-abbrev      ;.abbrev_defsでsuggest
+                           ac-source-dictionary
+                           ))
+
 ;; 日本語入力中にonだとうざいので切る
 (defadvice ac-on-post-command
   (around check-whether-input-type-is-japanese activate)
@@ -25,4 +32,6 @@
 ;; python
 (require 'ac-python)
 ;; この設定しないとpython-modeで自動的にauto-completeが起動しない
-(add-to-list 'ac-modes 'python-2-mode)
+(setq ac-modes
+      (append ac-modes
+              '(python-2-mode html-helper-mode css-mode actionscript-mode)))
