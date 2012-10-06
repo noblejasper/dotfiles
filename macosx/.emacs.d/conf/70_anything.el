@@ -1,84 +1,65 @@
-; anything
-(require 'anything-config)
-(require 'anything)
-;(require 'anything-startup)
+(when (require 'anything nil t)
+  ;; default keymap
+  (global-set-key "\C-xb" 'anything)
+  (define-key anything-map (kbd "C-M-n") 'anything-next-source)
+  (define-key anything-map (kbd "C-M-p") 'anything-previous-source)
+  (define-key anything-map (kbd "L") 'anything-execute-persistent-action)
 
-(global-set-key "\C-xb" 'anything)
 
-(define-key anything-map (kbd "C-M-n") 'anything-next-source)
-(define-key anything-map (kbd "C-M-p") 'anything-previous-source)
-(define-key anything-map (kbd "L") 'anything-execute-persistent-action)
+  (setq
+   anything-idle-delay 0.3
+   anything-input-idle-delay 0.2
+   ;anything-candidate-number-limit 100
+   anything-quick-update t
+   anything-enable-digit-shortcuts t
+   anything-enable-shortcuts 'alphabet)
 
-(setq anything-enable-digit-shortcuts t)
-(setq anything-enable-shortcuts 'alphabet)
-
-;; anything-match-plugin
-(require 'anything-match-plugin)
-
-;; anything-complete
-(require 'anything-complete)
-;; Automatically collect symbols by 150 secs
-(anything-lisp-complete-symbol-set-timer 150)
-;; replace completion commands with `anything'
-;; (anything-read-string-mode 0)
-(define-key global-map (kbd "M-x")
-  (lambda ()
+  (defun anything-kill-ring ()
     (interactive)
-    (anything-other-buffer
-     '(anything-c-source-extended-command-history anything-c-source-emacs-commands)
-     "*anything emacs commands*")))
-;; (global-set-key "\M-x" 'anything-execute-extended-command)
+    (anything 'anything-c-source-kill-ring nil nil nil nil "*anything kill ring*"))
+  (global-set-key (kbd "M-y") 'anything-kill-ring)
 
-;; ;; anything-grep
-;; (require 'anything-grep)
+  (when (require 'ac-anything nil t)
+    (define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-anything))
+  (when (require 'anything-config nil t)
+    (setq anything-su-or-sudo "sudo"))
+  (require 'anything-match-plugin nil t)
+  (when (and (executable-find "cmigemo")
+             (require 'migemo nil t))
+    (require 'anithing-migemo nil t))
+  (when (require 'anything-complete nil t)
+    (anything-lisp-complete-symbol-set-timer 150))
+  (require 'anything-show-completion nil t)
+  (when (require 'auto-install nil t)
+    (require 'anything-auto-install nil t))
+  (when (require 'descbinds-anything nil t)
+    (descbinds-anything-install))
+  (require 'anything-match-plugin)
+  ;; (anything-read-string-mode 0)
+  (define-key global-map (kbd "M-x")
+    (lambda ()
+      (interactive)
+      (anything-other-buffer
+       '(anything-c-source-extended-command-history anything-c-source-emacs-commands)
+       "*anything emacs commands*")))
+  (setq anything-sources (list anything-c-source-buffers+
+                               anything-c-source-recentf
+                               anything-c-source-bookmarks
+                               anything-c-source-file-cache
+                               anything-c-source-man-pages
+                               anything-c-source-file-name-history
+                               anything-c-source-calculation-result
+                               anything-c-source-locate
+                               anything-c-source-complex-command-history
+                               anything-c-source-emacs-commands
+                               anything-c-source-emacs-functions
+                               anything-c-source-buffer-not-found
+                               anything-c-source-files-in-current-dir+)))
 
-;; (setq anything-grep-alist
-;;     ;; 全バッファのファイル名においてegrepをかける。moccurの代わり。
-;;   '(("buffers" ("egrep -Hin %s $buffers" "/"))
-;;     ;; ~/memo 以下から再帰的にegrepをかける。不要なファイルは除かれる。
-;;     ("catalyst" ("ack -af | xargs egrep -Hin %s" "~/tmp/cpan/Catalyst-Runtime-5.71000"))
-;;     ("ark" ("ack -af | xargs egrep -Hin %s" "~/dev/Ark"))
-;;     ))
-
-;; ;; anything-moccur
-;; ;; http://d.hatena.ne.jp/IMAKADO/20080724/1216882563
-;; (require 'color-moccur)
-;; (setq moccur-split-word t)
-;; ;; (when (require 'migemo nil t)
-;; ;;   (setq moccur-use-migemo t))
-
-;; (require 'anything-c-moccur)
-;; (setq anything-c-moccur-anything-idle-delay 0.2 ;`anything-idle-delay'
-;;       anything-c-moccur-higligt-info-line-flag t ; `anything-c-moccur-dmoccur'などのコマンドでバッファの情報をハイライトする
-;;       anything-c-moccur-enable-auto-look-flag t ; 現在選択中の候補の位置を他のwindowに表示する
-;;       anything-c-moccur-enable-initial-pattern t) ; `anything-c-moccur-occur-by-moccur'の起動時にポイントの位置の単語を初期パターンにする
-
-;; (global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
-;; (global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
-;; (add-hook 'dired-mode-hook ;dired
-;;           '(lambda ()
-;;              (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
-
-(setq anything-sources (list anything-c-source-buffers+
-                             ;; anything-c-source-recentf
-                             anything-c-source-bookmarks
-                             ;; anything-c-source-file-cache
-                             anything-c-source-man-pages
-                             anything-c-source-file-name-history
-                             anything-c-source-calculation-result
-                             anything-c-source-locate
-                             anything-c-source-complex-command-history
-                             anything-c-source-emacs-commands
-                             anything-c-source-emacs-functions
-                             ;; anything-c-source-buffer-not-found
-                             anything-c-source-files-in-current-dir+))
-
-;; kill-ring
-(defun anything-kill-ring ()
-  (interactive)
-  (anything 'anything-c-source-kill-ring nil nil nil nil "*anything kill ring*"))
-(global-set-key (kbd "M-y") 'anything-kill-ring)
-
-;; with auto-complete
-(require 'ac-anything)
-(define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-anything)
+(when (require 'anything-c-moccur nil t)
+  (setq
+   anything-c-moccur-anything-idle-delay 0.1
+   lanything-c-moccur-highlight-info-line-flag t
+   anything-c-moccur-enable-auto-look-flag t
+   anything-c-moccur-enable-initial-pattern t)
+  (global-set-key (kbd "C-M-o") 'anything-c-moccur-occur-by-moccur))
