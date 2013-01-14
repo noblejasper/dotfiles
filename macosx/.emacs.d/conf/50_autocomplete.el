@@ -15,7 +15,7 @@
 (setq ac-delay 0)
 ;(setq ac-auto-show-menu 0)
 (setq popup-use-optimized-column-computation nil)
-(ac-config-default)
+;; (ac-config-default)
 
 ;情報源
 (setq-default ac-sources '(ac-source-words-in-same-mode-buffers ;bufferにある同一modeからsuggest

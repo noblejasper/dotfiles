@@ -27,6 +27,10 @@
 (set-face-foreground 'my-sequence-face "blue")
 (set-face-background 'my-sequence-face "bisque")
 (setq html-tt-sequence-face 'my-sequence-face)
+(setq html-helper-item-continue-indent 4)
+(setq html-helper-basic-offset 4)
+(setq indent-line-function 'indent-relative-maybe)
+(setq html-helper-never-indent 'nil)
 
 (defvar html-helper-new-buffer-template
   '(html-helper-htmldtd-version
@@ -35,9 +39,15 @@
     "{% block header %}\n"
     "{% endblock %}\n"
     "{% block body %}\n"
-    p
     "{% endblock %}")
   "*Template for new buffers.
 Inserted by `html-helper-insert-new-buffer-strings' if
 `html-helper-build-new-buffer' is set to t")
+
+
+
+
+
+
+
 

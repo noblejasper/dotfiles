@@ -10,7 +10,7 @@
 (global-set-key (kbd "D") (smartchr '("D" "def `!!'(self):")))
 (global-set-key (kbd "A") (smartchr '("A" "<a href=\"`!!'\"></a>")))
 (global-set-key (kbd "H") (smartchr '("H" "<h1>`!!'</h1>" "<h2>`!!'</h2>" "<h3>`!!'</h3>" "<h4>`!!'</h4>" "<h5>`!!'</h5>")))
-(global-set-key (kbd "B") (smartchr '("B" "<br />" "{% if not g.is_sp %}<br />{% endif %}")))
+(global-set-key (kbd "B") (smartchr '("B" "<br />" "back_button" "button_480" "button_320" "button_240")))
 (global-set-key (kbd "<") (smartchr '("<`!!'>" "<" "&lt;")))
 (global-set-key (kbd ">") (smartchr '(">" "&gt;")))
 (global-set-key (kbd "&") (smartchr '("&" "&amp;")))
@@ -59,6 +59,8 @@
                                         ("divbc" . "<div style=\"background-color:$${bg_color};color:$${color};text-align:center\">\n</div>")
                                         ("divc" . "<div style=\"text-align:center\">\n</div>")
                                         ("spanc" . "<span style=\"color:$${color}\">$${body}</span>")
+                                        ("set" . "{% set $${name} = $${value} %}")
+                                        ("with" . "{% with %}\n$>$.\n{% endwith %}")
                                         )))
 
 (add-hook 'python-mode-hook

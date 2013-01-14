@@ -34,10 +34,10 @@
 ;; ;;python-mode
 ;; (autoload 'py-shell "python-mode" "Python shell" t)
 ;; (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-;; (add-hook 'python-mode-hook
-;;           '(lambda()
-;;              (require 'pycomplete)
-;;              (setq indent-tabs-mode nil)))
+;; ;; (add-hook 'python-mode-hook
+;; ;;           '(lambda()
+;; ;;              (require 'pycomplete)
+;; ;;              (setq indent-tabs-mode nil)))
 
 
 ;; (custom-set-variables

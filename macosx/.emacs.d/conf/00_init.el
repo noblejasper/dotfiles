@@ -45,13 +45,13 @@
 (column-number-mode t)
 
 ;; バックアップしない
-(setq make-backup-files nil)
+;; (setq make-backup-files nil)
 
 ;; 自動保存したファイルを削除する
 (setq delete-auto-save-files t)
 
 ;; 自動セーブしない
-(setq auto-save-default nil)
+;; (setq auto-save-default nil)
 
 ;; リージョンをC-hで削除
 (delete-selection-mode 1)
@@ -75,8 +75,8 @@
 ;; utf-8優先
 (prefer-coding-system 'utf-8)
 
-;; tamago
-;; (setq default-input-method 'japanese-egg-anthy)
+;; ガヴェコレの頻度UP
+(setq gc-cons-threshold 5242880)
 
 ;; 物理行単位でスクロール
 ;; http://www.bookshelf.jp/soft/meadow_31.html#SEC418

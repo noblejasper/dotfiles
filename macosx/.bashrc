@@ -18,7 +18,7 @@ export SCREENDIR=$HOME/.screendir
 export HISTSIZE=10000000000000  # 履歴のMAX保存数を指定
 
 # macports
-export PATH=~/bin:/usr/local/bin:/usr/local/sbin:$PATH:~/bin/AWS-ElasticBeanstalk-CLI-2.0/eb/macosx/python2.7
+export PATH=~/bin:/usr/local/bin:/usr/local/sbin:$PATH:~/bin/AWS-ElasticBeanstalk-CLI-2.0/eb/macosx/python2.7:~/bin/android-sdk-mac_x86/tools:~/bin/android-sdk-mac_x86/platform-tools
 PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 # AWS ElasticBeanstalk
 export ELASTICBEANSTALK_URL=elasticbeanstalk.ap-northeast-1.amazonaws.com
