@@ -32,22 +32,14 @@
 (setq indent-line-function 'indent-relative-maybe)
 (setq html-helper-never-indent 'nil)
 
-(defvar html-helper-new-buffer-template
-  '(html-helper-htmldtd-version
-    "{% from \"parts.html\" import h2,line,line3,owner_status_view with context %}\n"
-    "{% extends g.base_template %}\n"
-    "{% block header %}\n"
-    "{% endblock %}\n"
-    "{% block body %}\n"
-    "{% endblock %}")
-  "*Template for new buffers.
-Inserted by `html-helper-insert-new-buffer-strings' if
-`html-helper-build-new-buffer' is set to t")
-
-
-
-
-
-
-
-
+;; (defvar html-helper-new-buffer-template
+;;   '(html-helper-htmldtd-version
+;;     "{% from \"parts.html\" import h2,line,line3,owner_status_view with context %}\n"
+;;     "{% extends g.base_template %}\n"
+;;     "{% block header %}\n"
+;;     "{% endblock %}\n"
+;;     "{% block body %}\n"
+;;     "{% endblock %}")
+;;   "*Template for new buffers.
+;; Inserted by `html-helper-insert-new-buffer-strings' if
+;; `html-helper-build-new-buffer' is set to t")

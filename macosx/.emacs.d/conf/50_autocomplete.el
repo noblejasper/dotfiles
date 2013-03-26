@@ -9,7 +9,7 @@
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
 
 (setq ac-dwim t)
-(setq ac-auto-start 2)
+(setq ac-auto-start 4)
 (setq ac-auto-show-menu t)
 (setq ac-quick-help-delay 0.1)
 (setq ac-delay 0)
