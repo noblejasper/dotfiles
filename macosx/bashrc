@@ -1,0 +1,71 @@
+. ~/.bash_alias
+. ~/.bash_functions
+
+NAME='HOME'
+ON_KEYCHAIN=false
+
+shopt -u histappend   # .bash_history追記モードは不要なのでOFFに
+shopt -s checkwinsize
+
+# alias
+export EDITOR=vim
+export GIT_EDITOR=vim
+export IGNOREEOF=2 # 間違ってCtl+dしても3回は許してくれる
+export FIGNORE=".bak:.o:~:.pyc" # 補完時に無視するsuffix
+export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' 
+export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoreboth # 最後のhistと一緒は無視＆最初がスペースも無視
+export HISTIGNORE=?:??:???:exit
+export SCREENDIR=$HOME/.screendir
+export HISTSIZE=10000000000000  # 履歴のMAX保存数を指定
+# go
+export GOPATH=~/gocode
+
+# PATH
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:~/bin:/usr/local/bin:/usr/local/sbin:~/bin/mongodb:$PATH"
+eval "$(hub alias -s)"
+
+#pyenv
+export PYENV_ROOT=/usr/local/opt/pyenv
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+
+# save history of screen
+function share_history {  # 以下の内容を関数として定義
+    history -a  # .bash_historyに前回コマンドを1行追記
+    history -c  # 端末ローカルの履歴を一旦消去
+    history -r  # .bash_historyから履歴を読み込み直す
+}
+export PROMPT_COMMAND='share_history'  # 上記関数をプロンプト毎に自動実施
+
+# Homebrew Cask
+export HOMEBREW_CASK_OPTS="--appdir=/Applications --caskroom=/usr/local/Caskroom" 
+# Homebrew bash-completion
+if [ -f `brew --prefix`/etc/bash_completion ]; then
+  . `brew --prefix`/etc/bash_completion
+else
+    echo "Unknwon brew bash_completion! please 'brew install bash-completion'."
+fi
+if [ -f $BASH_COMPLETION_DIR/git-completion.bash ]; then
+    PS1='\[\e[0;37m\]${NAME}\[\e[0;37m\][\t]\[\e[0;37m\]: \[\e[1;37m\]\w\n\[\e[1;33m\]h:\! j:\j\[\e[0;36m\]$(__git_ps1) \[\e[0;34m\]\$\[\e[m\] '
+else
+    PS1='\[\e[0;37m\]${NAME}\[\e[0;37m\][\t]\[\e[0;37m\]: \[\e[1;37m\]\w\n\[\e[1;33m\]h:\! j:\j \[\e[0;34m\]\$\[\e[m\] '
+fi
+
+# keychain
+if ${ON_KEYCHAIN}; then
+    unset SSH_AUTH_SOCK
+    HOST_NAME="nobjas-pc-20140608"
+    keychain ~/.ssh/id_rsa ~/.ssh/id_dsa ~/.ssh/conoha.key --host $HOST_NAME
+    if [ -f ~/.keychain/$HOST_NAME-sh ]; then
+        source ~/.keychain/$HOST_NAME-sh
+    fi
+fi
+
+# bash version 4
+if [ "`echo $BASH_VERSION | cut -b 1`" -eq "4" ]; then
+    shopt -s dirspell # 入力補完時にディレクトリ名のスペルミスを修正するdirspell
+    shopt -s autocd   # ディレクトリ名を入力するだけでカレントディレクトリを変更できるautocd
+    shopt -s globstar # サブディレクトリを再帰的にファイル検索するglobstar
+    shopt -s cdspell  # cdするときディレクトリ名をよしなに修正する。
+    export PROMPT_DIRTRIM=3 # PS1が短くなる
+fi

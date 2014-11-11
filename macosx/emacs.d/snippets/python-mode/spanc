@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: spanc
+# key: spanc
+# --
+<span style="color:$1">$2</span>

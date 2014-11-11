@@ -1,0 +1,24 @@
+[core]
+    pager = lv -c
+[color]
+    # colorの設定(以下のコマンドは自動で色つける)
+	ui = 1
+    status = auto
+    diff = auto
+    branch = auto
+    interactive = auto
+    grep = auto
+[alias]
+    co = checkout
+    ci = commit -a
+    st = status
+    wdiff = diff --color-words
+	see = browse
+[user]
+	name = nobjas
+	email = nobjas@gmail.com
+[push]
+	default = simple
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f

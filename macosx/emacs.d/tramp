@@ -1,0 +1,6 @@
+;; -*- emacs-lisp -*- <13/11/23 20:06:07 /Users/jasper/.emacs.d/tramp>
+;; Tramp connection history.  Don't change this file.
+;; You can delete it, forcing Tramp to reapply the checks.
+
+((["ftp" "anonymous" "210.155.141.202" nil]
+  ("started" t)))

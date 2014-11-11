@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ahref
+# key: ahref
+# --
+<a href="$1">$2</a>

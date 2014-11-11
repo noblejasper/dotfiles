@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: blink
+# key: blink
+# --
+{% call blink("$1") %}$2{% endcall %}

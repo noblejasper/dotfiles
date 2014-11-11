@@ -1,0 +1,6 @@
+(:name xslt-process
+       :description "Invoke an XSLT processor on an Emacs buffer"
+       :type emacsmirror
+       :pkgname "xslt-process"
+       :required ((("browse-url" browse-url) ("cedet" speedbar) ("cl" cl) ("custom" custom) ("easymenu" easymenu) ("elib" string) ("info" info) ("reporter" reporter) ("widget" wid-edit widget)))
+       :depends (elib cedet))

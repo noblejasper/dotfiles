@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: stash
+# key: stash
+# --
+self.stash['$1']

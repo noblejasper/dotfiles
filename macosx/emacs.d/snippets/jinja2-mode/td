@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: td
+# key: td
+# --
+{% call td() %}$1{% endcall %}

@@ -1,0 +1,4 @@
+(:name jinja2-mode
+       :type http
+       :url "https://raw.github.com/paradoxxxzero/jinja2-mode/master/jinja2-mode.el"
+       :features jinja2-mode)

@@ -1,0 +1,4 @@
+(:name powerline-themes
+       :type http
+       :url "https://raw.github.com/milkypostman/powerline/master/powerline-themes.el"
+       :features powerline-themes)
