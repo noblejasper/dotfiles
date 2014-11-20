@@ -1,0 +1,14 @@
+{
+  "name": "python",
+  "main": "./lib/python",
+  "version": "0.5.1",
+  "private": false,
+  "description": "Use script instead please.",
+  "activationEvents": [],
+  "repository": "https://github.com/rgbkrk/atom-python",
+  "license": "Apache 2",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {}
+}

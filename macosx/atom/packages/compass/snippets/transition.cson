@@ -1,0 +1,34 @@
+'.source.scss, .source.sass':
+  'Single Transition':
+    'prefix': 'transitionsingle'
+    'body': '@include single-transition(${1:property}, ${2:duration-in-seconds}, ${3:ease||linear||ease-in||ease-out||ease-in-out||cubic-bezier(x1, y1, x2, y2)}, ${4:delay-in-seconds});$0'
+  'Transition Delay':
+    'prefix': 'transitiondelay'
+    'body': '@include transition-delay(${1:delay-in-seconds});$0'
+  'Transition Duration':
+    'prefix': 'transitionduration'
+    'body': '@include transition-duration(${1:duration-in-seconds});$0'
+  'Transition Property':
+    'prefix': 'transitionprop'
+    'body': '@include transition-property(${1:property});$0'
+  'Transition Time Function':
+    'prefix': 'transitiontimefunc'
+    'body': '@include transition-time-function(${1:ease||linear||ease-in||ease-out||ease-in-out||cubic-bezier(x1, y1, x2, y2)});$0'
+  'Transition':
+    'prefix': 'transition'
+    'body': '@include transition(${1:transition});$0'
+  'Single Transition':
+    'prefix': 'tts'
+    'body': '@include single-transition(${1:property}, ${2:duration-in-seconds}, ${3:ease||linear||ease-in||ease-out||ease-in-out||cubic-bezier(x1, y1, x2, y2)}, ${4:delay-in-seconds});$0'
+  'Transition Delay':
+    'prefix': 'ttd'
+    'body': '@include transition-delay(${1:delay-in-seconds});$0'
+  'Transition Duration':
+    'prefix': 'ttd'
+    'body': '@include transition-duration(${1:duration-in-seconds});$0'
+  'Transition Property':
+    'prefix': 'ttp'
+    'body': '@include transition-property(${1:property});$0'
+  'Transition Time Function':
+    'prefix': 'ttf'
+    'body': '@include transition-time-function(${1:ease||linear||ease-in||ease-out||ease-in-out||cubic-bezier(x1, y1, x2, y2)});$0'

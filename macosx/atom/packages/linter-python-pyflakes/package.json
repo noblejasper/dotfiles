@@ -1,0 +1,29 @@
+{
+  "name": "linter-python-pyflakes",
+  "linter-package": true,
+  "main": "./lib/init",
+  "version": "0.1.0",
+  "description": "Linting Python files on the fly using pyflakes command",
+  "activationEvents": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bsnux/linter-python-pyflakes"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {},
+  "readme": "# linter-python-pyflakes package\n\nThis **linter-python-pyflakes** plugin for [Linter](https://github.com/AtomLinter/Linter)\nprovides an interface to [pyflakes](https://pypi.python.org/pypi/pyflakes). It will\nbe used with files that have the Python syntax.\n\n## Requirements\n*Linter* package must be installed in order to use this plugin. If *Linter* is not\ninstalled, please follow the instructions [here](https://github.com/AtomLinter/Linter).\n\n### Installation\nBefore using this plugin, you must ensure that `pyflakes` is installed on your\nsystem. To install `pyflakes`, do the following:\n\n1. Install [python](https://www.python.org/).\n\n2. Install [pyflakes](https://pypi.python.org/pypi/pyflakes) by typing the following\nin a terminal:\n   ```\n   pip install pyflakes\n   ```\n\nNow you can proceed to install **the linter-python-pyflakes** plugin.\n\n### Plugin installation\n```\n$ apm install linter-python-pyflakes\n```\n\n## Settings\nYou can configure linter-python-pyflakes by editing *~/.atom/config.cson* (choose *Open Your Config*\nin *Atom* menu). You'll need to add the directory where your **pyflakes** executable\nresides. Example:\n```\n'linter-python-pyflakes':\n  'pyflakesDirToExecutable': '/usr/local/bin/'\n```\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/bsnux/linter-python-pyflakes/issues"
+  },
+  "homepage": "https://github.com/bsnux/linter-python-pyflakes",
+  "_id": "linter-python-pyflakes@0.1.0",
+  "dist": {
+    "shasum": "da08d78495addef99720b8786199419253f98328"
+  },
+  "_resolved": "/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-114510-7738-1vv5rfd/package.tgz",
+  "_from": "/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-114510-7738-1vv5rfd/package.tgz"
+}

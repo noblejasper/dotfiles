@@ -1,0 +1,73 @@
+'.source.scss, .source.sass':
+  'Box Sizing':
+    'prefix': 'boxsizing'
+    'body': '@include box-sizing(${1:border-box||content-box});$0'
+  'Box Shadow':
+    'prefix': 'boxshadow'
+    'body': '@include box-shadow(${1:unitless}px ${2:unitless}px ${3:unitless}px ${4:color});$0'
+  'Border Shadow Single':
+    'prefix': 'boxshadowsingle'
+    'body': '@include single-box-shadow(${1:color}, ${2:h-offset:unit}, ${3:v-offset:unit}, ${4:blur:unit}, ${5:spread:true||false}, ${6:inset:true||false});$0'
+  'Box Align':
+    'prefix': 'boxalign'
+    'body': '@include box-align(${1:start||end||center||baseline||stretch});$0'
+  'Box Direction':
+    'prefix': 'boxdir'
+    'body': '@include box-direction(${1:normal||reverse||inherit});$0'
+  'Box Flex Group':
+    'prefix': 'boxflexgroup'
+    'body': '@include box-flex-group(${1:unitless});$0'
+  'Box Flex':
+    'prefix': 'boxflex'
+    'body': '@include box-flex(${1:unitless});$0'
+  'Box Lines':
+    'prefix': 'boxlines'
+    'body': '@include box-lines(${1:single||multiple});$0'
+  'Box Ordinal Group':
+    'prefix': 'boxordgroup'
+    'body': '@include box-ordinal-group(${1:unitless});$0'
+  'Box Orient':
+    'prefix': 'boxorient'
+    'body': '@include box-orient(${1:horizontal||vertical||inline-axis||block-axis||inherit});$0'
+  'Box Pack':
+    'prefix': 'boxpack'
+    'body': '@include box-pack(${1:start||end||center||justify});$0'
+  'Display Box':
+    'prefix': 'displaybox'
+    'body': '@include display-box;$0'
+  'Box Sizing':
+    'prefix': 'bsz'
+    'body': '@include box-sizing(${1:border-box||content-box});$0'
+  'Box Shadow':
+    'prefix': 'bsh'
+    'body': '@include box-shadow(${1:unitless}px ${2:unitless}px ${3:unitless}px ${4:color});$0'
+  'Border Shadow Single':
+    'prefix': 'bshs'
+    'body': '@include single-box-shadow(${1:color}, ${2:h-offset:unit}, ${3:v-offset:unit}, ${4:blur:unit}, ${5:spread:true||false}, ${6:inset:true||false});$0'
+  'Box Align':
+    'prefix': 'ba'
+    'body': '@include box-align(${1:start||end||center||baseline||stretch});$0'
+  'Box Direction':
+    'prefix': 'bd'
+    'body': '@include box-direction(${1:normal||reverse||inherit});$0'
+  'Box Flex Group':
+    'prefix': 'bfg'
+    'body': '@include box-flex-group(${1:unitless});$0'
+  'Box Flex':
+    'prefix': 'bf'
+    'body': '@include box-flex(${1:unitless});$0'
+  'Box Lines':
+    'prefix': 'bl'
+    'body': '@include box-lines(${1:single||multiple});$0'
+  'Box Ordinal Group':
+    'prefix': 'bog'
+    'body': '@include box-ordinal-group(${1:unitless});$0'
+  'Box Orient':
+    'prefix': 'bo'
+    'body': '@include box-orient(${1:horizontal||vertical||inline-axis||block-axis||inherit});$0'
+  'Box Pack':
+    'prefix': 'bp'
+    'body': '@include box-pack(${1:start||end||center||justify});$0'
+  'Display Box':
+    'prefix': 'db'
+    'body': '@include display-box;$0'

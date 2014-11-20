@@ -1,0 +1,7 @@
+'.source.scss, .source.sass':
+  'Hover Link':
+    'prefix': 'hoverlink'
+    'body': '@include hover-link;$0'
+  'Hover Link':
+    'prefix': 'hvl'
+    'body': '@include hover-link;$0'

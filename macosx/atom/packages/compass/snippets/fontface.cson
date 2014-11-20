@@ -1,0 +1,7 @@
+'.source.scss, .source.sass':
+  'Font Face':
+    'prefix': 'fontface'
+    'body': '@include font-face("${1:name}", font-files(${2:rel/path/to}.woff, ${3:rel/path/to}.ttf, ${4:rel/path/to}.svg), ${5:rel/path/to}.eof, ${6:bold||<del>}, ${7:italic||<del>});$0'
+  'Font Face':
+    'prefix': 'ff'
+    'body': '@include font-face("${1:name}", font-files(${2:rel/path/to}.woff, ${3:rel/path/to}.ttf, ${4:rel/path/to}.svg), ${5:rel/path/to}.eof, ${6:bold||<del>}, ${7:italic||<del>});$0'

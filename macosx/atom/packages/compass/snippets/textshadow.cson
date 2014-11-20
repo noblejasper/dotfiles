@@ -1,0 +1,13 @@
+'.source.scss, .source.sass':
+  'Text Shadow Single':
+    'prefix': 'testshadowsingle'
+    'body': '@include single-text-shadow(${1:h-offset:unit}, ${2:v-offset:unit}, ${3:blur:unit}, ${4:spread:unit}, ${5:color});$0'
+  'Text Shadow':
+    'prefix': 'textshadow'
+    'body': '@include text-shadow(${1:shadow});$0'
+  'Text Shadow Single Shorthand':
+    'prefix': 'tss'
+    'body': '@include single-text-shadow(${1:h-offset:unit}, ${2:v-offset:unit}, ${3:blur:unit}, ${4:spread:unit}, ${5:color});$0'
+  'Text Shadow Shorthand':
+    'prefix': 'ts'
+    'body': '@include text-shadow(${1:shadow});$0'

@@ -1,0 +1,19 @@
+{
+  "name": "git-plus",
+  "main": "./lib/git-plus",
+  "version": "3.6.1",
+  "description": "Do git things without the terminal",
+  "activationEvents": [],
+  "repository": "https://github.com/akonwi/git-plus",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+    "fs-plus": "^2.2.0",
+    "fuzzaldrin": "^1.2.0",
+    "underscore-plus": "1.x",
+    "theorist": "~1.0.1",
+    "emissary": "~1.2.1"
+  }
+}

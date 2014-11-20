@@ -1,0 +1,28 @@
+{
+  "name": "inline-autocomplete",
+  "version": "0.3.2",
+  "main": "./lib/inline-autocomplete",
+  "description": "Inserts possible completions in the editor with `escape`, Textmate style.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexchee/atom-inline-autocomplete"
+  },
+  "engines": {
+    "atom": "*"
+  },
+  "dependencies": {
+    "underscore-plus": "1.x"
+  },
+  "readme": "# Inline Autocomplete package\nOriginally a fork from [Autocomplete package](https://github.com/atom/autocomplete), but I made it's own repo to make reporting issues easier.\n\nInlines possible completions in the editor using `escape`, like Textmate's autocomplete.\n\n![](http://imageshack.com/a/img203/3507/pmm.gif)\n\nLooking to use a different keybinding? Copy the following to your\n`~/.atom/keymap.cson` to tweak:\n```\n'.editor':\n  'alt-space': 'inline-autocomplete:cycle'\n  'shift-alt-space': 'inline-autocomplete:cycle-back'\n```\n\nYou can add a keybind to confirm a selection:\n```\n'.inline-autocompleting':\n  'space': 'inline-autocomplete:stop'\n```\n\nTODO:\n * Pull Editor's grammar to Word List\n * Figure out how to make confirmKeys customizable\n \n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/alexchee/atom-inline-autocomplete/issues"
+  },
+  "homepage": "https://github.com/alexchee/atom-inline-autocomplete",
+  "_id": "inline-autocomplete@0.3.2",
+  "dist": {
+    "shasum": "fe459d76c689764603c074b24e32bd1d2f2b289c"
+  },
+  "_resolved": "/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-114715-62481-s62s6p/package.tgz",
+  "_from": "/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-114715-62481-s62s6p/package.tgz"
+}

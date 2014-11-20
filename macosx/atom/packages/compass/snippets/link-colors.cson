@@ -1,0 +1,7 @@
+'.source.scss, .source.sass':
+  'Link Colors':
+    'prefix': 'linkcolors'
+    'body': '@include link-colors(${1:link}, ${2:hover}, ${3:active}, ${4:visited}, ${5:focus});$0'
+  'Link Colors':
+    'prefix': 'lc'
+    'body': '@include link-colors(${1:link}, ${2:hover}, ${3:active}, ${4:visited}, ${5:focus});$0'

@@ -1,0 +1,25 @@
+'.source.scss, .source.sass':
+  'Hide Text':
+    'prefix': 'hidetext'
+    'body': '@include hide-text(${1:direction});$0'
+  'Replace Text w/ Dimensions':
+    'prefix': 'replacetextdimensions'
+    'body': '@include replace-text-with-dimensions(${1:img}, ${2:position-x}, ${3:position-y}, ${3:inline:true||false});$0'
+  'Replace Text':
+    'prefix': 'replacetext'
+    'body': '@include replace-text(${1:img}, ${2:position-x}, ${3:position-y});$0'
+  'Squish Text':
+    'prefix': 'squishtext'
+    'body': '@include squish-text;$0'
+  'Hide Text Shorthand':
+    'prefix': 'ht'
+    'body': '@include hide-text(${1:direction});$0'
+  'Replace Text w/ Dimensions Shorthand':
+    'prefix': 'rtd'
+    'body': '@include replace-text-with-dimensions(${1:img}, ${2:position-x}, ${3:position-y}, ${3:inline:true||false});$0'
+  'Replace Text Shorthand':
+    'prefix': 'rt'
+    'body': '@include replace-text(${1:img}, ${2:position-x}, ${3:position-y});$0'
+  'Squish Text Shorthand':
+    'prefix': 'sqt'
+    'body': '@include squish-text;$0'

@@ -1,0 +1,13 @@
+'.source.scss, .source.sass':
+  'CSS Regions Flow From':
+    'prefix': 'flowfrom'
+    'body': '@include flow-from(${1:target});$0'
+  'CSS Regions Flow Into':
+    'prefix': 'flowinto'
+    'body': '@include flow-into(${1:target});$0'
+  'CSS Regions Flow From':
+    'prefix': 'flowf'
+    'body': '@include flow-from(${1:target});$0'
+  'CSS Regions Flow Into':
+    'prefix': 'flowi'
+    'body': '@include flow-into(${1:target});$0'

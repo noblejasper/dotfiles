@@ -1,0 +1,33 @@
+'.source.js, .source.coffee':
+  'editor':
+    'completions': [
+      'Backbone.Layout'
+      'Backbone.Layout.configure'
+      'prefix'
+      'manage'
+      'suppressWarnings'
+      'deferred'
+      'fetchTemplate'
+      'partial'
+      'html'
+      'htmlBatch'
+      'insert'
+      'when'
+      'renderTemplate'
+      'contains'
+
+      'views'
+      'insertView'
+      'setView'
+      'getView'
+      'getViews'
+      'removeView'
+      'beforeRender'
+      'afterRender'
+      'serialize'
+      'then'
+
+      # Snippets
+      'layoutconfig'
+      'layout'
+    ]

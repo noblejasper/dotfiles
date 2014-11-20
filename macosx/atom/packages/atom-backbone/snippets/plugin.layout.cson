@@ -1,0 +1,104 @@
+# Backbone Layout Manager
+
+".source.coffee":
+
+  "CoffeeScript: Backbone LayoutManager Config":
+    "prefix": "layoutconfig"
+    "body": """
+    Backbone.Layout.configure
+      ${1:# options}
+    """
+
+  "CoffeeScript: Backbone LayoutManager Layout":
+    "prefix": "layout"
+    "body": """
+    class ${1}Layout extends Backbone.Layout
+
+      ${2:template: "#element"}
+
+      views:
+        ${3:# views}
+
+      initialize: ${4:(args...)}->
+        ${5}
+    """
+
+  "CoffeeScript: Backbone Layout for AMD":
+    "prefix": "deflayout"
+    "body": """
+    define [
+      'jquery'
+      'underscore'
+      'backbone'
+      ${1:'backbone.layoutmanager'}
+
+    ], ($, _, Backbone) ->
+
+      layout${2: # delete this and press tab}
+
+    """
+
+  "CoffeeScript: Backbone Layout for CommonJS":
+    "prefix": "explayout"
+    "body": """
+    $        = require "jquery"
+    _        = require "underscore"
+    Backbone = require "backbone"
+
+    module.exports = layout${3: # delete this and press tab}
+
+    """
+
+".source.js":
+
+  "JavaScript: Backbone LayoutManager Config":
+    "prefix": "layoutconfig"
+    "body": """
+    Backbone.Layout.configure({
+      ${1:// options}
+    });
+    """
+
+  "JavaScript: Backbone LayoutManager Layout":
+    "prefix": "layout"
+    "body": """
+    ${1}Layout = Backbone.Layout.extend({
+
+      ${2:template: "#element",}
+
+      views: {
+        ${3:// views}
+      },
+
+      initialize: function (${4:args}) {
+        ${5}
+      }
+    });
+    """
+
+  "JavaScript: Backbone Layout for AMD":
+    "prefix": "deflayout"
+    "body": """
+    define([
+      'jquery',
+      'underscore',
+      'backbone',
+      ${1:'backbone.layoutmanager',}
+
+    ], function ($, _, Backbone) {
+
+      return layout${2: // delete this and press tab}
+
+    });
+    """
+
+  "JavaScript: Backbone Layout for CommonJS":
+    "prefix": "explayout"
+    "body": """
+    $        = require("jquery");
+    _        = require("underscore");
+    Backbone = require("backbone");
+
+    module.exports = layout${3: // delete this and press tab}
+
+    """

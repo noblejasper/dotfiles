@@ -1,0 +1,50 @@
+'global':
+  'exception-reporting':
+    'userId': 'c6699618-4497-4b29-c4b1-d584ee2e7cf5'
+  'release-notes':
+    'viewedVersion': '0.89.0'
+  'welcome':
+    'showOnStartup': false
+  'metrics':
+    'userId': '17dd89b6778fd0df1b7fe3732d3fd098681e4e16'
+  'editor':
+    'tabLength': 4
+    'showIndentGuide': true
+    'preferredLineLength': 100
+    'softWrap': true
+    'invisibles': {}
+    'showInvisibles': true
+  'core':
+    'themes': [
+      'atom-dark-ui'
+      'monokai'
+    ]
+    'ignoredNames': [
+      '.git'
+      '.svn'
+      '.DS_Store'
+    ]
+    'scopeForExtension':
+      '':
+        'html': 'text.html.jinja.j2'
+    'disabledPackages': [
+      'linter-jscs'
+      'inline-autocomplete'
+    ]
+    'projectHome': '/Users/jasper/git'
+  'autocomplete':
+    'includeCompletionsFromAllBuffers': true
+  'run-command':
+    'precedeCommandsWith': 'export PATH=${PATH}:/usr/local/bin; echo $PATH; source ~/.profile'
+  'linter-python-pyflakes':
+    'pyflakesDirToExecutable': '/usr/local/bin/'
+  'bracket-matcher':
+    'autocompleteBrackets': false
+  'linter':
+    'showStatusBarWhenCursorIsInErrorRange': true
+    'lintOnChange': false
+  'inline-autocomplete':
+    'includeCompletionsFromAllBuffers': true
+    'includeGrammarKeywords': true
+  'autocomplete-plus':
+    'includeCompletionsFromAllBuffers': true

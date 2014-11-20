@@ -1,0 +1,29 @@
+{
+  "name": "python",
+  "main": "./lib/python",
+  "version": "0.5.1",
+  "private": false,
+  "description": "Use script instead please.",
+  "activationEvents": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rgbkrk/atom-python"
+  },
+  "license": "Apache 2",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {},
+  "readme": "# Python for atom\n\n**Please use [the script package](https://github.com/rgbkrk/atom-script) instead.** This package will\npull from it in the future.\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/rgbkrk/atom-python/issues"
+  },
+  "homepage": "https://github.com/rgbkrk/atom-python",
+  "_id": "python@0.5.1",
+  "dist": {
+    "shasum": "237f46b535adff4f038dce849b3f840b235fa705"
+  },
+  "_resolved": "/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-114510-8664-awmn8f/package.tgz",
+  "_from": "/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-114510-8664-awmn8f/package.tgz"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "atom-jinja2",
+  "version": "0.5.0",
+  "private": true,
+  "description": "Syntax highlighting for jinja2 templates.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danielchatfield/atom-jinja2"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {},
+  "readme": "# Atom Jinja2 package\n\nProvides syntax highlighting for jinja2 templates in atom.\n\n\nAdds a \"jinja templates\" syntax and an \"HTML (Jinja templates)\" syntax.\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/danielchatfield/atom-jinja2/issues"
+  },
+  "homepage": "https://github.com/danielchatfield/atom-jinja2",
+  "_id": "atom-jinja2@0.5.0",
+  "dist": {
+    "shasum": "788cda54e426ad1b177cf8dee533412b6999589b"
+  },
+  "_resolved": "/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-114510-38662-1nfmvgb/package.tgz",
+  "_from": "/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-114510-38662-1nfmvgb/package.tgz"
+}

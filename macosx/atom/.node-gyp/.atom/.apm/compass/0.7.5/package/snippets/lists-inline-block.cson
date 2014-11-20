@@ -1,0 +1,28 @@
+'.source.scss, .source.sass':
+  'Inline Block List Container Shorthand':
+    'prefix': 'iblistcontainer'
+    'body': '@include inline-block-list-container;$0'
+  'Inline Block List Container':
+    'prefix': 'inlineblocklistcontainer'
+    'body': '@include inline-block-list-container;$0'
+  'Inline Block List Item Shorthand':
+    'prefix': 'iblistitem'
+    'body': '@include inline-block-list-item(${1:padding});$0'
+  'Inline Block List Item':
+    'prefix': 'inlineblocklistitem'
+    'body': '@include inline-block-list-item(${1:padding});$0'
+  'Inline Block List Shorthand':
+    'prefix': 'iblist'
+    'body': '@include inline-block-list(${1:padding});$0'
+  'Inline Block List':
+    'prefix': 'inlineblocklist'
+    'body': '@include inline-block-list(${1:padding});$0'
+  'Inline Block List Container Shorthand':
+    'prefix': 'iblc'
+    'body': '@include inline-block-list-container;$0'
+  'Inline Block List Item Shorthand':
+    'prefix': 'ibli'
+    'body': '@include inline-block-list-item(${1:padding});$0'
+  'Inline Block List Shorthand':
+    'prefix': 'ibl'
+    'body': '@include inline-block-list(${1:padding});$0'

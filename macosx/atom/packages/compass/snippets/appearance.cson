@@ -1,0 +1,4 @@
+'.source.scss, .source.sass':
+  'Appearance':
+    'prefix': 'appearance'
+    'body': '@include appearance(${1:value});$0'

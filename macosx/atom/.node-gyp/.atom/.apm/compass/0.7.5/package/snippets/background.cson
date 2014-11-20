@@ -1,0 +1,19 @@
+'.source.scss, .source.sass':
+  'Background Clip':
+    'prefix': 'bgclip'
+    'body': '@include background-clip(${1:padding-box||border-box||text});$0'
+  'Background Origin':
+    'prefix': 'bgorigin'
+    'body': '@include background-origin(${1:padding-box||border-box||content-box});$0'
+  'Background Size':
+    'prefix': 'bgsize'
+    'body': '@include background-size(${1:auto||contain||cover||unit});$0'
+  'Background Clip':
+    'prefix': 'bgc'
+    'body': '@include background-clip(${1:padding-box||border-box||text});$0'
+  'Background Origin':
+    'prefix': 'bgo'
+    'body': '@include background-origin(${1:padding-box||border-box||content-box});$0'
+  'Background Size':
+    'prefix': 'bgs'
+    'body': '@include background-size(${1:auto||contain||cover||unit});$0'

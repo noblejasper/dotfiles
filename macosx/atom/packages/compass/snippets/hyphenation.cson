@@ -1,0 +1,13 @@
+'.source.scss, .source.sass':
+  'Hyphens':
+    'prefix': 'hyphens'
+    'body': '@include hyphens(${1:auto||manual||none});$0'
+  'Wordbreak':
+    'prefix': 'wordbreak'
+    'body': '@include word-break(${1:normal||keep-all||break-all});$0'
+  'Hyphens':
+    'prefix': 'hyp'
+    'body': '@include hyphens(${1:auto||manual||none});$0'
+  'Wordbreak':
+    'prefix': 'wb'
+    'body': '@include word-break(${1:normal||keep-all||break-all});$0'

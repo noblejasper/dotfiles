@@ -1,0 +1,73 @@
+'.source.scss, .source.sass':
+  'Column Break After':
+    'prefix': 'colbreakafter'
+    'body': '@include column-break-after(${1:auto||always||avoid||left||right||page||column||avoid-page||avoid-column});$0'
+  'Column Break Before':
+    'prefix': 'colbreakbefore'
+    'body': '@include column-break-before(${1:auto||always||avoid||left||right||page||column||avoid-page||avoid-column});$0'
+  'Column Break Inside':
+    'prefix': 'colbreakinside'
+    'body': '@include column-break-inside(${1:auto||avoid||avoid-page||avoid-column});$0'
+  'Column Break':
+    'prefix': 'colbreak'
+    'body': '@include column-break(${1:type:before||after||inside}, ${2:value:auto||always||avoid||left||right||page||column||avoid-page||avoid-column});$0'
+  'Column Count':
+    'prefix': 'colcount'
+    'body': '@include column-count(${1:count});$0'
+  'Column Gap':
+    'prefix': 'colgap'
+    'body': '@include column-gap(${1:unit});$0'
+  'Column Rule Color':
+    'prefix': 'colrulecolor'
+    'body': '@include column-rule-color(${1:color});$0'
+  'Column Rule Style':
+    'prefix': 'colrulestyle'
+    'body': '@include column-rule-style(${1:solid||dashed||dotted});$0'
+  'Column Rule Width':
+    'prefix': 'colrulewidth'
+    'body': '@include column-rule-width(${1:unit});$0'
+  'Column Rule':
+    'prefix': 'colrule'
+    'body': '@include column-rule(${1:width:unit} ${2:style:solid||dashed||dotted} ${3:color});$0'
+  'Column Width':
+    'prefix': 'colwidth'
+    'body': '@include column-width(${1:unit});$0'
+  'Columns':
+    'prefix': 'cols'
+    'body': '@include columns(${1:width} ${2:count});$0'
+  'Column Break After':
+    'prefix': 'cba'
+    'body': '@include column-break-after(${1:auto||always||avoid||left||right||page||column||avoid-page||avoid-column});$0'
+  'Column Break Before':
+    'prefix': 'cbb'
+    'body': '@include column-break-before(${1:auto||always||avoid||left||right||page||column||avoid-page||avoid-column});$0'
+  'Column Break Inside':
+    'prefix': 'cbi'
+    'body': '@include column-break-inside(${1:auto||avoid||avoid-page||avoid-column});$0'
+  'Column Break':
+    'prefix': 'cb'
+    'body': '@include column-break(${1:type:before||after||inside}, ${2:value:auto||always||avoid||left||right||page||column||avoid-page||avoid-column});$0'
+  'Column Count':
+    'prefix': 'colc'
+    'body': '@include column-count(${1:count});$0'
+  'Column Gap':
+    'prefix': 'colg'
+    'body': '@include column-gap(${1:unit});$0'
+  'Column Rule Color':
+    'prefix': 'colrc'
+    'body': '@include column-rule-color(${1:color});$0'
+  'Column Rule Style':
+    'prefix': 'colrs'
+    'body': '@include column-rule-style(${1:solid||dashed||dotted});$0'
+  'Column Rule Width':
+    'prefix': 'colrw'
+    'body': '@include column-rule-width(${1:unit});$0'
+  'Column Rule':
+    'prefix': 'colr'
+    'body': '@include column-rule(${1:width:unit} ${2:style:solid||dashed||dotted} ${3:color});$0'
+  'Column Width':
+    'prefix': 'colw'
+    'body': '@include column-width(${1:unit});$0'
+  'Columns':
+    'prefix': 'cols'
+    'body': '@include columns(${1:width} ${2:count});$0'

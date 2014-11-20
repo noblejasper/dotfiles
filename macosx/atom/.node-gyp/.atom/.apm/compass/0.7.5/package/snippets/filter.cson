@@ -1,0 +1,4 @@
+'.source.scss, .source.sass':
+  'Filter':
+    'prefix': 'filter'
+    'body': '@include filter(${1:blur||brightness||contrast||grayscale||hue-rotate||invert||opacity||saturate||sepia}(${2:unitless}%)});$0'

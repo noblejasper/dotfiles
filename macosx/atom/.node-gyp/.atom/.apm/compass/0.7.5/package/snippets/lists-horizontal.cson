@@ -1,0 +1,19 @@
+'.source.scss, .source.sass':
+  'Horizontal List Container':
+    'prefix': 'hlistcontainer'
+    'body': '@include horizontal-list-container;$0'
+  'Horizontal List Item':
+    'prefix': 'hlistitem'
+    'body': '@include horizontal-list-item(${1:padding}, ${1:direction});$0'
+  'Horizontal List':
+    'prefix': 'hlist'
+    'body': '@include horizontal-list(${1:padding}, ${1:direction});$0'
+  'Horizontal List Container':
+    'prefix': 'hlc'
+    'body': '@include horizontal-list-container;$0'
+  'Horizontal List Item':
+    'prefix': 'hli'
+    'body': '@include horizontal-list-item(${1:padding}, ${1:direction});$0'
+  'Horizontal List':
+    'prefix': 'hl'
+    'body': '@include horizontal-list(${1:padding}, ${1:direction});$0'

@@ -1,0 +1,7 @@
+'.source.scss, .source.sass':
+  'Inline Block':
+    'prefix': 'inlineblock'
+    'body': '@include inline-block(${1:alignment});$0'
+  'Inline Block':
+    'prefix': 'ib'
+    'body': '@include inline-block(${1:alignment});$0'

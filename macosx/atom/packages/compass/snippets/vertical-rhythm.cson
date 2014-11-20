@@ -1,0 +1,88 @@
+'.source.scss, .source.sass':
+  'Adjust Font Size To':
+    'prefix': 'adjustfontsizeto'
+    'body': '@include adjust-font-size-to(${1:to-size}, ${2:lines}, ${3:from-size});$0'
+  'Adjust Leading To':
+    'prefix': 'adjustleadingto'
+    'body': '@include adjust-leading-to(${1:lines}, ${2:font-size});$0'
+  'Apply Side Rhythm Border':
+    'prefix': 'adjustsiderhythmborder'
+    'body': '@include apply-side-rhythm-border(${1:side}, ${2:width}, ${3:lines}, ${4:font-size}, ${5:border-style});$0'
+  'Debug Vertical Alignment Shorthand':
+    'prefix': 'debugvalignment'
+    'body': '@include debug-vertical-alignment(${1:img});$0'
+  'Establish Baseline':
+    'prefix': 'establishbaseline'
+    'body': '@include establish-baseline(${1:font-size});$0'
+  'H Borders':
+    'prefix': 'hborders'
+    'body': '@include h-borders(${1:width}, ${2:lines}, ${3:font-size}, ${4:border-style});$0'
+  'Leader':
+    'prefix': 'leader'
+    'body': '@include leader(${1:lines}, ${2:font-size}, ${3:property});$0'
+  'Leading Border':
+    'prefix': 'leadingborder'
+    'body': '@include leading-border(${1:width}, ${2:lines}, ${3:font-size}, ${4:border-style});$0'
+  'Margin Leader':
+    'prefix': 'marginleader'
+    'body': '@include margin-leader(${1:lines}, ${2:font-size});$0'
+  'Margin Trailer':
+    'prefix': 'margintrailer'
+    'body': '@include margin-trailer(${1:lines}, ${2:font-size});$0'
+  'Padding Leader':
+    'prefix': 'paddingleader'
+    'body': '@include padding-leader(${1:lines}, ${2:font-size});$0'
+  'Padding Trailer':
+    'prefix': 'paddingtrailer'
+    'body': '@include padding-trailer(${1:lines}, ${2:font-size});$0'
+  'Rhythm Borders':
+    'prefix': 'rhythmborders'
+    'body': '@include rhythm-borders(${1:width}, ${2:lines}, ${3:font-size}, ${4:border-style});$0'
+  'Rhythm':
+    'prefix': 'rhythm'
+    'body': '@include rythym(${1:leader}, ${2:padding-leader}, ${3:padding-trailer}, ${4:trailer}, ${5:font-size});$0'
+  'Trailer':
+    'prefix': 'trailer'
+    'body': '@include trailer(${1:lines}, ${2:font-size}, ${3:property});$0'
+  'Trailing Border':
+    'prefix': 'trailingborder'
+    'body': '@include trailing-border(${1:width}, ${2:lines}, ${3:font-size}, ${4:border-style});$0'
+  'Adjust Font Size To':
+    'prefix': 'afst'
+    'body': '@include adjust-font-size-to(${1:to-size}, ${2:lines}, ${3:from-size});$0'
+  'Adjust Leading To':
+    'prefix': 'alt'
+    'body': '@include adjust-leading-to(${1:lines}, ${2:font-size});$0'
+  'Apply Side Rhythm Border':
+    'prefix': 'asrb'
+    'body': '@include apply-side-rhythm-border(${1:side}, ${2:width}, ${3:lines}, ${4:font-size}, ${5:border-style});$0'
+  'Debug Vertical Alignment Shorthand':
+    'prefix': 'da'
+    'body': '@include debug-vertical-alignment(${1:img});$0'
+  'Establish Baseline':
+    'prefix': 'eb'
+    'body': '@include establish-baseline(${1:font-size});$0'
+  'H Borders':
+    'prefix': 'hb'
+    'body': '@include h-borders(${1:width}, ${2:lines}, ${3:font-size}, ${4:border-style});$0'
+  'Leading Border':
+    'prefix': 'lb'
+    'body': '@include leading-border(${1:width}, ${2:lines}, ${3:font-size}, ${4:border-style});$0'
+  'Margin Leader':
+    'prefix': 'ml'
+    'body': '@include margin-leader(${1:lines}, ${2:font-size});$0'
+  'Margin Trailer':
+    'prefix': 'mt'
+    'body': '@include margin-trailer(${1:lines}, ${2:font-size});$0'
+  'Padding Leader':
+    'prefix': 'pl'
+    'body': '@include padding-leader(${1:lines}, ${2:font-size});$0'
+  'Padding Trailer':
+    'prefix': 'pt'
+    'body': '@include padding-trailer(${1:lines}, ${2:font-size});$0'
+  'Rhythm Borders':
+    'prefix': 'rb'
+    'body': '@include rhythm-borders(${1:width}, ${2:lines}, ${3:font-size}, ${4:border-style});$0'
+  'Trailing Border':
+    'prefix': 'tb'
+    'body': '@include trailing-border(${1:width}, ${2:lines}, ${3:font-size}, ${4:border-style});$0'

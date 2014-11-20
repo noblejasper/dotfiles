@@ -1,0 +1,19 @@
+'.source.scss, .source.sass':
+  'No Bullet':
+    'prefix': 'nobullet'
+    'body': '@include no-bullet;$0'
+  'No Bullets':
+    'prefix': 'nobullets'
+    'body': '@include no-bullets;$0'
+  'Pretty Bullets':
+    'prefix': 'prettybullets'
+    'body': '@include pretty-bullets(${1:bullet-icon}, ${2:width}, ${3:height}, ${4:line-height}, ${5:padding});$0'
+  'No Bullet':
+    'prefix': 'nob'
+    'body': '@include no-bullet;$0'
+  'No Bullets':
+    'prefix': 'nobs'
+    'body': '@include no-bullets;$0'
+  'Pretty Bullets':
+    'prefix': 'pbs'
+    'body': '@include pretty-bullets(${1:bullet-icon}, ${2:width}, ${3:height}, ${4:line-height}, ${5:padding});$0'

@@ -1,0 +1,7 @@
+'.source.scss, .source.sass':
+  'No Wrap':
+    'prefix': 'nowrap'
+    'body': '@include nowrap;$0'
+  'No Wrap Shorthand':
+    'prefix': 'now'
+    'body': '@include nowrap;$0'

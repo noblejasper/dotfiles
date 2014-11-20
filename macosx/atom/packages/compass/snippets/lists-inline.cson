@@ -1,0 +1,19 @@
+'.source.scss, .source.sass':
+  'Comma Delimited':
+    'prefix': 'commadelimited'
+    'body': '@include comma-delimited-list;$0'
+  'Delimited List':
+    'prefix': 'delimitedlist'
+    'body': '@include delimited-list(${1:separator});$0'
+  'Inline List':
+    'prefix': 'inlinelist'
+    'body': '@include inline-list;$0'
+  'Comma Delimited Shorthand':
+    'prefix': 'cd'
+    'body': '@include comma-delimited-list;$0'
+  'Delimited List Shorthand':
+    'prefix': 'dl'
+    'body': '@include delimited-list(${1:separator});$0'
+  'Inline List Shorthand':
+    'prefix': 'il'
+    'body': '@include inline-list;$0'

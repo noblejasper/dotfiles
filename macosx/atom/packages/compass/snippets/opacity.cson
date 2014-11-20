@@ -1,0 +1,19 @@
+'.source.scss, .source.sass':
+  'Opacity':
+    'prefix': 'opacity'
+    'body': '@include opacity(${1:unitless});$0'
+  'Opaque':
+    'prefix': 'opaque'
+    'body': '@include opaque;$0'
+  'Transparent':
+    'prefix': 'transparent'
+    'body': '@include transparent;$0'
+  'Opacity Shorthand':
+    'prefix': 'opc'
+    'body': '@include opacity(${1:unitless});$0'
+  'Opaque Shorthand':
+    'prefix': 'opq'
+    'body': '@include opaque;$0'
+  'Transparent Shorthand':
+    'prefix': 'trp'
+    'body': '@include transparent;$0'

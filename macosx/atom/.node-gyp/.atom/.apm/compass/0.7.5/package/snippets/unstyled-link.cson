@@ -1,0 +1,7 @@
+'.source.scss, .source.sass':
+  'Unstyled Link':
+    'prefix': 'unstyledlink'
+    'body': '@include unstyled-link;$0'
+  'Unstyled Link Shorthand':
+    'prefix': 'ul'
+    'body': '@include unstyled-link;$0'

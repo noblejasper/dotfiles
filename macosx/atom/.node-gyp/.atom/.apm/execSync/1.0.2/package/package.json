@@ -1,0 +1,26 @@
+{
+  "author": "Mario Gutierrez <mario@mgutz.com>",
+  "name": "execSync",
+  "description": "Node's missing execSync.",
+  "version": "1.0.2",
+  "license": "MIT",
+  "dependencies": {
+    "temp": "~0.5.1"
+  },
+  "devDependencies": {
+    "chai": "~1.5.0",
+    "mocha": "~1.9.0"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "mocha test/unixSpec",
+    "install": "node install.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mgutz/execSync.git"
+  }
+}

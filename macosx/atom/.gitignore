@@ -1,0 +1,3 @@
+storage
+compile-cache/*
+.node-gyp/.atom/.apm/_git-remotes

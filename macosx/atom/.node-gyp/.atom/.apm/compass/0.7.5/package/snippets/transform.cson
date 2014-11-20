@@ -1,0 +1,157 @@
+'.source.scss, .source.sass':
+  'Transform Origin':
+    'prefix': 'transformorigin'
+    'body': '@include transform-origin(${1:x:unit||left||top||right||bottom||center}, ${2:y:unit||left||top||right||bottom||center}, ${3:z:unit||left||top||right||bottom||center}, ${4:3D-only:true||false});$0'
+  'Transform Style':
+    'prefix': 'transformstyle'
+    'body': '@include transform-style(${1:flat|preserve-3d});$0'
+  'Transform':
+    'prefix': 'transform'
+    'body': '@include transform(${1:transforms}, ${2:3D-only:true||false});$0'
+  'Transform 2d':
+    'prefix': 'transform2d'
+    'body': '@include transform2d(${1:transform});$0'
+  'Transform 3d':
+    'prefix': 'transform3d'
+    'body': '@include transform3d(${1:transform});$0'
+  'Translate':
+    'prefix': 'translate'
+    'body': '@include translate(${1:x:unit}, ${2:y:unit}, ${3:z:unit}, ${4:3D-only:true||false});$0'
+  'Translate 3d':
+    'prefix': 'translate3d'
+    'body': '@include translate3d(${1:x:unit}, ${2:y:unit}, ${3:z:unit}, ${4:perspective:true||false});$0'
+  'Translate X':
+    'prefix': 'translatex'
+    'body': '@include translateX(${1:unit}, ${2:perspective:true||false}, ${3:3D-only:true||false});$0'
+  'Translate Y':
+    'prefix': 'translatey'
+    'body': '@include translateY(${1:unit}, ${2:perspective:true||false}, ${3:3D-only:true||false});$0'
+  'Translate Z':
+    'prefix': 'translatez'
+    'body': '@include translateZ(${1:unit}, ${2:perspective:true||false});$0'
+  'Apply Origin':
+    'prefix': 'applyorigin'
+    'body': '@include apply-origin(${1:x:unit|left|top|right|bottom|center}, ${2:y:unit|left|top|right|bottom|center}, ${3:z:unit|left|top|right|bottom|center}, ${4:3D-only:true||false});$0'
+  'Backface Visibility':
+    'prefix': 'backfacevisibility'
+    'body': '@include backface-visibility(${1:visible||hidden});$0'
+  'Create Transform':
+    'prefix': 'createtransform'
+    'body': '@include create-transform(${1:perspective:true||false}, ${2:scale-x:unitless}, ${3:scale-y:unitless}, ${4:scale-z:unitless}, ${5:rotate-x:unitless}deg, ${6:rotate-y:unitless}deg, ${7:rotate-z:unitless}deg, ${8:rotate3d:unitless}deg, ${9:trans-x:unit}, ${10:trans-y:unit}, ${11:trans-z:unit}, ${12:skew-x:unitless}deg, ${13:skew-y:unitless}deg, ${14:origin-x:unit}, ${15:origin-y:unit}, ${16:origin-z:unit}, ${17:3D-only:true||false});$0'
+  'Perspective Origin':
+    'prefix': 'perspectiveorigin'
+    'body': '@include perspective-origin(${1:x:unit} ${2:y:unit});$0'
+  'Perspective':
+    'prefix': 'perspective'
+    'body': '@include perspective(${1:unitless});$0'
+  'Rotate':
+    'prefix': 'rotate'
+    'body': '@include rotate(${1:unitless}deg, ${2:perspective:true||false}, ${3:3D-only:true||false});$0'
+  'Rotate 3d':
+    'prefix': 'rotate3d'
+    'body': '@include rotate3d(${1:vector-x:unitless}, ${2:vector-y:unitless}, ${3:vector-z:unitless}, ${4:angle:unitless}deg, ${5:perspective:true||false});$0'
+  'Rotate X':
+    'prefix': 'rotatex'
+    'body': '@include rotateX(${1:unitless}deg, ${2:perspective:true||false});$0'
+  'Rotate Y':
+    'prefix': 'rotatey'
+    'body': '@include rotateY(${1:unitless}deg, ${2:perspective:true||false});$0'
+  'Rotate Z':
+    'prefix': 'rotatez'
+    'body': '@include rotateZ(${1:unitless}deg, ${2:perspective:true||false}, ${3:3D-only:true||false});$0'
+  'Scale':
+    'prefix': 'scale'
+    'body': '@include scale(${1:x:unitless}, ${2:y:unitless}, ${3:z:unitless}, ${4:3D-only:true||false});$0'
+  'Scale 3d':
+    'prefix': 'scale3d'
+    'body': '@include scale3d(${1:x:unitless}, ${2:y:unitless}, ${3:z:unitless}, ${4:perspective:true||false});$0'
+  'Scale X':
+    'prefix': 'scalex'
+    'body': '@include scaleX(${1:unitless}, ${2:perspective:true||false}, ${3:3D-only:true||false});$0'
+  'Scale Y':
+    'prefix': 'scaley'
+    'body': '@include scaleY(${1:unitless}, ${2:perspective:true||false}, ${3:3D-only:true||false});$0'
+  'Scale Z':
+    'prefix': 'scalez'
+    'body': '@include scaleZ(${1:unitless}, ${2:perspective:true||false});$0'
+  'Simple Transform':
+    'prefix': 'simpletransform'
+    'body': '@include simple-transform(${1:scale:unitless}, ${2:rotate:unitless}deg, ${3:trans-x:unit}, ${4:trans-y:unit}, ${5:skew-x:unitless}deg, ${6:skew-y:unitless}deg, ${7:origin-x:unit});$0'
+  'Skew':
+    'prefix': 'skew'
+    'body': '@include skew(${1:x:unitless}deg, ${2:y:unitless}deg, ${3:3D-only:true||false});$0'
+  'Skew X':
+    'prefix': 'skewx'
+    'body': '@include skewX(${1:unitless}deg, ${3:3D-only:true||false});$0'
+  'Skew Y':
+    'prefix': 'skewy'
+    'body': '@include skewY(${1:unitless}deg, ${3:3D-only:true||false});$0'
+  'Transform Origin':
+    'prefix': 'tfo'
+    'body': '@include transform-origin(${1:x:unit||left||top||right||bottom||center}, ${2:y:unit||left||top||right||bottom||center}, ${3:z:unit||left||top||right||bottom||center}, ${4:3D-only:true||false});$0'
+  'Transform Style':
+    'prefix': 'tfs'
+    'body': '@include transform-style(${1:flat|preserve-3d});$0'
+  'Transform 2d':
+    'prefix': 'tf2d'
+    'body': '@include transform2d(${1:transform});$0'
+  'Transform 3d':
+    'prefix': 'tf3d'
+    'body': '@include transform3d(${1:transform});$0'
+  'Translate 3d':
+    'prefix': 'tl3d'
+    'body': '@include translate3d(${1:x:unit}, ${2:y:unit}, ${3:z:unit}, ${4:perspective:true||false});$0'
+  'Translate X':
+    'prefix': 'tlx'
+    'body': '@include translateX(${1:unit}, ${2:perspective:true||false}, ${3:3D-only:true||false});$0'
+  'Translate Y':
+    'prefix': 'tly'
+    'body': '@include translateY(${1:unit}, ${2:perspective:true||false}, ${3:3D-only:true||false});$0'
+  'Translate Z':
+    'prefix': 'tlz'
+    'body': '@include translateZ(${1:unit}, ${2:perspective:true||false});$0'
+  'Apply Origin':
+    'prefix': 'ao'
+    'body': '@include apply-origin(${1:x:unit|left|top|right|bottom|center}, ${2:y:unit|left|top|right|bottom|center}, ${3:z:unit|left|top|right|bottom|center}, ${4:3D-only:true||false});$0'
+  'Backface Visibility':
+    'prefix': 'bv'
+    'body': '@include backface-visibility(${1:visible||hidden});$0'
+  'Create Transform':
+    'prefix': 'ctf'
+    'body': '@include create-transform(${1:perspective:true||false}, ${2:scale-x:unitless}, ${3:scale-y:unitless}, ${4:scale-z:unitless}, ${5:rotate-x:unitless}deg, ${6:rotate-y:unitless}deg, ${7:rotate-z:unitless}deg, ${8:rotate3d:unitless}deg, ${9:trans-x:unit}, ${10:trans-y:unit}, ${11:trans-z:unit}, ${12:skew-x:unitless}deg, ${13:skew-y:unitless}deg, ${14:origin-x:unit}, ${15:origin-y:unit}, ${16:origin-z:unit}, ${17:3D-only:true||false});$0'
+  'Perspective Origin':
+    'prefix': 'po'
+    'body': '@include perspective-origin(${1:x:unit} ${2:y:unit});$0'
+  'Rotate 3d':
+    'prefix': 'r3d'
+    'body': '@include rotate3d(${1:vector-x:unitless}, ${2:vector-y:unitless}, ${3:vector-z:unitless}, ${4:angle:unitless}deg, ${5:perspective:true||false});$0'
+  'Rotate X':
+    'prefix': 'rx'
+    'body': '@include rotateX(${1:unitless}deg, ${2:perspective:true||false});$0'
+  'Rotate Y':
+    'prefix': 'ry'
+    'body': '@include rotateY(${1:unitless}deg, ${2:perspective:true||false});$0'
+  'Rotate Z':
+    'prefix': 'rz'
+    'body': '@include rotateZ(${1:unitless}deg, ${2:perspective:true||false}, ${3:3D-only:true||false});$0'
+  'Scale 3d':
+    'prefix': 'sc3d'
+    'body': '@include scale3d(${1:x:unitless}, ${2:y:unitless}, ${3:z:unitless}, ${4:perspective:true||false});$0'
+  'Scale X':
+    'prefix': 'scx'
+    'body': '@include scaleX(${1:unitless}, ${2:perspective:true||false}, ${3:3D-only:true||false});$0'
+  'Scale Y':
+    'prefix': 'scy'
+    'body': '@include scaleY(${1:unitless}, ${2:perspective:true||false}, ${3:3D-only:true||false});$0'
+  'Scale Z':
+    'prefix': 'scz'
+    'body': '@include scaleZ(${1:unitless}, ${2:perspective:true||false});$0'
+  'Simple Transform':
+    'prefix': 'stf'
+    'body': '@include simple-transform(${1:scale:unitless}, ${2:rotate:unitless}deg, ${3:trans-x:unit}, ${4:trans-y:unit}, ${5:skew-x:unitless}deg, ${6:skew-y:unitless}deg, ${7:origin-x:unit});$0'
+  'Skew X':
+    'prefix': 'skx'
+    'body': '@include skewX(${1:unitless}deg, ${3:3D-only:true||false});$0'
+  'Skew Y':
+    'prefix': 'sky'
+    'body': '@include skewY(${1:unitless}deg, ${3:3D-only:true||false});$0'

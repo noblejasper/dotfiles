@@ -1,0 +1,10 @@
+'.source.scss, .source.sass':
+  'Sticky Footer Shorthand':
+    'prefix': 'sticky'
+    'body': '@include sticky-footer(${1:unitless}px${2:, selectors});$0'
+  'Sticky Footer':
+    'prefix': 'stickyfooter'
+    'body': '@include sticky-footer(${1:unitless}px${2:, selectors});$0'
+  'Sticky Footer Shorthand':
+    'prefix': 'sf'
+    'body': '@include sticky-footer(${1:unitless}px${2:, selectors});$0'

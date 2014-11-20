@@ -1,0 +1,13 @@
+{
+  "name": "inline-autocomplete",
+  "version": "0.3.2",
+  "main": "./lib/inline-autocomplete",
+  "description": "Inserts possible completions in the editor with `escape`, Textmate style.",
+  "repository": "https://github.com/alexchee/atom-inline-autocomplete",
+  "engines": {
+    "atom": "*"
+  },
+  "dependencies": {
+    "underscore-plus": "1.x"
+  }
+}

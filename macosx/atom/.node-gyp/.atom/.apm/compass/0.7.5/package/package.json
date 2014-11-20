@@ -1,0 +1,13 @@
+{
+  "name": "compass",
+  "main": "./lib/compass",
+  "version": "0.7.5",
+  "private": true,
+  "description": "Compass snippets",
+  "repository": "https://github.com/cristinasolana/atom-compass-framework",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.60.0"
+  },
+  "dependencies": {}
+}

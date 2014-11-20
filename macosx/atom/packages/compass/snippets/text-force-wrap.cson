@@ -1,0 +1,7 @@
+'.source.scss, .source.sass':
+  'Force Wrap':
+    'prefix': 'forcewrap'
+    'body': '@include force-wrap;$0'
+  'Force Wrap Shorthand':
+    'prefix': 'fw'
+    'body': '@include force-wrap;$0'

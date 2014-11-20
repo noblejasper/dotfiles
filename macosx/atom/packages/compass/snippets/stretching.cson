@@ -1,0 +1,10 @@
+'.source.scss, .source.sass':
+  'Stretch':
+    'prefix': 'stretch'
+    'body': '@include stretch(${1:top:unitless}, ${2:right:unitless}, ${3:bottom:unitless}, ${4:left:unitless});$0'
+  'Stretch X':
+    'prefix': 'stretchx'
+    'body': '@include stretch-x(${1:left:unitless}, ${2:right:unitless});$0'
+  'Stretch Y':
+    'prefix': 'stretchy'
+    'body': '@include stretch-y(${1:top:unitless}, ${2:bottom:unitless});$0'

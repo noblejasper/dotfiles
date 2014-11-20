@@ -1,0 +1,221 @@
+# CoffeeScript Snippets
+
+".source.coffee":
+
+  "CoffeeScript: Backbone Template":
+    "prefix": "template"
+    "body": """
+    template = _.template \"\"\"
+      <div>
+        ${1}
+      </div>
+    \"\"\"
+    """
+
+  "CoffeeScript: Backbone History":
+    "prefix": "history"
+    "body": """
+    Backbone.history.start(${1:pushState: yes, root: "/public/search/"})
+    """
+
+  "CoffeeScript: Backbone Model":
+    "prefix": "model"
+    "body": """
+    class ${1}Model extends Backbone.Model
+
+      defaults:
+        ${2:# defaults}
+
+      initialize: ${3:(args...)}->
+        ${4:super}
+
+    """
+
+  "CoffeeScript: Backbone View":
+    "prefix": "view"
+    "body": """
+    class ${1}View extends Backbone.View
+
+      ${2:el: $ "#element"}
+
+      ${3:events:}
+
+      initialize: ${4:(args...)}->
+        ${5:super}
+
+    """
+
+  "CoffeeScript: Backbone ModelView":
+    "prefix": "modelview"
+    "body": """
+    class ${1}ModelView extends Backbone.View
+
+      template: _.template $("script#${2:template}").html()
+
+      ${3:events:}
+
+      initialize: ${4:(args...)}->
+        ${5:super}
+        @listenTo @model, "change", @render
+        @listenTo @model, "destroy", @remove
+
+      render: ->
+        @setTemplate @template @model.toJSON()
+        this
+
+    """
+
+  "CoffeeScript: Backbone Collection":
+    "prefix": "collection"
+    "body": """
+    class ${1}Collection extends Backbone.Collection
+
+      model: ${2}Model
+
+      initialize: ${3:(args...)}->
+        ${4:super}
+
+    """
+
+  "CoffeeScript: Backbone Collection View":
+    "prefix": "collectionview"
+    "body": """
+    class ${1}CollectionView extends Backbone.View
+
+      ${2:el: $ "#element"}
+
+      initialize: ${3:(args...)}->
+
+        ${4:@collection} = ${5:new }Collection
+
+        @listenTo @collection, 'add'  , @addOne
+        @listenTo @collection, 'reset', @addAll
+        @listenTo @collection, 'all'  , @render
+
+      addOne: (${6:item})->
+        view = new ${7}View model: ${8:item}
+        @$el.append view.render().el
+
+      addAll: ->
+        @collection.each @addOne, this
+
+      render: ->
+        ${9:// render}
+        this
+
+    """
+
+  "CoffeeScript: Backbone Router":
+    "prefix": "router"
+    "body": """
+    class ${1}Router extends Backbone.Router
+
+      routes:
+        "/": "main"
+        ${2:# routes}
+
+      initialize: ${3:(args...)}->
+        ${4:super}
+
+      main: ()->
+        ${3:# main}
+
+    """
+
+  "CoffeeScript: Backbone View for AMD":
+    "prefix": "defview"
+    "body": """
+    define [
+      'jquery'
+      'underscore'
+      'backbone'
+
+      'text!templates/${1:template_path.html}'
+    ], ($, _, Backbone, ${2:template}) ->
+
+      view${3: # delete this and press tab}
+
+    """
+
+  "CoffeeScript: Backbone View for CommonJS":
+    "prefix": "expview"
+    "body": """
+    $        = require "jquery"
+    _        = require "underscore"
+    Backbone = require "backbone"
+    ${1:template} = require "./templates/${2:template_path}"
+
+    module.exports = view${3: # delete this and press tab}
+
+    """
+
+  "CoffeeScript: Backbone Model for AMD":
+    "prefix": "defmodel"
+    "body": """
+    define [
+      'underscore'
+      'backbone'
+      ${1:'dep'}
+    ], (_, Backbone${2:, dep}) ->
+
+      model${3: # delete this and press tab}
+
+    """
+
+  "CoffeeScript: Backbone Model for CommonJS":
+    "prefix": "expmodel"
+    "body": """
+    _        = require "underscore"
+    Backbone = require "backbone"
+
+    module.exports = model${1: # delete this and press tab}
+
+    """
+
+  "CoffeeScript: Backbone Collection for AMD":
+    "prefix": "defcollection"
+    "body": """
+    define [
+      'underscore'
+      'backbone'
+      ${1:'dep'}
+    ], (_, Backbone${2:, dep}) ->
+
+      collection${3: # delete this and press tab}
+
+    """
+
+  "CoffeeScript: Backbone Collection for CommonJS":
+    "prefix": "expcollection"
+    "body": """
+    _        = require "underscore"
+    Backbone = require "backbone"
+
+    module.exports = collection${1: # delete this and press tab}
+
+    """
+
+  "CoffeeScript: Backbone Router for AMD":
+    "prefix": "defrouter"
+    "body": """
+    define [
+      'jquery'
+      'underscore'
+      'backbone'
+      ${1:'dep'}
+    ], ($, _, Backbone${2:, dep}) ->
+
+      router${1: # delete this and press tab}
+
+    """
+
+  "CoffeeScript: Backbone Router for CommonJS":
+    "prefix": "exprouter"
+    "body": """
+    $        = require "jquery"
+    _        = require "underscore"
+    Backbone = require "backbone"
+
+    module.exports = router${1: # delete this and press tab}
+
+    """

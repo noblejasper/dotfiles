@@ -1,0 +1,98 @@
+{
+  "name": "atom-beautify",
+  "main": "./lib/beautify",
+  "version": "0.13.2",
+  "private": true,
+  "description": "Beautify HTML, CSS, JavaScript, PHP, Python, Ruby, Java, C, C++, C#, Objective-C, CoffeeScript, and SQL in Atom",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Glavin001/atom-beautify"
+  },
+  "bugs": {
+    "url": "https://github.com/Glavin001/atom-beautify/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Glavin Wiechert",
+    "email": "glavin.wiechert@gmail.com",
+    "url": "https://github.com/Glavin001"
+  },
+  "contributors": [
+    {
+      "name": "Donald Pipowitch",
+      "email": "pipo@senaeh.de",
+      "url": "https://github.com/donaldpipowitch"
+    },
+    {
+      "name": "László Károlyi",
+      "url": "https://github.com/karolyi"
+    },
+    {
+      "name": "Marco Tanzi",
+      "url": "https://github.com/mtanzi"
+    },
+    {
+      "name": "gvn lazar suntop",
+      "url": "https://github.com/gvn"
+    },
+    {
+      "name": "Vadim K.",
+      "url": "https://github.com/vadirn"
+    }
+  ],
+  "keywords": [
+    "atom",
+    "beautify",
+    "beautifier",
+    "js-beautify",
+    "format",
+    "pretty",
+    "html",
+    "handlebars",
+    "xml",
+    "css",
+    "javascript",
+    "json",
+    "css",
+    "sass",
+    "scss",
+    "less",
+    "sql",
+    "markdown",
+    "php",
+    "python",
+    "ruby",
+    "coffeescript",
+    "c",
+    "c++",
+    "cpp",
+    "objective-c",
+    "c-sharp",
+    "c#",
+    "uncrustify",
+    "java",
+    "pawn",
+    "vala",
+    "d",
+    "erb",
+    "editorconfig"
+  ],
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+    "emissary": "^1.0.0",
+    "extend": "^1.2.1",
+    "js-beautify": "^1.5.1",
+    "lodash": "2.4.1",
+    "strip-json-comments": "^0.1.3",
+    "js-yaml": "^3.0.2",
+    "temp": "^0.8.0",
+    "prettydiff": "^1.2.4",
+    "node-uuid": "^1.4.1",
+    "analytics-node": "^1.0.2",
+    "coffee-formatter": "git+https://github.com/Glavin001/Coffee-Formatter.git",
+    "atom-message-panel": "^1.1.1",
+    "editorconfig": "^0.11.4"
+  }
+}

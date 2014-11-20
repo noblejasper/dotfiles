@@ -1,0 +1,40 @@
+'.source.scss, .source.sass':
+  'Background Image':
+    'prefix': 'bgimg'
+    'body': '@include background-image(url(${1:image}));$0'
+  'Background w/ Fallback':
+    'prefix': 'bgfallback'
+    'body': '@include background-with-css2-fallback(${1:url()||gradient-declaration});$0'
+  'Background':
+    'prefix': 'bg'
+    'body': '@include background(${1:url()||gradient-declaration});$0'
+  'Border Image':
+    'prefix': 'borderimg'
+    'body': '@include border-image(${1:value});$0'
+  'Content':
+    'prefix': 'content'
+    'body': '@include content("${1:value}");$0'
+  'Filter Gradient':
+    'prefix': 'filtergradient'
+    'body': '@include filter-gradient(${1:start-color}, ${2:end-color}, ${3:vertical||horizontal});$0'
+  'List Style Image':
+    'prefix': 'liststyleimg'
+    'body': '@include list-style-image(${1:image});$0'
+  'List Style':
+    'prefix': 'liststyle'
+    'body': '@include list-style(${1:value});$0'
+  'Background w/ Fallback':
+    'prefix': 'bgf'
+    'body': '@include background-with-css2-fallback(${1:url()||gradient-declaration});$0'
+  'Border Image':
+    'prefix': 'bimg'
+    'body': '@include border-image(${1:value});$0'
+  'Filter Gradient':
+    'prefix': 'fg'
+    'body': '@include filter-gradient(${1:start-color}, ${2:end-color}, ${3:vertical||horizontal});$0'
+  'List Style Image':
+    'prefix': 'lsimg'
+    'body': '@include list-style-image(${1:image});$0'
+  'List Style':
+    'prefix': 'ls'
+    'body': '@include list-style(${1:value});$0'

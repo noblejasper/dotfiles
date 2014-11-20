@@ -1,0 +1,19 @@
+# See https://atom.io/docs/latest/creating-a-package#menus for more details
+'context-menu':
+  '.overlayer':
+    'Enable script': 'script:run-selection'
+
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'Script'
+      'submenu': [
+        { 'label': 'Run Script', 'command': 'script:run' },
+        { 'label': 'Stop Script', 'command': 'script:kill-process' },
+        { 'label': 'Configure Script', 'command': 'script:run-options' }
+        { 'label': 'Close Window and Stop Script', 'command': 'script:close-view' }
+      ]
+    ]
+  }
+]

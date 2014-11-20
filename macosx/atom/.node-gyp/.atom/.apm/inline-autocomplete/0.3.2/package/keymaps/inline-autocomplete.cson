@@ -1,0 +1,3 @@
+'.editor':
+  'escape': 'inline-autocomplete:cycle'
+  'shift-escape': 'inline-autocomplete:cycle-back'

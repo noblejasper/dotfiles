@@ -1,0 +1,7 @@
+'.source.scss, .source.sass':
+  'Ellipsis':
+    'prefix': 'ellipsis'
+    'body': '@include ellipsis;$0'
+  'Ellipsis':
+    'prefix': 'ell'
+    'body': '@include ellipsis;$0'

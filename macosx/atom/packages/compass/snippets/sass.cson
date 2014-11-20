@@ -1,0 +1,45 @@
+'.source.scss, .source.sass':
+  'Sass Include Mixin':
+    'prefix': 'mix'
+    'body': '@include $1($2);$0'
+  'Sass Extend':
+    'prefix': 'ext'
+    'body': '@extend $1($2);$0'
+  'Sass Media':
+    'prefix': 'media'
+    'body': '@media $1;$0'
+  'Sass Debug':
+    'prefix': 'debug'
+    'body': '@debug $1;$0'
+  'Sass Warn':
+    'prefix': 'warn'
+    'body': '@warn $1;$0'
+  'Sass Create Mixin':
+    'prefix': 'defmix'
+    'body': '@mixin $1($2) {\n\t$3\n}$0'
+# Control Directives
+  'Sass If':
+    'prefix': 'if'
+    'body': '@if ${1:condition} {\n\t$2\n}$0'
+  'Sass If Else':
+    'prefix': 'ifelse'
+    'body': '@if ${1:condition} {\n\t$2\n} @else {\n\t$3\n}$0'
+  'Sass for':
+    'prefix': 'for'
+    'body': '@for ${1:item} from ${2:items} {\n\t$3\n}$0'
+  'Sass each':
+    'prefix': 'each'
+    'body': '@each ${1:item} in ${2:items} {\n\t$3\n}$0'
+  'Sass While':
+    'prefix': 'while'
+    'body': '@while ${1:condition} {\n\t$2\n$i: $3\n}$0'
+# TODO: Add all Compass functions http://compass-style.org/index/functions/
+  'Compass Color RGBA':
+    'prefix': 'rgba'
+    'body': 'rgba($1, $2, $3, $4);$0'
+  'Compass Color Lighten':
+    'prefix': 'lighten'
+    'body': 'lighten($1, $2);$0'
+  'Compass Color Darken':
+    'prefix': 'darken'
+    'body': 'darken($1, $2);$0'

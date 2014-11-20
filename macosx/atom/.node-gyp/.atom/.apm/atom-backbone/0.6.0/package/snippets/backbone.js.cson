@@ -1,0 +1,245 @@
+# JavaScript Snippets
+
+".source.js":
+
+  "JavaScript: Backbone Template":
+    "prefix": "template"
+    "body": """
+    template = _.template([
+      "<div>",
+        "${1}",
+      "</div>"
+    ].join("")),
+    """
+
+  "JavaScript: Backbone History":
+    "prefix": "history"
+    "body": """
+    Backbone.history.start(${1:{pushState: true, root: "/public/search/"}})
+    """
+
+  "JavaScript: Super Class":
+    "prefix": "super"
+    "body": """
+    ${1:Backbone.Class}.prototype.${2:method}.apply(this, arguments);
+    """
+
+  "JavaScript: Backbone Model":
+    "prefix": "model"
+    "body": """
+    ${1:Model} = Backbone.Model.extend({
+
+      defaults: {
+        ${2:// defaults}
+      },
+
+      initialize: function (${3:args}) {
+        ${4:// super}
+      }
+
+    });
+    """
+
+  "JavaScript: Backbone View":
+    "prefix": "view"
+    "body": """
+    ${1}View = Backbone.View.extend({
+
+      ${2:el: "#element",}
+
+      initialize: function (${3:args}) {
+        ${4:// super}
+      }
+
+    });
+    """
+
+  "JavaScript: Backbone ModelView":
+    "prefix": "modelview"
+    "body": """
+    ${1}View = Backbone.View.extend({
+
+      template: _.template($("script#${2:template}").html())
+
+      initialize: function (${3:args}) {
+        ${4:// super}
+      },
+
+      render: function () {
+        this.setTemplate(this.template(this.model.toJSON()));
+        return this
+      }
+
+    });
+    """
+
+  "JavaScript: Backbone Collection":
+    "prefix": "collection"
+    "body": """
+    ${1}Collection = Backbone.Collection.extend({
+
+      model: ${2}Model,
+
+      initialize: function (${3:args}) {
+        ${4:// super}
+      }
+
+    });
+    """
+
+  "JavaScript: Backbone Collection View":
+    "prefix": "collectionview"
+    "body": """
+    ${1}CollectionView = Backbone.View.extend({
+
+      ${2:el: $("#element"),}
+
+      initialize: function (${3:args}) {
+
+        ${4:this.collection} = ${5:new }Collection();
+
+        this.listenTo(this.collection, 'add'  , this.addOne);
+        this.listenTo(this.collection, 'reset', this.addAll);
+        this.listenTo(this.collection, 'all'  , this.render);
+
+      },
+
+      addOne: function (${6:item}) {
+        var view = new ${7}View({model: ${8:item}});
+        this.$el.append(view.render().el);
+      },
+
+      addAll: function () {
+        this.collection.each(this.addOne, this);
+      },
+
+      render: function () {
+        ${9:// render}
+        return this;
+      }
+
+    });
+    """
+
+  "JavaScript: Backbone Router":
+    "prefix": "router"
+    "body": """
+    ${1}Router = Backbone.Router.extend({
+
+      routes: {
+        "/": "main"
+        ${2:// routes}
+      },
+
+      initialize: function (${3:args}) {
+        ${4:// super}
+      },
+
+      main: function () {
+        ${3:// main}
+      }
+
+    });
+    """
+
+  "JavaScript: Backbone View for AMD":
+    "prefix": "defview"
+    "body": """
+    define([
+      'jquery',
+      'underscore',
+      'backbone',
+
+      'text!templates/${1:template_path.html}'
+    ], function ($, _, Backbone, ${2:template}) {
+
+      return view${3: // delete this and press tab}
+
+    });
+    """
+
+  "JavaScript: Backbone View for CommonJS":
+    "prefix": "expview"
+    "body": """
+    var $        = require("jquery");
+    var _        = require("underscore");
+    var Backbone = require("backbone");
+    var ${1:template} = require("./template/${2:template_path}")
+
+    module.exports = view${3: // delete this and press tab}
+
+    """
+
+  "JavaScript: Backbone Model for AMD":
+    "prefix": "defmodel"
+    "body": """
+    define([
+      'underscore',
+      'backbone',
+      ${1:'dep'}
+    ], function (_, Backbone${2:, dep}) {
+
+      return model${3: // delete this and press tab}
+
+    });
+    """
+
+  "JavaScript: Backbone Model for CommonJS":
+    "prefix": "expmodel"
+    "body": """
+    var _        = require("underscore");
+    var Backbone = require("backbone");
+
+    module.exports = model${1: // delete this and press tab}
+
+    """
+
+  "JavaScript: Backbone Collection for AMD":
+    "prefix": "defcollection"
+    "body": """
+    define([
+      'underscore',
+      'backbone',
+      ${1:'dep'}
+    ], function (_, Backbone${2:, dep}) {
+
+      return collection${3: // delete this and press tab}
+
+    });
+    """
+
+  "JavaScript: Backbone Model for CommonJS":
+    "prefix": "expcollection"
+    "body": """
+    var _        = require("underscore");
+    var Backbone = require("backbone");
+
+    module.exports = collection${1: // delete this and press tab}
+
+    """
+
+  "JavaScript: Backbone Router for AMD":
+    "prefix": "defrouter"
+    "body": """
+    define([
+      'jquery'
+      'underscore'
+      'backbone'
+      ${1:'dep'}
+    ], function ($, _, Backbone${2:, dep}) {
+
+      return router${3: // delete this and press tab}
+
+    });
+    """
+
+  "JavaScript: Backbone Router for CommonJS":
+    "prefix": "exprouter"
+    "body": """
+    var $        = require("jquery");
+    var _        = require("underscore");
+    var Backbone = require("backbone");
+
+    module.exports = router${1: // delete this and press tab}
+
+    """

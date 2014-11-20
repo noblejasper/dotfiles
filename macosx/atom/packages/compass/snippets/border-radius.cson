@@ -1,0 +1,61 @@
+'.source.scss, .source.sass':
+  'Border Radius Bottom Left Shorthand':
+    'prefix': 'brbl'
+    'body': '@include border-bottom-left-radius(${1:unitless}px);$0'
+  'Border Radius Bottom Left':
+    'prefix': 'radiusbl'
+    'body': '@include border-bottom-left-radius(${1:unitless}px);$0'
+  'Border Radius Bottom Shorthand':
+    'prefix': 'brb'
+    'body': '@include border-bottom-radius(${1:unitless}px);$0'
+  'Border Radius Bottom':
+    'prefix': 'radiusb'
+    'body': '@include border-bottom-radius(${1:unitless}px);$0'
+  'Border Radius Bottom Right Shorthand':
+    'prefix': 'brbr'
+    'body': '@include border-bottom-right-radius(${1:unitless}px);$0'
+  'Border Radius Bottom Right':
+    'prefix': 'radiusbr'
+    'body': '@include border-bottom-right-radius(${1:unitless}px);$0'
+  'Border Corner Radius Shorthand':
+    'prefix': 'brc'
+    'body': '@include border-corner-radius(${1:top||bottom},${2:left||right},${3:unitless}px);$0'
+  'Border Corner Radius':
+    'prefix': 'radiuscorner'
+    'body': '@include border-corner-radius(${1:top||bottom},${2:left||right},${3:unitless}px);$0'
+  'Border Radius Left Shorthand':
+    'prefix': 'brl'
+    'body': '@include border-left-radius(${1:unitless}px);$0'
+  'Border Radius Left':
+    'prefix': 'radiusl'
+    'body': '@include border-left-radius(${1:unitless}px);$0'
+  'Border Radius Shorthand':
+    'prefix': 'br'
+    'body': '@include border-radius(${1:unitless}px);$0'
+  'Border Radius':
+    'prefix': 'radius'
+    'body': '@include border-radius(${1:unitless}px);$0'
+  'Border Radius Right Shorthand':
+    'prefix': 'brr'
+    'body': '@include border-right-radius(${1:unitless}px);$0'
+  'Border Radius Right':
+    'prefix': 'radiusr'
+    'body': '@include border-right-radius(${1:unitless}px);$0'
+  'Border Radius Top Left Shorthand':
+    'prefix': 'brtl'
+    'body': '@include border-top-left-radius(${1:unitless}px);$0'
+  'Border Radius Top Left':
+    'prefix': 'radiustl'
+    'body': '@include border-top-left-radius(${1:unitless}px);$0'
+  'Border Radius Top Shorthand':
+    'prefix': 'brt'
+    'body': '@include border-top-radius(${1:unitless}px);$0'
+  'Border Radius Top':
+    'prefix': 'radiust'
+    'body': '@include border-top-radius(${1:unitless}px);$0'
+  'Border Radius Top Right Shorthand':
+    'prefix': 'brtr'
+    'body': '@include border-top-right-radius(${1:unitless}px);$0'
+  'Border Radius Top Right':
+    'prefix': 'radiustr'
+    'body': '@include border-top-right-radius(${1:unitless}px);$0'
