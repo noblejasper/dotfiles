@@ -1,4 +1,4 @@
-'global':
+'*':
   'exception-reporting':
     'userId': 'c6699618-4497-4b29-c4b1-d584ee2e7cf5'
   'release-notes':
@@ -8,28 +8,27 @@
   'metrics':
     'userId': '17dd89b6778fd0df1b7fe3732d3fd098681e4e16'
   'editor':
-    'tabLength': 4
+    'fontSize': 18
     'showIndentGuide': true
-    'preferredLineLength': 100
+    'autoIndent': false
+    'autoIndentOnPaste': false
+    'preferredLineLength': 130
+    'tabLength': 4
     'softWrap': true
-    'invisibles': {}
-    'showInvisibles': true
   'core':
-    'themes': [
-      'atom-dark-ui'
-      'monokai'
-    ]
     'ignoredNames': [
       '.git'
       '.svn'
       '.DS_Store'
     ]
-    'scopeForExtension':
-      '':
-        'html': 'text.html.jinja.j2'
     'disabledPackages': [
       'linter-jscs'
       'inline-autocomplete'
+      'color-picker'
+    ]
+    'themes': [
+      'atom-dark-ui'
+      'monokai'
     ]
     'projectHome': '/Users/jasper/git'
   'autocomplete':
@@ -41,8 +40,8 @@
   'bracket-matcher':
     'autocompleteBrackets': false
   'linter':
-    'showStatusBarWhenCursorIsInErrorRange': true
     'lintOnChange': false
+    'statusBar': 'Show error if the cursor is in range'
   'inline-autocomplete':
     'includeCompletionsFromAllBuffers': true
     'includeGrammarKeywords': true

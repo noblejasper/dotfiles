@@ -1,7 +1,7 @@
 {
   "name": "atom-beautify",
   "main": "./lib/beautify",
-  "version": "0.17.0",
+  "version": "0.21.2",
   "private": true,
   "description": "Beautify HTML, CSS, JavaScript, PHP, Python, Ruby, Java, C, C++, C#, Objective-C, CoffeeScript, TypeScript, and SQL in Atom",
   "repository": {
@@ -40,6 +40,42 @@
       "url": "https://github.com/vadirn"
     }
   ],
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+    "analytics-node": "^1.0.2",
+    "async": "^0.9.0",
+    "atom-message-panel": "^1.1.1",
+    "coffee-formatter": "^0.1.1",
+    "editorconfig": "^0.11.4",
+    "emissary": "^1.0.0",
+    "extend": "^1.2.1",
+    "js-beautify": "^1.5.4",
+    "lodash": "2.4.1",
+    "loophole": "^1.0.0",
+    "node-dir": "^0.1.6",
+    "node-uuid": "^1.4.1",
+    "prettydiff": "^1.6.13",
+    "space-pen": "^4.3.0",
+    "strip-json-comments": "^0.1.3",
+    "temp": "^0.8.0",
+    "typescript-formatter": "~0.1.4",
+    "yaml-front-matter": "^3.2.3"
+  },
+  "activationCommands": {
+    "atom-workspace": [
+      "beautify:beautify-editor",
+      "core:save",
+      "core:save-as"
+    ],
+    ".tree-view .file .name": [
+      "beautify:beautify-file"
+    ],
+    ".tree-view .directory .name": [
+      "beautify:beautify-directory"
+    ]
+  },
   "keywords": [
     "atom",
     "beautify",
@@ -77,42 +113,20 @@
     "vala",
     "d",
     "erb",
-    "editorconfig"
+    "editorconfig",
+    "yaml",
+    "front matter",
+    "jekyll"
   ],
-  "engines": {
-    "atom": ">0.50.0"
-  },
-  "dependencies": {
-    "emissary": "^1.0.0",
-    "extend": "^1.2.1",
-    "js-beautify": "^1.5.4",
-    "lodash": "2.4.1",
-    "strip-json-comments": "^0.1.3",
-    "js-yaml": "^3.0.2",
-    "temp": "^0.8.0",
-    "prettydiff": "^1.2.4",
-    "node-uuid": "^1.4.1",
-    "analytics-node": "^1.0.2",
-    "coffee-formatter": "git+https://github.com/Glavin001/Coffee-Formatter.git",
-    "atom-message-panel": "^1.1.1",
-    "editorconfig": "^0.11.4",
-    "loophole": "^1.0.0",
-    "typescript-formatter": "~0.1.4"
-  },
-  "activationEvents": [
-    "beautify",
-    "core:save",
-    "core:save-as"
-  ],
-  "readme": "# [atom-beautify](https://github.com/donaldpipowitch/atom-beautify)\n\n[![Gitter chat](https://badges.gitter.im/Glavin001/atom-beautify.png)](https://gitter.im/Glavin001/atom-beautify)\n[![Issue Stats](http://issuestats.com/github/glavin001/atom-beautify/badge/pr?style=flat)](http://issuestats.com/github/glavin001/atom-beautify)\n[![Issue Stats](http://issuestats.com/github/glavin001/atom-beautify/badge/issue?style=flat)](http://issuestats.com/github/glavin001/atom-beautify)\n\n> [Beautify](https://github.com/einars/js-beautify)\nHTML (including [Handlebars](http://handlebarsjs.com/)),\nCSS (including [Sass](http://sass-lang.com/) and [LESS](http://lesscss.org/)),\nJavaScript, and much more in Atom.\n\nAtom Package: https://atom.io/packages/atom-beautify\n\n```bash\napm install atom-beautify\n```\n\nOr Settings/Preferences ➔ Packages ➔ Search for `atom-beautify`\n\n\n## Language Support\n\n- [x] JavaScript and JSON\n- [x] HTML, including\n  - [x] [Handlebars](http://handlebarsjs.com/)\n  - [x] [Mustache](http://mustache.github.io)\n  - [x] [Embedded Ruby (ERB)](https://github.com/Glavin001/atom-beautify/issues/80)\n    - Requires [htmlbeautifier](https://github.com/threedaymonk/htmlbeautifier)\n  - [x] XML\n- [x] CSS, including\n  - [Sass](http://sass-lang.com/)\n  - [LESS](http://lesscss.org/)\n- [x] [SQL](https://github.com/Glavin001/atom-beautify/pull/67)\n  - Requires [python-sqlparse](https://github.com/andialbrecht/sqlparse)\n- [x] [Markdown](https://github.com/Glavin001/atom-beautify/issues/93#issuecomment-55642483)\n  - Requires [Pandoc](http://johnmacfarlane.net/pandoc/) to be already installed\n- [X] [Perl](https://github.com/Glavin001/atom-beautify/issues/33)\n- [x] [PHP](https://github.com/donaldpipowitch/atom-beautify/issues/26)  \n  - Requires [PHP_Beautifier](http://pear.php.net/package/PHP_Beautifier) to be already installed.\n- [x] [Python](https://github.com/donaldpipowitch/atom-beautify/issues/24)\n  - Requires [autopep8](https://github.com/hhatto/autopep8) to be already installed.\n  - Beautifies to [PEP 8](http://legacy.python.org/dev/peps/pep-0008/).\n- [x] [Ruby](https://github.com/donaldpipowitch/atom-beautify/issues/25)\n  - Requires [RBeautify](https://github.com/erniebrodeur/ruby-beautify)\n- [x] [CoffeeScript](https://github.com/donaldpipowitch/atom-beautify/issues/31)\n- [x] [Java](https://github.com/Glavin001/atom-beautify/issues/45)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [C](https://github.com/Glavin001/atom-beautify/issues/57)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [C++](https://github.com/Glavin001/atom-beautify/issues/57)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [C#](https://github.com/Glavin001/atom-beautify/issues/57)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [Objective-C](https://github.com/Glavin001/atom-beautify/issues/57)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [D](https://github.com/Glavin001/atom-beautify/issues/57)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [Pawn](https://github.com/Glavin001/atom-beautify/issues/57)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [Vala](https://github.com/Glavin001/atom-beautify/issues/57)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [TypeScript](https://github.com/Glavin001/atom-beautify/issues/49)\n\n## Usage\n\nOpen the [Command Palette](https://github.com/atom/command-palette), and type `Beautify`.\n\nIt will only beautify selected text, if a selection is found - if not, the whole file will be beautified.\n\n### Shortcut\n\nYou can also type `ctrl-alt-b` as a shortcut or click `Packages > Beautify` in the menu.\n\n#### Custom Keyboard Shortcuts\n\nSee [Keymaps In-Depth](https://atom.io/docs/latest/advanced/keymaps) for more details.\n\nFor example:\n\n```coffeescript\n'.editor': # Available from Editor only\n  'ctrl-alt-b': 'beautify'\n```\n\n### Package Options\n\n- `beautifyOnSave`  (Default *false*)\nYou can also choose to beautify on every file save.\n\n- `beautifyEntireFileOnSave` (Default *true*)\nBeautification will normally only beautify your selected text.\nHowever, when beautification occurs on save then it will\nbe forced to beautify the entire file's contents,\nnot just selected text.\n\n- `disabledLanguages` (Default *empty array*)\nAn array of Grammar names to disable beautification for.\nNote: If using the Atom's Package Settings then an array is\nrepresented as comma-separated string.\n\n- `muteUnsupportedLanguageErrors` (Default *false*)\nMute only *unsupported language* errors.\n\n- `muteAllErrors` (Default *false*)\nDo not show the *Atom Beautify Error Messages* panel\nfor any of the errors occurring while beautifying.\n\n- `analytics`  (Default *true*)\nThere is [Segment.io](https://segment.io/),\nwhich forwards the data to [Google Analytics](http://www.google.com/analytics/),\nto track what languages\nare being used the most and other stats.\nEverything is anonymized and no personal information,\nsuch as source code, is sent.\nSee https://github.com/Glavin001/atom-beautify/issues/47\nfor more details.\n\n## Configuration\n\nEdit your `.jsbeautifyrc` file in any of the following locations:\n\n- Atom Package Settings  \n  `Atom` ➔ `Preferences` ➔ Search for `atom-beautify`\n- Same directory as current file\n- Project root  \n`atom-beautify` will recursively look up from the current file's directory to find `.jsbeautifyrc`.\n- Your User's Home directory\n\n**Note**: *Comments are supported in `.jsbeautifyrc` thanks to [strip-json-comments](https://github.com/sindresorhus/strip-json-comments).*\n\nSee examples of both way inside [`examples/`](https://github.com/donaldpipowitch/atom-beautify/tree/master/examples)\n\nOption table is available at the [js-beautify repo](https://github.com/beautify-web/js-beautify#options).\n\n### Simple\n\nSee [examples/simple-jsbeautifyrc/.jsbeautifyrc](https://github.com/donaldpipowitch/atom-beautify/blob/master/examples/simple-jsbeautifyrc/.jsbeautifyrc).\n\n```json\n{\n  \"indent_size\": 2,\n  \"indent_char\": \" \",\n  \"other\": \" \",\n  \"indent_level\": 0,\n  \"indent_with_tabs\": false,\n  \"preserve_newlines\": true,\n  \"max_preserve_newlines\": 2,\n  \"jslint_happy\": true,\n  \"indent_handlebars\": true\n}\n```\n\n### Nested\n\nSee [examples/nested-jsbeautifyrc/.jsbeautifyrc](https://github.com/donaldpipowitch/atom-beautify/blob/master/examples/nested-jsbeautifyrc/.jsbeautifyrc).\n\n```json\n{\n  \"html\": {\n    \"brace_style\": \"collapse\",\n    \"indent_char\": \" \",\n    \"indent_scripts\": \"normal\",\n    \"indent_size\": 6,\n    \"max_preserve_newlines\": 1,\n    \"preserve_newlines\": true,\n    \"unformatted\": [\"a\", \"sub\", \"sup\", \"b\", \"i\", \"u\"],\n    \"wrap_line_length\": 0\n  },\n  \"css\": {\n    \"indent_char\": \" \",\n    \"indent_size\": 4\n  },\n  \"js\": {\n    \"indent_size\": 2,\n    \"indent_char\": \" \",\n    \"indent_level\": 0,\n    \"indent_with_tabs\": false,\n    \"preserve_newlines\": true,\n    \"max_preserve_newlines\": 2,\n    \"jslint_happy\": true\n  },\n  \"sql\": {\n    \"indent_size\": 4,\n    \"indent_char\": \" \",\n    \"indent_level\": 0,\n    \"indent_with_tabs\": false\n  }\n}\n```\n\n## Advanced Language Setup\n\n### PHP\n\nTo use with PHP we require [PHP_Beautifier](http://pear.php.net/package/PHP_Beautifier)\nand that you set the `Php beautifier path` in the package settings.\n\n#### Retrieve the path on Mac & Linux\n\nRun `which php_beautifier` in your Terminal.\n\n### Python\n\nTo use with Python we require [autopep8](https://github.com/hhatto/autopep8)\nand that you set the `Python autopep8 path` in the package settings.\n\n#### Retrieve the path on Mac & Linux\n\nRun `which autopep8` in your Terminal.\n\n### Markdown\n\nTo use with Markdown we require [pandoc](http://johnmacfarlane.net/pandoc/)\nand you set the `Markdown Pandoc path` in the package settings.\n\n\n## Contributing\n\n[See all contributors on GitHub](https://github.com/donaldpipowitch/atom-beautify/graphs/contributors).\n\nPlease update the [CHANGELOG.md](https://github.com/donaldpipowitch/atom-beautify/blob/master/CHANGELOG.md),\nadd yourself as a contributor to the [package.json](https://github.com/donaldpipowitch/atom-beautify/blob/master/package.json),\nand submit a [Pull Request on GitHub](https://help.github.com/articles/using-pull-requests).\n\n## License\n\n[MIT](https://github.com/donaldpipowitch/atom-beautify/blob/master/LICENSE.md) © [Donald Pipowitch](https://github.com/donaldpipowitch)\n",
+  "readme": "# [atom-beautify](https://github.com/donaldpipowitch/atom-beautify)\n\n[![Build Status](https://travis-ci.org/Glavin001/atom-beautify.svg?branch=master)](https://travis-ci.org/Glavin001/atom-beautify)\n[![Gitter chat](https://badges.gitter.im/Glavin001/atom-beautify.png)](https://gitter.im/Glavin001/atom-beautify)\n[![Issue Stats](http://issuestats.com/github/glavin001/atom-beautify/badge/pr?style=flat)](http://issuestats.com/github/glavin001/atom-beautify)\n[![Issue Stats](http://issuestats.com/github/glavin001/atom-beautify/badge/issue?style=flat)](http://issuestats.com/github/glavin001/atom-beautify)\n\n> [Beautify](https://github.com/einars/js-beautify)\nHTML (including [Handlebars](http://handlebarsjs.com/)),\nCSS (including [Sass](http://sass-lang.com/) and [LESS](http://lesscss.org/)),\nJavaScript, and much more in Atom.\n\nAtom Package: https://atom.io/packages/atom-beautify\n\n```bash\napm install atom-beautify\n```\n\nOr Settings/Preferences ➔ Packages ➔ Search for `atom-beautify`\n\n\n## Language Support\n\n- [x] JavaScript and JSON\n- [x] HTML, including\n  - [x] [Handlebars](http://handlebarsjs.com/)\n  - [x] [Mustache](http://mustache.github.io)\n  - [x] [Embedded Ruby (ERB)](https://github.com/Glavin001/atom-beautify/issues/80)\n    - Requires [htmlbeautifier](https://github.com/threedaymonk/htmlbeautifier)\n  - [x] XML\n- [x] CSS, including\n  - [Sass](http://sass-lang.com/)\n  - [LESS](http://lesscss.org/)\n- [x] [SQL](https://github.com/Glavin001/atom-beautify/pull/67)\n  - Requires [python-sqlparse](https://github.com/andialbrecht/sqlparse)\n- [x] [Markdown](https://github.com/Glavin001/atom-beautify/issues/93#issuecomment-55642483)\n  - Requires [Pandoc](http://johnmacfarlane.net/pandoc/) to be already installed\n- [X] [Perl](https://github.com/Glavin001/atom-beautify/issues/33)\n- [x] [PHP](https://github.com/donaldpipowitch/atom-beautify/issues/26)  \n  - Requires [PHP_Beautifier](http://pear.php.net/package/PHP_Beautifier) to be already installed.\n- [x] [Python](https://github.com/donaldpipowitch/atom-beautify/issues/24)\n  - Requires [autopep8](https://github.com/hhatto/autopep8) to be already installed.\n  - Beautifies to [PEP 8](http://legacy.python.org/dev/peps/pep-0008/).\n- [x] [Ruby](https://github.com/donaldpipowitch/atom-beautify/issues/25)\n  - Requires [Ruby Beautify](https://github.com/erniebrodeur/ruby-beautify)\n- [x] [CoffeeScript](https://github.com/donaldpipowitch/atom-beautify/issues/31)\n- [x] [Java](https://github.com/Glavin001/atom-beautify/issues/45)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [C](https://github.com/Glavin001/atom-beautify/issues/57)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [C++](https://github.com/Glavin001/atom-beautify/issues/57)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [C#](https://github.com/Glavin001/atom-beautify/issues/57)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [Objective-C](https://github.com/Glavin001/atom-beautify/issues/57)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [D](https://github.com/Glavin001/atom-beautify/issues/57)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [Pawn](https://github.com/Glavin001/atom-beautify/issues/57)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [Vala](https://github.com/Glavin001/atom-beautify/issues/57)\n  - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)\n- [x] [TypeScript](https://github.com/Glavin001/atom-beautify/issues/49)\n\n## Usage\n\nOpen the [Command Palette](https://github.com/atom/command-palette), and type `Beautify`.\n\nIt will only beautify selected text, if a selection is found - if not, the whole file will be beautified.\n\n### Shortcut\n\nYou can also type `ctrl-alt-b` as a shortcut or click `Packages > Beautify` in the menu.\n\n#### Custom Keyboard Shortcuts\n\nSee [Keymaps In-Depth](https://atom.io/docs/latest/advanced/keymaps) for more details.\n\nFor example:\n\n```coffeescript\n'.editor':\n  'ctrl-alt-b': 'beautify:beautify-editor'\n```\n\n### Package Options\n\n- `beautifyOnSave`  (Default *false*)\nYou can also choose to beautify on every file save.\n\n- `beautifyEntireFileOnSave` (Default *true*)\nBeautification will normally only beautify your selected text.\nHowever, when beautification occurs on save then it will\nbe forced to beautify the entire file's contents,\nnot just selected text.\n\n- `disabledLanguages` (Default *empty array*)\nAn array of Grammar names to disable beautification for.\nNote: If using the Atom's Package Settings then an array is\nrepresented as comma-separated string.\n\n- `muteUnsupportedLanguageErrors` (Default *false*)\nMute only *unsupported language* errors.\n\n- `muteAllErrors` (Default *false*)\nDo not show the *Atom Beautify Error Messages* panel\nfor any of the errors occurring while beautifying.\n\n- `analytics`  (Default *true*)\nThere is [Segment.io](https://segment.io/),\nwhich forwards the data to [Google Analytics](http://www.google.com/analytics/),\nto track what languages\nare being used the most and other stats.\nEverything is anonymized and no personal information,\nsuch as source code, is sent.\nSee https://github.com/Glavin001/atom-beautify/issues/47\nfor more details.\n\n## Configuration\n\nEdit your `.jsbeautifyrc` file in any of the following locations:\n\n- Atom Package Settings  \n  `Atom` ➔ `Preferences` ➔ Search for `atom-beautify`\n- Same directory as current file\n- Project root  \n`atom-beautify` will recursively look up from the current file's directory to find `.jsbeautifyrc`.\n- Your User's Home directory\n\n**Note**: *Comments are supported in `.jsbeautifyrc` thanks to [strip-json-comments](https://github.com/sindresorhus/strip-json-comments).*\n\nSee examples of both way inside [`examples/`](https://github.com/donaldpipowitch/atom-beautify/tree/master/examples)\n\nOption table is available at the [js-beautify repo](https://github.com/beautify-web/js-beautify#options).\n\n### Simple\n\nSee [examples/simple-jsbeautifyrc/.jsbeautifyrc](https://github.com/donaldpipowitch/atom-beautify/blob/master/examples/simple-jsbeautifyrc/.jsbeautifyrc).\n\n```json\n{\n  \"indent_size\": 2,\n  \"indent_char\": \" \",\n  \"other\": \" \",\n  \"indent_level\": 0,\n  \"indent_with_tabs\": false,\n  \"preserve_newlines\": true,\n  \"max_preserve_newlines\": 2,\n  \"jslint_happy\": true,\n  \"indent_handlebars\": true\n}\n```\n\n### Nested\n\nSee [examples/nested-jsbeautifyrc/.jsbeautifyrc](https://github.com/donaldpipowitch/atom-beautify/blob/master/examples/nested-jsbeautifyrc/.jsbeautifyrc).\n\n```json\n{\n  \"html\": {\n    \"brace_style\": \"collapse\",\n    \"indent_char\": \" \",\n    \"indent_scripts\": \"normal\",\n    \"indent_size\": 6,\n    \"max_preserve_newlines\": 1,\n    \"preserve_newlines\": true,\n    \"unformatted\": [\"a\", \"sub\", \"sup\", \"b\", \"i\", \"u\"],\n    \"wrap_line_length\": 0\n  },\n  \"css\": {\n    \"indent_char\": \" \",\n    \"indent_size\": 4\n  },\n  \"js\": {\n    \"indent_size\": 2,\n    \"indent_char\": \" \",\n    \"indent_level\": 0,\n    \"indent_with_tabs\": false,\n    \"preserve_newlines\": true,\n    \"max_preserve_newlines\": 2,\n    \"jslint_happy\": true\n  },\n  \"sql\": {\n    \"indent_size\": 4,\n    \"indent_char\": \" \",\n    \"indent_level\": 0,\n    \"indent_with_tabs\": false\n  }\n}\n```\n\n## Advanced Language Setup\n\n### PHP\n\nTo use with PHP we require [PHP_Beautifier](http://pear.php.net/package/PHP_Beautifier)\nand that you set the `Php beautifier path` in the package settings.\n\n#### Retrieve the path on Mac & Linux\n\nRun `which php_beautifier` in your Terminal.\n\n### Python\n\nTo use with Python we require [autopep8](https://github.com/hhatto/autopep8)\nand that you set the `Python autopep8 path` in the package settings.\n\n#### Retrieve the path on Mac & Linux\n\nRun `which autopep8` in your Terminal.\n\n### Markdown\n\nTo use with Markdown we require [pandoc](http://johnmacfarlane.net/pandoc/)\nand you set the `Markdown Pandoc path` in the package settings.\n\n\n## Contributing\n\n[See all contributors on GitHub](https://github.com/donaldpipowitch/atom-beautify/graphs/contributors).\n\nPlease update the [CHANGELOG.md](https://github.com/donaldpipowitch/atom-beautify/blob/master/CHANGELOG.md),\nadd yourself as a contributor to the [package.json](https://github.com/donaldpipowitch/atom-beautify/blob/master/package.json),\nand submit a [Pull Request on GitHub](https://help.github.com/articles/using-pull-requests).\n\n## License\n\n[MIT](https://github.com/donaldpipowitch/atom-beautify/blob/master/LICENSE.md) © [Donald Pipowitch](https://github.com/donaldpipowitch)\n",
   "readmeFilename": "README.md",
   "homepage": "https://github.com/Glavin001/atom-beautify",
-  "_id": "atom-beautify@0.17.0",
+  "_id": "atom-beautify@0.21.2",
   "dist": {
-    "shasum": "7d13143015c892e849779c5c019f37ba7473e125"
+    "shasum": "5da2d514eb6aa8f5976b09f98b2cc78be008d035"
   },
-  "_resolved": "/private/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-1141019-56239-adgaii/package.tgz",
-  "_from": "/private/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-1141019-56239-adgaii/package.tgz",
+  "_resolved": "/private/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-11508-13439-vqwkbs/package.tgz",
+  "_from": "/private/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-11508-13439-vqwkbs/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -123,7 +137,7 @@
       },
       {
         "name": "clone",
-        "version": "0.1.18",
+        "version": "0.1.19",
         "path": "node_modules/analytics-node/node_modules/clone/clone.js"
       },
       {
@@ -273,7 +287,7 @@
       },
       {
         "name": "debug",
-        "version": "2.1.0",
+        "version": "2.1.1",
         "path": "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/pac-proxy-agent/node_modules/debug/node.js"
       },
       {
@@ -368,7 +382,7 @@
       },
       {
         "name": "pac-resolver",
-        "version": "1.2.2",
+        "version": "1.2.4",
         "path": "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/pac-proxy-agent/node_modules/pac-resolver/index.js"
       },
       {
@@ -378,7 +392,7 @@
       },
       {
         "name": "degenerator",
-        "version": "0.0.3",
+        "version": "1.0.0",
         "path": "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/pac-proxy-agent/node_modules/pac-resolver/node_modules/degenerator/index.js"
       },
       {
@@ -413,7 +427,7 @@
       },
       {
         "name": "source-map",
-        "version": "0.1.40",
+        "version": "0.1.42",
         "path": "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/pac-proxy-agent/node_modules/pac-resolver/node_modules/degenerator/node_modules/escodegen/node_modules/source-map/lib/source-map.js"
       },
       {
@@ -428,7 +442,7 @@
       },
       {
         "name": "netmask",
-        "version": "1.0.4",
+        "version": "1.0.5",
         "path": "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/pac-proxy-agent/node_modules/pac-resolver/node_modules/netmask/lib/netmask.js"
       },
       {
@@ -587,14 +601,19 @@
         "path": "node_modules/analytics-node/node_modules/uid/index.js"
       },
       {
+        "name": "async",
+        "version": "0.9.0",
+        "path": "node_modules/async/lib/async.js"
+      },
+      {
         "name": "atom-message-panel",
-        "version": "1.1.2",
+        "version": "1.1.4",
         "path": "node_modules/atom-message-panel/lib/index.js"
       },
       {
         "name": "coffee-formatter",
-        "version": "0.1.0",
-        "path": "node_modules/coffee-formatter/formatter.js"
+        "version": "0.1.1",
+        "path": "node_modules/coffee-formatter/lib/formatter.js"
       },
       {
         "name": "lazy",
@@ -663,7 +682,7 @@
       },
       {
         "name": "underscore-plus",
-        "version": "1.6.1",
+        "version": "1.6.6",
         "path": "node_modules/emissary/node_modules/underscore-plus/lib/underscore-plus.js"
       },
       {
@@ -688,7 +707,7 @@
       },
       {
         "name": "ini",
-        "version": "1.3.0",
+        "version": "1.3.2",
         "path": "node_modules/js-beautify/node_modules/config-chain/node_modules/ini/ini.js"
       },
       {
@@ -717,31 +736,6 @@
         "path": "node_modules/js-beautify/node_modules/nopt/node_modules/abbrev/abbrev.js"
       },
       {
-        "name": "js-yaml",
-        "version": "3.2.3",
-        "path": "node_modules/js-yaml/index.js"
-      },
-      {
-        "name": "argparse",
-        "version": "0.1.15",
-        "path": "node_modules/js-yaml/node_modules/argparse/index.js"
-      },
-      {
-        "name": "underscore",
-        "version": "1.4.4",
-        "path": "node_modules/js-yaml/node_modules/argparse/node_modules/underscore/underscore.js"
-      },
-      {
-        "name": "underscore.string",
-        "version": "2.3.3",
-        "path": "node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/lib/underscore.string.js"
-      },
-      {
-        "name": "esprima",
-        "version": "1.0.4",
-        "path": "node_modules/js-yaml/node_modules/esprima/esprima.js"
-      },
-      {
         "name": "lodash",
         "version": "2.4.1",
         "path": "node_modules/lodash/dist/lodash.js"
@@ -752,14 +746,64 @@
         "path": "node_modules/loophole/lib/loophole.js"
       },
       {
+        "name": "node-dir",
+        "version": "0.1.6",
+        "path": "node_modules/node-dir/index.js"
+      },
+      {
         "name": "node-uuid",
-        "version": "1.4.1",
+        "version": "1.4.2",
         "path": "node_modules/node-uuid/uuid.js"
       },
       {
         "name": "prettydiff",
-        "version": "1.5.10",
+        "version": "1.7.1",
         "path": "node_modules/prettydiff/prettydiff.js"
+      },
+      {
+        "name": "space-pen",
+        "version": "4.3.4",
+        "path": "node_modules/space-pen/lib/space-pen.js"
+      },
+      {
+        "name": "grim",
+        "version": "1.0.0",
+        "path": "node_modules/space-pen/node_modules/grim/lib/grim.js"
+      },
+      {
+        "name": "coffeestack",
+        "version": "0.7.0",
+        "path": "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/index.js"
+      },
+      {
+        "name": "coffee-script",
+        "version": "1.7.1",
+        "path": "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/coffee-script.js"
+      },
+      {
+        "name": "mkdirp",
+        "version": "0.3.5",
+        "path": "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/index.js"
+      },
+      {
+        "name": "source-map",
+        "version": "0.1.42",
+        "path": "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map.js"
+      },
+      {
+        "name": "amdefine",
+        "version": "0.1.0",
+        "path": "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/amdefine.js"
+      },
+      {
+        "name": "underscore-plus",
+        "version": "1.6.6",
+        "path": "node_modules/space-pen/node_modules/underscore-plus/lib/underscore-plus.js"
+      },
+      {
+        "name": "underscore",
+        "version": "1.6.0",
+        "path": "node_modules/space-pen/node_modules/underscore-plus/node_modules/underscore/underscore.js"
       },
       {
         "name": "strip-json-comments",
@@ -785,6 +829,46 @@
         "name": "commander",
         "version": "2.2.0",
         "path": "node_modules/typescript-formatter/node_modules/commander/index.js"
+      },
+      {
+        "name": "yaml-front-matter",
+        "version": "3.2.3",
+        "path": "node_modules/yaml-front-matter/index.js"
+      },
+      {
+        "name": "commander",
+        "version": "1.0.0",
+        "path": "node_modules/yaml-front-matter/node_modules/commander/index.js"
+      },
+      {
+        "name": "is-browser",
+        "version": "2.0.1",
+        "path": "node_modules/yaml-front-matter/node_modules/is-browser/server.js"
+      },
+      {
+        "name": "js-yaml",
+        "version": "3.2.5",
+        "path": "node_modules/yaml-front-matter/node_modules/js-yaml/index.js"
+      },
+      {
+        "name": "argparse",
+        "version": "0.1.16",
+        "path": "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/index.js"
+      },
+      {
+        "name": "underscore",
+        "version": "1.7.0",
+        "path": "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/node_modules/underscore/underscore.js"
+      },
+      {
+        "name": "underscore.string",
+        "version": "2.4.0",
+        "path": "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/lib/underscore.string.js"
+      },
+      {
+        "name": "esprima",
+        "version": "1.0.4",
+        "path": "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/esprima/esprima.js"
       }
     ],
     "extensions": {
@@ -806,9 +890,9 @@
         "lib/language-options.coffee",
         "lib/loading-view.coffee",
         "lib/message-view.coffee",
+        "lib/options.coffee",
         "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/pac-proxy-agent/node_modules/pac-resolver/node_modules/netmask/example/ipcalc.coffee",
-        "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/pac-proxy-agent/node_modules/pac-resolver/node_modules/netmask/lib/netmask.coffee",
-        "node_modules/coffee-formatter/sample/vdvc.coffee"
+        "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/pac-proxy-agent/node_modules/pac-resolver/node_modules/netmask/lib/netmask.coffee"
       ],
       ".json": [
         "lib/langs/uncrustify/possible-options.json",
@@ -849,6 +933,7 @@
         "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/https-proxy-agent/package.json",
         "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/lru-cache/package.json",
         "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/pac-proxy-agent/node_modules/agent-base/package.json",
+        "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/pac-proxy-agent/node_modules/debug/bower.json",
         "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/pac-proxy-agent/node_modules/debug/component.json",
         "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/pac-proxy-agent/node_modules/debug/node_modules/ms/package.json",
         "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/pac-proxy-agent/node_modules/debug/package.json",
@@ -925,6 +1010,8 @@
         "node_modules/analytics-node/node_modules/uid/component.json",
         "node_modules/analytics-node/node_modules/uid/package.json",
         "node_modules/analytics-node/package.json",
+        "node_modules/async/component.json",
+        "node_modules/async/package.json",
         "node_modules/atom-message-panel/package.json",
         "node_modules/coffee-formatter/node_modules/lazy/package.json",
         "node_modules/coffee-formatter/node_modules/optimist/node_modules/wordwrap/package.json",
@@ -954,21 +1041,24 @@
         "node_modules/js-beautify/node_modules/nopt/node_modules/abbrev/package.json",
         "node_modules/js-beautify/node_modules/nopt/package.json",
         "node_modules/js-beautify/package.json",
-        "node_modules/js-yaml/bower.json",
-        "node_modules/js-yaml/examples/dumper.json",
-        "node_modules/js-yaml/node_modules/argparse/node_modules/underscore/package.json",
-        "node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/component.json",
-        "node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/package.json",
-        "node_modules/js-yaml/node_modules/argparse/package.json",
-        "node_modules/js-yaml/node_modules/esprima/package.json",
-        "node_modules/js-yaml/package.json",
         "node_modules/lodash/package.json",
         "node_modules/loophole/package.json",
+        "node_modules/node-dir/package.json",
         "node_modules/node-uuid/component.json",
         "node_modules/node-uuid/package.json",
         "node_modules/prettydiff/.bower.json",
         "node_modules/prettydiff/bower.json",
         "node_modules/prettydiff/package.json",
+        "node_modules/space-pen/api.json",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/package.json",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/package.json",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/package.json",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/package.json",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/package.json",
+        "node_modules/space-pen/node_modules/grim/package.json",
+        "node_modules/space-pen/node_modules/underscore-plus/node_modules/underscore/package.json",
+        "node_modules/space-pen/node_modules/underscore-plus/package.json",
+        "node_modules/space-pen/package.json",
         "node_modules/strip-json-comments/package.json",
         "node_modules/temp/node_modules/rimraf/package.json",
         "node_modules/temp/package.json",
@@ -978,6 +1068,19 @@
         "node_modules/typescript-formatter/tsd.json",
         "node_modules/typescript-formatter/typescript-toolbox/package.json",
         "node_modules/typescript-formatter/typescript-toolbox/tsd.json",
+        "node_modules/yaml-front-matter/component.json",
+        "node_modules/yaml-front-matter/node_modules/commander/package.json",
+        "node_modules/yaml-front-matter/node_modules/is-browser/package.json",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/bower.json",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/examples/dumper.json",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/node_modules/underscore/package.json",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/bower.json",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/component.json",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/package.json",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/package.json",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/esprima/package.json",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/package.json",
+        "node_modules/yaml-front-matter/package.json",
         "package.json"
       ],
       ".js": [
@@ -1280,12 +1383,13 @@
         "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/socks-proxy-agent/node_modules/rainbowsocks/test.js",
         "node_modules/analytics-node/node_modules/superagent-proxy/node_modules/proxy-agent/node_modules/socks-proxy-agent/socks-proxy-agent.js",
         "node_modules/analytics-node/node_modules/uid/index.js",
+        "node_modules/async/lib/async.js",
         "node_modules/atom-message-panel/lib/LineMessageView.js",
         "node_modules/atom-message-panel/lib/MessagePanelView.js",
         "node_modules/atom-message-panel/lib/PlainMessageView.js",
         "node_modules/atom-message-panel/lib/index.js",
         "node_modules/atom-message-panel/lib/utils.js",
-        "node_modules/coffee-formatter/formatter.js",
+        "node_modules/coffee-formatter/lib/formatter.js",
         "node_modules/coffee-formatter/node_modules/lazy/lazy.js",
         "node_modules/coffee-formatter/node_modules/optimist/example/bool.js",
         "node_modules/coffee-formatter/node_modules/optimist/example/boolean_double.js",
@@ -1358,82 +1462,6 @@
         "node_modules/js-beautify/node_modules/nopt/lib/nopt.js",
         "node_modules/js-beautify/node_modules/nopt/node_modules/abbrev/abbrev.js",
         "node_modules/js-beautify/node_modules/nopt/node_modules/abbrev/test.js",
-        "node_modules/js-yaml/bin/js-yaml.js",
-        "node_modules/js-yaml/dist/js-yaml.js",
-        "node_modules/js-yaml/dist/js-yaml.min.js",
-        "node_modules/js-yaml/examples/custom_types.js",
-        "node_modules/js-yaml/examples/dumper.js",
-        "node_modules/js-yaml/examples/sample_document.js",
-        "node_modules/js-yaml/index.js",
-        "node_modules/js-yaml/lib/js-yaml/common.js",
-        "node_modules/js-yaml/lib/js-yaml/dumper.js",
-        "node_modules/js-yaml/lib/js-yaml/exception.js",
-        "node_modules/js-yaml/lib/js-yaml/loader.js",
-        "node_modules/js-yaml/lib/js-yaml/mark.js",
-        "node_modules/js-yaml/lib/js-yaml/schema/core.js",
-        "node_modules/js-yaml/lib/js-yaml/schema/default_full.js",
-        "node_modules/js-yaml/lib/js-yaml/schema/default_safe.js",
-        "node_modules/js-yaml/lib/js-yaml/schema/failsafe.js",
-        "node_modules/js-yaml/lib/js-yaml/schema/json.js",
-        "node_modules/js-yaml/lib/js-yaml/schema.js",
-        "node_modules/js-yaml/lib/js-yaml/type/binary.js",
-        "node_modules/js-yaml/lib/js-yaml/type/bool.js",
-        "node_modules/js-yaml/lib/js-yaml/type/float.js",
-        "node_modules/js-yaml/lib/js-yaml/type/int.js",
-        "node_modules/js-yaml/lib/js-yaml/type/js/function.js",
-        "node_modules/js-yaml/lib/js-yaml/type/js/regexp.js",
-        "node_modules/js-yaml/lib/js-yaml/type/js/undefined.js",
-        "node_modules/js-yaml/lib/js-yaml/type/map.js",
-        "node_modules/js-yaml/lib/js-yaml/type/merge.js",
-        "node_modules/js-yaml/lib/js-yaml/type/null.js",
-        "node_modules/js-yaml/lib/js-yaml/type/omap.js",
-        "node_modules/js-yaml/lib/js-yaml/type/pairs.js",
-        "node_modules/js-yaml/lib/js-yaml/type/seq.js",
-        "node_modules/js-yaml/lib/js-yaml/type/set.js",
-        "node_modules/js-yaml/lib/js-yaml/type/str.js",
-        "node_modules/js-yaml/lib/js-yaml/type/timestamp.js",
-        "node_modules/js-yaml/lib/js-yaml/type.js",
-        "node_modules/js-yaml/lib/js-yaml.js",
-        "node_modules/js-yaml/node_modules/argparse/examples/arguments.js",
-        "node_modules/js-yaml/node_modules/argparse/examples/choice.js",
-        "node_modules/js-yaml/node_modules/argparse/examples/constants.js",
-        "node_modules/js-yaml/node_modules/argparse/examples/help.js",
-        "node_modules/js-yaml/node_modules/argparse/examples/nargs.js",
-        "node_modules/js-yaml/node_modules/argparse/examples/parents.js",
-        "node_modules/js-yaml/node_modules/argparse/examples/prefix_chars.js",
-        "node_modules/js-yaml/node_modules/argparse/examples/sub_commands.js",
-        "node_modules/js-yaml/node_modules/argparse/examples/sum.js",
-        "node_modules/js-yaml/node_modules/argparse/examples/testformatters.js",
-        "node_modules/js-yaml/node_modules/argparse/index.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/action/append/constant.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/action/append.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/action/count.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/action/help.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/action/store/constant.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/action/store/false.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/action/store/true.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/action/store.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/action/subparsers.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/action/version.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/action.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/action_container.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/argparse.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/argument/error.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/argument/exclusive.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/argument/group.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/argument_parser.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/const.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/help/added_formatters.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/help/formatter.js",
-        "node_modules/js-yaml/node_modules/argparse/lib/namespace.js",
-        "node_modules/js-yaml/node_modules/argparse/node_modules/underscore/index.js",
-        "node_modules/js-yaml/node_modules/argparse/node_modules/underscore/underscore-min.js",
-        "node_modules/js-yaml/node_modules/argparse/node_modules/underscore/underscore.js",
-        "node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/dist/underscore.string.min.js",
-        "node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/lib/underscore.string.js",
-        "node_modules/js-yaml/node_modules/esprima/bin/esparse.js",
-        "node_modules/js-yaml/node_modules/esprima/bin/esvalidate.js",
-        "node_modules/js-yaml/node_modules/esprima/esprima.js",
         "node_modules/lodash/dist/lodash.compat.js",
         "node_modules/lodash/dist/lodash.compat.min.js",
         "node_modules/lodash/dist/lodash.js",
@@ -1442,6 +1470,9 @@
         "node_modules/lodash/dist/lodash.underscore.min.js",
         "node_modules/lodash/lodash.js",
         "node_modules/loophole/lib/loophole.js",
+        "node_modules/node-dir/index.js",
+        "node_modules/node-dir/lib/paths.js",
+        "node_modules/node-dir/lib/readfiles.js",
         "node_modules/node-uuid/benchmark/benchmark.js",
         "node_modules/node-uuid/uuid.js",
         "node_modules/prettydiff/api/dom.js",
@@ -1456,6 +1487,50 @@
         "node_modules/prettydiff/lib/markup_beauty.js",
         "node_modules/prettydiff/lib/markupmin.js",
         "node_modules/prettydiff/prettydiff.js",
+        "node_modules/space-pen/lib/space-pen.js",
+        "node_modules/space-pen/node_modules/grim/lib/deprecation.js",
+        "node_modules/space-pen/node_modules/grim/lib/grim.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/index.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/browser.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/cake.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/coffee-script.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/command.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/grammar.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/helpers.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/index.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/lexer.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/nodes.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/optparse.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/parser.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/register.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/repl.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/rewriter.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/scope.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/sourcemap.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/examples/pow.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/index.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/register.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/Makefile.dryice.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/assert-shim.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/mini-require.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/suffix-browser.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/test-prefix.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/test-suffix.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/array-set.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/base64-vlq.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/base64.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/binary-search.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-map-consumer.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-map-generator.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-node.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/util.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/amdefine.js",
+        "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/intercept.js",
+        "node_modules/space-pen/node_modules/underscore-plus/lib/underscore-plus.js",
+        "node_modules/space-pen/node_modules/underscore-plus/node_modules/underscore/underscore-min.js",
+        "node_modules/space-pen/node_modules/underscore-plus/node_modules/underscore/underscore.js",
+        "node_modules/space-pen/vendor/jquery.js",
         "node_modules/strip-json-comments/cli.js",
         "node_modules/strip-json-comments/strip-json-comments.js",
         "node_modules/temp/examples/grepcount.js",
@@ -1483,14 +1558,104 @@
         "node_modules/typescript-formatter/typescript-toolbox/typescript/0.9.7/typescriptServices.js",
         "node_modules/typescript-formatter/typescript-toolbox/typescript/1.0.0/typescriptServices.js",
         "node_modules/typescript-formatter/typescript-toolbox/typescript/1.0.1/typescriptServices.js",
-        "node_modules/typescript-formatter/typescript-toolbox/typescript/tss.js"
+        "node_modules/typescript-formatter/typescript-toolbox/typescript/tss.js",
+        "node_modules/yaml-front-matter/bin/js-yaml-front.js",
+        "node_modules/yaml-front-matter/build.js",
+        "node_modules/yaml-front-matter/index.js",
+        "node_modules/yaml-front-matter/js-yaml-for-browser.js",
+        "node_modules/yaml-front-matter/lib/browser.js",
+        "node_modules/yaml-front-matter/lib/js-yaml-front.js",
+        "node_modules/yaml-front-matter/node_modules/commander/index.js",
+        "node_modules/yaml-front-matter/node_modules/commander/lib/commander.js",
+        "node_modules/yaml-front-matter/node_modules/is-browser/client.js",
+        "node_modules/yaml-front-matter/node_modules/is-browser/server.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/bin/js-yaml.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/dist/js-yaml.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/dist/js-yaml.min.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/examples/custom_types.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/examples/dumper.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/examples/sample_document.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/index.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/common.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/dumper.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/exception.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/loader.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/mark.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/schema/core.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/schema/default_full.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/schema/default_safe.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/schema/failsafe.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/schema/json.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/schema.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/binary.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/bool.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/float.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/int.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/js/function.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/js/regexp.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/js/undefined.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/map.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/merge.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/null.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/omap.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/pairs.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/seq.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/set.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/str.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/timestamp.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/examples/arguments.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/examples/choice.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/examples/constants.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/examples/help.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/examples/nargs.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/examples/parents.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/examples/prefix_chars.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/examples/sub_commands.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/examples/sum.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/examples/testformatters.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/index.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action/append/constant.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action/append.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action/count.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action/help.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action/store/constant.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action/store/false.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action/store/true.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action/store.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action/subparsers.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action/version.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action_container.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/argparse.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/argument/error.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/argument/exclusive.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/argument/group.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/argument_parser.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/const.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/help/added_formatters.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/help/formatter.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/namespace.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/node_modules/underscore/underscore-min.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/node_modules/underscore/underscore.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/foo.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/gulpfile.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/lib/underscore.string.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/esprima/bin/esparse.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/esprima/bin/esvalidate.js",
+        "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/esprima/esprima.js"
       ]
     },
     "folders": [
       {
         "paths": [
-          "examples/nested-jsbeautifyrc",
-          "examples/simple-jsbeautifyrc",
+          "examples/nested-jsbeautifyrc/javascript/expected",
+          "examples/nested-jsbeautifyrc/javascript/original",
+          "examples/simple-jsbeautifyrc/coffeescript/expected",
+          "examples/simple-jsbeautifyrc/coffeescript/original",
+          "examples/simple-jsbeautifyrc/javascript/expected",
+          "examples/simple-jsbeautifyrc/javascript/original",
           "lib",
           "lib/langs",
           "lib/langs/uncrustify",
@@ -1498,20 +1663,24 @@
           "spec"
         ],
         "dependencies": {
+          "analytics-node": "^1.0.2",
+          "async": "^0.9.0",
+          "atom-message-panel": "^1.1.1",
+          "coffee-formatter": "^0.1.1",
+          "editorconfig": "^0.11.4",
           "emissary": "^1.0.0",
           "extend": "^1.2.1",
           "js-beautify": "^1.5.4",
           "lodash": "2.4.1",
-          "strip-json-comments": "^0.1.3",
-          "js-yaml": "^3.0.2",
-          "temp": "^0.8.0",
-          "prettydiff": "^1.2.4",
-          "node-uuid": "^1.4.1",
-          "analytics-node": "^1.0.2",
-          "atom-message-panel": "^1.1.1",
-          "editorconfig": "^0.11.4",
           "loophole": "^1.0.0",
-          "typescript-formatter": "~0.1.4"
+          "node-dir": "^0.1.6",
+          "node-uuid": "^1.4.1",
+          "prettydiff": "^1.6.13",
+          "space-pen": "^4.3.0",
+          "strip-json-comments": "^0.1.3",
+          "temp": "^0.8.0",
+          "typescript-formatter": "~0.1.4",
+          "yaml-front-matter": "^3.2.3"
         }
       },
       {
@@ -1700,7 +1869,7 @@
         "dependencies": {
           "co": "~3.0.6",
           "netmask": "~1.0.4",
-          "degenerator": "~0.0.3",
+          "degenerator": "~1.0.0",
           "regenerator": "~0.4.7",
           "thunkify": "~2.1.1"
         }
@@ -1859,8 +2028,17 @@
       },
       {
         "paths": [
+          "node_modules/atom-message-panel/lib",
+          "node_modules/atom-message-panel"
+        ],
+        "dependencies": {
+          "space-pen": "^4"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/coffee-formatter/lib",
           "node_modules/coffee-formatter",
-          "node_modules/coffee-formatter/sample",
           "node_modules/coffee-formatter/test"
         ],
         "dependencies": {
@@ -1980,35 +2158,64 @@
       },
       {
         "paths": [
-          "node_modules/js-yaml/bin",
-          "node_modules/js-yaml",
-          "node_modules/js-yaml/dist",
-          "node_modules/js-yaml/examples",
-          "node_modules/js-yaml/lib/js-yaml",
-          "node_modules/js-yaml/lib/js-yaml/schema",
-          "node_modules/js-yaml/lib/js-yaml/type",
-          "node_modules/js-yaml/lib/js-yaml/type/js",
-          "node_modules/js-yaml/lib"
+          "node_modules/space-pen",
+          "node_modules/space-pen/lib",
+          "node_modules/space-pen/vendor"
         ],
         "dependencies": {
-          "argparse": "~ 0.1.11",
-          "esprima": "~ 1.0.2"
+          "grim": "^1.0.0",
+          "underscore-plus": "1.x"
         }
       },
       {
         "paths": [
-          "node_modules/js-yaml/node_modules/argparse/examples",
-          "node_modules/js-yaml/node_modules/argparse",
-          "node_modules/js-yaml/node_modules/argparse/lib/action/append",
-          "node_modules/js-yaml/node_modules/argparse/lib/action",
-          "node_modules/js-yaml/node_modules/argparse/lib/action/store",
-          "node_modules/js-yaml/node_modules/argparse/lib",
-          "node_modules/js-yaml/node_modules/argparse/lib/argument",
-          "node_modules/js-yaml/node_modules/argparse/lib/help"
+          "node_modules/space-pen/node_modules/grim/lib",
+          "node_modules/space-pen/node_modules/grim"
         ],
         "dependencies": {
-          "underscore": "~1.4.3",
-          "underscore.string": "~2.3.1"
+          "coffeestack": "^0.7.0",
+          "emissary": "^1.2.0",
+          "underscore-plus": "^1.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/space-pen/node_modules/grim/node_modules/coffeestack"
+        ],
+        "dependencies": {
+          "coffee-script": "~1.7.0",
+          "source-map": "~0.1.31"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script",
+          "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script"
+        ],
+        "dependencies": {
+          "mkdirp": "~0.3.5"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map",
+          "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build",
+          "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map",
+          "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib",
+          "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/test",
+          "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/test/source-map"
+        ],
+        "dependencies": {
+          "amdefine": ">=0.0.4"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/space-pen/node_modules/underscore-plus/lib",
+          "node_modules/space-pen/node_modules/underscore-plus"
+        ],
+        "dependencies": {
+          "underscore": "~1.6.0"
         }
       },
       {
@@ -2061,6 +2268,52 @@
         "dependencies": {
           "commander": "2.2.0",
           "editorconfig": "0.11.4"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/yaml-front-matter/bin",
+          "node_modules/yaml-front-matter",
+          "node_modules/yaml-front-matter/lib",
+          "node_modules/yaml-front-matter/test"
+        ],
+        "dependencies": {
+          "commander": "1.0.0",
+          "js-yaml": "~3.2.3",
+          "is-browser": "~2.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/yaml-front-matter/node_modules/js-yaml/bin",
+          "node_modules/yaml-front-matter/node_modules/js-yaml",
+          "node_modules/yaml-front-matter/node_modules/js-yaml/dist",
+          "node_modules/yaml-front-matter/node_modules/js-yaml/examples",
+          "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml",
+          "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/schema",
+          "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type",
+          "node_modules/yaml-front-matter/node_modules/js-yaml/lib/js-yaml/type/js",
+          "node_modules/yaml-front-matter/node_modules/js-yaml/lib"
+        ],
+        "dependencies": {
+          "argparse": "~ 0.1.11",
+          "esprima": "~ 1.0.2"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/examples",
+          "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse",
+          "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action/append",
+          "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action",
+          "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/action/store",
+          "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib",
+          "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/argument",
+          "node_modules/yaml-front-matter/node_modules/js-yaml/node_modules/argparse/lib/help"
+        ],
+        "dependencies": {
+          "underscore": "~1.7.0",
+          "underscore.string": "~2.4.0"
         }
       }
     ]

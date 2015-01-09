@@ -87,9 +87,10 @@ class GitCommit
     atom.workspace
       .open(@filePath(), split: split, searchAllPanes: true)
       .done (textBuffer) =>
-        @subscriptions.push textBuffer.onDidSave => @commit()
-        @subscriptions.push textBuffer.onDidDestroy =>
-          if @isAmending then @undoAmend() else @cleanup()
+        if textBuffer?
+          @subscriptions.push textBuffer.onDidSave => @commit()
+          @subscriptions.push textBuffer.onDidDestroy =>
+            if @isAmending then @undoAmend() else @cleanup()
 
   # Public: When the user is done editing the commit message an saves the file
   #         this method gets invoked and commits the changes.
@@ -109,7 +110,7 @@ class GitCommit
         # diff gutter.
         atom.project.getRepo()?.refreshStatus()
         # Activate the former active pane.
-        @currentPane.activate()
+        @currentPane.activate() if @currentPane.alive
         # Refresh git index to prevent bugs on our methods.
         git.refresh()
 
@@ -143,6 +144,6 @@ class GitCommit
 
   # Public: Cleans up after the EditorView gets destroyed.
   cleanup: ->
-    @currentPane.activate()
+    @currentPane.activate() if @currentPane.alive
     s.dispose() for s in @subscriptions
     try fs.unlinkSync @filePath()

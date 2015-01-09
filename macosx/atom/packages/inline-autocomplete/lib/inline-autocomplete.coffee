@@ -86,8 +86,9 @@ module.exports =
     startPosition = selection.getBufferRange().start
     buffer = @editor.getBuffer()
     
-    selection.selectWord();
-    selection.insertText(match.word, { select: false, undo: 'skip' })
+    selection.selectWord()
+    selection.insertText(match.word, { select: false })
+    # selection.insertText(match.word, { select: false, undo: 'skip' })
   
   prefixAndSuffixOfSelection: (selection) ->
     selectionRange = selection.getBufferRange()

@@ -1,5 +1,6 @@
 # [atom-beautify](https://github.com/donaldpipowitch/atom-beautify)
 
+[![Build Status](https://travis-ci.org/Glavin001/atom-beautify.svg?branch=master)](https://travis-ci.org/Glavin001/atom-beautify)
 [![Gitter chat](https://badges.gitter.im/Glavin001/atom-beautify.png)](https://gitter.im/Glavin001/atom-beautify)
 [![Issue Stats](http://issuestats.com/github/glavin001/atom-beautify/badge/pr?style=flat)](http://issuestats.com/github/glavin001/atom-beautify)
 [![Issue Stats](http://issuestats.com/github/glavin001/atom-beautify/badge/issue?style=flat)](http://issuestats.com/github/glavin001/atom-beautify)
@@ -41,7 +42,7 @@ Or Settings/Preferences ➔ Packages ➔ Search for `atom-beautify`
   - Requires [autopep8](https://github.com/hhatto/autopep8) to be already installed.
   - Beautifies to [PEP 8](http://legacy.python.org/dev/peps/pep-0008/).
 - [x] [Ruby](https://github.com/donaldpipowitch/atom-beautify/issues/25)
-  - Requires [RBeautify](https://github.com/erniebrodeur/ruby-beautify)
+  - Requires [Ruby Beautify](https://github.com/erniebrodeur/ruby-beautify)
 - [x] [CoffeeScript](https://github.com/donaldpipowitch/atom-beautify/issues/31)
 - [x] [Java](https://github.com/Glavin001/atom-beautify/issues/45)
   - Requires [Uncrustify](http://sourceforge.net/projects/uncrustify/)
@@ -78,8 +79,8 @@ See [Keymaps In-Depth](https://atom.io/docs/latest/advanced/keymaps) for more de
 For example:
 
 ```coffeescript
-'.editor': # Available from Editor only
-  'ctrl-alt-b': 'beautify'
+'.editor':
+  'ctrl-alt-b': 'beautify:beautify-editor'
 ```
 
 ### Package Options
