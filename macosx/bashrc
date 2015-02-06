@@ -21,7 +21,7 @@ export HISTSIZE=10000000000000  # 履歴のMAX保存数を指定
 export GOPATH=~/gocode
 
 # PATH
-export PATH="$(brew --prefix coreutils)/libexec/gnubin:~/.bin:/usr/local/bin:/usr/local/sbin:~/.bin/mongodb:$PATH"
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:~/bin:/usr/local/bin:/usr/local/sbin:~/bin/mongodb:~/bin/elastic-mapreduce-ruby:~/bin/hadoop_src/hadoop-2.4.0/bin:$PATH"
 eval "$(hub alias -s)"
 
 #pyenv
