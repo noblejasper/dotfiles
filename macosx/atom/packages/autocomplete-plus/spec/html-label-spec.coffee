@@ -1,7 +1,8 @@
+{waitForAutocomplete} = require('./spec-helper')
 TestProvider = require('./lib/test-provider')
 
-describe "HTML labels", ->
-  [completionDelay, editorView, editor, autocompleteManager, mainModule] = []
+describe 'HTML labels', ->
+  [completionDelay, editorView, editor, mainModule, autocompleteManager, registration] = []
 
   beforeEach ->
     runs ->
@@ -20,23 +21,42 @@ describe "HTML labels", ->
     waitsForPromise -> atom.workspace.open('sample.js').then (e) ->
       editor = e
 
+    waitsForPromise ->
+      atom.packages.activatePackage('language-javascript')
+
     # Activate the package
     waitsForPromise -> atom.packages.activatePackage('autocomplete-plus').then (a) ->
       mainModule = a.mainModule
-      autocompleteManager = mainModule.autocompleteManagers[0]
 
-  it "should allow HTML in labels for suggestions in the suggestion list", ->
+    waitsFor ->
+      mainModule.autocompleteManager?.ready
+
     runs ->
-      # Register the test provider
-      testProvider = new TestProvider(editor)
-      mainModule.registerProviderForEditor(testProvider, editor)
+      autocompleteManager = mainModule.autocompleteManager
+
+  afterEach ->
+    registration?.dispose()
+
+  it 'should allow HTML in labels for suggestions in the suggestion list', ->
+    runs ->
+      testProvider =
+        requestHandler: (options) ->
+          [{
+            word: 'ohai',
+            prefix: 'ohai',
+            label: '<span style="color: red">ohai</span>',
+            renderLabelAsHtml: true,
+            className: 'ohai'
+          }]
+        selector: '.source.js'
+      registration = atom.packages.serviceHub.provide('autocomplete.provider', '1.0.0', {provider: testProvider})
 
       editor.moveToBottom()
       editor.insertText('o')
 
-      advanceClock(completionDelay)
+      waitForAutocomplete()
 
-      autocompleteView = atom.views.getView(autocompleteManager)
-
-      expect(autocompleteView.querySelector('li .label')).toHaveHtml('<span style="color: red">ohai</span>')
-      expect(autocompleteView.querySelector('li')).toHaveClass('ohai')
+      runs ->
+        suggestionListView = atom.views.getView(autocompleteManager.suggestionList)
+        expect(suggestionListView.querySelector('li .completion-label')).toHaveHtml('<span style="color: red">ohai</span>')
+        expect(suggestionListView.querySelector('li')).toHaveClass('ohai')

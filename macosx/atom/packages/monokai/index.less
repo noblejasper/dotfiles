@@ -1,11 +1,9 @@
 @import 'syntax-variables';
 
-.editor-colors, :host {
+atom-text-editor, :host {
   background-color: @syntax-background-color;
   color: @syntax-text-color;
-}
 
-.editor, :host {
   .invisible-character {
     color: @syntax-invisible-character-color;
   }
@@ -126,13 +124,13 @@
 }
 
 .entity.name.class {
-  text-decoration: underline;
+  text-decoration: none;
   color: #A6E22E;
 }
 
 .entity.other.inherited-class {
   font-style: italic;
-  text-decoration: underline;
+  text-decoration: none;
   color: #A6E22E;
 }
 
@@ -190,4 +188,9 @@
 // Jade syntax
 .class.jade {
   color: #AE81FF;
+}
+
+// 'this' Javascript
+.variable.language.js {
+  color: #F92672;
 }

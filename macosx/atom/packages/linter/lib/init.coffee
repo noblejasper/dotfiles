@@ -3,6 +3,7 @@ _ = require 'lodash'
 
 LinterView = require './linter-view'
 StatusBarView = require './statusbar-view'
+StatusBarSummaryView = require './statusbar-summary-view'
 InlineView = require './inline-view'
 
 
@@ -34,10 +35,14 @@ class LinterInitializer
       default: false
     showErrorInline:
       type: 'boolean'
+      default: true
+    showInfoMessages:
+      type: 'boolean'
       default: false
+      description: "Display linter messages with error level “Info”."
     statusBar:
       type: 'string'
-      default: 'Show error of the selected line'
+      default: 'None'
       enum: ['None', 'Show all errors', 'Show error of the selected line', 'Show error if the cursor is in range']
     executionTimeout:
       type: 'integer'
@@ -62,24 +67,25 @@ class LinterInitializer
   activate: ->
     @setDefaultOldConfig()
     @linterViews = []
-    @linters = []
     @subscriptions = new CompositeDisposable
+    linterClasses = []
 
     for atomPackage in atom.packages.getLoadedPackages()
       if atomPackage.metadata['linter-package'] is true
         implemention = atomPackage.metadata['linter-implementation'] ? atomPackage.name
-        @linters.push(require "#{atomPackage.path}/lib/#{implemention}")
+        linterClasses.push(require "#{atomPackage.path}/lib/#{implemention}")
 
     @enabled = true
     @statusBarView = new StatusBarView()
+    @statusBarSummaryView = new StatusBarSummaryView()
     @inlineView = new InlineView()
 
     # Subscribing to every current and future editor
     @subscriptions.add atom.workspace.observeTextEditors (editor) =>
       return if editor.linterView?
 
-      linterView = new LinterView(editor, @statusBarView, @inlineView,
-                                  @linters)
+      linterView = new LinterView(editor, @statusBarView, @statusBarSummaryView,
+                                  @inlineView, linterClasses)
       @linterViews.push linterView
       @subscriptions.add linterView.onDidDestroy =>
         @linterViews = _.without @linterViews, linterView
@@ -90,6 +96,6 @@ class LinterInitializer
     linterView.remove() for linterView in @linterViews
     @inlineView.remove()
     @statusBarView.remove()
-    l.destroy() for l in @linters
+    @statusBarSummaryView.remove()
 
 module.exports = new LinterInitializer()

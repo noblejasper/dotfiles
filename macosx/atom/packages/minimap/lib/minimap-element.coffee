@@ -5,9 +5,12 @@ CanvasDrawer = require './mixins/canvas-drawer'
 
 MinimapQuickSettingsView = null
 
+# Public:
 class MinimapElement extends HTMLElement
   DOMStylesReader.includeInto(this)
   CanvasDrawer.includeInto(this)
+
+  ### Public ###
 
   domPollingInterval: 100
   domPollingIntervalId: null
@@ -25,6 +28,10 @@ class MinimapElement extends HTMLElement
   createdCallback: ->
     @subscriptions = new CompositeDisposable
     @initializeContent()
+
+    @subscriptions.add atom.themes.onDidChangeActiveThemes =>
+      @invalidateCache()
+      @requestForcedUpdate()
 
     @observeConfig
       'minimap.displayMinimapOnLeft': (displayMinimapOnLeft) =>
@@ -244,23 +251,23 @@ class MinimapElement extends HTMLElement
   update: ->
     return unless @attached and @isVisible() and not @minimap.isDestroyed()
 
-    if @adjustToSoftWrap
+    if @adjustToSoftWrap and @marginRight?
       @style.marginRight = @marginRight + 'px'
     else
       @style.marginRight = null
 
-    visibleAreaLeft = @minimap.getTextEditorScrollLeft()
-    visibleAreaTop = @minimap.getTextEditorScrollTop() - @minimap.getMinimapScrollTop()
+    visibleAreaLeft = @minimap.getTextEditorScaledScrollLeft()
+    visibleAreaTop = @minimap.getTextEditorScaledScrollTop() - @minimap.getScrollTop()
 
     @applyStyles @visibleArea,
       width: @clientWidth + 'px'
-      height: @minimap.getTextEditorHeight() + 'px'
+      height: @minimap.getTextEditorScaledHeight() + 'px'
       transform: @makeTranslate(visibleAreaLeft, visibleAreaTop)
 
     @applyStyles @controls,
-      width: @canvas.width + 'px'
+      width: Math.min(@canvas.width, @width) + 'px'
 
-    canvasTop = @minimap.getFirstVisibleScreenRow() * @minimap.getLineHeight() - @minimap.getMinimapScrollTop()
+    canvasTop = @minimap.getFirstVisibleScreenRow() * @minimap.getLineHeight() - @minimap.getScrollTop()
 
     canvasTransform = @makeTranslate(0, canvasTop)
     canvasTransform += " " + @makeScale(1/devicePixelRatio) if devicePixelRatio isnt 1
@@ -272,7 +279,7 @@ class MinimapElement extends HTMLElement
     if @scrollIndicator?
       editorHeight = @getTextEditor().getHeight()
       indicatorHeight = editorHeight * (editorHeight / @minimap.getHeight())
-      indicatorScroll = (editorHeight - indicatorHeight) * @minimap.getCapedTextEditorScrollRation()
+      indicatorScroll = (editorHeight - indicatorHeight) * @minimap.getCapedTextEditorScrollRatio()
 
       @applyStyles @scrollIndicator,
         height: indicatorHeight + 'px'
@@ -314,7 +321,11 @@ class MinimapElement extends HTMLElement
       softWrap = atom.config.get('editor.softWrap')
       width = lineLength * @minimap.getCharWidth()
 
-      @marginRight = width - @width if softWrap and lineLength and width < @width
+      if softWrap and lineLength and width < @width
+        @marginRight = width - @width
+      else
+        @marginRight = null
+
       canvasWidth = width
     else
       delete @marginRight
@@ -335,13 +346,24 @@ class MinimapElement extends HTMLElement
     for config, callback of configs
       @subscriptions.add atom.config.observe config, callback
 
-  mousePressedOverCanvas: ({pageY, target}) ->
+  mousePressedOverCanvas: ({which, pageY, target}) ->
+    return if which isnt 1
+
     y = pageY - target.getBoundingClientRect().top
     row = Math.floor(y / @minimap.getLineHeight()) + @minimap.getFirstVisibleScreenRow()
 
     scrollTop = row * @minimap.textEditor.getLineHeightInPixels() - @minimap.textEditor.getHeight() / 2
 
-    @minimap.textEditor.setScrollTop(scrollTop)
+    from = @minimap.textEditor.getScrollTop()
+    to = scrollTop
+    step = (now) =>
+      @minimap.textEditor.setScrollTop(now)
+    if atom.config.get('minimap.scrollAnimation')
+      duration = 300
+    else
+      duration = 0
+
+    @animate(from: from, to: to, duration: duration, step: step)
 
   relayMousewheelEvent: (e) =>
     editorElement = atom.views.getView(@minimap.textEditor)
@@ -356,7 +378,8 @@ class MinimapElement extends HTMLElement
   #    ##     ## ##   ##   ##     ##
   #    ########   ####  ## ########
 
-  startDrag: ({pageY}) ->
+  startDrag: ({which, pageY}) ->
+    return if which isnt 1
     {top} = @visibleArea.getBoundingClientRect()
     {top: offsetTop} = @getBoundingClientRect()
 
@@ -377,9 +400,10 @@ class MinimapElement extends HTMLElement
       document.body.removeEventListener('mouseout', mouseupHandler)
 
   drag: (e, initial) ->
+    return if e.which isnt 1
     y = e.pageY - initial.offsetTop - initial.dragOffset
 
-    ratio = y / (@minimap.getVisibleHeight() - @minimap.getTextEditorHeight())
+    ratio = y / (@minimap.getVisibleHeight() - @minimap.getTextEditorScaledHeight())
 
     @minimap.textEditor.setScrollTop(ratio * @minimap.getTextEditorMaxScrollTop())
 
@@ -413,6 +437,25 @@ class MinimapElement extends HTMLElement
       "scale3d(#{x}, #{y}, 1)"
     else
       "scale(#{x}, #{y})"
+
+  animate: ({from, to, duration, step}) ->
+    start = new Date()
+
+    swing = (progress) ->
+      return 0.5 - Math.cos( progress * Math.PI ) / 2
+
+    update = ->
+      passed = new Date() - start
+      if duration == 0
+        progress = 1
+      else
+        progress = passed / duration
+      progress = 1 if progress > 1
+      delta = swing(progress)
+      step(from + (to-from)*delta)
+      requestAnimationFrame(update) if progress < 1
+
+    update()
 
 #    ######## ##       ######## ##     ## ######## ##    ## ########
 #    ##       ##       ##       ###   ### ##       ###   ##    ##

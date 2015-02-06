@@ -1,5 +1,41 @@
 ## Changelog
 
+### 4.4.1
+
+- Fix for `Git status` not opening selected file when accessed outside of repo.
+- Fix for some commands working after second time they are selected
+
+### 4.4.0
+
+- Many internal upgrades to keep up with atom 1.0.0 api
+- Commands can now be run from the Git-plus palette for files in other repos outside of the current project.
+  - This means you can open a directory of multiple Git repositories and work with individual repos while in the same project.
+
+### 4.3.8
+
+- minor
+
+### 4.3.7
+
+- More api upgrades
+- No longer showing git commands in regular command palette when project is not a repo
+
+### 4.3.6
+
+- Making changes to follow the api for atom 1.0.0
+
+### 4.3.5
+
+- Update css selectors and keymappings with new atom API standards
+
+### 4.3.2
+
+- Fix for `Checkout new branch`
+
+### 4.3.1
+
+- `Git Show` can be cancelled with escape
+
 ### 4.3.0
 
 - Confirm on `Git Remove`

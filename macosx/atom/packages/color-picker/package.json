@@ -1,9 +1,9 @@
 {
   "name": "color-picker",
   "main": "./lib/ColorPicker",
-  "version": "1.2.6",
+  "version": "1.4.4",
   "private": true,
-  "description": "A Color Picker for the Atom Editor. Right click a color and select color picker to open it.",
+  "description": "Right click or press CMD-SHIFT-C/CTRL-ALT-C to open it.",
   "repository": {
     "type": "git",
     "url": "https://github.com/thomaslindstrom/color-picker"
@@ -18,12 +18,13 @@
     "url": "https://github.com/thomaslindstrom/color-picker/issues"
   },
   "homepage": "https://github.com/thomaslindstrom/color-picker",
-  "_id": "color-picker@1.2.6",
+  "_id": "color-picker@1.4.4",
   "dist": {
-    "shasum": "0fdfbfb06e13b3402a12a86e41775759a25aac89"
+    "shasum": "ecbd06adb7344fdd7244c4f1052070d9c2543a73"
   },
-  "_resolved": "/private/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-1141019-56265-1qamdhb/package.tgz",
-  "_from": "/private/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-1141019-56265-1qamdhb/package.tgz",
+  "_resolved": "/private/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-115027-20288-7kazum/package.tgz",
+  "_from": "/private/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-115027-20288-7kazum/package.tgz",
+  "dependencies": {},
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],

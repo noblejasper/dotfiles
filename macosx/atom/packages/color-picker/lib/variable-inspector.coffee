@@ -25,13 +25,15 @@
     #  Public functionality
     # -------------------------------------
         module.exports =
-            # Find a variable definition in the project
-            # @String name
-            # @String type
+
+        #  Find a variable definition in the project
+        #  - name {String}
+        #  - type {String}
+        # ---------------------------
             findDefinition: (name, type) ->
                 return unless _regexString = _variablePatterns[type]
-                _regex = RegExp (_regexString.replace '{{ VARIABLE }}', name)
 
+                _regex = RegExp _regexString.replace '{{ VARIABLE }}', name
                 _results = []
 
                 # We already know where the definition is

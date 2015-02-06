@@ -1,49 +1,51 @@
-'*':
-  'exception-reporting':
-    'userId': 'c6699618-4497-4b29-c4b1-d584ee2e7cf5'
-  'release-notes':
-    'viewedVersion': '0.89.0'
-  'welcome':
-    'showOnStartup': false
-  'metrics':
-    'userId': '17dd89b6778fd0df1b7fe3732d3fd098681e4e16'
-  'editor':
-    'fontSize': 18
-    'showIndentGuide': true
-    'autoIndent': false
-    'autoIndentOnPaste': false
-    'preferredLineLength': 130
-    'tabLength': 4
-    'softWrap': true
-  'core':
-    'ignoredNames': [
-      '.git'
-      '.svn'
-      '.DS_Store'
+"*":
+  "exception-reporting":
+    userId: "c6699618-4497-4b29-c4b1-d584ee2e7cf5"
+  "release-notes":
+    viewedVersion: "0.89.0"
+  welcome:
+    showOnStartup: false
+  metrics:
+    userId: "17dd89b6778fd0df1b7fe3732d3fd098681e4e16"
+  editor:
+    fontSize: 20
+    showIndentGuide: true
+    autoIndentOnPaste: false
+    preferredLineLength: 130
+    tabLength: 4
+    softWrap: true
+    invisibles: {}
+  core:
+    ignoredNames: [
+      ".git"
+      ".svn"
+      ".DS_Store"
     ]
-    'disabledPackages': [
-      'linter-jscs'
-      'inline-autocomplete'
-      'color-picker'
+    disabledPackages: [
+      "linter-jscs"
+      "inline-autocomplete"
+      "color-picker"
+      "minimap"
     ]
-    'themes': [
-      'atom-dark-ui'
-      'monokai'
+    themes: [
+      "atom-dark-ui"
+      "monokai"
     ]
-    'projectHome': '/Users/jasper/git'
-  'autocomplete':
-    'includeCompletionsFromAllBuffers': true
-  'run-command':
-    'precedeCommandsWith': 'export PATH=${PATH}:/usr/local/bin; echo $PATH; source ~/.profile'
-  'linter-python-pyflakes':
-    'pyflakesDirToExecutable': '/usr/local/bin/'
-  'bracket-matcher':
-    'autocompleteBrackets': false
-  'linter':
-    'lintOnChange': false
-    'statusBar': 'Show error if the cursor is in range'
-  'inline-autocomplete':
-    'includeCompletionsFromAllBuffers': true
-    'includeGrammarKeywords': true
-  'autocomplete-plus':
-    'includeCompletionsFromAllBuffers': true
+    projectHome: "/Users/jasper/git"
+  autocomplete:
+    includeCompletionsFromAllBuffers: true
+  "run-command":
+    precedeCommandsWith: "export PATH=${PATH}:/usr/local/bin; echo $PATH; source ~/.profile"
+  "linter-python-pyflakes":
+    pyflakesDirToExecutable: "/usr/local/bin/"
+  "bracket-matcher":
+    autocompleteBrackets: false
+  linter:
+    lintOnChange: false
+    statusBar: "Show error if the cursor is in range"
+  "inline-autocomplete":
+    includeCompletionsFromAllBuffers: true
+    includeGrammarKeywords: true
+  "autocomplete-plus":
+    includeCompletionsFromAllBuffers: true
+  "git-plus": {}

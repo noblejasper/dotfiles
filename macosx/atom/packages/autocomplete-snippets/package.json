@@ -1,7 +1,7 @@
 {
   "name": "autocomplete-snippets",
   "main": "./lib/autocomplete-snippets",
-  "version": "0.3.2",
+  "version": "1.0.1",
   "description": "Adds snippets to autocomplete+ suggestions",
   "repository": {
     "type": "git",
@@ -17,18 +17,26 @@
     "fuzzaldrin": "~1.0.0",
     "season": "~2.0.0"
   },
-  "readme": "# autocomplete+ snippet suggestions\n\n[View the changelog](https://github.com/atom-community/autocomplete-snippets/blob/master/CHANGELOG.md)\n\nAdds snippets to autocomplete+ suggestions\n\n![autocomplete-snippets](http://s7.directupload.net/images/140411/kgdlgsgx.gif)\n\n## Installation\n\nYou can install autocomplete-snippets using the Preferences pane.\n\n**Please make sure you have autocomplete-plus installed as well**\n\n## Features\n\n* Adds user snippets and language snippets to the autocomplete+ suggestions list\n",
+  "devDependencies": {
+    "coffeelint": ">=1.8.1"
+  },
+  "providedServices": {
+    "autocomplete.provider": {
+      "versions": {
+        "1.0.0": "provide"
+      }
+    }
+  },
+  "readme": "# autocomplete+ snippet suggestions [![Build Status](https://travis-ci.org/atom-community/autocomplete-snippets.svg)](https://travis-ci.org/atom-community/autocomplete-snippets)\n\n[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/atom-community/autocomplete-snippets?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)\n\n[View the changelog](https://github.com/atom-community/autocomplete-snippets/blob/master/CHANGELOG.md)\n\nAdds snippets to autocomplete+ suggestions\n\n![autocomplete-snippets](http://s7.directupload.net/images/140411/kgdlgsgx.gif)\n\n## Installation\n\nYou can install autocomplete-snippets using the Preferences pane.\n\n**Please make sure you have autocomplete-plus installed as well**\n\n## Features\n\n* Adds user snippets and language snippets to the autocomplete+ suggestions list\n",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/atom-community/autocomplete-snippets/issues"
   },
   "homepage": "https://github.com/atom-community/autocomplete-snippets",
-  "_id": "autocomplete-snippets@0.3.2",
-  "dist": {
-    "shasum": "8097f7ac41fece529a57a07e4b695c183399c95a"
-  },
-  "_resolved": "/private/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-11508-13462-xhup9h/package.tgz",
-  "_from": "/private/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-11508-13462-xhup9h/package.tgz",
+  "_id": "autocomplete-snippets@1.0.1",
+  "_shasum": "04cb34fe7bd435f2753f3f7658c472d8da7c0bfe",
+  "_resolved": "file:../d-11515-67396-1yt4l04/package.tgz",
+  "_from": "../d-11515-67396-1yt4l04/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -184,14 +192,8 @@
       }
     ],
     "extensions": {
-      ".coffee": [
-        "lib/autocomplete-snippets.coffee",
-        "lib/snippets-loader.coffee",
-        "lib/snippets-provider.coffee",
-        "node_modules/season/node_modules/cson-safe/node_modules/coffee-script-redux/node_modules/StringScanner/src/StringScanner.coffee",
-        "node_modules/season/node_modules/cson-safe/node_modules/coffee-script-redux/node_modules/cscodegen/src/cscodegen.coffee"
-      ],
       ".json": [
+        "coffeelint.json",
         "node_modules/async/component.json",
         "node_modules/async/package.json",
         "node_modules/fs-plus/node_modules/async/component.json",
@@ -226,6 +228,12 @@
         "node_modules/season/node_modules/underscore-plus/package.json",
         "node_modules/season/package.json",
         "package.json"
+      ],
+      ".coffee": [
+        "lib/autocomplete-snippets.coffee",
+        "lib/snippets-provider.coffee",
+        "node_modules/season/node_modules/cson-safe/node_modules/coffee-script-redux/node_modules/StringScanner/src/StringScanner.coffee",
+        "node_modules/season/node_modules/cson-safe/node_modules/coffee-script-redux/node_modules/cscodegen/src/cscodegen.coffee"
       ],
       ".js": [
         "node_modules/async/lib/async.js",
@@ -369,8 +377,8 @@
     "folders": [
       {
         "paths": [
-          "lib",
           "",
+          "lib",
           "spec",
           "spec/fixtures"
         ],

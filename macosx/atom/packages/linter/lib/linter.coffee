@@ -51,7 +51,7 @@ class Linter
 
   # Public: Construct a linter passing it's base editor
   constructor: (@editor) ->
-    @cwd = path.dirname(@editor.getUri())
+    @cwd = path.dirname(@editor.getPath())
 
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.config.observe 'linter.executionTimeout', (x) =>
@@ -111,7 +111,7 @@ class Linter
   # Private: Provide the node executable path for use when executing a node
   #          linter
   getNodeExecutablePath: ->
-    path.join atom.packages.apmPath, '..', 'node'
+    path.join atom.packages.getApmPath(), '..', 'node'
 
   # Public: Primary entry point for a linter, executes the linter then calls
   #         processMessage in order to handle standard output
