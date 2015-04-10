@@ -26,6 +26,7 @@ Currently supported grammars are:
   * Julia
   * LilyPond
   * Lisp (via SBCL) <sup>[⍵](#omega)</sup>
+  * Literate Haskell <sup>[*](#asterisk)</sup>
   * LiveScript
   * Lua
   * Makefile
@@ -54,7 +55,7 @@ You only have to add a few lines in a PR to support another.
 
 <a name="dagger"></a><sup>†</sup> Erlang uses `erl` for limited selection based runs (see [#70](https://github.com/rgbkrk/atom-script/pull/70))
 
-<a name="asterisk"></a><sup>*</sup> Cucumber (Gherkin), Go, F#, PowerShell, Swift and D do not support selection based runs
+<a name="asterisk"></a><sup>*</sup> Cucumber (Gherkin), Go, F#, Literate Haskell, PowerShell, Swift and D do not support selection based runs
 
 <a name="omega"></a><sup>⍵</sup> Lisp selection based runs are limited to single line
 
@@ -93,11 +94,14 @@ Make sure to run `atom` from the command line to get full access to your environ
 To kill everything, click the close icon in the upper right and just go back to
 coding.
 
+**Script: Copy Run Results** copies everything written to the output pane to the
+clipboard, allowing you to paste it into the editor.
+
 ### Command and shortcut reference
 
 | Command                    | Mac OS X                            | Linux/Windows               | Notes                                                                         |
 |----------------------------|-------------------------------------|-----------------------------|-------------------------------------------------------------------------------|
-| Script: Run                | <kbd>cmd-i</kbd>                    | <kbd>ctrl-b</kbd>           | If text is selected a "Selection Based" is used instead of a "File Based" run |
+| Script: Run                | <kbd>cmd-i</kbd>                    | <kbd>shift-ctrl-b</kbd>     | If text is selected a "Selection Based" is used instead of a "File Based" run |
 | Script: Run by Line Number | <kbd>shift-cmd-j</kbd>              | <kbd>shift-ctrl-j</kbd>     | If text is selected the line number will be the last                          |
 | Script: Run Options        | <kbd>shift-cmd-i</kbd>              | <kbd>shift-ctrl-alt-o</kbd> | Runs the selection or whole file with the given options                       |
 | Script: Close View         | <kbd>esc</kbd> or <kbd>ctrl-w</kbd> | <kbd>esc</kbd>              | Closes the script view window                                                 |

@@ -70,6 +70,7 @@ class Minimap
   # Destroys the model.
   destroy: ->
     @subscriptions.dispose()
+    @removeAllDecorations()
     @textEditor = null
     @emitter.emit 'did-destroy'
     @destroyed = true
@@ -175,7 +176,8 @@ class Minimap
   #
   # Returns a {Number}.
   getTextEditorScrollRatio: ->
-    @textEditor.getScrollTop() / @getTextEditorMaxScrollTop()
+    # Because `0/0 = NaN`, so make sure that the denominator does not equal `0`.
+    @textEditor.getScrollTop() / (@getTextEditorMaxScrollTop() || 1)
 
   # Returns the `TextEditor` scroll as a value normalized between `0` and `1`.
   #

@@ -1,6 +1,6 @@
 temp = require('temp').track()
-path = require('path')
-fs = require('fs-plus')
+path = require 'path'
+fs = require 'fs-plus'
 
 describe 'Autocomplete Manager', ->
   [directory, filePath, completionDelay, editorView, editor, mainModule, autocompleteManager, didAutocomplete] = []
@@ -60,20 +60,15 @@ var quicksort = function () {
       mainModule.autocompleteManager?.ready
 
     runs ->
+      advanceClock(mainModule.autocompleteManager.providerManager.fuzzyProvider.deferBuildWordListInterval)
       autocompleteManager = mainModule.autocompleteManager
-      spyOn(autocompleteManager, 'findSuggestions').andCallThrough()
-      spyOn(autocompleteManager, 'displaySuggestions').andCallThrough()
-      spyOn(autocompleteManager, 'showSuggestionList').andCallThrough()
-      spyOn(autocompleteManager, 'hideSuggestionList').andCallThrough()
-      autocompleteManager.onDidAutocomplete ->
+      displaySuggestions = autocompleteManager.displaySuggestions
+      spyOn(autocompleteManager, 'displaySuggestions').andCallFake (suggestions, options) ->
+        displaySuggestions(suggestions, options)
         didAutocomplete = true
 
   afterEach ->
     didAutocomplete = false
-    jasmine.unspy(autocompleteManager, 'findSuggestions')
-    jasmine.unspy(autocompleteManager, 'displaySuggestions')
-    jasmine.unspy(autocompleteManager, 'showSuggestionList')
-    jasmine.unspy(autocompleteManager, 'hideSuggestionList')
 
   describe 'autosave compatibility', ->
     it 'keeps the suggestion list open while saving', ->

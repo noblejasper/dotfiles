@@ -18,6 +18,19 @@ apm install atom-beautify
 
 Or Settings/Preferences ➔ Packages ➔ Search for `atom-beautify`
 
+## Donations [![donate](http://img.shields.io/gratipay/Glavin001.svg)](https://gratipay.com/Glavin001/)
+
+Looking at the list of issues on Atom Beautify, at the time of writing this, there are 51 open and 155 closed.
+I see and strongly feel that Atom Beautify needs a more love than I currently have allocated time to give it, after work, school, and family.
+
+I am now accepting donations to support the development of Atom Beautify.
+Being the [sole maintainer of Atom Beautify, I](https://github.com/Glavin001) thank you very much for any support and for using Atom Beautify.
+
+These donations will help me continue with my contributions to the community while providing me with some much needed financial support for living expenses and my education.
+
+You can donate at https://gratipay.com/Glavin001/
+
+Thank you. [Glavin Wiechert](https://github.com/Glavin001)
 
 ## Language Support
 
@@ -28,6 +41,8 @@ Or Settings/Preferences ➔ Packages ➔ Search for `atom-beautify`
   - [x] [Embedded Ruby (ERB)](https://github.com/Glavin001/atom-beautify/issues/80)
     - Requires [htmlbeautifier](https://github.com/threedaymonk/htmlbeautifier)
   - [x] XML
+  - [x] [Marko](https://github.com/raptorjs/marko)
+    - Requires [language-marko](https://github.com/raptorjs/atom-language-marko)
 - [x] CSS, including
   - [Sass](http://sass-lang.com/)
   - [LESS](http://lesscss.org/)
@@ -37,7 +52,7 @@ Or Settings/Preferences ➔ Packages ➔ Search for `atom-beautify`
   - Requires [Pandoc](http://johnmacfarlane.net/pandoc/) to be already installed
 - [X] [Perl](https://github.com/Glavin001/atom-beautify/issues/33)
 - [x] [PHP](https://github.com/donaldpipowitch/atom-beautify/issues/26)  
-  - Requires [PHP_Beautifier](http://pear.php.net/package/PHP_Beautifier) to be already installed.
+  - Requires [php-cs-fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) to be already installed.
 - [x] [Python](https://github.com/donaldpipowitch/atom-beautify/issues/24)
   - Requires [autopep8](https://github.com/hhatto/autopep8) to be already installed.
   - Beautifies to [PEP 8](http://legacy.python.org/dev/peps/pep-0008/).
@@ -193,12 +208,12 @@ See [examples/nested-jsbeautifyrc/.jsbeautifyrc](https://github.com/donaldpipowi
 
 ### PHP
 
-To use with PHP we require [PHP_Beautifier](http://pear.php.net/package/PHP_Beautifier)
-and that you set the `Php beautifier path` in the package settings.
+To use with PHP we require [php-cs-fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)
+and that you set the `Php cs fixer path` in the package settings.
 
 #### Retrieve the path on Mac & Linux
 
-Run `which php_beautifier` in your Terminal.
+Run `which php-cs-fixer` in your Terminal.
 
 ### Python
 

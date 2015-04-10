@@ -1,4 +1,5 @@
-{$, EditorView, WorkspaceView} = require 'atom'
+{GitRepository} = require 'atom'
+{$, EditorView, WorkspaceView} = require 'atom-space-pen-views'
 AutocompleteView = require '../lib/autocomplete-view'
 Autocomplete = require '../lib/autocomplete'
 

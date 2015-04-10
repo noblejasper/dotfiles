@@ -8,7 +8,7 @@
   metrics:
     userId: "17dd89b6778fd0df1b7fe3732d3fd098681e4e16"
   editor:
-    fontSize: 20
+    fontSize: 25
     showIndentGuide: true
     autoIndentOnPaste: false
     preferredLineLength: 130
@@ -37,7 +37,7 @@
   "run-command":
     precedeCommandsWith: "export PATH=${PATH}:/usr/local/bin; echo $PATH; source ~/.profile"
   "linter-python-pyflakes":
-    pyflakesDirToExecutable: "/usr/local/bin/"
+    pyflakesDirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
   "bracket-matcher":
     autocompleteBrackets: false
   linter:
@@ -49,3 +49,9 @@
   "autocomplete-plus":
     includeCompletionsFromAllBuffers: true
   "git-plus": {}
+  "atom-beautify":
+    _analyticsUserId: "c4527794-194d-4a59-b1dd-e42b56c3a34c"
+    python_autopep8_path: '''
+      /usr/local/opt/pyenv/versions/global2.7.9/bin/autopep8
+      
+    '''

@@ -1,4 +1,4 @@
-{waitForAutocomplete} = require('../spec-helper')
+{waitForAutocomplete} = require '../spec-helper'
 
 describe 'Autocomplete', ->
   [mainModule, autocompleteManager, editorView, editor, completionDelay] = []
@@ -31,6 +31,7 @@ describe 'Autocomplete', ->
         autocompleteManager = mainModule.autocompleteManager
 
       runs ->
+        advanceClock(mainModule.autocompleteManager.providerManager.fuzzyProvider.deferBuildWordListInterval)
         editorView = atom.views.getView(editor)
 
     it 'works after closing one of the copied tabs', ->

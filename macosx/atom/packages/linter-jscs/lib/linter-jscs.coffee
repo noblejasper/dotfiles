@@ -1,3 +1,5 @@
+path = require 'path'
+
 linterPath = atom.packages.getLoadedPackage("linter").path
 Linter = require "#{linterPath}/lib/linter"
 findFile = require "#{linterPath}/lib/util"
@@ -6,7 +8,7 @@ class LinterJscs extends Linter
 
   # The syntax that the linter handles. May be a string or
   # list/tuple of strings. Names should be all lowercase.
-  @syntax: 'source.js'
+  @syntax: ['source.js', 'source.js.jsx']
 
   # A string, list, tuple or callable that returns a string, list or tuple,
   # containing the command line (with arguments) used to lint.
@@ -25,32 +27,53 @@ class LinterJscs extends Linter
 
   isNodeExecutable: yes
 
+  options: ['executablePath', 'preset', 'harmony', 'verbose', 'onlyConfig']
+
   constructor: (editor) ->
     super editor
 
-    @config = findFile @cwd, ['.jscsrc', '.jscs.json']
+    # Find the nearest possible config file
+    @config = findFile @cwd, ['.jscsrc', '.jscs.json', 'package.json']
+    # We need to check if the config file is `package.json`
+    # it's a specific object on this config file that we need
+    if (@config?.split?(path.sep)[@config?.split?(path.sep).length - 1]) is 'package.json'
+      # Check that we have an `jscsConfig` object on `package.json`
+      # Or we will try to search for `.jscsrc` and `.jscs.json` only
+      try
+        throw new Error if typeof require(@config)?.jscsConfig? isnt 'object'
+      catch
+        # Try to find the nearest `.jscsrc` or `.jscs.json`
+        # if there's an error while requiring the file
+        # or if the `jscsConfig` isnt existing
+        @config = findFile @cwd, ['.jscsrc', '.jscs.json']
     console.log "Use JSCS config file [#{@config}]" if atom.inDevMode()
 
-    @buildCmd()
+    # Load options from linter-jscs
+    for option in @options
+      atom.config.observe "linter-jscs.#{option}", @updateOption.bind(this, option)
 
-    atom.config.observe 'linter-jscs.jscsExecutablePath', @formatShellCmd
-    atom.config.observe 'linter-jscs.preset', @updatePreset
-
-  formatShellCmd: =>
-    jscsExecutablePath = atom.config.get 'linter-jscs.jscsExecutablePath'
-    @executablePath = jscsExecutablePath
-
-  updatePreset: (preset) =>
-    @preset = preset
-    console.log "Use JSCS preset [#{@preset}]" if atom.inDevMode()
+  updateOption: (option) =>
+    @[option] = atom.config.get "linter-jscs.#{option}"
+    console.log "Updating `linter-jscs` #{option} to #{@[option]}" if atom.inDevMode()
     @buildCmd()
 
   buildCmd: =>
     @cmd = 'jscs -r checkstyle'
+    @cmd = "#{@cmd} --verbose" if @verbose
+    @cmd = "#{@cmd} --esprima=esprima-fb" if @harmony
     @cmd = "#{@cmd} -c #{@config}" if @config
     @cmd = "#{@cmd} -p #{@preset}" if @preset and not @config
 
+  formatMessage: (match) ->
+    match.message
+
+  lintFile: (path, next) =>
+    condition = (@config and @onlyConfig) or !@onlyConfig
+    path = if condition then path else path: ''
+    super path, next
+
   destroy: ->
-    atom.config.unobserve 'linter-jscs.jscsExecutablePath'
+    for option in @options
+      atom.config.unobserve "linter-jscs.#{option}"
 
 module.exports = LinterJscs

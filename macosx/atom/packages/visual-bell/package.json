@@ -1,7 +1,7 @@
 {
   "name": "visual-bell",
   "main": "./lib/visual-bell",
-  "version": "0.11.0",
+  "version": "1.0.0",
   "description": "Shows a visual cue when the `beep` event is triggered",
   "repository": {
     "type": "git",
@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">=0.174.0 <2.0.0"
   },
   "readme": "# Visual Bell package\n\nShows a visual cue when the `beep` event is triggered.\n",
   "readmeFilename": "README.md",
@@ -17,10 +17,10 @@
     "url": "https://github.com/probablycorey/visual-bell/issues"
   },
   "homepage": "https://github.com/probablycorey/visual-bell",
-  "_id": "visual-bell@0.11.0",
-  "_shasum": "11c26848ebe6b35180381c53087d8e6567ebf1b4",
-  "_resolved": "file:../d-11515-67432-nq8f6b/package.tgz",
-  "_from": "../d-11515-67432-nq8f6b/package.tgz",
+  "_id": "visual-bell@1.0.0",
+  "_shasum": "b159b023ace3a9f0c43476b968028553fe2c256c",
+  "_resolved": "file:../d-115114-13150-6izf60/package.tgz",
+  "_from": "../d-115114-13150-6izf60/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],

@@ -14,11 +14,19 @@ Mixin = require 'mixto'
 #     from the minimap using the `unregisterPlugin`.
 module.exports =
 class PluginManagement extends Mixin
-  # Internal: Stores the minimap plugin with their identifying name as key.
+
+  ### Public ###
+
+  # Returns the {Minimap} service API object.
+  provideMinimapServiceV1: -> this
+
+  # Internal: Stores the minimap plugins with their identifying name as key.
   plugins: {}
+  # Internal: Stores the minimap plugins subscriptions with their identifying
+  # name as key.
   pluginsSubscriptions: {}
 
-  # Public: Registers a minimap `plugin` with the given `name`.
+  # Registers a minimap `plugin` with the given `name`.
   #
   # name - The identifying {String} name of the plugin.
   #        It will be used as activation settings name as well
@@ -35,7 +43,7 @@ class PluginManagement extends Mixin
 
     @updatesPluginActivationState(name)
 
-  # Public: Unregisters a plugin from the minimap.
+  # Unregisters a plugin from the minimap.
   #
   # name - The identifying {String} name of the plugin to unregister.
   unregisterPlugin: (name) ->
@@ -46,6 +54,24 @@ class PluginManagement extends Mixin
     event = {name, plugin}
     @emitter.emit('did-remove-plugin', event)
 
+  # Toggles the specified plugin activation state.
+  #
+  # name - The {String} name of the plugin.
+  # boolean - An optional {Boolean} to set the activation state of the plugin.
+  #           If ommitted the new plugin state will be the the inverse of its
+  #           current state.
+  togglePluginActivation: (name, boolean=undefined) ->
+    settingsKey = "minimap.plugins.#{name}"
+    if boolean?
+      atom.config.set settingsKey, boolean
+    else
+      atom.config.set settingsKey, not atom.config.get(settingsKey)
+
+    @updatesPluginActivationState(name)
+
+  # Deactivates all the plugins registered in the minimap package so far.
+  deactivateAllPlugins: ->
+    plugin.deactivatePlugin() for name, plugin of @plugins
 
   # Internal: Updates the plugin activation state according to the current
   # config.
@@ -84,9 +110,7 @@ class PluginManagement extends Mixin
       @updatesPluginActivationState(name)
 
     commands = {}
-    commands["minimap:toggle-#{name}"] = =>
-      atom.config.set settingsKey, not atom.config.get(settingsKey)
-      @updatesPluginActivationState(name)
+    commands["minimap:toggle-#{name}"] = => @togglePluginActivation(name)
 
     @pluginsSubscriptions[name].add atom.commands.add 'atom-workspace', commands
 
@@ -99,6 +123,3 @@ class PluginManagement extends Mixin
     @pluginsSubscriptions[name].dispose()
     delete @pluginsSubscriptions[name]
     delete @config.plugins.properties[name]
-
-  deactivateAllPlugins: ->
-    plugin.deactivatePlugin() for name, plugin of @plugins

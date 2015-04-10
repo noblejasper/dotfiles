@@ -1,4 +1,4 @@
-{waitForAutocomplete} = require('../spec-helper')
+{waitForAutocomplete} = require '../spec-helper'
 
 describe 'Autocomplete', ->
   [mainModule, autocompleteManager, editorView, editor, completionDelay] = []
@@ -33,6 +33,7 @@ describe 'Autocomplete', ->
 
       runs ->
         autocompleteManager = mainModule.autocompleteManager
+        advanceClock(mainModule.autocompleteManager.providerManager.fuzzyProvider.deferBuildWordListInterval)
 
     it 'it adds words hyphens to the wordlist', ->
       runs ->

@@ -1,10 +1,13 @@
 Mixin = require 'mixto'
 path = require 'path'
 {Emitter} = require 'event-kit'
-Decoration = require path.join(atom.config.resourcePath, 'src', 'decoration')
+Decoration = null
 
 # Public: The mixin that provides the decorations API to the minimap editor
 # view.
+#
+# This mixin is injected into the {Minimap} prototype, so every methods defined
+# in this file will be available on any {Minimap} instance.
 module.exports =
 class DecorationManagement extends Mixin
   ### Public ###
@@ -19,15 +22,50 @@ class DecorationManagement extends Mixin
     @decorationUpdatedSubscriptions = {}
     @decorationDestroyedSubscriptions = {}
 
+    Decoration ?= require path.join(atom.config.resourcePath, 'src', 'decoration')
+
+  # Registers an event listener to the `did-add-decoration` event.
+  #
+  # callback - The {Function} to call when the event is triggered.
+  #            The callback will be called with an object with the following
+  #            properties:
+  #            marker - The {Marker} object that was decorated.
+  #            decoration - The {Decoration} object that was created.
   onDidAddDecoration: (callback) ->
     @emitter.on 'did-add-decoration', callback
 
+  # Registers an event listener to the `did-remove-decoration` event.
+  #
+  # callback - The {Function} to call when the event is triggered.
+  #            The callback will be called with an object with the following
+  #            properties:
+  #            marker - The {Marker} object targeted by the decoration that
+  #                     was removed.
+  #            decoration - The {Decoration} object that was removed.
   onDidRemoveDecoration: (callback) ->
     @emitter.on 'did-remove-decoration', callback
 
+  # Registers an event listener to the `did-change-decoration` event.
+  #
+  # This event is triggered when the marker targeted by the decoration
+  # was changed.
+  #
+  # callback - The {Function} to call when the event is triggered.
+  #            The callback will be called with an object with the following
+  #            properties:
+  #            marker - The {Marker} object targeted by the decoration.
+  #            decoration - The {Decoration} object.
+  #            event - The original {Event} object dispatched by the {Marker}.
   onDidChangeDecoration: (callback) ->
     @emitter.on 'did-change-decoration', callback
 
+  # Registers an event listener to the `did-update-decoration` event.
+  #
+  # This event is triggered when the decoration itself is modified.
+  #
+  # callback - The {Function} to call when the event is triggered.
+  #            The callback will be called with the {Decoration} that was
+  #            updated.
   onDidUpdateDecoration: (callback) ->
     @emitter.on 'did-update-decoration', callback
 
@@ -38,24 +76,6 @@ class DecorationManagement extends Mixin
   # Returns a `Decoration`.
   decorationForId: (id) ->
     @decorationsById[id]
-
-  # Returns all the decorations of the given type that intersect the passed-in
-  # row.
-  #
-  # row - The row {Number}.
-  # types - A list of decoration types {String}.
-  # decorations - An {Array} of decorations.
-  #
-  # Returns an {Array} of decorations.
-  decorationsByTypesForRow: (row, types..., decorations) ->
-    out = []
-    for id, array of decorations
-      for decoration in array
-        if decoration.getProperties().type in types and
-           decoration.getMarker().getScreenRange().intersectsRow(row)
-          out.push decoration
-
-    out
 
   # Returns all the decorations that intersect the passed-in row range.
   #
@@ -72,6 +92,48 @@ class DecorationManagement extends Mixin
 
     decorationsByMarkerId
 
+  # Returns the decorations that intersects the passed-in row range
+  # in a structured way.
+  #
+  # The returned object look like:
+  #
+  # ```coffee
+  # {
+  #   'line':
+  #     '1': [...]
+  #     '2': [...]
+  #   'highlight-over':
+  #     '10': [...]
+  #     '11': [...]
+  # }
+  # ```
+  #
+  # At the first level, the keys are the available decoration types.
+  # At the second level, the keys are the row index for which there
+  # are decorations available. The value is an array containing the
+  # decorations that intersects with the corresponding row.
+  #
+  # startScreenRow - The starting row index.
+  # endScreenRow - The ending row index.
+  #
+  # Returns an {Object}.
+  decorationsForScreenRowRangeByTypeThenRows: (startScreenRow, endScreenRow) ->
+    decorationsByMarkerType = {}
+    for marker in @findMarkers(intersectsScreenRowRange: [startScreenRow, endScreenRow])
+      if decorations = @decorationsByMarkerId[marker.id]
+        range = marker.getScreenRange()
+        rows = [range.start.row..range.end.row]
+
+        for decoration in decorations
+          {type} = decoration.getProperties()
+          decorationsByMarkerType[type] ?= {}
+
+          for row in rows
+            decorationsByMarkerType[type][row] ?= []
+            decorationsByMarkerType[type][row].push(decoration)
+
+    decorationsByMarkerType
+
   # Public: Adds a decoration that tracks a `Marker`. When the marker moves,
   # is invalidated, or is destroyed, the decoration will be updated to reflect
   # the marker's state.
@@ -84,6 +146,8 @@ class DecorationManagement extends Mixin
   # * __highlight-over__: Same as __highlight__.
   # * __highlight-under__: Renders a colored rectangle on the minimap. The
   #   highlight is rendered below the line's text.
+  # * __highlight-outline__: Renders a colored outline on the minimap. The
+  #   highlight box is rendered above the line's text.
   #
   # marker - A `Marker` you want this decoration to follow.
   # decorationParams - An {Object} representing the decoration eg.
@@ -105,9 +169,13 @@ class DecorationManagement extends Mixin
   #
   # Returns a `Decoration` object.
   decorateMarker: (marker, decorationParams) ->
+    return if @destroyed
     return unless marker?
     marker = @getMarker(marker.id)
     return unless marker?
+
+    if decorationParams.type is 'highlight'
+      decorationParams.type = 'highlight-over'
 
     if !decorationParams.scope? and decorationParams.class?
       cls = decorationParams.class.split(' ').join('.')
@@ -130,7 +198,7 @@ class DecorationManagement extends Mixin
 
       [start, end] = [end, start] if start.row > end.row
 
-      @emitRangeChanges({start, end, screenDelta: end - start})
+      @emitRangeChanges({start, end})
 
     decoration = new Decoration(marker, this, decorationParams)
     @decorationsByMarkerId[marker.id] ?= []
@@ -161,14 +229,12 @@ class DecorationManagement extends Mixin
   # Internal: Emits a change for the specified range.
   #
   # range - The `Range` to emits changes for.
-  emitRangeChanges: (range) ->
+  emitRangeChanges: (range, screenDelta) ->
     startScreenRow = range.start.row
     endScreenRow = range.end.row
     lastRenderedScreenRow  = @getLastVisibleScreenRow()
     firstRenderedScreenRow = @getFirstVisibleScreenRow()
-    screenDelta = (lastRenderedScreenRow - firstRenderedScreenRow) - (endScreenRow - startScreenRow)
-
-    screenDelta = 0 if isNaN(screenDelta)
+    screenDelta ?= (lastRenderedScreenRow - firstRenderedScreenRow) - (endScreenRow - startScreenRow)
 
     changeEvent =
       start: startScreenRow
@@ -203,7 +269,7 @@ class DecorationManagement extends Mixin
 
   # Removes all the decorations registered for the passed-in marker.
   #
-  # marker - The `marker` for which removing decorations.
+  # marker - The {Marker} for which removing decorations.
   removeAllDecorationsForMarker: (marker) ->
     return unless marker?
     decorations = @decorationsByMarkerId[marker.id]?.slice()
@@ -216,7 +282,7 @@ class DecorationManagement extends Mixin
 
   # Internal: Performs the removal of a decoration for a given marker.
   #
-  # marker - The `marker` for which removing decorations.
+  # marker - The {Marker} for which removing decorations.
   removedAllMarkerDecorations: (marker) ->
     return unless marker?
     @decorationMarkerChangedSubscriptions[marker.id].dispose()
@@ -225,6 +291,22 @@ class DecorationManagement extends Mixin
     delete @decorationsByMarkerId[marker.id]
     delete @decorationMarkerChangedSubscriptions[marker.id]
     delete @decorationMarkerDestroyedSubscriptions[marker.id]
+
+  # Removes all the decorations that was created in the current {Minimap}.
+  removeAllDecorations: ->
+    sub.dispose() for id,sub of @decorationMarkerChangedSubscriptions
+    sub.dispose() for id,sub of @decorationMarkerDestroyedSubscriptions
+    sub.dispose() for id,sub of @decorationUpdatedSubscriptions
+    sub.dispose() for id,sub of @decorationDestroyedSubscriptions
+    decoration.destroy() for id,decoration of @decorationsById
+
+    @decorationsById = {}
+    @decorationsByMarkerId = {}
+    @decorationMarkerChangedSubscriptions = {}
+    @decorationMarkerDestroyedSubscriptions = {}
+    @decorationUpdatedSubscriptions = {}
+    @decorationDestroyedSubscriptions = {}
+
 
   # Internal: Receive the update event of a decoration and trigger
   # a `minimap:decoration-updated` event.

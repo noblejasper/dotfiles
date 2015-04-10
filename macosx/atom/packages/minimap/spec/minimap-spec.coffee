@@ -102,6 +102,20 @@ describe 'Minimap', ->
       editor.setScrollTop(editor.displayBuffer.getMaxScrollTop())
       expect(minimap.getScrollTop()).toEqual(minimap.getMaxScrollTop())
 
+    describe 'when getScrollTop() and maxScrollTop both equal 0', ->
+      beforeEach ->
+        editor.setText(smallSample)
+        editor.setHeight(40)
+        atom.config.set 'editor.scrollPastEnd', true
+
+      it 'getTextEditorScrollRatio() should return 0', ->
+        editor.setScrollTop(0)
+
+        maxScrollTop = editor.displayBuffer.getMaxScrollTop() - (editor.getHeight() - 3 * editor.displayBuffer.getLineHeightInPixels())
+
+        expect(maxScrollTop).toEqual(0)
+        expect(minimap.getTextEditorScrollRatio()).toEqual(0)
+
   describe 'when soft wrap is enabled', ->
     beforeEach ->
       atom.config.set 'editor.softWrap', true
@@ -243,3 +257,56 @@ describe 'Minimap', ->
       it 'creates a change corresponding to the marker range', ->
         expect(changeSpy.calls[1].args[0].start).toEqual(0)
         expect(changeSpy.calls[1].args[0].end).toEqual(0)
+
+    describe 'destroying the minimap', ->
+      beforeEach ->
+        minimap.destroy()
+
+      it 'removes all the previously added decorations', ->
+        expect(minimap.decorationsById).toEqual({})
+        expect(minimap.decorationsByMarkerId).toEqual({})
+
+      it 'prevents the creation of new decorations', ->
+        marker = editor.markBufferRange [[0,6], [0,11]]
+        decoration = minimap.decorateMarker marker, type: 'highlight', class: 'dummy'
+
+        expect(decoration).toBeUndefined()
+
+  describe '::decorationsForScreenRowRangeByTypeThenRows', ->
+    [decorations] = []
+
+    beforeEach ->
+      editor.setText(largeSample)
+
+      createDecoration = (type, range) ->
+        marker = minimap.markBufferRange range
+        decoration = minimap.decorateMarker marker, {type}
+
+      createDecoration 'highlight', [[6, 0], [11, 0]]
+      createDecoration 'highlight', [[7, 0], [8, 0]]
+      createDecoration 'highlight-over', [[1, 0], [2,0]]
+      createDecoration 'line', [[3,0], [4,0]]
+      createDecoration 'line', [[12,0], [12,0]]
+      createDecoration 'highlight-under', [[0,0], [10,1]]
+
+      decorations = minimap.decorationsForScreenRowRangeByTypeThenRows(0, 12)
+
+    it 'returns an object whose keys are the decorations types', ->
+      expect(Object.keys(decorations).sort()).toEqual(['highlight-over', 'highlight-under', 'line'])
+
+    it 'stores decorations by rows within each type objects', ->
+      expect(Object.keys(decorations['highlight-over']).sort())
+      .toEqual('1 2 6 7 8 9 10 11'.split(' ').sort())
+
+      expect(Object.keys(decorations['line']).sort())
+      .toEqual('3 4 12'.split(' ').sort())
+
+      expect(Object.keys(decorations['highlight-under']).sort())
+      .toEqual('0 1 2 3 4 5 6 7 8 9 10'.split(' ').sort())
+
+    it 'stores the decorations spanning a row in the corresponding row array', ->
+      expect(decorations['highlight-over']['7'].length).toEqual(2)
+
+      expect(decorations['line']['3'].length).toEqual(1)
+
+      expect(decorations['highlight-under']['5'].length).toEqual(1)

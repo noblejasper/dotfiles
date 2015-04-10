@@ -1,5 +1,5 @@
-{waitForAutocomplete} = require('../spec-helper')
-path = require('path')
+{waitForAutocomplete} = require '../spec-helper'
+path = require 'path'
 temp = require('temp').track()
 
 describe 'Autocomplete', ->
@@ -35,6 +35,7 @@ describe 'Autocomplete', ->
         autocompleteManager = mainModule.autocompleteManager
 
       runs ->
+        advanceClock(mainModule.autocompleteManager.providerManager.fuzzyProvider.deferBuildWordListInterval)
         editorView = atom.views.getView(editor)
 
     it 'closes the suggestion list when saving', ->

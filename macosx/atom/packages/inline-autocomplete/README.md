@@ -8,7 +8,7 @@ Inlines possible completions in the editor using `escape`, like Textmate's autoc
 Looking to use a different keybinding? Copy the following to your
 `~/.atom/keymap.cson` to tweak:
 ```
-'.editor':
+'atom-text-editor:not([mini])':
   'alt-space': 'inline-autocomplete:cycle'
   'shift-alt-space': 'inline-autocomplete:cycle-back'
 ```

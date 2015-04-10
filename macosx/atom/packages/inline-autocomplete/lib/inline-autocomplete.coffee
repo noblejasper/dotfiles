@@ -1,14 +1,15 @@
 _ = require 'underscore-plus'
-{$, $$, Range} = require 'atom'
+{Disposable, CompositeDisposable, Range} = require 'atom'
+{$, $$} = require 'atom-space-pen-views'
 
 module.exports =
   configDefaults:
     includeCompletionsFromAllBuffers: false
     includeGrammarKeywords: false
     regexFlags: ""
-    confirmKeys: [8, 9, 13, 32, 37, 38, 39, 40, 46, 48, 49, 50, 51, 57, 91, 186, 188, 190, 191, 192, 219, 220, 221, 222]
+    confirmKeys: [8, 9, 13, 27, 32, 37, 38, 39, 40, 46, 48, 49, 50, 51, 57, 91, 186, 188, 190, 191, 192, 219, 220, 221, 222]
 
-  wordRegex      : /\w+/g
+  wordRegex      : /[\w]+/g
   wordList       : null
   currentWordPos : -1     # offset for 0-bases array
   currentMatches : null
@@ -18,36 +19,47 @@ module.exports =
   
   activate: ->
     # Should I cache this or will coffeescript do it for me?
-    confirmKeys = atom.config.get('inline-autocomplete.confirmKeys')
-    atom.workspaceView.eachEditorView (editorView) =>
-      editorView.on 'keydown', (e) =>
-        @reset() if (e.keyCode in confirmKeys) and editorView and editorView.hasClass('inline-autocompleting')
-      
-    atom.workspaceView.on 'click', (e) =>
-      @reset() if @editorView? and @editorView.hasClass('inline-autocompleting')
-    atom.workspaceView.command 'inline-autocomplete:stop', (e) =>
+    confirmKeys = @updateConfirmKeys atom.config.get('inline-autocomplete.confirmKeys')
+    atom.workspace.observeTextEditors (editor) =>
+      editorView = atom.views.getView editor
+      editorView.onkeydown = (e) =>
+        @reset() if (e.keyCode in confirmKeys) and editorView and editorView.classList.contains('inline-autocompleting')
+    
+    # Clicking anywhere should reset autocomplete
+    atom.views.getView(atom.workspace).onclick = (e) =>
+        @reset() if @editorView? and @editorView.classList.contains('inline-autocompleting')
+    atom.commands.add 'inline-autocompleting', 'inline-autocomplete:stop', (e) =>
       @reset()
     
-    atom.workspaceView.command 'inline-autocomplete:cycle-back', (e) => 
+    atom.commands.add 'atom-workspace', 'inline-autocomplete:cycle-back', (e) =>
       @toggleAutocomplete(e, -1)
     
-    atom.workspaceView.command 'inline-autocomplete:cycle', (e) => 
+    atom.commands.add 'atom-workspace', 'inline-autocomplete:cycle', (e) => 
       @toggleAutocomplete(e, 1)
   
+  # Removes any already binded keys
+  # TODO: figure out a better way to handle this for keys with modifiers
+  updateConfirmKeys: (confirmKeys) =>
+    for key, confirmKey of confirmKeys
+      keyEvent = atom.keymap.constructor.buildKeydownEvent(String.fromCharCode(confirmKey))
+      keyName = atom.keymap.constructor.prototype.keystrokeForKeyboardEvent(keyEvent)
+      
+      confirmKeys.splice(key, 1) if atom.keymap.findKeyBindings({'command': 'inline-autocomplete:cycle', 'keystrokes': keyName}).length > 0
+      confirmKeys.splice(key, 1) if atom.keymap.findKeyBindings({'command': 'inline-autocomplete:cycle-back', 'keystrokes': keyName}).length > 0
+    confirmKeys
+  
   toggleAutocomplete: (e, step) -> 
-    @editor = atom.workspace.getActiveEditor()
+    @editor = atom.workspace.getActiveTextEditor()
     if @editor?
       @currentBuffer = @editor.getBuffer()
-      @editorView = atom.workspaceView.getActiveView()
-      cursor = @editor.getCursor()
+      @editorView = atom.views.getView @editor
+      cursor = @editor.getLastCursor()
       cursorPosition = @editor.getCursorBufferPosition()
       
-      if @editorView.editor? and
-      @editorView.isFocused and 
-      cursor.isVisible() and
+      if @editorView and cursor.isVisible() and
       @currentBuffer.getTextInRange( Range.fromPointWithDelta(cursorPosition,0,-1)).match(/^\w$/) and
       @currentBuffer.getTextInRange( Range.fromPointWithDelta(cursorPosition,0,1)).match(/^\W*$/)
-        @editorView.addClass('inline-autocompleting')
+        @editorView.classList.add('inline-autocompleting')
         @cycleAutocompleteWords(step)
       else
         @reset()
@@ -66,7 +78,7 @@ module.exports =
     # Really goddamn ugly code here, it just strips out the match string of special characters
     # It's probably pretty damn inefficent and unreliable
     if atom.config.get('inline-autocomplete.includeGrammarKeywords')
-      grammar = atom.workspaceView.getActiveView().getEditor().getGrammar()
+      grammar = atom.workspace.getActiveTextEditor().getGrammar()
       if grammar and grammar.rawPatterns
         for rawPattern in grammar.rawPatterns
           if rawPattern.match
@@ -76,7 +88,6 @@ module.exports =
       
     matches.push(buffer.getText().match(@wordRegex)) for buffer in buffers
     wordHash[word] ?= true for word in _.flatten(matches)
-    wordHash[word] ?= true for word in @getCompletionsForCursorScope()
 
     @wordList = Object.keys(wordHash).sort (word1, word2) ->
       word1.toLowerCase().localeCompare(word2.toLowerCase())
@@ -106,12 +117,6 @@ module.exports =
         suffix = match[0][suffixOffset..] if range.end.isGreaterThan(selectionRange.end)
 
     {prefix, suffix}
-
-  getCompletionsForCursorScope: ->
-    cursorScope = @editor.scopesForBufferPosition(@editor.getCursorBufferPosition())
-    completions = atom.syntax.propertiesForScope(cursorScope, 'editor.completions')
-    completions = completions.map (properties) -> _.valueForKeyPath(properties, 'editor.completions')
-    _.uniq(_.flatten(completions))
 
   findMatchesForCurrentSelection: ->
     selection = @editor.getSelection()
@@ -143,7 +148,7 @@ module.exports =
     #   @reset()
 
   reset: ->
-    @editorView.removeClass('inline-autocompleting') if @editorView
+    @editorView.classList.remove('inline-autocompleting') if @editorView
     @wordList       = null
     @currentWordPos = -1
     @currentMatches = null

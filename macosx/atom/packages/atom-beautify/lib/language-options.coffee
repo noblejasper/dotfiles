@@ -166,8 +166,20 @@ module.exports =
         type: 'boolean'
         default: false
         description: "Add a newline between CSS rules"
+    css_preserve_newlines:
+        type: 'boolean'
+        default: false
+        description: "(Only LESS/SASS/SCSS with Prettydiff) "+
+            "Retain empty lines. "+
+            "Consecutive empty lines will be converted to a single empty line."
+
 
     # HTML
+    html_htmlbeautifier_path:
+        title: "htmlbeautifier path"
+        type: 'string'
+        default: ""
+        description: "Path to the `htmlbeautifier` CLI executable"
     html_indent_inner_html:
         type: 'boolean'
         default: false
@@ -196,6 +208,16 @@ module.exports =
         type: 'integer'
         default: 250
         description: "Maximum characters per line (0 disables)"
+    html_wrap_attributes:
+        type: 'string'
+        default: "auto"
+        enum: ["auto", "force"]
+        description: "Wrap attributes to new lines [auto|force]"
+    html_wrap_attributes_indent_size:
+        type: 'integer'
+        default: defaultIndentSize
+        minimum: 0
+        description: "Indent wrapped attributes to after N characters"
     html_preserve_newlines:
         type: 'boolean'
         default: true
@@ -257,18 +279,18 @@ module.exports =
         description: "Specify a configuration file which will override the default name of .perltidyrc"
 
     # PHP
-    php_beautifier_path:
+    php_cs_fixer_path:
         type: 'string'
         default: ""
-        description: "Path to the `PHP_Beautifier` CLI executable"
-    php_filters:
+        description: "Path to the `php-cs-fixer` CLI executable"
+    php_fixers:
         type: 'string'
         default: ""
-        description: "Add filter(s). i.e. \"Filter1(setting1=value1,setting2=value2) Filter2()\""
-    php_directory_filters:
+        description: "Add fixer(s). i.e. linefeed,-short_tag,indentation"
+    php_level:
         type: 'string'
         default: ""
-        description: "Include dirs for filters"
+        description: "By default, all PSR-2 fixers and some additional ones are run."
 
     # Python
     python_autopep8_path:
@@ -410,7 +432,7 @@ module.exports =
         beautifyHTML ?= require("js-beautify").html
         text = beautifyHTML(text, self.getOptions("html", allOptions))
         beautifyCompleted text
-      when "HTML (Liquid)", "HTML", "XML"
+      when "HTML (Liquid)", "HTML", "XML", "Marko", "Web Form/Control (C#)", "Web Handler (C#)"
         beautifyHTML ?= require("js-beautify").html
         text = beautifyHTML(text, self.getOptions("html", allOptions))
         beautifyCompleted text
@@ -422,7 +444,7 @@ module.exports =
         text = beautifyCSS(text, self.getOptions("css", allOptions))
         beautifyCompleted text
       when "Sass", "SCSS", "LESS"
-        beautifyLESS ?= require("./langs/less-beautify")
+        beautifyLESS ?= require("./langs/css-prettydiff-beautify")
         beautifyLESS text, self.getOptions("css", allOptions), beautifyCompleted
       when "SQL (Rails)", "SQL"
         beautifySQL ?= require("./langs/sql-beautify")

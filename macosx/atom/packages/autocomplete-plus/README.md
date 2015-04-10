@@ -1,4 +1,5 @@
-# autocomplete+ package [![Build Status](https://travis-ci.org/atom-community/autocomplete-plus.svg?branch=master)](https://travis-ci.org/atom-community/autocomplete-plus) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/atom-community/autocomplete-plus)
+# autocomplete+ package [![OS X Build Status](https://travis-ci.org/atom-community/autocomplete-plus.svg?branch=master)](https://travis-ci.org/atom-community/autocomplete-plus) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/4faqdkcw2d0ybgiv/branch/master?svg=true)](https://ci.appveyor.com/project/joefitzgerald/autocomplete-plus/branch/master)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/atom-community/autocomplete-plus)
 
 
 [View the changelog](https://github.com/atom-community/autocomplete-plus/releases)
@@ -33,7 +34,7 @@ Press `UP` and `DOWN` to select another suggestion, press `TAB` to confirm your 
 Additionally, the keymap can be customized in your keymap.cson:
 
 ```coffeescript
-'atom-text-editor:not(mini) .autocomplete-plus.autocomplete-suggestion-list':
+'atom-text-editor:not(mini).autocomplete-active':
   'tab': 'unset!'
   'enter': 'autocomplete-plus:confirm'
   'up': 'unset!'

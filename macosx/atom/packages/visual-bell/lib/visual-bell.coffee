@@ -1,11 +1,11 @@
-{$, $$} = require 'atom'
-
 module.exports =
-  configDefaults:
-    enabled: true
+  config:
+    enabled: 
+      type: 'boolean'
+      default: true
 
   activate: ->
-    atom.views.getView(atom.workspace).on 'beep', =>
+    atom.onDidBeep =>
       return unless atom.config.get('visual-bell.enabled')
       @addOverlay()
       setTimeout((=> @removeOverlay()), 300)
@@ -15,8 +15,9 @@ module.exports =
 
   addOverlay: ->
     @removeOverlay() if @overlay
-    @overlay = $$ -> @div class: 'visual-bell'
-    $('body').append @overlay
+    @overlay = document.createElement 'div'
+    @overlay.className = 'visual-bell'
+    atom.workspace.addBottomPanel({item: @overlay})
 
   removeOverlay: ->
     @overlay?.remove()
