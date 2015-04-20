@@ -1,57 +1,62 @@
 "*":
   "exception-reporting":
-    userId: "c6699618-4497-4b29-c4b1-d584ee2e7cf5"
-  "release-notes":
-    viewedVersion: "0.89.0"
+    userId: "fa06383b-9023-9082-cb83-6c0ba6b7ca5b"
   welcome:
     showOnStartup: false
-  metrics:
-    userId: "17dd89b6778fd0df1b7fe3732d3fd098681e4e16"
-  editor:
-    fontSize: 25
-    showIndentGuide: true
-    autoIndentOnPaste: false
-    preferredLineLength: 130
-    tabLength: 4
-    softWrap: true
-    invisibles: {}
   core:
-    ignoredNames: [
-      ".git"
-      ".svn"
-      ".DS_Store"
-    ]
-    disabledPackages: [
-      "linter-jscs"
-      "inline-autocomplete"
-      "color-picker"
-      "minimap"
-    ]
+    followSymlinks: true
     themes: [
-      "atom-dark-ui"
+      "seti-ui"
       "monokai"
     ]
-    projectHome: "/Users/jasper/git"
+    ignoredNames: [
+      ".git"
+      ".bundle"
+      ".sass-cache"
+      "vendor"
+    ]
+    disabledPackages: [
+      "atom-alignment"
+      "language-csharp"
+      "merge-conflicts"
+      "sort-lines"
+    ]
+  editor:
+    invisibles: {}
+    showIndentGuide: true
+    preferredLineLength: 130
+    softWrap: true
+    tabLength: 4
+    fontSize: 25
+    useShadowDOM: false
+    ensure_newline_at_eof_on_save: true
+    show_full_path: true
+    translate_tabs_to_spaces: true
+    trim_trailing_white_space_on_save: true
+  "emacs-mode":
+    hideTabs: false
+    hideSidebar: false
+    useEmacsCursor: true
+    useFuzzyFileFinder: false
+    useFuzzyBufferFinder: false
+  linter:
+    lintOnChange: false
+    statusBar: "Show error if the cursor is in range"
+  "linter-python-pyflakes":
+    pyflakesDirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
+  "symbols-tree-view":
+    autoToggle: true
   autocomplete:
     includeCompletionsFromAllBuffers: true
   "run-command":
     precedeCommandsWith: "export PATH=${PATH}:/usr/local/bin; echo $PATH; source ~/.profile"
-  "linter-python-pyflakes":
-    pyflakesDirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
   "bracket-matcher":
     autocompleteBrackets: false
-  linter:
-    lintOnChange: false
-    statusBar: "Show error if the cursor is in range"
   "inline-autocomplete":
     includeCompletionsFromAllBuffers: true
     includeGrammarKeywords: true
   "autocomplete-plus":
     includeCompletionsFromAllBuffers: true
   "git-plus": {}
-  "atom-beautify":
-    _analyticsUserId: "c4527794-194d-4a59-b1dd-e42b56c3a34c"
-    python_autopep8_path: '''
-      /usr/local/opt/pyenv/versions/global2.7.9/bin/autopep8
-      
-    '''
+  "japanese-wrap":
+    characterWidth: {}

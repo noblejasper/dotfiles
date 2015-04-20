@@ -35,8 +35,8 @@
   "homepage": "https://github.com/atom-community/autocomplete-snippets",
   "_id": "autocomplete-snippets@1.2.0",
   "_shasum": "d26b1c7b08077a70f0a5429b1c5d2a570aeb3a7c",
-  "_resolved": "file:../d-115227-93887-e3m6x9/package.tgz",
-  "_from": "../d-115227-93887-e3m6x9/package.tgz",
+  "_resolved": "file:../d-115310-5085-1fdhamj/package.tgz",
+  "_from": "../d-115310-5085-1fdhamj/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [

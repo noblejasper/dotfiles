@@ -1,3 +1,0 @@
-'atom-text-editor:not([mini])':
-  'escape': 'inline-autocomplete:cycle'
-  'shift-escape': 'inline-autocomplete:cycle-back'

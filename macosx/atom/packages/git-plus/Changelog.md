@@ -1,5 +1,24 @@
 ## Changelog
 
+### 4.4.13
+
+- bug fix for those using 1.0.0 preview
+
+### 4.4.12
+
+- bug fix, issue #175
+
+### 4.4.11
+
+- Remove deprecated api code
+- Add keywords to package.json
+- Fix refreshing git status after commands to update ui
+- Remove 'emissary' module because it does not work in helping Status and Output views listen for global events
+
+### 4.4.10
+
+- Remove uses of `atom.project.getRepo()`
+
 ### 4.4.9
 
 - Refactoring

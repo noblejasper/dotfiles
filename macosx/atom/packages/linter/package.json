@@ -48,8 +48,8 @@
   "homepage": "https://github.com/AtomLinter/Linter",
   "_id": "linter@0.12.0",
   "_shasum": "b812198e9b4b5ed908c13340eadf0a2bd5e23555",
-  "_resolved": "file:../d-115212-15861-oifjmg/package.tgz",
-  "_from": "../d-115212-15861-oifjmg/package.tgz",
+  "_resolved": "file:../d-115310-5342-158bip/package.tgz",
+  "_from": "../d-115310-5342-158bip/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -140,7 +140,7 @@
       },
       {
         "name": "cli",
-        "version": "0.6.5",
+        "version": "0.6.6",
         "path": "node_modules/jshint/node_modules/cli/cli.js"
       },
       {
@@ -290,7 +290,7 @@
       },
       {
         "name": "glob",
-        "version": "4.5.2",
+        "version": "4.5.3",
         "path": "node_modules/rimraf/node_modules/glob/glob.js"
       },
       {
@@ -310,7 +310,7 @@
       },
       {
         "name": "minimatch",
-        "version": "2.0.3",
+        "version": "2.0.4",
         "path": "node_modules/rimraf/node_modules/glob/node_modules/minimatch/minimatch.js"
       },
       {
@@ -345,7 +345,7 @@
       },
       {
         "name": "sinon",
-        "version": "1.13.0",
+        "version": "1.14.1",
         "path": "node_modules/sinon/lib/sinon.js"
       },
       {
@@ -380,7 +380,7 @@
       },
       {
         "name": "grim",
-        "version": "1.2.0",
+        "version": "1.2.1",
         "path": "node_modules/space-pen/node_modules/grim/lib/grim.js"
       },
       {
@@ -400,7 +400,7 @@
       },
       {
         "name": "fs-plus",
-        "version": "2.5.0",
+        "version": "2.7.0",
         "path": "node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/lib/fs-plus.js"
       },
       {
@@ -1047,6 +1047,8 @@
         "node_modules/jshint/node_modules/cli/node_modules/glob/node_modules/minimatch/node_modules/lru-cache/lib/lru-cache.js",
         "node_modules/jshint/node_modules/cli/node_modules/glob/node_modules/minimatch/node_modules/sigmund/bench.js",
         "node_modules/jshint/node_modules/cli/node_modules/glob/node_modules/minimatch/node_modules/sigmund/sigmund.js",
+        "node_modules/jshint/node_modules/cli/progress.js",
+        "node_modules/jshint/node_modules/cli/spinner.js",
         "node_modules/jshint/node_modules/console-browserify/index.js",
         "node_modules/jshint/node_modules/console-browserify/node_modules/date-now/index.js",
         "node_modules/jshint/node_modules/console-browserify/node_modules/date-now/seed.js",
@@ -1169,7 +1171,6 @@
         "node_modules/rimraf/node_modules/glob/node_modules/inherits/inherits.js",
         "node_modules/rimraf/node_modules/glob/node_modules/inherits/inherits_browser.js",
         "node_modules/rimraf/node_modules/glob/node_modules/inherits/test.js",
-        "node_modules/rimraf/node_modules/glob/node_modules/minimatch/benchmark.js",
         "node_modules/rimraf/node_modules/glob/node_modules/minimatch/browser.js",
         "node_modules/rimraf/node_modules/glob/node_modules/minimatch/minimatch.js",
         "node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/example.js",
@@ -1251,12 +1252,12 @@
         "node_modules/sinon/node_modules/util/support/isBuffer.js",
         "node_modules/sinon/node_modules/util/support/isBufferBrowser.js",
         "node_modules/sinon/node_modules/util/util.js",
-        "node_modules/sinon/pkg/sinon-1.13.0.js",
-        "node_modules/sinon/pkg/sinon-ie-1.13.0.js",
+        "node_modules/sinon/pkg/sinon-1.14.1.js",
+        "node_modules/sinon/pkg/sinon-ie-1.14.1.js",
         "node_modules/sinon/pkg/sinon-ie.js",
-        "node_modules/sinon/pkg/sinon-server-1.13.0.js",
-        "node_modules/sinon/pkg/sinon-timers-1.13.0.js",
-        "node_modules/sinon/pkg/sinon-timers-ie-1.13.0.js",
+        "node_modules/sinon/pkg/sinon-server-1.14.1.js",
+        "node_modules/sinon/pkg/sinon-timers-1.14.1.js",
+        "node_modules/sinon/pkg/sinon-timers-ie-1.14.1.js",
         "node_modules/sinon/pkg/sinon.js",
         "node_modules/space-pen/lib/space-pen.js",
         "node_modules/space-pen/node_modules/grim/lib/deprecation.js",
@@ -1779,8 +1780,7 @@
       },
       {
         "paths": [
-          "node_modules/rimraf/node_modules/glob/node_modules/minimatch",
-          "node_modules/rimraf/node_modules/glob/node_modules/minimatch/test"
+          "node_modules/rimraf/node_modules/glob/node_modules/minimatch"
         ],
         "dependencies": {
           "brace-expansion": "^1.0.0"

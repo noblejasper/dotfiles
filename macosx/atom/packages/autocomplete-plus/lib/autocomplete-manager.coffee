@@ -27,6 +27,7 @@ class AutocompleteManager
   subscriptions: null
   suggestionDelay: 50
   suggestionList: null
+  suppressForClasses: []
   shouldDisplaySuggestions: false
   manualActivationStrictPrefixes: null
   prefixRegex:/\b((\w+[\w-]*)|([.:;[{(< ]+))$/g
@@ -98,6 +99,8 @@ class AutocompleteManager
     @subscriptions.add(atom.config.observe('autosave.enabled', (value) => @autosaveEnabled = value))
     @subscriptions.add(atom.config.observe('autocomplete-plus.backspaceTriggersAutocomplete', (value) => @backspaceTriggersAutocomplete = value))
     @subscriptions.add(atom.config.observe('autocomplete-plus.enableAutoActivation', (value) => @autoActivationEnabled = value))
+    @subscriptions.add atom.config.observe 'autocomplete-plus.suppressActivationForEditorClasses', (value) =>
+      @suppressForClasses = _.chain(value).map((classNames) -> classNames?.trim().split('.').map((className) -> className?.trim())).compact().value()
 
     # Handle events from suggestion list
     @subscriptions.add(@suggestionList.onDidConfirm(@confirm))
@@ -160,6 +163,7 @@ class AutocompleteManager
               snippet: suggestion.snippet
               replacementPrefix: suggestion.replacementPrefix ? suggestion.prefix
               className: suggestion.className
+              type: suggestion.type
             newSuggestion.rightLabelHTML = suggestion.label if not newSuggestion.rightLabelHTML? and suggestion.renderLabelAsHtml
             newSuggestion.rightLabel = suggestion.label if not newSuggestion.rightLabel? and not suggestion.renderLabelAsHtml
             newSuggestion
@@ -243,7 +247,7 @@ class AutocompleteManager
   displaySuggestions: (suggestions, options) =>
     suggestions = _.uniq(suggestions, (s) -> s.text + s.snippet)
     if @shouldDisplaySuggestions and suggestions.length
-      @showSuggestionList(suggestions)
+      @showSuggestionList(suggestions, options)
     else
       @hideSuggestionList()
 
@@ -275,10 +279,10 @@ class AutocompleteManager
     else
       suggestion.onDidConfirm?()
 
-  showSuggestionList: (suggestions) ->
+  showSuggestionList: (suggestions, options) ->
     return if @disposed
     @suggestionList.changeItems(suggestions)
-    @suggestionList.show(@editor)
+    @suggestionList.show(@editor, options)
 
   hideSuggestionList: =>
     return if @disposed
@@ -392,6 +396,11 @@ class AutocompleteManager
         # Suggestion list must be either active or backspaceTriggersAutocomplete must be true for activation to occur
         # Activate on removal of a space, a non-whitespace character, or a bracket-matcher pair
         shouldActivate = oldText is ' ' or oldText.trim().length is 1 or oldText in @bracketMatcherPairs
+
+      # Suppress activation if the editorView has classes that match the suppression list
+      if shouldActivate
+        for classNames in @suppressForClasses
+          shouldActivate = false if _.intersection(@editorView.classList, classNames)?.length is classNames.length
 
     if shouldActivate
       @cancelHideSuggestionListRequest()

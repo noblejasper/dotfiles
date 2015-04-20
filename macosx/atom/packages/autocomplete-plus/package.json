@@ -1,6 +1,6 @@
 {
   "name": "autocomplete-plus",
-  "version": "2.7.0",
+  "version": "2.9.0",
   "main": "./lib/main",
   "description": "Display possible completions in the editor while typing",
   "repository": {
@@ -8,7 +8,7 @@
     "url": "https://github.com/atom-community/autocomplete-plus"
   },
   "engines": {
-    "atom": ">=0.183.0 <2.0.0"
+    "atom": ">=0.189.0 <2.0.0"
   },
   "dependencies": {
     "atom-slick": "^2.0.0",
@@ -46,10 +46,10 @@
     "url": "https://github.com/atom-community/autocomplete-plus/issues"
   },
   "homepage": "https://github.com/atom-community/autocomplete-plus",
-  "_id": "autocomplete-plus@2.7.0",
-  "_shasum": "9fd661d5fb4b6a974363061861246a08ca088191",
-  "_resolved": "file:../d-115227-93875-1i4uwjt/package.tgz",
-  "_from": "../d-115227-93875-1i4uwjt/package.tgz",
+  "_id": "autocomplete-plus@2.9.0",
+  "_shasum": "df5b70d63b3ebad0b1b2bf68126b941b7a67a644",
+  "_resolved": "file:../d-115310-4627-35e2t0/package.tgz",
+  "_from": "../d-115310-4627-35e2t0/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -75,7 +75,7 @@
       },
       {
         "name": "grim",
-        "version": "1.2.0",
+        "version": "1.2.1",
         "path": "node_modules/grim/lib/grim.js"
       },
       {
@@ -95,7 +95,7 @@
       },
       {
         "name": "fs-plus",
-        "version": "2.6.0",
+        "version": "2.7.0",
         "path": "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/lib/fs-plus.js"
       },
       {
@@ -200,7 +200,7 @@
       },
       {
         "name": "semver",
-        "version": "4.3.2",
+        "version": "4.3.3",
         "path": "node_modules/semver/semver.js"
       },
       {
@@ -265,10 +265,12 @@
         "lib/main.coffee",
         "lib/provider-manager.coffee",
         "lib/provider-metadata.coffee",
+        "lib/ref-counted-token-list.coffee",
         "lib/scope-helpers.coffee",
         "lib/suggestion-list-element.coffee",
         "lib/suggestion-list.coffee",
-        "lib/symbol-provider.coffee"
+        "lib/symbol-provider.coffee",
+        "lib/symbol-store.coffee"
       ],
       ".js": [
         "node_modules/atom-slick/finder.js",

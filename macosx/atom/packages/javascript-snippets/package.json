@@ -26,9 +26,20 @@
   },
   "homepage": "https://github.com/zenorocha/atom-javascript-snippets",
   "_id": "javascript-snippets@1.0.0",
-  "dist": {
-    "shasum": "8212bf6d75377cb532e649346243ae0907d5bc46"
-  },
-  "_resolved": "/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-114813-94472-15b0v0/package.tgz",
-  "_from": "/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-114813-94472-15b0v0/package.tgz"
+  "_shasum": "e5d68f6e3654b76d24771d9d740107d9ac7e9088",
+  "_resolved": "file:../d-115310-7602-hyuwsa/package.tgz",
+  "_from": "../d-115310-7602-hyuwsa/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".js": [
+        "Gruntfile.js"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
 }

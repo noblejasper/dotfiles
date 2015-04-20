@@ -13,10 +13,9 @@
 #     'prefix': 'log'
 #     'body': 'console.log $1'
 #
-'.source.python':
-    'fluent':
-        'prefix': 'fluent'
-        'body': 'g.log_fluent("${1:key}", "${2:action_name}", ${3:value},${4: opt_dict=${5:opt_dict},}${6: user_id=${7:self.user.key()}})'
+# This file uses CoffeeScript Object Notation (CSON).
+# If you are unfamiliar with CSON, you can read more about it here:
+# https://github.com/bevry/cson#what-is-cson
 
 '.source.jinja, .text.html.jinja':
     'Complete Block':

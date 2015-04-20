@@ -25,8 +25,8 @@
   "homepage": "https://github.com/atom/language-csharp",
   "_id": "language-csharp@0.5.0",
   "_shasum": "ebab17b1f9655a58bec7d5c7edd3217565350ad3",
-  "_resolved": "file:../d-11515-67408-1tiern5/package.tgz",
-  "_from": "../d-11515-67408-1tiern5/package.tgz",
+  "_resolved": "file:../d-11539-63679-1jotpvd/package.tgz",
+  "_from": "../d-11539-63679-1jotpvd/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],

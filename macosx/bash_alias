@@ -8,7 +8,7 @@ alias egrep='egrep --color=auto'
 alias j='jobs'
 alias py='bpython'
 alias pyac='pyenv activate'
-alias e='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
+alias e='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
 
 ## for git 
 function current_branch {
