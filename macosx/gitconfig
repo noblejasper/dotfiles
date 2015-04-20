@@ -2,7 +2,7 @@
     pager = lv -c
 [color]
     # colorの設定(以下のコマンドは自動で色つける)
-	ui = 1
+    ui = 1
     status = auto
     diff = auto
     branch = auto
@@ -13,12 +13,18 @@
     ci = commit -a
     st = status
     wdiff = diff --color-words
-	see = browse
+    see = browse
+    amend = commit --amend -C HEAD
+    logg = log --stat --decorate=short --pretty=format:'%C(yellow)%h %Cgreen%cr %Cblue%cn%Cred%d %Creset%s %C(cyan)%b'
+    mergelog = log --merges --pretty=format:'%C(yellow)%h %Cgreen%ci %Cblue%cn%Cred%d %Creset%s %C(cyan)%b'
+    history = log --graph --date=short --decorate=short --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn%Cred%d %Creset%s'
+    unmerged = !git --no-pager diff --name-only --diff-filter=U
+    sync = !git checkout master && git pull origin master && git fetch -p origin && git branch -d $(git branch --merged | grep -v master | grep -v '*')
 [user]
-	name = nobjas
-	email = nobjas@gmail.com
+    name = nobjas
+    email = nobjas@gmail.com
 [push]
-	default = simple
+    default = current
 [filter "media"]
-	clean = git-media-clean %f
-	smudge = git-media-smudge %f
+    clean = git-media-clean %f
+    smudge = git-media-smudge %f
