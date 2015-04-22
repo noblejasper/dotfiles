@@ -1,6 +1,8 @@
 . ~/.bash_alias
 . ~/.bash_functions
 
+set -euo pipefail
+
 NAME='HOME'
 ON_KEYCHAIN=false
 
