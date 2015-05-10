@@ -23,6 +23,7 @@
   (progn
     (dolist (conf conf-list)
       (load (concat user-emacs-directory "conf/" conf)))
+    ;; mac
     (and (or (equal window-system 'ns) (equal window-system 'mac))
          (dolist (conf (list "cocoa-init.el"
                              "cocoa-el-get.el"
@@ -31,6 +32,7 @@
                              "cocoa-server.el"
                              ))
            (load (concat user-emacs-directory "conf/" conf))))
+    ;; other
     (and (null window-system)
          (dolist (conf (list "nw-init.el"))
            (load (concat user-emacs-directory "conf/" conf))))))

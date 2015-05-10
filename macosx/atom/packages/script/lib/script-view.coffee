@@ -1,15 +1,19 @@
 grammarMap = require './grammars'
-{View, BufferedProcess, $$} = require 'atom'
+
+{View, $$} = require 'atom-space-pen-views'
+{BufferedProcess} = require 'atom'
 CodeContext = require './code-context'
 HeaderView = require './header-view'
 ScriptOptionsView = require './script-options-view'
 AnsiFilter = require 'ansi-to-html'
+stripAnsi = require 'strip-ansi'
 _ = require 'underscore'
 
 # Runs a portion of a script through an interpreter and displays it line by line
 module.exports =
 class ScriptView extends View
   @bufferedProcess: null
+  @results: ""
 
   @content: ->
     @div =>
@@ -23,10 +27,11 @@ class ScriptView extends View
 
   initialize: (serializeState, @runOptions) ->
     # Bind commands
-    atom.workspaceView.command 'script:run', => @defaultRun()
-    atom.workspaceView.command 'script:run-by-line-number', => @lineRun()
-    atom.workspaceView.command 'script:close-view', => @close()
-    atom.workspaceView.command 'script:kill-process', => @stop()
+    atom.commands.add 'atom-workspace', 'script:run', => @defaultRun()
+    atom.commands.add 'atom-workspace', 'script:run-by-line-number', => @lineRun()
+    atom.commands.add 'atom-workspace', 'script:close-view', => @close()
+    atom.commands.add 'atom-workspace', 'script:kill-process', => @stop()
+    atom.commands.add 'atom-workspace', 'script:copy-run-results', => @copyResults()
 
     @ansiFilter = new AnsiFilter
 
@@ -78,7 +83,7 @@ class ScriptView extends View
 
   buildCodeContext: (argType='Selection Based') ->
     # Get current editor
-    editor = atom.workspace.getActiveEditor()
+    editor = atom.workspace.getActiveTextEditor()
     # No editor available, do nothing
     return unless editor?
 
@@ -126,6 +131,9 @@ class ScriptView extends View
     # Get script view ready
     @output.empty()
 
+    # Remove the old script results
+    @results = ""
+
   close: ->
     # Stop any running process and dismiss window
     @stop()
@@ -139,7 +147,7 @@ class ScriptView extends View
     # Determine if no language is selected.
     if lang is 'Null Grammar' or lang is 'Plain Text'
       err = $$ ->
-        @p 'You must select a language in the lower left, or save the file
+        @p 'You must select a language in the lower right, or save the file
           with an appropriate extension.'
 
     # Provide them a dialog to submit an issue on GH, prepopulated with their
@@ -174,17 +182,9 @@ class ScriptView extends View
       buildArgsArray = grammarMap[codeContext.lang][codeContext.argType].args
 
     catch error
-      urlSafeArgType = "#{codeContext.argType}".replace(' ', '')
-      urlSafeLang = "#{codeContext.lang}".replace(' ', '')
-      err = $$ ->
-        @p class: 'block', "#{codeContext.argType} runner not available for #{codeContext.lang}."
-        @p class: 'block', =>
-          @text 'If it should exist, add an '
-          @a href: "https://github.com/rgbkrk/atom-script/issues/\
-            new?title=Add%20#{urlSafeArgType}%20support%20for%20#{urlSafeLang}", 'issue on GitHub'
-          @text ', or send your own pull request.'
-
+      err = @createGitHubIssueLink codeContext
       @handleError err
+
       return false
 
     # Update header to show the lang and file name
@@ -201,6 +201,23 @@ class ScriptView extends View
 
     # Return setup information
     return commandContext
+
+  createGitHubIssueLink: (codeContext) ->
+    title = "Add #{codeContext.argType} support for #{codeContext.lang}"
+    body = """
+           ##### Platform: `#{process.platform}`
+           ---
+           """
+    encodedURI = encodeURI("https://github.com/rgbkrk/atom-script/issues/new?title=#{title}&body=#{body}")
+    # NOTE: Replace "#" after regular encoding so we don't double escape it.
+    encodedURI = encodedURI.replace(/#/g, '%23')
+
+    $$ ->
+      @p class: 'block', "#{codeContext.argType} runner not available for #{codeContext.lang}."
+      @p class: 'block', =>
+        @text 'If it should exist, add an '
+        @a href: encodedURI, 'issue on GitHub'
+        @text ', or send your own pull request.'
 
   handleError: (err) ->
     # Display error and kill process
@@ -264,11 +281,27 @@ class ScriptView extends View
       @bufferedProcess = null
 
   display: (css, line) ->
+    @results += line
+
     if atom.config.get('script.escapeConsoleOutput')
       line = _.escape(line)
 
     line = @ansiFilter.toHtml(line)
 
+    padding = parseInt(@output.css('padding-bottom'))
+    scrolledToEnd =
+      @script.scrollBottom() == (padding + @output.trueHeight())
+
+    lessThanFull = @output.trueHeight() <= @script.trueHeight()
+
     @output.append $$ ->
       @pre class: "line #{css}", =>
         @raw line
+
+    if atom.config.get('script.scrollWithOutput')
+      if lessThanFull or scrolledToEnd
+        @script.scrollTop(@output.trueHeight())
+
+  copyResults: ->
+    if @results
+      atom.clipboard.write stripAnsi(@results)

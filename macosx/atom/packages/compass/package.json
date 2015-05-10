@@ -20,9 +20,21 @@
   },
   "homepage": "https://github.com/cristinasolana/atom-compass-framework",
   "_id": "compass@0.7.5",
-  "dist": {
-    "shasum": "8fc639a30b5a686c32e98e4fb7e7454237cde5b2"
-  },
-  "_resolved": "/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-11435-79071-1eoidg5/package.tgz",
-  "_from": "/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-11435-79071-1eoidg5/package.tgz"
+  "_shasum": "164d9529e3e8684e12870220236e3287bba331d3",
+  "_resolved": "file:../d-115310-9773-1ugy9gb/package.tgz",
+  "_from": "../d-115310-9773-1ugy9gb/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".coffee": [
+        "lib/compass-view.coffee",
+        "lib/compass.coffee"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
 }

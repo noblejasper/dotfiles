@@ -1,3 +1,5 @@
 storage
-compile-cache/*
-.node-gyp/.atom/.apm/_git-remotes
+compile-cache
+dev
+.npm
+.node-gyp

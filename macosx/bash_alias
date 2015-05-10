@@ -1,5 +1,5 @@
 #alias screen='screen -xRU -D -RR'
-alias ls='ls -vG'
+alias ls='ls -v --color=auto'
 alias la='ls -a'
 alias ll='ls -l'
 alias grep='grep --color=auto'
@@ -8,6 +8,7 @@ alias egrep='egrep --color=auto'
 alias j='jobs'
 alias py='bpython'
 alias pyac='pyenv activate'
+alias e='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
 
 ## for git 
 function current_branch {

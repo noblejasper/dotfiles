@@ -21,9 +21,21 @@
   },
   "homepage": "https://github.com/bsnux/linter-python-pyflakes",
   "_id": "linter-python-pyflakes@0.1.0",
-  "dist": {
-    "shasum": "da08d78495addef99720b8786199419253f98328"
-  },
-  "_resolved": "/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-114510-7738-1vv5rfd/package.tgz",
-  "_from": "/var/folders/10/1gcb6yqd4m14g9qr7s0lztg40000gn/T/d-114510-7738-1vv5rfd/package.tgz"
+  "_shasum": "d17249120ba31cb0ab798c7ef959afcfe5a45bf5",
+  "_resolved": "file:../d-115310-20365-1qwdqhl/package.tgz",
+  "_from": "../d-115310-20365-1qwdqhl/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".coffee": [
+        "lib/init.coffee",
+        "lib/linter-python-pyflakes.coffee"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
 }

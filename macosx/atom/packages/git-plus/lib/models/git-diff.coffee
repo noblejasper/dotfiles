@@ -7,7 +7,9 @@ StatusView = require '../views/status-view'
 diffFilePath = Path.join Os.tmpDir(), "atom_git_plus.diff"
 
 gitDiff = ({diffStat, file}={}) ->
-  file ?= git.relativize(atom.workspace.getActiveEditor()?.getPath())
+  file ?= git.relativize(atom.workspace.getActiveTextEditor()?.getPath())
+  if not file
+    return new StatusView(type: 'error', message: "No open file. Select 'Diff All'.")
   diffStat ?= ''
   args = ['diff']
   args.push 'HEAD' if atom.config.get 'git-plus.includeStagedDiff'

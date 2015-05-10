@@ -58,12 +58,12 @@
           ;; f
           flycheck
           dash
-          omnisharp
+          ;; omnisharp
           tabbar
           sense-region
-          ag
+          ;; ag
           coffee-mode
           json
           php-mode
-          mmm-mode
+          ;; mmm-mode
           ))

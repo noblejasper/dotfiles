@@ -6,3 +6,6 @@ undohist
 .netrwhist
 recentf
 .node-gyp
+.apm
+_mongodb
+mongodb

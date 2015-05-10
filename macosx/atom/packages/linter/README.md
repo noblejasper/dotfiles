@@ -1,7 +1,7 @@
 # Linter
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/AtomLinter/Linter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://travis-ci.org/AtomLinter/Linter.svg)](https://travis-ci.org/AtomLinter/Linter)
+[![Gitter](https://img.shields.io/badge/gitter-join%20chat-1dce73.svg?style=flat)](https://gitter.im/AtomLinter/Linter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://img.shields.io/travis/AtomLinter/Linter.svg?style=flat)](https://travis-ci.org/AtomLinter/Linter)
 
 Lint your code with ease in [Atom](http://atom.io).
 
@@ -34,6 +34,7 @@ The idea is to stop the linter plugins war, by providing a top level API for lin
 - [linter-rubocop](https://atom.io/packages/linter-rubocop), for Ruby and Ruby on Rails, using `rubocop`
 - [linter-ruby](https://atom.io/packages/linter-ruby), for Ruby, using `ruby -wc`
 - [linter-erb](https://atom.io/packages/linter-erb), for .erb files, using `erb -x`
+- [linter-haml](https://atom.io/packages/linter-haml), for .haml files, using `haml-lint`
 
 #### for PHP
 - [linter-php](https://atom.io/packages/linter-php), for PHP using `php -l`
@@ -44,6 +45,7 @@ The idea is to stop the linter plugins war, by providing a top level API for lin
 - [linter-pylint](https://atom.io/packages/linter-pylint), for Python, using `pylint`
 - [linter-pyflakes](https://atom.io/packages/linter-pyflakes), for Python, using `pyflakes`
 - [linter-pep8](https://atom.io/packages/linter-pep8), for Python, using `pep8`.
+- [linter-pep257](https://atom.io/packages/linter-pep257), for Python, using `pep257`
 - [linter-flake8](https://atom.io/packages/linter-flake8), for Python, using `flake8`
 - [linter-pylama](https://atom.io/packages/linter-pylama), for Python, using `pylama`
 
@@ -70,6 +72,7 @@ The idea is to stop the linter plugins war, by providing a top level API for lin
 
 #### for Lua
 - [linter-lua](https://atom.io/packages/linter-lua), for Lua, using `luac -p`
+- [linter-luacheck](https://atom.io/packages/linter-luacheck) for Lua, using `luacheck`
 
 #### for Clojure
 - [linter-clojure](https://atom.io/packages/linter-clojure), for Clojure, using `clojure`
@@ -133,6 +136,7 @@ The idea is to stop the linter plugins war, by providing a top level API for lin
 
 ## Common errors
 
+* `npm ERR! code ENOGIT` - You need to install git before installing linter. See [#114](https://github.com/AtomLinter/Linter/issues/102).
 * `env: node: No such file or directory` – There's a problem with your node path – [check this](http://stackoverflow.com/a/20077620).
 * `spawn ENOENT` or `spawn ENOTDIR` - A linter can't find a path to the executable. Try starting Atom from a shell via `atom` to make sure it gets your `PATH`. See also [#102](https://github.com/AtomLinter/Linter/issues/102), [#150](https://github.com/AtomLinter/Linter/issues/150).
 

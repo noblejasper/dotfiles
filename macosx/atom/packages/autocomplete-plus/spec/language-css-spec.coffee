@@ -1,4 +1,6 @@
-describe "CSS Language Support", ->
+{waitForAutocomplete} = require './spec-helper'
+
+describe 'CSS Language Support', ->
   [completionDelay, editorView, editor, autocompleteManager, mainModule, css] = []
 
   beforeEach ->
@@ -21,27 +23,38 @@ describe "CSS Language Support", ->
       editor = e
 
     # Activate the package
-    waitsForPromise -> atom.packages.activatePackage('language-css').then (c) -> css = c
+    waitsForPromise ->
+      atom.packages.activatePackage('language-css').then (c) ->
+        css = c
 
     # Activate the package
     waitsForPromise -> atom.packages.activatePackage('autocomplete-plus').then (a) ->
       mainModule = a.mainModule
-      autocompleteManager = mainModule.autocompleteManagers[0]
 
-  it "includes completions for the scope's completion preferences", ->
+    waitsFor ->
+      mainModule.autocompleteManager?.ready
+
+    runs ->
+      autocompleteManager = mainModule.autocompleteManager
+      advanceClock(mainModule.autocompleteManager.providerManager.fuzzyProvider.deferBuildWordListInterval)
+
+  it 'includes completions for the scopes completion preferences', ->
     runs ->
       editor.moveToEndOfLine()
       editor.insertText('o')
       editor.insertText('u')
       editor.insertText('t')
 
-      advanceClock(completionDelay)
-      editorView = atom.views.getView(editor)
-      autocompleteView = atom.views.getView(autocompleteManager)
-      items = autocompleteView.querySelectorAll('li')
-      expect(editorView.querySelector('.autocomplete-plus')).toExist()
-      expect(items.length).toBe(10)
-      expect(items[0]).toHaveText('outline')
-      expect(items[1]).toHaveText('outline-color')
-      expect(items[2]).toHaveText('outline-width')
-      expect(items[3]).toHaveText('outline-style')
+      waitForAutocomplete()
+
+      runs ->
+        editorView = atom.views.getView(editor)
+
+        suggestionListView = atom.views.getView(autocompleteManager.suggestionList)
+        items = suggestionListView.querySelectorAll('li')
+        expect(editorView.querySelector('.autocomplete-plus')).toExist()
+        expect(items.length).toBe(5)
+        expect(items[0].textContent).toContain('outline')
+        expect(items[1].textContent).toContain('outline-width')
+        expect(items[2].textContent).toContain('outline-style')
+        expect(items[3].textContent).toContain('outline-color')

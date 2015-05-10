@@ -1,4 +1,5 @@
-{$, EditorView, View} = require 'atom'
+{CompositeDisposable} = require 'atom'
+{$, TextEditorView, View} = require 'atom-space-pen-views'
 
 git = require '../git'
 StatusView = require '../views/status-view'
@@ -12,26 +13,35 @@ module.exports.gitBranches = ->
 
 class InputView extends View
   @content: ->
-    @div class: 'overlay from-top', =>
-      @subview 'branchEditor', new EditorView(mini: true, placeholderText: 'New branch name')
+    @div =>
+      @subview 'branchEditor', new TextEditorView(mini: true, placeholderText: 'New branch name')
 
   initialize: ->
+    @disposables = new CompositeDisposable
     @currentPane = atom.workspace.getActivePane()
-    atom.workspaceView.append this
+    panel = atom.workspace.addModalPanel(item: this)
+    panel.show()
+
+    destroy = =>
+      panel.destroy()
+      @disposables.dispose()
+      @currentPane.activate()
+
     @branchEditor.focus()
-    @on 'core:cancel', => @detach()
-    @branchEditor.on 'core:confirm', =>
-      text = $(this).text().split(' ')
-      name = if text.length is 2 then text[1] else text[0]
-      @createBranch name
-      @detach()
+    @disposables.add atom.commands.add 'atom-text-editor', 'core:cancel': (event) -> destroy()
+    @disposables.add atom.commands.add 'atom-text-editor', 'core:confirm': (event) =>
+      editor = @branchEditor.getModel()
+      name = editor.getText()
+      if name.length > 0
+        @createBranch name
+        destroy()
 
   createBranch: (name) ->
     git.cmd
       args: ['checkout', '-b', name],
       stdout: (data) =>
         new StatusView(type: 'success', message: data.toString())
-        atom.project.getRepo()?.refreshStatus()
+        git.getRepo()?.refreshStatus?()
         @currentPane.activate()
 
 module.exports.newBranch = ->

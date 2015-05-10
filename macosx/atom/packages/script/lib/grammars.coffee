@@ -73,7 +73,7 @@ module.exports =
 
   'F#':
     "File Based":
-      command: "fsharpi"
+      command: if GrammarUtils.OperatingSystem.isWindows() then "fsi" else "fsharpi"
       args: (context) -> ['--exec', context.filepath]
 
   Gherkin:
@@ -144,6 +144,11 @@ module.exports =
     "File Based":
       command: "sbcl"
       args: (context) -> ['--noinform', '--script', context.filepath]
+
+  'Literate Haskell':
+    "File Based":
+      command: "runhaskell"
+      args: (context) -> [context.filepath]
 
   LiveScript:
     "Selection Based":

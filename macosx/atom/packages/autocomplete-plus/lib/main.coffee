@@ -1,104 +1,161 @@
-_ = require 'underscore-plus'
-AutocompleteManager = require './autocomplete-manager'
-SelectListElement = require './select-list-element'
-Provider = require './provider'
-Suggestion = require './suggestion'
-{deprecate} = require 'grim'
+{Disposable, CompositeDisposable} = require 'atom'
 
 module.exports =
   config:
     enableAutoActivation:
       title: 'Show Suggestions On Keystroke'
-      description: 'Suggestions will show as you type if this preference is enabled. If it is disabled, you can still see suggestions by using the keybinding for autocomplete-plus:activate (shown below).'
-      type: "boolean"
+      description: 'Suggestions will show as you type if this preference is enabled. If it is disabled, you can still see suggestions by using the keymapping for autocomplete-plus:activate (shown below).'
+      type: 'boolean'
       default: true
       order: 1
     autoActivationDelay:
       title: 'Delay Before Suggestions Are Shown'
       description: 'This prevents suggestions from being shown too frequently. Usually, the default works well. A lower value than the default has performance implications, and is not advised.'
-      type: "integer"
+      type: 'integer'
       default: 100
       order: 2
-    maxSuggestions:
-      title: 'Maximum Suggestions'
-      description: 'The list of suggestions will be limited to this number.'
-      type: "integer"
+    maxVisibleSuggestions:
+      title: 'Maximum Visible Suggestions'
+      description: 'The suggestion list will only show this many suggestions.'
+      type: 'integer'
       default: 10
+      minimum: 1
       order: 3
     confirmCompletion:
-      title: 'Keybinding(s) For Confirming A Suggestion'
+      title: 'Keymap For Confirming A Suggestion'
       description: 'You should use the key(s) indicated here to confirm a suggestion from the suggestion list and have it inserted into the file.'
-      type: "string"
-      default: "tab"
-      enum: ["tab", "enter", "tab and enter"]
+      type: 'string'
+      default: 'tab'
+      enum: ['tab', 'enter', 'tab and enter']
       order: 4
     navigateCompletions:
-      title: 'Keybindings For Navigating The Suggestion List'
+      title: 'Keymap For Navigating The Suggestion List'
       description: 'You should use the keys indicated here to select suggestions in the suggestion list (moving up or down).'
-      type: "string"
-      default: "up,down"
-      enum: ["up,down", "ctrl-p,ctrl-n"]
+      type: 'string'
+      default: 'up,down'
+      enum: ['up,down', 'ctrl-p,ctrl-n']
       order: 5
     fileBlacklist:
-      type: "string"
-      default: ".*, *.md"
-      order: 90
+      title: 'File Blacklist'
+      description: 'Suggestions will not be provided for files matching this list.'
+      type: 'array'
+      default: ['.*']
+      items:
+        type: 'string'
+      order: 6
+    scopeBlacklist:
+      title: 'Scope Blacklist'
+      description: 'Suggestions will not be provided for scopes matching this list. See: https://atom.io/docs/latest/advanced/scopes-and-scope-descriptors'
+      type: 'array'
+      default: []
+      items:
+        type: 'string'
+      order: 7
     includeCompletionsFromAllBuffers:
-      type: "boolean"
+      title: 'Include Completions From All Buffers'
+      description: 'For grammars with no registered provider(s), FuzzyProvider will include completions from all buffers, instead of just the buffer you are currently editing.'
+      type: 'boolean'
       default: false
-      order: 100
-
-  autocompleteManagers: []
-  editorSubscription: null
+      order: 8
+    strictMatching:
+      title: 'Use Strict Matching For Built-In Provider'
+      description: 'Fuzzy searching is performed if this is disabled; if it is enabled, suggestions must begin with the prefix from the current word.'
+      type: 'boolean'
+      default: false
+      order: 9
+    minimumWordLength:
+      description: "Only autocomplete when you've typed at least this many characters."
+      type: 'integer'
+      default: 1
+      order: 10
+    enableBuiltinProvider:
+      title: 'Enable Built-In Provider'
+      description: 'The package comes with a built-in provider that will provide suggestions using the words in your current buffer or all open buffers. You will get better suggestions by installing additional autocomplete+ providers. To stop using the built-in provider, disable this option.'
+      type: 'boolean'
+      default: true
+      order: 11
+    builtinProviderBlacklist:
+      title: 'Built-In Provider Blacklist'
+      description: 'Don\'t use the built-in provider for these selector(s).'
+      type: 'string'
+      default: '.source.gfm'
+      order: 12
+    backspaceTriggersAutocomplete:
+      title: 'Allow Backspace To Trigger Autocomplete'
+      description: 'If enabled, typing `backspace` will show the suggestion list if suggestions are available. If disabled, suggestions will not be shown while backspacing.'
+      type: 'boolean'
+      default: true
+      order: 13
+    suggestionListFollows:
+      title: 'Suggestions List Follows'
+      description: 'With "Cursor" the suggestion list appears at the cursor\'s position. With "Word" it appears at the beginning of the word that\'s being completed.'
+      type: 'string'
+      default: 'Cursor'
+      enum: ['Cursor', 'Word']
+      order: 14
+    defaultProvider:
+      description: 'Using the Symbol provider is experimental. You must reload Atom to use a new provider after changing this option.'
+      type: 'string'
+      default: 'Fuzzy'
+      enum: ['Fuzzy', 'Symbol']
+      order: 15
+    suppressActivationForEditorClasses:
+      title: 'Suppress Activation For Editor Classes'
+      description: 'Don\'t auto-activate when any of these classes are present in the editor.'
+      type: 'array'
+      default: ['vim-mode.command-mode', 'vim-mode.visual-mode', 'vim-mode.operator-pending-mode']
+      items:
+        type: 'string'
+      order: 16
 
   # Public: Creates AutocompleteManager instances for all active and future editors (soon, just a single AutocompleteManager)
   activate: ->
+    # Upgrade to the new config key name
+    oldMax = atom.config.get('autocomplete-plus.maxSuggestions')
+    if oldMax? and oldMax isnt 10
+      atom.config.transact ->
+        atom.config.set('autocomplete-plus.maxVisibleSuggestions', oldMax)
+        atom.config.unset('autocomplete-plus.maxSuggestions')
 
-    atom.views.addViewProvider(AutocompleteManager, (model) =>
-      element = new SelectListElement()
-      element.setModel(model)
-      element
-    )
-
-    @editorSubscription = atom.workspace.observeTextEditors (editor) =>
-      autocompleteManager = new AutocompleteManager(editor)
-
-      editor.onDidDestroy =>
-        autocompleteManager.dispose()
-        _.remove(@autocompleteManagers, autocompleteManager)
-
-      @autocompleteManagers.push(autocompleteManager)
+    @getAutocompleteManager()
 
   # Public: Cleans everything up, removes all AutocompleteManager instances
   deactivate: ->
-    @editorSubscription?.dispose()
-    @editorSubscription = null
-    @autocompleteManagers.forEach((autocompleteManager) -> autocompleteManager.dispose())
-    @autocompleteManagers = []
+    @autocompleteManager?.dispose()
+    @autocompleteManager = null
 
-  registerProviderForEditorView: (provider, editorView) ->
-    deprecate('Use of editorView is deprecated, use registerProviderForEditor instead')
-    @registerProviderForEditor(provider, editorView?.getModel())
+  getAutocompleteManager: ->
+    unless @autocompleteManager?
+      AutocompleteManager = require './autocomplete-manager'
+      @autocompleteManager = new AutocompleteManager()
+    @autocompleteManager
 
-  # Public: Finds the autocomplete for the given TextEditor
-  # and registers the given provider
-  #
-  # provider - The new {Provider}
-  # editor - The {TextEditor} we should register the provider with
-  registerProviderForEditor: (provider, editor) ->
-    return unless provider?
-    return unless editor?
-    autocompleteManager = _.findWhere(@autocompleteManagers, editor: editor)
-    unless autocompleteManager?
-      throw new Error("Could not register provider", provider.constructor.name)
+  consumeSnippets: (snippetsManager) ->
+    @getAutocompleteManager().setSnippetsManager(snippetsManager)
 
-    autocompleteManager.registerProvider(provider)
+  ###
+  Section: Provider API
+  ###
 
-  # Public: unregisters the given provider
-  #
-  # provider - The {Provider} to unregister
-  unregisterProvider: (provider) ->
-    autocompleteManager.unregisterProvider provider for autocompleteManager in @autocompleteManagers
+  # 1.0.0 API
+  # service - {provider: provider1}
+  consumeProviderLegacy: (service) ->
+    # TODO API: Deprecate, tell them to upgrade to 2.0
+    return unless service?.provider?
+    @consumeProvider([service.provider], '1.0.0')
 
-  Provider: Provider
-  Suggestion: Suggestion
+  # 1.1.0 API
+  # service - {providers: [provider1, provider2, ...]}
+  consumeProvidersLegacy: (service) ->
+    # TODO API: Deprecate, tell them to upgrade to 2.0
+    @consumeProvider(service?.providers, '1.1.0')
+
+  # 2.0.0 API
+  # providers - either a provider or a list of providers
+  consumeProvider: (providers, apiVersion='2.0.0') ->
+    providers = [providers] if providers? and not Array.isArray(providers)
+    return unless providers?.length > 0
+    registrations = new CompositeDisposable
+    for provider in providers
+      registrations.add @getAutocompleteManager().providerManager.registerProvider(provider, apiVersion)
+    registrations

@@ -1,6 +1,8 @@
 . ~/.bash_alias
 . ~/.bash_functions
 
+set -euo pipefail
+
 NAME='HOME'
 ON_KEYCHAIN=false
 
@@ -22,6 +24,7 @@ export GOPATH=~/gocode
 
 # PATH
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:~/.bin:/usr/local/bin:/usr/local/sbin:~/.bin/mongodb:$PATH"
+export MANPATH="$(brew --prefix coreutils)/libexec/gnuman:$MANPATH"
 eval "$(hub alias -s)"
 
 #pyenv

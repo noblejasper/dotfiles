@@ -1,154 +1,177 @@
 _ = require 'underscore-plus'
-Suggestion = require './suggestion'
 fuzzaldrin = require 'fuzzaldrin'
-Provider = require './provider'
+{TextEditor, CompositeDisposable}  = require 'atom'
+RefCountedTokenList = require './ref-counted-token-list'
 
 module.exports =
-class FuzzyProvider extends Provider
-  wordList: null
-  debug: false
+class FuzzyProvider
+  deferBuildWordListInterval: 300
+  updateBuildWordListTimeout: null
+  updateCurrentEditorTimeout: null
+  wordRegex: /\b\w+[\w-]*\b/g
+  tokenList: new RefCountedTokenList()
+  currentEditorSubscriptions: null
+  editor: null
+  buffer: null
 
-  initialize: ->
+  selector: '*'
+  inclusionPriority: 0
+  suggestionPriority: 0
+  id: 'autocomplete-plus-fuzzyprovider'
+
+  constructor: ->
+    @debouncedBuildWordList()
+    @subscriptions = new CompositeDisposable
+    @subscriptions.add(atom.workspace.observeActivePaneItem(@debouncedUpdateCurrentEditor))
+    builtinProviderBlacklist = atom.config.get('autocomplete-plus.builtinProviderBlacklist')
+    @disableForSelector = builtinProviderBlacklist if builtinProviderBlacklist? and builtinProviderBlacklist.length
+
+  debouncedUpdateCurrentEditor: (currentPaneItem) =>
+    clearTimeout(@updateBuildWordListTimeout)
+    clearTimeout(@updateCurrentEditorTimeout)
+    @updateCurrentEditorTimeout = setTimeout =>
+      @updateCurrentEditor(currentPaneItem)
+    , @deferBuildWordListInterval
+
+  updateCurrentEditor: (currentPaneItem) =>
+    return unless currentPaneItem?
+    return if currentPaneItem is @editor
+
+    # Stop listening to buffer events
+    @currentEditorSubscriptions?.dispose()
+
+    @editor = null
+    @buffer = null
+
+    return unless @paneItemIsValid(currentPaneItem)
+
+    # Track the new editor, editorView, and buffer
+    @editor = currentPaneItem
+    @buffer = @editor.getBuffer()
+
+    # Subscribe to buffer events:
+    @currentEditorSubscriptions = new CompositeDisposable
+    @currentEditorSubscriptions.add @buffer.onDidSave(@bufferSaved)
+    @currentEditorSubscriptions.add @buffer.onWillChange(@bufferWillChange)
+    @currentEditorSubscriptions.add @buffer.onDidChange(@bufferDidChange)
     @buildWordList()
 
-    @currentBuffer = @editor.getBuffer()
-    @disposableEvents = [
-      @currentBuffer.onDidSave(@onSaved)
-      @currentBuffer.onDidChange(@onChanged)
-    ]
+  paneItemIsValid: (paneItem) ->
+    return false unless paneItem?
+    # Should we disqualify TextEditors with the Grammar text.plain.null-grammar?
+    return paneItem instanceof TextEditor
 
   # Public:  Gets called when the document has been changed. Returns an array
   # with suggestions. If `exclusive` is set to true and this method returns
   # suggestions, the suggestions will be the only ones that are displayed.
   #
   # Returns an {Array} of Suggestion instances
-  buildSuggestions: ->
-    selection = @editor.getLastSelection()
-    prefix = @prefixOfSelection(selection)
+  getSuggestions: ({editor, prefix}) =>
+    return unless editor?
 
     # No prefix? Don't autocomplete!
-    return unless prefix.length
+    return unless prefix.trim().length
 
     suggestions = @findSuggestionsForWord(prefix)
 
     # No suggestions? Don't autocomplete!
-    return unless suggestions.length
+    return unless suggestions?.length
 
     # Now we're ready - display the suggestions
     return suggestions
 
-  # Public: Gets called when a suggestion has been confirmed by the user. Return
-  # true to replace the word with the suggestion. Return false if you want to
-  # handle the behavior yourself.
-  #
-  # item - The confirmed {Suggestion}
-  #
-  # Returns a {Boolean} that specifies whether autocomplete+ should replace
-  # the word with the suggestion.
-  confirm: (item) ->
-    return true
-
   # Private: Gets called when the user saves the document. Rebuilds the word
   # list.
-  onSaved: =>
+  bufferSaved: =>
     @buildWordList()
 
-  # Private: Gets called when the buffer's text has been changed. Checks if the
-  # user has potentially finished a word and adds the new word to the word list.
-  #
-  # e - The change {Event}
-  onChanged: (e) =>
-    wordChars = "ąàáäâãåæăćęèéëêìíïîłńòóöôõøśșțùúüûñçżź" +
-      "abcdefghijklmnopqrstuvwxyz1234567890"
-    if wordChars.indexOf(e.newText.toLowerCase()) is -1
-      newline = e.newText is "\n"
-      @addLastWordToList(e.newRange.start.row, e.newRange.start.column, newline)
+  bufferWillChange: ({oldRange}) =>
+    oldLines = @editor.getTextInBufferRange([[oldRange.start.row, 0], [oldRange.end.row, Infinity]])
+    @removeWordsForText(oldLines)
 
-  # Private: Adds the last typed word to the wordList
-  #
-  # newLine - {Boolean} Has a new line been typed?
-  addLastWordToList: (row, column, newline) ->
-    lastWord = @lastTypedWord(row, column, newline)
-    return unless lastWord
+  bufferDidChange: ({newRange}) =>
+    newLines = @editor.getTextInBufferRange([[newRange.start.row, 0], [newRange.end.row, Infinity]])
+    @addWordsForText(newLines)
 
-    if @wordList.indexOf(lastWord) < 0
-      @wordList.push lastWord
+  debouncedBuildWordList: ->
+    clearTimeout(@updateBuildWordListTimeout)
+    @updateBuildWordListTimeout = setTimeout =>
+      @buildWordList()
+    , @deferBuildWordListInterval
 
-  # Private: Finds the last typed word. If newLine is set to true, it looks
-  # for the last word in the previous line.
-  #
-  # newLine - {Boolean} Has a new line been typed?
-  #
-  # Returns {String} the last typed word
-  lastTypedWord: (row, column, newline) ->
-    # The user pressed enter, check everything until the end
-    if newline
-      maxColumn = column - 1 unless column = 0
+  buildWordList: =>
+    return unless @editor?
+
+    @tokenList.clear()
+
+    if atom.config.get('autocomplete-plus.includeCompletionsFromAllBuffers')
+      editors = atom.workspace.getTextEditors()
     else
-      maxColumn = column
+      editors = [@editor]
 
-    lineRange = [[row, 0], [row, column]]
+    for editor in editors
+      @addWordsForText(editor.getText())
 
-    lastWord = null
-    @currentBuffer.scanInRange(@wordRegex, lineRange, ({match, range, stop}) -> lastWord = match[0])
+  addWordsForText: (text) ->
+    minimumWordLength = atom.config.get('autocomplete-plus.minimumWordLength')
+    matches = text.match(@wordRegex)
+    return unless matches?
+    for match in matches
+      if (minimumWordLength and match.length >= minimumWordLength) or not minimumWordLength
+        @tokenList.addToken(match)
 
-    return lastWord
-
-  # Private: Generates the word list from the editor buffer(s)
-  buildWordList: ->
-    # Abuse the Hash as a Set
-    wordList = []
-
-    # Do we want autocompletions from all open buffers?
-    if atom.config.get "autocomplete-plus.includeCompletionsFromAllBuffers"
-      buffers = atom.project.getBuffers()
-    else
-      buffers = [@editor.getBuffer()]
-
-    # Collect words from all buffers using the regular expression
-    matches = []
-    matches.push(buffer.getText().match(@wordRegex)) for buffer in buffers
-
-    # Flatten the matches, make it an unique array
-    wordList = _.uniq(_.flatten(matches))
-
-    # Filter words by length
-    minimumWordLength = atom.config.get("autocomplete-plus.minimumWordLength")
-    if minimumWordLength
-      wordList = wordList.filter((word) -> word?.length >= minimumWordLength)
-
-    @wordList = wordList
+  removeWordsForText: (text) ->
+    matches = text.match(@wordRegex)
+    return unless matches?
+    for match in matches
+      @tokenList.removeToken(match)
 
   # Private: Finds possible matches for the given string / prefix
   #
   # prefix - {String} The prefix
   #
   # Returns an {Array} of Suggestion instances
-  findSuggestionsForWord: (prefix) ->
+  findSuggestionsForWord: (prefix) =>
+    return unless @tokenList.getLength() and @editor?
+
     # Merge the scope specific words into the default word list
-    wordList = @wordList.concat(@getCompletionsForCursorScope())
+    tokens = @tokenList.getTokens()
+    tokens = tokens.concat(@getCompletionsForCursorScope())
 
     words =
-      if atom.config.get("autocomplete-plus.strictMatching")
-        @wordList.filter((word) -> word.indexOf(prefix) is 0)
+      if atom.config.get('autocomplete-plus.strictMatching')
+        tokens.filter((word) -> word?.indexOf(prefix) is 0)
       else
-        fuzzaldrin.filter(wordList, prefix)
+        fuzzaldrin.filter(tokens, prefix)
 
-    results = for word in words when word isnt prefix
-      new Suggestion(this, word: word, prefix: prefix)
+    results = []
 
-    return results
+    # dont show matches that are the same as the prefix
+    for word in words when word isnt prefix
+      # must match the first char!
+      continue unless prefix[0].toLowerCase() is word[0].toLowerCase()
+
+      results.push {text: word, replacementPrefix: prefix}
+
+    results
+
+  settingsForScopeDescriptor: (scopeDescriptor, keyPath) ->
+    return [] unless atom?.config? and scopeDescriptor? and keyPath?
+    entries = atom.config.getAll(null, {scope: scopeDescriptor})
+    value for {value} in entries when _.valueForKeyPath(value, keyPath)?
 
   # Private: Finds autocompletions in the current syntax scope (e.g. css values)
   #
   # Returns an {Array} of strings
-  getCompletionsForCursorScope: ->
+  getCompletionsForCursorScope: =>
     cursorScope = @editor.scopeDescriptorForBufferPosition(@editor.getCursorBufferPosition())
-    completions = atom.config.settingsForScopeDescriptor(cursorScope.getScopesArray(), "editor.completions")
-    completions = completions.map((properties) -> _.valueForKeyPath properties, "editor.completions")
+    completions = @settingsForScopeDescriptor(cursorScope?.getScopesArray(), 'editor.completions')
+    completions = completions.map((properties) -> _.valueForKeyPath(properties, 'editor.completions'))
     return _.uniq(_.flatten(completions))
 
   # Public: Clean up, stop listening to events
-  dispose: ->
-    for disposable in @disposableEvents
-      disposable.dispose()
+  dispose: =>
+    clearTimeout(@updateBuildWordListTimeout)
+    clearTimeout(@updateCurrentEditorTimeout)
+    @currentEditorSubscriptions?.dispose()
+    @subscriptions.dispose()

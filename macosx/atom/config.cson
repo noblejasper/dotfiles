@@ -1,49 +1,62 @@
-'*':
-  'exception-reporting':
-    'userId': 'c6699618-4497-4b29-c4b1-d584ee2e7cf5'
-  'release-notes':
-    'viewedVersion': '0.89.0'
-  'welcome':
-    'showOnStartup': false
-  'metrics':
-    'userId': '17dd89b6778fd0df1b7fe3732d3fd098681e4e16'
-  'editor':
-    'fontSize': 18
-    'showIndentGuide': true
-    'autoIndent': false
-    'autoIndentOnPaste': false
-    'preferredLineLength': 130
-    'tabLength': 4
-    'softWrap': true
-  'core':
-    'ignoredNames': [
-      '.git'
-      '.svn'
-      '.DS_Store'
+"*":
+  "exception-reporting":
+    userId: "fa06383b-9023-9082-cb83-6c0ba6b7ca5b"
+  welcome:
+    showOnStartup: false
+  core:
+    followSymlinks: true
+    themes: [
+      "seti-ui"
+      "monokai"
     ]
-    'disabledPackages': [
-      'linter-jscs'
-      'inline-autocomplete'
-      'color-picker'
+    ignoredNames: [
+      ".git"
+      ".bundle"
+      ".sass-cache"
+      "vendor"
     ]
-    'themes': [
-      'atom-dark-ui'
-      'monokai'
+    disabledPackages: [
+      "atom-alignment"
+      "language-csharp"
+      "merge-conflicts"
+      "sort-lines"
     ]
-    'projectHome': '/Users/jasper/git'
-  'autocomplete':
-    'includeCompletionsFromAllBuffers': true
-  'run-command':
-    'precedeCommandsWith': 'export PATH=${PATH}:/usr/local/bin; echo $PATH; source ~/.profile'
-  'linter-python-pyflakes':
-    'pyflakesDirToExecutable': '/usr/local/bin/'
-  'bracket-matcher':
-    'autocompleteBrackets': false
-  'linter':
-    'lintOnChange': false
-    'statusBar': 'Show error if the cursor is in range'
-  'inline-autocomplete':
-    'includeCompletionsFromAllBuffers': true
-    'includeGrammarKeywords': true
-  'autocomplete-plus':
-    'includeCompletionsFromAllBuffers': true
+  editor:
+    invisibles: {}
+    showIndentGuide: true
+    preferredLineLength: 130
+    softWrap: true
+    tabLength: 4
+    fontSize: 25
+    useShadowDOM: false
+    ensure_newline_at_eof_on_save: true
+    show_full_path: true
+    translate_tabs_to_spaces: true
+    trim_trailing_white_space_on_save: true
+  "emacs-mode":
+    hideTabs: false
+    hideSidebar: false
+    useEmacsCursor: true
+    useFuzzyFileFinder: false
+    useFuzzyBufferFinder: false
+  linter:
+    lintOnChange: false
+    statusBar: "Show error if the cursor is in range"
+  "linter-python-pyflakes":
+    pyflakesDirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
+  "symbols-tree-view":
+    autoToggle: true
+  autocomplete:
+    includeCompletionsFromAllBuffers: true
+  "run-command":
+    precedeCommandsWith: "export PATH=${PATH}:/usr/local/bin; echo $PATH; source ~/.profile"
+  "bracket-matcher":
+    autocompleteBrackets: false
+  "inline-autocomplete":
+    includeCompletionsFromAllBuffers: true
+    includeGrammarKeywords: true
+  "autocomplete-plus":
+    includeCompletionsFromAllBuffers: true
+  "git-plus": {}
+  "japanese-wrap":
+    characterWidth: {}

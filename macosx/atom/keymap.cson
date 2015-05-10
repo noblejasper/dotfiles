@@ -1,7 +1,7 @@
 # Your keymap
 #
-# Atom keymaps work similarly to stylesheets. Just as stylesheets use selectors
-# to apply styles to elements, Atom keymaps use selectors to associate
+# Atom keymaps work similarly to style sheets. Just as style sheets use
+# selectors to apply styles to elements, Atom keymaps use selectors to associate
 # keystrokes with events in specific contexts.
 #
 # You can create a new keybinding in this file by typing "key" and then hitting
@@ -9,29 +9,20 @@
 #
 # Here's an example taken from Atom's built-in keymap:
 #
-# '.editor':
+# 'atom-text-editor':
 #   'enter': 'editor:newline'
 #
-# '.workspace':
-#   'ctrl-P': 'core:move-up'
+# 'atom-workspace':
+#   'ctrl-shift-p': 'core:move-up'
 #   'ctrl-p': 'core:move-down'
 #
-
-
-'.autocomplete-plus input.hidden-input':
-    'enter' : 'autocomplete-plus:confirm'
-
-'.editor':
-    'ctrl-alt-left': 'pane:split-left'
-    #'ctrl-alt-right': 'pane:split-right'
-    'alt-down': 'pane:close'
-    'cmd-shift-down': 'window:focus-pane-below'
-    'cmd-shift-left': 'window:focus-pane-on-left'
-    #'cmd-shift-right': 'window:focus-pane-on-right'
-    'cmd-shift-up': 'window:focus-pane-above'
-
-'.platform-darwin, .platform-win32, .platform-linux':
-    'alt-g': 'go-to-line:toggle'
-    'ctrl-space': 'emacs:set-mark'
-    # 'alt-space': 'inline-autocomplete:cycle'
-    # 'shift-alt-space': 'inline-autocomplete:cycle-back'
+# You can find more information about keymaps in these guides:
+# * https://atom.io/docs/latest/using-atom-basic-customization#customizing-key-bindings
+# * https://atom.io/docs/latest/behind-atom-keymaps-in-depth
+#
+# This file uses CoffeeScript Object Notation (CSON).
+# If you are unfamiliar with CSON, you can read more about it here:
+# https://github.com/bevry/cson#what-is-cson
+'atom-text-editor':
+  'cmd-h': 'dash:shortcut'
+  'cmd-alt-h': 'dash:shortcut-alt'
