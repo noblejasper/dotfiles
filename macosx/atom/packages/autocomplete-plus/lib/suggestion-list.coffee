@@ -8,13 +8,17 @@ class SuggestionList
     @active = false
     @emitter = new Emitter
     @subscriptions = new CompositeDisposable
-    # Allow keyboard navigation of the suggestion list
-    @subscriptions.add(atom.commands.add 'atom-text-editor.autocomplete-active',
+    @subscriptions.add atom.commands.add 'atom-text-editor.autocomplete-active',
       'autocomplete-plus:confirm': @confirmSelection,
-      'autocomplete-plus:select-next': @selectNext,
-      'autocomplete-plus:select-previous': @selectPrevious,
       'autocomplete-plus:cancel': @cancel
-    )
+      'core:move-up': (event) =>
+        if @isActive() and @items?.length > 1
+          @selectPrevious()
+          event.stopImmediatePropagation()
+      'core:move-down': (event) =>
+        if @isActive() and @items?.length > 1
+          @selectNext()
+          event.stopImmediatePropagation()
 
   addKeyboardInteraction: ->
     @removeKeyboardInteraction()
@@ -22,24 +26,16 @@ class SuggestionList
       'escape': 'autocomplete-plus:cancel'
 
     completionKey = atom.config.get('autocomplete-plus.confirmCompletion') or ''
-    navigationKey = atom.config.get('autocomplete-plus.navigateCompletions') or ''
 
     keys['tab'] = 'autocomplete-plus:confirm' if completionKey.indexOf('tab') > -1
     keys['enter'] = 'autocomplete-plus:confirm' if completionKey.indexOf('enter') > -1
 
-    if @items?.length > 1 and navigationKey is 'up,down'
-      keys['up'] =  'autocomplete-plus:select-previous'
-      keys['down'] = 'autocomplete-plus:select-next'
-    else
-      keys['ctrl-n'] = 'autocomplete-plus:select-next'
-      keys['ctrl-p'] = 'autocomplete-plus:select-previous'
-
     @keymaps = atom.keymaps.add('atom-text-editor.autocomplete-active', {'atom-text-editor.autocomplete-active': keys})
-
     @subscriptions.add(@keymaps)
 
   removeKeyboardInteraction: ->
     @keymaps?.dispose()
+    @keymaps = null
     @subscriptions.remove(@keymaps)
 
   confirmSelection: =>
@@ -54,13 +50,13 @@ class SuggestionList
   onDidConfirm: (fn) ->
     @emitter.on('did-confirm', fn)
 
-  selectNext: =>
+  selectNext: ->
     @emitter.emit('did-select-next')
 
   onDidSelectNext: (fn) ->
     @emitter.on('did-select-next', fn)
 
-  selectPrevious: =>
+  selectPrevious: ->
     @emitter.emit('did-select-previous')
 
   onDidSelectPrevious: (fn) ->
@@ -79,13 +75,20 @@ class SuggestionList
     if atom.config.get('autocomplete-plus.suggestionListFollows') is 'Cursor'
       @showAtCursorPosition(editor, options)
     else
-      @showAtBeginningOfPrefix(editor, options)
+      prefix = options.prefix
+      followRawPrefix = false
+      for item in @items
+        if item.replacementPrefix?
+          prefix = item.replacementPrefix.trim()
+          followRawPrefix = true
+          break
+      @showAtBeginningOfPrefix(editor, prefix, followRawPrefix)
 
-  showAtBeginningOfPrefix: (editor, {prefix}) =>
+  showAtBeginningOfPrefix: (editor, prefix, followRawPrefix=false) =>
     return unless editor?
 
     bufferPosition = editor.getCursorBufferPosition()
-    bufferPosition = bufferPosition.translate([0, -prefix.length]) if @wordPrefixRegex.test(prefix)
+    bufferPosition = bufferPosition.translate([0, -prefix.length]) if followRawPrefix or @wordPrefixRegex.test(prefix)
 
     if @active
       unless bufferPosition.isEqual(@displayBufferPosition)

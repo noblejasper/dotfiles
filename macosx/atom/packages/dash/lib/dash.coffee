@@ -3,22 +3,22 @@ spawn = require('child_process').spawn
 
 plugin = module.exports =
   activate: () ->
-    atom.commands.add('atom-workspace', {
+    atom.commands.add('atom-text-editor', {
       'dash:shortcut': @shortcut,
       'dash:shortcut-alt': @shortcut.bind(@, false),
       'dash:context-menu': @contextMenu
     })
 
   shortcut: (sensitive) ->
-    editor = atom.workspace.getActiveEditor()
+    editor = atom.workspace.getActiveTextEditor()
 
     return if !editor
 
-    selection = editor.getSelection().getText()
+    selection = editor.getLastSelection().getText()
 
     return plugin.search(selection, sensitive) if selection
 
-    scopes = editor.getCursorScopes()
+    scopes = editor.getLastCursor().getScopeDescriptor().getScopesArray()
     currentScope = scopes[scopes.length - 1]
 
     # Use the current cursor scope if available. If the current scope is a
@@ -33,11 +33,11 @@ plugin = module.exports =
     plugin.search(text, sensitive)
 
   contextMenu: () ->
-    plugin.search(atom.workspace.getActiveEditor().getWordUnderCursor(), true)
+    plugin.search(atom.workspace.getActiveTextEditor().getWordUnderCursor(), true)
 
   search: (string, sensitive) ->
     if sensitive
-      language = atom.workspace.getActiveEditor().getGrammar().name
+      language = atom.workspace.getActiveTextEditor().getGrammar().name
 
     spawn('open', ['-g', @createLink(string, language)])
 

@@ -1,3 +1,25 @@
+## 2.21.0
+* Update BufferedProcess API
+* Addressed deprecations from the Atom API
+* Use the new Path API
+
+## 2.20.0
+* Add OCaml support
+* :checkered_flag: Enhance selection based Lua support
+
+## 2.19.0
+* Add Racket support
+* Add Forth support
+
+## 2.18.0
+* Fixed scrolling with output
+
+## 2.17.1
+* Updates keyboard shortcuts for running in Windows
+
+## 2.17.0
+* TODO...
+
 ## 2.16.0
 * Add D support
 * Add Rust support

@@ -17,7 +17,10 @@
 # If you are unfamiliar with CSON, you can read more about it here:
 # https://github.com/bevry/cson#what-is-cson
 
-'.source.jinja, .text.html.jinja':
+'.text.html.basic, .source.html, .source.jinja, .text.html.jinja':
+    'Block':
+        'prefix': 'block'
+        'body': '{% block ${1:name} %}\n\t$2\n{% endblock %}'
     'Complete Block':
         'prefix': '{%'
         'body': '{%- $0 -%}'
@@ -35,16 +38,16 @@
         'body': '{%- for ${1:item} in ${2:sequence} -%}\n\t$3\n{%- endfor -%}'
     'If':
         'prefix': 'if'
-        'body': '{%- if ${1:expr} -%}\n\t$2\n{%- endif -%}'
+        'body': '{%- if ${1:expr} -%}$2{%- endif -%}'
     'Macro':
         'prefix': 'macro'
         'body': '{%- macro ${1:name}(${2:args}) -%}\n\t$3\n{%- endmacro -%}'
-    'Td':
-        'prefix': 'td'
+    'CallTd':
+        'prefix': 'tdcall'
         'body': '{%- call td() -%}$1{%- endcall -%}'
     'call':
         'prefix': 'call'
-        'body': '{%- call $1 -%}$2{%- endcall -%}'
+        'body': '{%- call $1() -%}$2{%- endcall -%}'
     'set':
         'prefix': 'set'
         'body': '{%- set $1 = $2 -%}'
@@ -53,7 +56,7 @@
         'body': '{%- with -%}\n\t$1\n{%- endwith -%}'
     'img':
         'prefix': 'img'
-        'body': '<img src="{{ g.image_base }}$1"${2: width="\{\{ fit_size($3) \}\}"}${4: height="\{\{ fit_size($5) \}\}"} />'
+        'body': '<img src="{{ g.image_base }}$1"${2: width="\{\{ fit_size($3) \\}\\}"}${4: height="\{\{ fit_size($5) \\}\\}"} />'
     'br':
         'prefix': 'br'
         'body': '<br />'
@@ -71,7 +74,7 @@
         'body': '{{ $1|space|safe }}'
     'spanc':
         'prefix': 'spanc'
-        'body': '<span style="color:$1">$2</span>'
+        'body': '<span class="$1">$2</span>'
     'spans':
         'prefix': 'spans'
         'body': '<span style="$1">$2</span>'

@@ -7,26 +7,40 @@ tagPattern = /<([a-zA-Z][-a-zA-Z]*)(?:\s|$)/
 
 module.exports =
   selector: '.text.html'
+  disableForSelector: '.text.html .comment, .text.html .string'
+  filterSuggestions: true
 
   getSuggestions: (request) ->
+    {prefix} = request
     if @isAttributeValueStartWithNoPrefix(request)
-      @getAllAttributeValueCompletions(request)
-    else if @isAttributeValueStartWithPrefix(request)
       @getAttributeValueCompletions(request)
+    else if @isAttributeValueStartWithPrefix(request)
+      @getAttributeValueCompletions(request, prefix)
     else if @isAttributeStartWithNoPrefix(request)
-      @getAllAttributeNameCompletions(request)
-    else if @isAttributeStartWithPrefix(request)
       @getAttributeNameCompletions(request)
+    else if @isAttributeStartWithPrefix(request)
+      @getAttributeNameCompletions(request, prefix)
     else if @isTagStartWithNoPrefix(request)
-      @getAllTagNameCompletions()
+      @getTagNameCompletions()
     else if @isTagStartTagWithPrefix(request)
-      @getTagNameCompletions(request)
+      @getTagNameCompletions(prefix)
     else
       []
 
+  onDidInsertSuggestion: ({editor, suggestion}) ->
+    setTimeout(@triggerAutocomplete.bind(this, editor), 1) if suggestion.type is 'attribute'
+
+  triggerAutocomplete: (editor) ->
+    atom.commands.dispatch(atom.views.getView(editor), 'autocomplete-plus:activate', activatedManually: false)
+
   isTagStartWithNoPrefix: ({prefix, scopeDescriptor}) ->
     scopes = scopeDescriptor.getScopesArray()
-    prefix is '<' and scopes.length is 1 and scopes[0] is 'text.html.basic'
+    if prefix is '<' and scopes.length is 1
+      scopes[0] is 'text.html.basic'
+    else if prefix is '<' and scopes.length is 2
+      scopes[0] is 'text.html.basic' and scopes[1] is 'meta.scope.outside-tag.html'
+    else
+      false
 
   isTagStartTagWithPrefix: ({prefix, scopeDescriptor}) ->
     return false unless prefix
@@ -71,58 +85,64 @@ module.exports =
     scopes.indexOf('string.quoted.double.html') isnt -1 or
       scopes.indexOf('string.quoted.single.html') isnt -1
 
-  getAllTagNameCompletions: ->
+  getTagNameCompletions: (prefix) ->
     completions = []
-    for tag, attributes of @completions.tags
-      completions.push({text: tag, replacementPrefix: ''})
+    for tag, attributes of @completions.tags when not prefix or firstCharsEqual(tag, prefix)
+      completions.push(@buildTagCompletion(tag))
     completions
 
-  getTagNameCompletions: ({prefix}) ->
+  buildTagCompletion: (tag) ->
+    text: tag
+    type: 'tag'
+    description: "HTML <#{tag}> tag"
+    descriptionMoreURL: @getTagDocsURL(tag)
+
+  getAttributeNameCompletions: ({editor, bufferPosition}, prefix) ->
     completions = []
-    lowerCasePrefix = prefix.toLowerCase()
-    for tag, attributes of @completions.tags when tag.indexOf(lowerCasePrefix) is 0
-      completions.push({text: tag, replacementPrefix: prefix})
-    completions
+    tag = @getPreviousTag(editor, bufferPosition)
+    tagAttributes = @getTagAttributes(tag)
 
-  getAllAttributeNameCompletions: ({editor, bufferPosition}) ->
-    completions = []
+    for attribute in tagAttributes when not prefix or firstCharsEqual(attribute, prefix)
+      completions.push(@buildAttributeCompletion(attribute, tag))
 
-    for attribute, options of @completions.attributes
-      completions.push({text: attribute, replacementPrefix: ''}) if options.global
-
-    tagAttributes = @getTagAttributes(editor, bufferPosition)
-    for attribute in tagAttributes
-      completions.push({text: attribute, replacementPrefix: ''})
-
-    completions
-
-  getAttributeNameCompletions: ({editor, bufferPosition, prefix}) ->
-    completions = []
-
-    lowerCasePrefix = prefix.toLowerCase()
-    for attribute, options of @completions.attributes when attribute.indexOf(lowerCasePrefix) is 0
-      completions.push({text: attribute, replacementPrefix: prefix}) if options.global
-
-    tagAttributes = @getTagAttributes(editor, bufferPosition)
-    for attribute in tagAttributes when attribute.indexOf(lowerCasePrefix) is 0
-      completions.push({text: attribute, replacementPrefix: prefix})
+    for attribute, options of @completions.attributes when not prefix or firstCharsEqual(attribute, prefix)
+      completions.push(@buildAttributeCompletion(attribute)) if options.global
 
     completions
 
-  getAllAttributeValueCompletions: ({editor, bufferPosition}) ->
-    completions = []
-    values = @getAttributeValues(editor, bufferPosition)
-    for value in values
-      completions.push({text: value, replacementPrefix: ''})
-    completions
+  buildAttributeCompletion: (attribute, tag) ->
+    if tag?
+      snippet: "#{attribute}=\"$1\"$0"
+      displayText: attribute
+      type: 'attribute'
+      rightLabel: "<#{tag}>"
+      description: "#{attribute} attribute local to <#{tag}> tags"
+      descriptionMoreURL: @getLocalAttributeDocsURL(attribute, tag)
+    else
+      snippet: "#{attribute}=\"$1\"$0"
+      displayText: attribute
+      type: 'attribute'
+      description: "Global #{attribute} attribute"
+      descriptionMoreURL: @getGlobalAttributeDocsURL(attribute)
 
-  getAttributeValueCompletions: ({editor, bufferPosition, prefix}) ->
-    completions = []
-    values = @getAttributeValues(editor, bufferPosition)
-    lowerCasePrefix = prefix.toLowerCase()
-    for value in values when value.indexOf(lowerCasePrefix) is 0
-      completions.push({text: value, replacementPrefix: prefix})
-    completions
+  getAttributeValueCompletions: ({editor, bufferPosition}, prefix) ->
+    tag = @getPreviousTag(editor, bufferPosition)
+    attribute = @getPreviousAttribute(editor, bufferPosition)
+    values = @getAttributeValues(attribute)
+    for value in values when not prefix or firstCharsEqual(value, prefix)
+      @buildAttributeValueCompletion(tag, attribute, value)
+
+  buildAttributeValueCompletion: (tag, attribute, value) ->
+    if @completions.attributes[attribute].global
+      text: value
+      type: 'value'
+      description: "#{value} value for global #{attribute} attribute"
+      descriptionMoreURL: @getGlobalAttributeDocsURL(attribute)
+    else
+      text: value
+      type: 'value'
+      description: "#{value} value for #{attribute} attribute local to <#{tag}>"
+      descriptionMoreURL: @getLocalAttributeDocsURL(attribute, tag)
 
   loadCompletions: ->
     @completions = {}
@@ -148,10 +168,21 @@ module.exports =
 
     attributePattern.exec(line)?[1]
 
-  getAttributeValues: (editor, bufferPosition) ->
-    attribute = @completions.attributes[@getPreviousAttribute(editor, bufferPosition)]
+  getAttributeValues: (attribute) ->
+    attribute = @completions.attributes[attribute]
     attribute?.attribOption ? []
 
-  getTagAttributes: (editor, bufferPosition) ->
-    tag = @getPreviousTag(editor, bufferPosition)
+  getTagAttributes: (tag) ->
     @completions.tags[tag]?.attributes ? []
+
+  getTagDocsURL: (tag) ->
+    "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/#{tag}"
+
+  getLocalAttributeDocsURL: (attribute, tag) ->
+    "#{@getTagDocsURL(tag)}#attr-#{attribute}"
+
+  getGlobalAttributeDocsURL: (attribute) ->
+    "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/#{attribute}"
+
+firstCharsEqual = (str1, str2) ->
+  str1[0].toLowerCase() is str2[0].toLowerCase()

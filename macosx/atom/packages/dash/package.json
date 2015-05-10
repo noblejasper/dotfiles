@@ -1,7 +1,7 @@
 {
   "name": "dash",
   "main": "./lib/dash",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "Dash documentation integration with Atom",
   "repository": {
@@ -9,6 +9,13 @@
     "url": "https://github.com/blakeembrey/atom-dash"
   },
   "license": "MIT",
+  "activationCommands": {
+    "atom-text-editor": [
+      "dash:shortcut",
+      "dash:shortcut-alt",
+      "dash:context-menu"
+    ]
+  },
   "engines": {
     "atom": ">0.50.0"
   },
@@ -26,10 +33,10 @@
     "url": "https://github.com/blakeembrey/atom-dash/issues"
   },
   "homepage": "https://github.com/blakeembrey/atom-dash",
-  "_id": "dash@1.1.0",
-  "_shasum": "71719a511e94e259f54d9b9e30c57614c15140e6",
-  "_resolved": "file:../d-115310-7732-1m0hma8/package.tgz",
-  "_from": "../d-115310-7732-1m0hma8/package.tgz",
+  "_id": "dash@1.1.1",
+  "_shasum": "2b65f2634367bc1f3892f511b52c004ed936f4f7",
+  "_resolved": "file:../d-115323-92987-e1j89f/package.tgz",
+  "_from": "../d-115323-92987-e1j89f/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],

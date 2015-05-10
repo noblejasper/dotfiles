@@ -31,7 +31,7 @@ describe 'Autocomplete', ->
         autocompleteManager = mainModule.autocompleteManager
 
       runs ->
-        advanceClock(mainModule.autocompleteManager.providerManager.fuzzyProvider.deferBuildWordListInterval)
+        advanceClock(mainModule.autocompleteManager.providerManager.defaultProvider.deferBuildWordListInterval)
         editorView = atom.views.getView(editor)
 
     describe 'where many cursors are defined', ->
@@ -46,7 +46,6 @@ describe 'Autocomplete', ->
 
         runs ->
           editorView = atom.views.getView(editor)
-          console.log editorView.classList
           autocompleteManager = mainModule.autocompleteManager
           expect(editorView.querySelector('.autocomplete-plus')).toExist()
 

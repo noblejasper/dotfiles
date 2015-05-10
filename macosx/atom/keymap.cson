@@ -26,3 +26,11 @@
 'atom-text-editor':
   'cmd-h': 'dash:shortcut'
   'cmd-alt-h': 'dash:shortcut-alt'
+'.platform-darwin':
+  'alt-g': 'go-to-line:toggle'
+'atom-text-editor:not(mini).autocomplete-active':
+  'enter': 'autocomplete-plus:confirm'
+  'up': 'unset!'
+  'down': 'unset!'
+  'ctrl-p': 'core:move-up'
+  'ctrl-n': 'core:move-down'

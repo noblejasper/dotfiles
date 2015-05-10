@@ -58,9 +58,12 @@ describe "HTML autocompletions", ->
 
     completions = getCompletions()
     expect(completions.length).toBe 112
+    expect(completions[0].descriptionMoreURL.endsWith('/HTML/Element/a')).toBe true
 
     for completion in completions
       expect(completion.text.length).toBeGreaterThan 0
+      expect(completion.description.length).toBeGreaterThan 0
+      expect(completion.type).toBe 'tag'
 
   it "autocompletes tag names with a prefix", ->
     editor.setText('<d')
@@ -70,7 +73,8 @@ describe "HTML autocompletions", ->
     expect(completions.length).toBe 9
 
     expect(completions[0].text).toBe 'datalist'
-    expect(completions[0].replacementPrefix).toBe 'd'
+    expect(completions[0].type).toBe 'tag'
+    expect(completions[0].descriptionMoreURL.endsWith('/HTML/Element/datalist')).toBe true
     expect(completions[1].text).toBe 'dd'
     expect(completions[2].text).toBe 'del'
     expect(completions[3].text).toBe 'details'
@@ -87,7 +91,7 @@ describe "HTML autocompletions", ->
     expect(completions.length).toBe 9
 
     expect(completions[0].text).toBe 'datalist'
-    expect(completions[0].replacementPrefix).toBe 'D'
+    expect(completions[0].type).toBe 'tag'
     expect(completions[1].text).toBe 'dd'
     expect(completions[2].text).toBe 'del'
     expect(completions[3].text).toBe 'details'
@@ -103,18 +107,27 @@ describe "HTML autocompletions", ->
 
     completions = getCompletions()
     expect(completions.length).toBe 69
+    expect(completions[0].descriptionMoreURL.endsWith('/HTML/Global_attributes/accesskey')).toBe true
 
     for completion in completions
-      expect(completion.text.length).toBeGreaterThan 0
+      expect(completion.snippet.length).toBeGreaterThan 0
+      expect(completion.displayText.length).toBeGreaterThan 0
+      expect(completion.description.length).toBeGreaterThan 0
+      expect(completion.type).toBe 'attribute'
 
     editor.setText('<marquee ')
     editor.setCursorBufferPosition([0, 9])
 
     completions = getCompletions()
     expect(completions.length).toBe 81
+    expect(completions[0].rightLabel).toBe '<marquee>'
+    expect(completions[0].descriptionMoreURL.endsWith('/HTML/Element/marquee#attr-align')).toBe true
 
     for completion in completions
-      expect(completion.text.length).toBeGreaterThan 0
+      expect(completion.snippet.length).toBeGreaterThan 0
+      expect(completion.displayText.length).toBeGreaterThan 0
+      expect(completion.description.length).toBeGreaterThan 0
+      expect(completion.type).toBe 'attribute'
 
   it "autocompletes attribute names with a prefix", ->
     editor.setText('<div c')
@@ -123,10 +136,11 @@ describe "HTML autocompletions", ->
     completions = getCompletions()
     expect(completions.length).toBe 3
 
-    expect(completions[0].text).toBe 'class'
-    expect(completions[0].replacementPrefix).toBe 'c'
-    expect(completions[1].text).toBe 'contenteditable'
-    expect(completions[2].text).toBe 'contextmenu'
+    expect(completions[0].snippet).toBe 'class="$1"$0'
+    expect(completions[0].displayText).toBe 'class'
+    expect(completions[0].type).toBe 'attribute'
+    expect(completions[1].displayText).toBe 'contenteditable'
+    expect(completions[2].displayText).toBe 'contextmenu'
 
     editor.setText('<div C')
     editor.setCursorBufferPosition([0, 6])
@@ -134,10 +148,9 @@ describe "HTML autocompletions", ->
     completions = getCompletions()
     expect(completions.length).toBe 3
 
-    expect(completions[0].text).toBe 'class'
-    expect(completions[0].replacementPrefix).toBe 'C'
-    expect(completions[1].text).toBe 'contenteditable'
-    expect(completions[2].text).toBe 'contextmenu'
+    expect(completions[0].displayText).toBe 'class'
+    expect(completions[1].displayText).toBe 'contenteditable'
+    expect(completions[2].displayText).toBe 'contextmenu'
 
     editor.setText('<div c>')
     editor.setCursorBufferPosition([0, 6])
@@ -145,9 +158,9 @@ describe "HTML autocompletions", ->
     completions = getCompletions()
     expect(completions.length).toBe 3
 
-    expect(completions[0].text).toBe 'class'
-    expect(completions[1].text).toBe 'contenteditable'
-    expect(completions[2].text).toBe 'contextmenu'
+    expect(completions[0].displayText).toBe 'class'
+    expect(completions[1].displayText).toBe 'contenteditable'
+    expect(completions[2].displayText).toBe 'contextmenu'
 
     editor.setText('<div c></div>')
     editor.setCursorBufferPosition([0, 6])
@@ -155,31 +168,41 @@ describe "HTML autocompletions", ->
     completions = getCompletions()
     expect(completions.length).toBe 3
 
-    expect(completions[0].text).toBe 'class'
-    expect(completions[1].text).toBe 'contenteditable'
-    expect(completions[2].text).toBe 'contextmenu'
+    expect(completions[0].displayText).toBe 'class'
+    expect(completions[1].displayText).toBe 'contenteditable'
+    expect(completions[2].displayText).toBe 'contextmenu'
 
     editor.setText('<marquee di')
     editor.setCursorBufferPosition([0, 12])
 
     completions = getCompletions()
-    expect(completions.length).toBe 2
-
-    expect(completions[0].text).toBe 'dir'
-    expect(completions[1].text).toBe 'direction'
+    expect(completions[0].displayText).toBe 'direction'
+    expect(completions[1].displayText).toBe 'dir'
 
     editor.setText('<marquee dI')
     editor.setCursorBufferPosition([0, 12])
 
     completions = getCompletions()
-    expect(completions.length).toBe 2
-
-    expect(completions[0].text).toBe 'dir'
-    expect(completions[1].text).toBe 'direction'
+    expect(completions[0].displayText).toBe 'direction'
+    expect(completions[1].displayText).toBe 'dir'
 
   it "autocompletes attribute values without a prefix", ->
-    editor.setText('<div behavior=""')
-    editor.setCursorBufferPosition([0, 15])
+    editor.setText('<marquee behavior=""')
+    editor.setCursorBufferPosition([0, 19])
+
+    completions = getCompletions()
+    expect(completions.length).toBe 3
+
+    console.log completions[0].descriptionMoreURL
+    expect(completions[0].text).toBe 'scroll'
+    expect(completions[0].type).toBe 'value'
+    expect(completions[0].description.length).toBeGreaterThan 0
+    expect(completions[0].descriptionMoreURL.endsWith('/HTML/Element/marquee#attr-behavior')).toBe true
+    expect(completions[1].text).toBe 'slide'
+    expect(completions[2].text).toBe 'alternate'
+
+    editor.setText('<marquee behavior="')
+    editor.setCursorBufferPosition([0, 19])
 
     completions = getCompletions()
     expect(completions.length).toBe 3
@@ -188,8 +211,8 @@ describe "HTML autocompletions", ->
     expect(completions[1].text).toBe 'slide'
     expect(completions[2].text).toBe 'alternate'
 
-    editor.setText('<div behavior="')
-    editor.setCursorBufferPosition([0, 15])
+    editor.setText('<marquee behavior=\'')
+    editor.setCursorBufferPosition([0, 19])
 
     completions = getCompletions()
     expect(completions.length).toBe 3
@@ -198,18 +221,8 @@ describe "HTML autocompletions", ->
     expect(completions[1].text).toBe 'slide'
     expect(completions[2].text).toBe 'alternate'
 
-    editor.setText('<div behavior=\'')
-    editor.setCursorBufferPosition([0, 15])
-
-    completions = getCompletions()
-    expect(completions.length).toBe 3
-
-    expect(completions[0].text).toBe 'scroll'
-    expect(completions[1].text).toBe 'slide'
-    expect(completions[2].text).toBe 'alternate'
-
-    editor.setText('<div behavior=\'\'')
-    editor.setCursorBufferPosition([0, 15])
+    editor.setText('<marquee behavior=\'\'')
+    editor.setCursorBufferPosition([0, 19])
 
     completions = getCompletions()
     expect(completions.length).toBe 3
@@ -226,7 +239,7 @@ describe "HTML autocompletions", ->
     expect(completions.length).toBe 6
 
     expect(completions[0].text).toBe 'eu'
-    expect(completions[0].replacementPrefix).toBe 'e'
+    expect(completions[0].type).toBe 'value'
     expect(completions[1].text).toBe 'en'
     expect(completions[2].text).toBe 'eo'
     expect(completions[3].text).toBe 'et'
@@ -240,7 +253,6 @@ describe "HTML autocompletions", ->
     expect(completions.length).toBe 6
 
     expect(completions[0].text).toBe 'eu'
-    expect(completions[0].replacementPrefix).toBe 'E'
     expect(completions[1].text).toBe 'en'
     expect(completions[2].text).toBe 'eo'
     expect(completions[3].text).toBe 'et'
@@ -259,3 +271,15 @@ describe "HTML autocompletions", ->
     expect(completions[3].text).toBe 'et'
     expect(completions[4].text).toBe 'el'
     expect(completions[5].text).toBe 'es'
+
+  it "triggers autocomplete when an attibute has been inserted", ->
+    spyOn(atom.commands, 'dispatch')
+    suggestion = {type: 'attribute', text: 'whatever'}
+    provider.onDidInsertSuggestion({editor, suggestion})
+
+    advanceClock 1
+    expect(atom.commands.dispatch).toHaveBeenCalled()
+
+    args = atom.commands.dispatch.mostRecentCall.args
+    expect(args[0].tagName.toLowerCase()).toBe 'atom-text-editor'
+    expect(args[1]).toBe 'autocomplete-plus:activate'

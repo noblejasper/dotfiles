@@ -1,7 +1,7 @@
 {
   "name": "autocomplete-snippets",
   "main": "./lib/autocomplete-snippets",
-  "version": "1.2.0",
+  "version": "1.5.1",
   "description": "Adds snippets to autocomplete+ suggestions",
   "repository": {
     "type": "git",
@@ -33,10 +33,10 @@
     "url": "https://github.com/atom-community/autocomplete-snippets/issues"
   },
   "homepage": "https://github.com/atom-community/autocomplete-snippets",
-  "_id": "autocomplete-snippets@1.2.0",
-  "_shasum": "d26b1c7b08077a70f0a5429b1c5d2a570aeb3a7c",
-  "_resolved": "file:../d-115310-5085-1fdhamj/package.tgz",
-  "_from": "../d-115310-5085-1fdhamj/package.tgz",
+  "_id": "autocomplete-snippets@1.5.1",
+  "_shasum": "7803b7e27e814c4b3b9db487601d0eaedf58b373",
+  "_resolved": "file:../d-11549-27632-1mu50lx/package.tgz",
+  "_from": "../d-11549-27632-1mu50lx/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -182,7 +182,7 @@
       },
       {
         "name": "wordwrap",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "path": "node_modules/season/node_modules/optimist/node_modules/wordwrap/index.js"
       },
       {

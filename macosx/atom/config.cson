@@ -18,7 +18,6 @@
     disabledPackages: [
       "atom-alignment"
       "language-csharp"
-      "merge-conflicts"
       "sort-lines"
     ]
   editor:
@@ -27,7 +26,7 @@
     preferredLineLength: 130
     softWrap: true
     tabLength: 4
-    fontSize: 25
+    fontSize: 19
     useShadowDOM: false
     ensure_newline_at_eof_on_save: true
     show_full_path: true
@@ -60,3 +59,18 @@
   "git-plus": {}
   "japanese-wrap":
     characterWidth: {}
+".basic.html.text":
+  editor:
+    preferredLineLength: 130
+".js.regexp.source":
+  editor:
+    preferredLineLength: 130
+".html.jinja.text":
+  editor:
+    preferredLineLength: 130
+".js.source":
+  editor:
+    preferredLineLength: 130
+".jinja.source":
+  editor:
+    preferredLineLength: 130
