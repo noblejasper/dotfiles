@@ -18,6 +18,7 @@
 
 (el-get 'sync
         '(
+          exec-path-from-shell
           ;; el-get
           powerline
           powerline-themes
