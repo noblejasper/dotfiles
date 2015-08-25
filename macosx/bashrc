@@ -12,20 +12,21 @@ shopt -s checkwinsize
 # alias
 export EDITOR=vim
 export GIT_EDITOR=vim
-export IGNOREEOF=2 # 間違ってCtl+dしても3回は許してくれる
+export IGNOREEOF=1 # 間違ってCtl+dしても3回は許してくれる
 export FIGNORE=".bak:.o:~:.pyc" # 補完時に無視するsuffix
-export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' 
+export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  '
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoreboth # 最後のhistと一緒は無視＆最初がスペースも無視
 export HISTIGNORE=?:??:???:exit
-export SCREENDIR=$HOME/.screendir
 export HISTSIZE=10000000000000  # 履歴のMAX保存数を指定
 # go
 export GOPATH=~/gocode
 
 # PATH
-export PATH="$(brew --prefix coreutils)/libexec/gnubin:~/.bin:/usr/local/bin:/usr/local/sbin:~/.bin/mongodb:$PATH"
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:~/.bin:/usr/local/bin:/usr/local/sbin:~/.bin/mongodb:~/.composer/vendor/bin:$PATH"
 export MANPATH="$(brew --prefix coreutils)/libexec/gnuman:$MANPATH"
-eval "$(hub alias -s)"
+
+#hub
+if which hub > /dev/null; then eval "$(hub alias -s)"; else echo "please 'brew install hub'" ; fi
 
 #pyenv
 export PYENV_ROOT=/usr/local/opt/pyenv
@@ -41,13 +42,14 @@ function share_history {  # 以下の内容を関数として定義
 export PROMPT_COMMAND='share_history'  # 上記関数をプロンプト毎に自動実施
 
 # Homebrew Cask
-export HOMEBREW_CASK_OPTS="--appdir=/Applications --caskroom=/usr/local/Caskroom" 
+export HOMEBREW_CASK_OPTS="--appdir=/Applications --caskroom=/usr/local/Caskroom"
 # Homebrew bash-completion
 if [ -f `brew --prefix`/etc/bash_completion ]; then
   . `brew --prefix`/etc/bash_completion
 else
     echo "Unknwon brew bash_completion! please 'brew install bash-completion'."
 fi
+
 if [ -f $BASH_COMPLETION_DIR/git-completion.bash ]; then
     PS1='\[\e[0;37m\]${NAME}\[\e[0;37m\][\t]\[\e[0;37m\]: \[\e[1;37m\]\w\n\[\e[1;33m\]h:\! j:\j\[\e[0;36m\]$(__git_ps1) \[\e[0;34m\]\$\[\e[m\] '
 else
@@ -71,4 +73,11 @@ if [ "`echo $BASH_VERSION | cut -b 1`" -eq "4" ]; then
     shopt -s globstar # サブディレクトリを再帰的にファイル検索するglobstar
     shopt -s cdspell  # cdするときディレクトリ名をよしなに修正する。
     export PROMPT_DIRTRIM=3 # PS1が短くなる
+fi
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+# enhancd
+if [ -f "/Users/jasper/.enhancd/bash/enhancd.bash" ]; then
+    source "/Users/jasper/.enhancd/bash/enhancd.bash"
 fi

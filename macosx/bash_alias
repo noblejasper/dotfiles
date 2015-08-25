@@ -6,11 +6,10 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias j='jobs'
-alias py='bpython'
 alias pyac='pyenv activate'
 alias e='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
 
-## for git 
+## for git
 function current_branch {
       ref=$(git symbolic-ref HEAD 2> /dev/null) || return
         echo ${ref#refs/heads/}
