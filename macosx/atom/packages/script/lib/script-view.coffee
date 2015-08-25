@@ -233,7 +233,6 @@ class ScriptView extends View
     @stop()
 
   run: (command, extraArgs, codeContext) ->
-    atom.emit 'achievement:unlock', msg: 'Homestar Runner'
     startTime = new Date()
 
     # Default to where the user opened atom
@@ -269,7 +268,7 @@ class ScriptView extends View
       @output.append $$ ->
         @h1 'Unable to run'
         @pre _.escape command
-        @h2 'Is it on your path?'
+        @h2 'Is it in your PATH?'
         @pre "PATH: #{_.escape process.env.PATH}"
       nodeError.handle()
 

@@ -2,11 +2,11 @@
 
 [![Build status][travis-image]][travis-url]
 
-Simple [Dash](http://kapeli.com/dash) documentation integration for [Atom](https://atom.io/packages/dash).
+> Simple [Dash](http://kapeli.com/dash) documentation integration for [Atom](https://atom.io/packages/dash).
 
 ## Installation
 
-```sh
+```
 apm install dash
 ```
 
@@ -16,9 +16,11 @@ Alternatively open `Preferences -> Packages` and search for `dash`.
 
 Look up the word under the current cursor or any selected text by pressing `ctrl-h`. By default, this will cause a syntax sensitive search (E.g. it'll search based on the current file type). If you want to search all documentation, press `ctrl-alt-h`.
 
+**Please note:** This plugin will work also with Velocity on Windows and Zeal on Mac.
+
 ### Adding additional docsets
 
-Open the Atom config file `Atom -> Open Your Config` and add the docsets under `dash.grammars` object in the form of `language: [docset, docset]`. For example:
+Open the Atom config file `Atom -> Open Your Config` and add the docsets under the `dash` object in the following form:
 
 ```cson
 'dash':
@@ -26,9 +28,15 @@ Open the Atom config file `Atom -> Open Your Config` and add the docsets under `
     'JavaScript': [
       'nodejs'
     ]
+  'filenames':
+    'gruntfile.js': [
+      'grunt'
+    ]
 ```
 
-Docsets defined in your local configuration will override the default settings. Take a look at the [built-in map file](https://github.com/blakeembrey/atom-dash/blob/master/lib/map.coffee) for the default docset configuration.
+**Please note:** File names _must_ be lower case.
+
+Docsets defined in your local configuration will override the default settings. Take a look at the [built-in grammar map](https://github.com/blakeembrey/atom-dash/blob/master/lib/grammar-map.coffee) and [built-in filename map](https://github.com/blakeembrey/atom-dash/blob/master/lib/filename-map.coffee) for the default configurations.
 
 ## License
 

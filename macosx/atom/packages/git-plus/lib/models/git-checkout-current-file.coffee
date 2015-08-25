@@ -1,12 +1,13 @@
 git = require '../git'
-StatusView = require '../views/status-view'
+notifier = require '../notifier'
 
-gitCheckoutCurrentFile = ->
-  currentFile = git.relativize(atom.workspace.getActiveTextEditor()?.getPath())
+gitCheckoutCurrentFile = (repo)->
+  currentFile = repo.relativize(atom.workspace.getActiveTextEditor()?.getPath())
   git.cmd
-    args: ['checkout', '--', currentFile],
-    stdout: (data) ->
-      new StatusView(type: 'success', message: data.toString())
-      git.getRepo()?.refreshStatus?()
+    args: ['checkout', '--', currentFile]
+    cwd: repo.getWorkingDirectory()
+    stdout: (data) -> # There is no output from this command
+      notifier.addSuccess 'File changes checked out successfully'
+      git.refresh()
 
 module.exports = gitCheckoutCurrentFile

@@ -1,12 +1,25 @@
-map = require('./map')
-spawn = require('child_process').spawn
+basename = require('path').basename
+exec = require('child_process').exec
+platform = require('process').platform
+grammarMap = require('./grammar-map')
+filenameMap = require('./filename-map')
 
 plugin = module.exports =
+  # Use an empty config by default since Atom fails to populate the settings
+  # view corretly with pre-defined properties.
+  config:
+    grammars:
+      type: 'object'
+      properties: {}
+    filenames:
+      type: 'object'
+      properties: {}
+
   activate: () ->
     atom.commands.add('atom-text-editor', {
-      'dash:shortcut': @shortcut,
-      'dash:shortcut-alt': @shortcut.bind(@, false),
-      'dash:context-menu': @contextMenu
+      'dash:shortcut': () => @shortcut(true),
+      'dash:shortcut-alt': () => @shortcut(false),
+      'dash:context-menu': () => @shortcut(true)
     })
 
   shortcut: (sensitive) ->
@@ -21,36 +34,73 @@ plugin = module.exports =
     scopes = editor.getLastCursor().getScopeDescriptor().getScopesArray()
     currentScope = scopes[scopes.length - 1]
 
-    # Use the current cursor scope if available. If the current scope is a
-    # string, comment or not available, get the current word under the cursor.
-    # Ignore: comment (any), string (any), meta (html), markup (md).
-    if scopes.length > 1 && !/^(?:comment|string|meta|markup)(?:\.|$)/.test(currentScope)
-      range = editor.bufferRangeForScopeAtCursor(currentScope)
+    # Search using the current cursor word when the scope is a string,
+    # comment, meta (HTML) or markup (MD), or when there is no active scope.
+    if scopes.length < 2 or /^(?:comment|string|meta|markup)(?:\.|$)/.test(currentScope)
+      return plugin.search(editor.getWordUnderCursor(), sensitive)
+
+    range = editor.bufferRangeForScopeAtCursor(currentScope)
+
+    # Sometimes the range is unavailable. Fallback to the current word.
+    if range?
       text = editor.getTextInBufferRange(range)
     else
       text = editor.getWordUnderCursor()
 
     plugin.search(text, sensitive)
 
-  contextMenu: () ->
-    plugin.search(atom.workspace.getActiveTextEditor().getWordUnderCursor(), true)
+  search: (string, sensitive, cb) ->
+    activeEditor = atom.workspace.getActiveTextEditor()
 
-  search: (string, sensitive) ->
-    if sensitive
-      language = atom.workspace.getActiveTextEditor().getGrammar().name
+    if sensitive and activeEditor
+      path = activeEditor.getPath()
+      language = activeEditor.getGrammar().name
 
-    spawn('open', ['-g', @createLink(string, language)])
+    cmd = @getCommand(string, path, language)
 
-  createLink: (string, language) ->
-    # Attempt to pull default configuration from the user config. If this
-    # does not exist, fall back to the default language map.
+    # Exec is used because spawn escapes arguments that contain double-quotes
+    # and replaces them with backslashes. This interferes with the ability to
+    # properly create the child process in windows, since windows will barf
+    # on an ampersand that is not contained in double-quotes.
+    return exec(cmd, cb)
+
+  getCommand: (string, path, language) ->
+    if platform == 'win32'
+      return 'cmd.exe /c start "" "' + @getDashURI(string, path, language) + '"'
+
+    if platform == 'linux'
+      return @getZealCommand(string, path, language)
+
+    return 'open -g "' + @getDashURI(string, path, language) + '"'
+
+  getKeywordString: (path, language) ->
+    keys = []
+
+    if path
+      filename = basename(path).toLowerCase()
+      filenameConfig = atom.config.get('dash.filenames') || {}
+      keys = keys.concat(filenameConfig[filename] || filenameMap[filename] || [])
+
     if language
-      keys = atom.config.get('dash.grammars.' + language)
-      keys = map[language] if !keys
+      grammarConfig = atom.config.get('dash.grammars') || {}
+      keys = keys.concat(grammarConfig[language] || grammarMap[language] || [])
 
-    link = 'dash-plugin://'
+    return keys.map(encodeURIComponent).join(',') if keys.length
 
-    if keys?.length
-      link += 'keys=' + keys.map(encodeURIComponent).join(',') + '&'
+  getDashURI: (string, path, language) ->
+    link = 'dash-plugin://query=' + encodeURIComponent(string)
+    keywords = @getKeywordString(path, language)
 
-    link += 'query=' + encodeURIComponent(string)
+    if keywords
+      link += '&keys=' + keywords
+
+    return link
+
+  getZealCommand: (string, path, language) ->
+    query = string
+    keywords = @getKeywordString(path, language)
+
+    if keywords
+      query = keywords + ':' + query
+
+    return 'zeal --query "' + query + '"'

@@ -81,3 +81,8 @@
     'import':
         'prefix': 'import'
         'body': '{%- from "parts/$1.html" import ${2:link,fit_size} with context -%}'
+
+'source.python':
+    'utf':
+        'prefix': 'utf'
+        'body': '# -*- coding: utf-8 -*-'

@@ -1,0 +1,34 @@
+{
+  "name": "oceanic-reef-syntax",
+  "theme": "syntax",
+  "version": "0.6.0",
+  "description": "A brighter Oceanic syntax theme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeffschuil/oceanic-reef-syntax"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "readme": "# Oceanic Reef Theme\n\nA syntax theme for [Atom](https://atom.io/) based off the [Oceanic](https://github.com/memco/Oceanic-tmTheme) TextMate theme. Brighter blues and some other changes I've made over time. Recommended with One Dark UI.\n\n### Screenshots\n\n![screenshot](https://github.com/jeffschuil/oceanic-reef-syntax/raw/master/screenshots/screenshot_sass.png)\n\n![screenshot](https://github.com/jeffschuil/oceanic-reef-syntax/raw/master/screenshots/screenshot_rb.png)\n\n![screenshot](https://github.com/jeffschuil/oceanic-reef-syntax/raw/master/screenshots/screenshot_js.png)\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/jeffschuil/oceanic-reef-syntax/issues"
+  },
+  "homepage": "https://github.com/jeffschuil/oceanic-reef-syntax",
+  "_id": "oceanic-reef-syntax@0.6.0",
+  "_shasum": "91427591eef76479feaac7112c4f08a8a1adb50d",
+  "_resolved": "file:../d-115515-55315-1i7qode/package.tgz",
+  "_from": "../d-115515-55315-1i7qode/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

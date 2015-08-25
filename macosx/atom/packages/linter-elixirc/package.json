@@ -1,0 +1,40 @@
+{
+  "name": "linter-elixirc",
+  "version": "0.2.2",
+  "linter-package": true,
+  "main": "./lib/init",
+  "description": "Bare Minimum Elixir lint package",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AtomLinter/linter-elixirc"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {},
+  "readme": "# linter-elixirc\n\nThis linter plugin for [Linter](https://github.com/AtomLinter/Linter) provides an interface to elixirc. It will be used with files that have the \"source.elixir\" syntax.\n\nThere is a limitation with ElixirC that causes warnings not to be shown when there is a SyntaxError.\n\n## Installation\nLinter package must be installed in order to use this plugin. If Linter is not installed, please follow the instructions [here](https://github.com/AtomLinter/Linter).\n\n### Plugin installation\n```\n$ apm install linter-elixirc\n```\n\n## Settings\nYou can configure linter-elixirc by editing ~/.atom/config.cson (choose Open Your Config in Atom menu):\n\n```\n'linter-elixirc':\n  'elixircExecutablePath': null #elixirc path. run 'which elixirc' to find the path\n  'includeDirs': 'includes,other/paths' #comma seperated list of paths added with the -I flag\n\t'pa': '~/.ebin' #comma seperated list of paths added with the -pa flag.\n```\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/AtomLinter/linter-elixirc/issues"
+  },
+  "homepage": "https://github.com/AtomLinter/linter-elixirc",
+  "_id": "linter-elixirc@0.2.2",
+  "_shasum": "bc1c0d31a7e939f7d7ffd2a21a06382544858da9",
+  "_resolved": "file:../d-115428-6116-b5lxnu/package.tgz",
+  "_from": "../d-115428-6116-b5lxnu/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".coffee": [
+        "lib/init.coffee",
+        "lib/linter-elixirc.coffee"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

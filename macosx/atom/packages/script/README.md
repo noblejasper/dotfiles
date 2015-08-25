@@ -12,10 +12,12 @@ Currently supported grammars are:
   * Behat Feature
   * C <sup>[*](#asterisk)</sup><sup>[‡](#double-dagger)</sup>
   * C++ <sup>[*](#asterisk)</sup><sup>[‡](#double-dagger)</sup>
+  * C# Script <sup>[*](#asterisk)</sup>
   * Coffeescript
   * CoffeeScript (Literate) <sup>[^](#caret)</sup>
   * Cucumber (Gherkin) <sup>[*](#asterisk)</sup>
   * D <sup>[*](#asterisk)</sup>
+  * DOT (Graphviz)
   * Elixir
   * Erlang <sup>[†](#dagger)</sup>
   * F# <sup>[*](#asterisk)</sup>
@@ -23,8 +25,10 @@ Currently supported grammars are:
   * Go <sup>[*](#asterisk)</sup>
   * Groovy
   * Haskell
+  * Java
   * Javascript
   * Julia
+  * Kotlin
   * LilyPond
   * Lisp (via SBCL) <sup>[⍵](#omega)</sup>
   * Literate Haskell <sup>[*](#asterisk)</sup>
@@ -32,15 +36,19 @@ Currently supported grammars are:
   * Lua
   * Makefile
   * MoonScript
+  * MongoDB
+  * [NCL](http://www.ncl.ucar.edu/)<sup>[#](#hash)</sup>
   * newLISP
   * Objective-C <sup>[*](#asterisk)</sup><sup>[‡](#double-dagger)</sup>
   * Objective-C++ <sup>[*](#asterisk)</sup><sup>[‡](#double-dagger)</sup>
   * OCaml <sup>[*](#asterisk)</sup>
   * Perl
+  * Perl 6
   * PHP
   * Python
   * RSpec
   * Racket
+  * [RANT](https://github.com/TheBerkin/Rant)
   * Ruby
   * Ruby on Rails
   * Rust
@@ -63,6 +71,8 @@ You only have to add a few lines in a PR to support another.
 <a name="omega"></a><sup>⍵</sup> Lisp selection based runs are limited to single line
 
 <a name="double-dagger"></a><sup>‡</sup> C, C++, Objective-C, and Objective-C++ are currently only available for Mac OS X (where `process.platform is 'darwin'`). This is possible due to the commands `xcrun clang` and `xcrun clang++`. **NOTE**: Xcode and the Xcode command line tools are required to ensure `xcrun` and the correct compilers on your system.
+
+<a name="hash"></a><sup>#</sup> NCL scripts must end with `exit` command for file based runs
 
 ## Installation
 

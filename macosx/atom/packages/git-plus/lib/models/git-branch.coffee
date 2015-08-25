@@ -2,21 +2,16 @@
 {$, TextEditorView, View} = require 'atom-space-pen-views'
 
 git = require '../git'
-StatusView = require '../views/status-view'
+notifier = require '../notifier'
 BranchListView = require '../views/branch-list-view'
-
-module.exports.gitBranches = ->
-  git.cmd
-    args: ['branch'],
-    stdout: (data) ->
-      new BranchListView(data)
+RemoteBranchListView = require '../views/remote-branch-list-view'
 
 class InputView extends View
   @content: ->
     @div =>
       @subview 'branchEditor', new TextEditorView(mini: true, placeholderText: 'New branch name')
 
-  initialize: ->
+  initialize: (@repo) ->
     @disposables = new CompositeDisposable
     @currentPane = atom.workspace.getActivePane()
     panel = atom.workspace.addModalPanel(item: this)
@@ -38,11 +33,27 @@ class InputView extends View
 
   createBranch: (name) ->
     git.cmd
-      args: ['checkout', '-b', name],
-      stdout: (data) =>
-        new StatusView(type: 'success', message: data.toString())
-        git.getRepo()?.refreshStatus?()
+      args: ['checkout', '-b', name]
+      cwd: @repo.getWorkingDirectory()
+      # using `stderr` for success
+      stderr: (data) =>
+        notifier.addSuccess data.toString()
+        git.refresh()
         @currentPane.activate()
 
-module.exports.newBranch = ->
-  new InputView()
+module.exports.newBranch = (repo) ->
+  new InputView(repo)
+
+module.exports.gitBranches = (repo) ->
+  git.cmd
+    args: ['branch']
+    cwd: repo.getWorkingDirectory()
+    stdout: (data) ->
+      new BranchListView(repo, data)
+
+module.exports.gitRemoteBranches = (repo) ->
+  git.cmd
+    args: ['branch', '-r']
+    cwd: repo.getWorkingDirectory()
+    stdout: (data) ->
+      new RemoteBranchListView(repo, data)

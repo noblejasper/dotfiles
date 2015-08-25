@@ -19,19 +19,26 @@
       "atom-alignment"
       "language-csharp"
       "sort-lines"
+      "atom-color-highlight"
+      "language-elixir"
+      "linter-elixirc"
+      "autocomplete-elixir"
+      "symbols-tree-view"
     ]
   editor:
     invisibles: {}
     showIndentGuide: true
     preferredLineLength: 130
-    softWrap: true
     tabLength: 4
-    fontSize: 19
     useShadowDOM: false
     ensure_newline_at_eof_on_save: true
     show_full_path: true
     translate_tabs_to_spaces: true
     trim_trailing_white_space_on_save: true
+    fontFamily: "Ricty Diminished"
+    showInvisibles: true
+    softWrap: true
+    fontSize: 17
   "emacs-mode":
     hideTabs: false
     hideSidebar: false
@@ -41,6 +48,10 @@
   linter:
     lintOnChange: false
     statusBar: "Show error if the cursor is in range"
+    ignoredLinterErrors: [
+      "pyflakes"
+      "jshint"
+    ]
   "linter-python-pyflakes":
     pyflakesDirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
   "symbols-tree-view":
@@ -59,16 +70,47 @@
   "git-plus": {}
   "japanese-wrap":
     characterWidth: {}
+  "autocomplete-elixir": {}
+  "linter-elixirc":
+    elixircExecutablePath: "/usr/local/bin/"
+  "disable-keybindings":
+    prefixKeys: [
+      "ctrl-w"
+    ]
+    communityPackages: [
+      "Emmet"
+    ]
 ".basic.html.text":
   editor:
     preferredLineLength: 130
 ".js.regexp.source":
   editor:
     preferredLineLength: 130
+".elixir.html.text":
+  editor:
+    preferredLineLength: 130
+".console.python.text":
+  editor:
+    preferredLineLength: 130
+".python.text.traceback":
+  editor:
+    preferredLineLength: 130
+".python.regexp.source":
+  editor:
+    preferredLineLength: 130
 ".html.jinja.text":
   editor:
     preferredLineLength: 130
 ".js.source":
+  editor:
+    preferredLineLength: 130
+".elixir.text":
+  editor:
+    preferredLineLength: 130
+".elixir.source":
+  editor:
+    preferredLineLength: 130
+".python.source":
   editor:
     preferredLineLength: 130
 ".jinja.source":

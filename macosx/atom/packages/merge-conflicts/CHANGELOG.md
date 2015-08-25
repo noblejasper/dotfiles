@@ -1,3 +1,21 @@
+## 1.3.4
+
+- Scroll the merge conflicts view when many conflicts exist. [#170](https://github.com/smashwilson/merge-conflicts/pull/170)
+- Prune some dead code. [#167](https://github.com/smashwilson/merge-conflicts/pull/167)
+
+## 1.3.3
+
+- With multiple projects, remember the git repository that you initially detected conflicts within. [#165](https://github.com/smashwilson/merge-conflicts/pull/165)
+- Handle projects with no git repository. [#164](https://github.com/smashwilson/merge-conflicts/pull/164)
+- Improve the "Git not found" error dialog. [#163](https://github.com/smashwilson/merge-conflicts/pull/163)
+- Use alt-m instead of ctrl-m in key bindings. [#162](https://github.com/smashwilson/merge-conflicts/pull/162)
+- Use Atom's built-in notification API. [#151](https://github.com/smashwilson/merge-conflicts/pull/151)
+
+## 1.3.2
+
+- Use `atom.keymaps` instead of `atom.keymap` for 1.0 compatibility. [#144](https://github.com/smashwilson/merge-conflicts/pull/144)
+- Fix a stacktrace when resolving entire files as ours or theirs. [#137](https://github.com/smashwilson/merge-conflicts/pull/137)
+
 ## 1.3.1
 
 - Clean up all markers when conflict detection is completed or quit. [#136](https://github.com/smashwilson/merge-conflicts/pull/136)

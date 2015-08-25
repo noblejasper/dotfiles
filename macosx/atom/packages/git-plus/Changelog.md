@@ -1,9 +1,67 @@
 ## Changelog
 
+### 5.2.2
+
+- fix 'Git log current file'
+
+### 5.2.1
+
+- add support for Git pull using rebase (@maxcnunes)
+- Git diff opens panes with respect to the 'open in pane' setting
+- Commit and diff won't explode if you don't have the spit panes option selected
+
+### 5.1.7
+
+- Git log command now works with submodules and different repos
+- new command: `Remote Checkout`
+
+### 5.1.2
+
+- #206: Fix for commit file syntax highlighting not working sometimes. (@Gwasanaethau)
+
+### 5.1.1
+
+- Fix for commands not working in submodules
+- Fix typos with 'Git Fetch Prune' (@Azakur4)
+
+### 5.1.0
+
+- The Split Pane direction setting actually works now.
+  > Possible choices are [right up down left]. Defaults to right.
+
+### 5.0.7
+
+- Fix #199
+- Fix #198
+- Fix #197
+
+### 5.0.4
+
+- Fix typo of 'notifer' to 'notifier'
+- Fix issue #139
+
+### 5.0.3
+
+- Treeview and StatusBar should update after git commands
+- No longer opening blank file on `Git show` if given an invalid object
+
+### 5.0.2
+
+- Fix typo of 'notifer' to 'notifier'
+- Brought back the `messageTimeout` setting for remaining StatusViews
+
+### 5.0.1
+
+- Major release to be compatible with atom 1.0.0
+- If a window has more than one project with a git repository and a command is attempted,
+  then you can choose which repo to manipulate.
+- New layout for commits in `Git log` command
+- Most StatusViews of command output have been moved to the new notificaton system in atom
+
 ### 4.5.0
 
 - Remove some more deprecations (@Azakur4)
-- New command `Git Add All And Push` (@TwanoO67)
+- New command `Git Add All Commit And Push` (@TwanoO67)
 
 ### 4.4.13
 

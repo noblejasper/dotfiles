@@ -11,7 +11,7 @@ So far, CSS3, Layout and Typography are done [See TODOs](#todo)
 	- box-shadow => `bsh`
 	- word-break => `wb`
 
-- In come cases I have abbreviated any normally abbreviated words, for example:
+- In some cases I have abbreviated any normally abbreviated words, for example:
 	- background => bg `bgsize`
 	- border-radius => br `br<position(s) first initial>` or `radius<position(s) first initial>`
 	- columns => cols `cols`

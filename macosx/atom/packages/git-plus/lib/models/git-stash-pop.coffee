@@ -1,12 +1,16 @@
 git = require '../git'
-StatusView = require '../views/status-view'
+notifier = require '../notifier'
 
-gitStashPop = ->
+gitStashPop = (repo) ->
   git.cmd
-    args: ['stash', 'pop'],
+    args: ['stash', 'pop']
+    cwd: repo.getWorkingDirectory()
     options: {
       env: process.env.NODE_ENV
     }
-    stdout: (data) -> new StatusView(type: 'success', message: data)
+    stdout: (data) ->
+      notifier.addSuccess(data) if data.toString().length > 0
+    stderr: (data) ->
+      notifier.addError(data)
 
 module.exports = gitStashPop

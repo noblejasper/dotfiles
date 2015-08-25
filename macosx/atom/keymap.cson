@@ -23,14 +23,30 @@
 # This file uses CoffeeScript Object Notation (CSON).
 # If you are unfamiliar with CSON, you can read more about it here:
 # https://github.com/bevry/cson#what-is-cson
+
 'atom-text-editor':
+  'ctrl-e': 'editor:move-to-end-of-line'
   'cmd-h': 'dash:shortcut'
   'cmd-alt-h': 'dash:shortcut-alt'
-'.platform-darwin':
-  'alt-g': 'go-to-line:toggle'
+  'f9': 'bookmarks:view-all'
+  'f12': 'bookmarks:jump-to-next-bookmark'
+  'f11': 'bookmarks:jump-to-previous-bookmark'
+  'f10': 'bookmarks:toggle-bookmark'
+'atom-text-editor:not([mini])':
+  'ctrl-e': 'editor:move-to-end-of-line'
 'atom-text-editor:not(mini).autocomplete-active':
   'enter': 'autocomplete-plus:confirm'
   'up': 'unset!'
   'down': 'unset!'
+  'ctrl-w': 'unset!'
   'ctrl-p': 'core:move-up'
   'ctrl-n': 'core:move-down'
+
+'.platform-darwin':
+  'ctrl-g': 'core:cancel'
+  'alt-g': 'go-to-line:toggle'
+'.platform-darwin atom-text-editor:not([mini])':
+  'ctrl-d': 'core:delete'
+  'ctrl-w': 'emacs-plus:kill-region'
+'.platform-darwin atom-pane atom-text-editor:not([mini])':
+  'cmd-/': 'unset!'
