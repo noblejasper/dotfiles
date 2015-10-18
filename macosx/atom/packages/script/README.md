@@ -15,6 +15,7 @@ Currently supported grammars are:
   * C# Script <sup>[*](#asterisk)</sup>
   * Coffeescript
   * CoffeeScript (Literate) <sup>[^](#caret)</sup>
+  * Crystal
   * Cucumber (Gherkin) <sup>[*](#asterisk)</sup>
   * D <sup>[*](#asterisk)</sup>
   * DOT (Graphviz)
@@ -29,6 +30,7 @@ Currently supported grammars are:
   * Javascript
   * Julia
   * Kotlin
+  * LaTeX (via latexmk)
   * LilyPond
   * Lisp (via SBCL) <sup>[⍵](#omega)</sup>
   * Literate Haskell <sup>[*](#asterisk)</sup>
@@ -39,9 +41,11 @@ Currently supported grammars are:
   * MongoDB
   * [NCL](http://www.ncl.ucar.edu/)<sup>[#](#hash)</sup>
   * newLISP
+  * NSIS
   * Objective-C <sup>[*](#asterisk)</sup><sup>[‡](#double-dagger)</sup>
   * Objective-C++ <sup>[*](#asterisk)</sup><sup>[‡](#double-dagger)</sup>
   * OCaml <sup>[*](#asterisk)</sup>
+  * Pandoc Markdown <sup>[††](#two-daggers)</sup>
   * Perl
   * Perl 6
   * PHP
@@ -55,6 +59,7 @@ Currently supported grammars are:
   * Sass/SCSS <sup>[*](#asterisk)</sup>
   * Scala
   * Swift
+  * TypeScript
 
 **NOTE**: Some grammars may require you to install [a custom language package](https://atom.io/search?utf8=✓&q=language).
 
@@ -73,6 +78,8 @@ You only have to add a few lines in a PR to support another.
 <a name="double-dagger"></a><sup>‡</sup> C, C++, Objective-C, and Objective-C++ are currently only available for Mac OS X (where `process.platform is 'darwin'`). This is possible due to the commands `xcrun clang` and `xcrun clang++`. **NOTE**: Xcode and the Xcode command line tools are required to ensure `xcrun` and the correct compilers on your system.
 
 <a name="hash"></a><sup>#</sup> NCL scripts must end with `exit` command for file based runs
+
+<a name="two-daggers"></a><sup>††</sup> Requires the panzer pandoc wrapper https://github.com/msprev/panzer and the pandoc-flavored-markdown language package in Atom https://atom.io/packages/language-pfm
 
 ## Installation
 

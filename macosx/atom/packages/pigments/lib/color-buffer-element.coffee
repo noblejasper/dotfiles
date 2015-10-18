@@ -33,6 +33,7 @@ class ColorBufferElement extends HTMLElement
 
   setModel: (@colorBuffer) ->
     {@editor} = @colorBuffer
+    return if @editor.isDestroyed()
     @editorElement = atom.views.getView(@editor)
 
     @colorBuffer.initialize().then => @updateMarkers()
@@ -47,7 +48,9 @@ class ColorBufferElement extends HTMLElement
       @updateMarkers()
 
     @subscriptions.add @editor.onDidChange =>
-      @usedMarkers.forEach (marker) -> marker.checkScreenRange()
+      @usedMarkers.forEach (marker) ->
+        marker.colorMarker?.invalidateScreenRangeCache()
+        marker.checkScreenRange()
 
     @subscriptions.add @editor.onDidAddCursor =>
       @requestSelectionUpdate()
@@ -78,6 +81,7 @@ class ColorBufferElement extends HTMLElement
 
   attach: ->
     return if @parentNode?
+    return unless @editorElement?
     @getEditorRoot().querySelector('.lines')?.appendChild(this)
 
   detach: ->
@@ -122,12 +126,14 @@ class ColorBufferElement extends HTMLElement
     for marker in @displayedMarkers
       view = @viewsByMarkers.get(marker)
       if view?
-        view.style.display = ''
+        view.classList.remove('hidden')
         @hideMarkerIfInSelection(marker, view)
       else
         console.warn "A color marker was found in the displayed markers array without an associated view", marker
 
   updateMarkers: ->
+    return if @editor.isDestroyed()
+
     markers = @colorBuffer.findValidColorMarkers({
       intersectsScreenRowRange: @editor.displayBuffer.getVisibleRowRange()
     })
@@ -188,8 +194,7 @@ class ColorBufferElement extends HTMLElement
 
       continue unless markerRange? and range?
 
-      if markerRange.intersectsWith(range)
-        view.style.display = 'none'
+      view.classList.add('hidden') if markerRange.intersectsWith(range)
 
 module.exports = ColorBufferElement =
 document.registerElement 'pigments-markers', {

@@ -1,15 +1,15 @@
 {
   "name": "linter-jshint",
   "main": "./lib/main",
-  "version": "1.1.4",
+  "version": "1.2.1",
   "description": "Linter plugin for JavaScript, using jshint",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AtomLinter/linter-jshint.git"
+    "url": "git+https://github.com/AtomLinter/linter-jshint.git"
   },
   "license": "MIT",
   "dependencies": {
-    "atom-linter": "^2.0.0",
+    "atom-linter": "^3.2.0",
     "jshint": "^2.8",
     "jshint-json": "^1.0.0"
   },
@@ -25,14 +25,24 @@
   "bugs": {
     "url": "https://github.com/AtomLinter/linter-jshint/issues"
   },
-  "homepage": "https://github.com/AtomLinter/linter-jshint",
-  "_id": "linter-jshint@1.1.4",
-  "_shasum": "9544f5c705db64a1d50a66c9b946227cf12b19ba",
-  "_resolved": "file:../d-115630-98520-1fzq59b/package.tgz",
-  "_from": "../d-115630-98520-1fzq59b/package.tgz",
+  "homepage": "https://github.com/AtomLinter/linter-jshint#readme",
+  "_id": "linter-jshint@1.2.1",
+  "_shasum": "074fc2ed2e275c25bc99cd8dc07c42012419dece",
+  "_resolved": "file:../d-11593-43385-hge7tp/package.tgz",
+  "_from": "../d-11593-43385-hge7tp/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
+      {
+        "name": "tmp",
+        "version": "0.0.28",
+        "path": "node_modules/atom-linter/node_modules/tmp/lib/tmp.js"
+      },
+      {
+        "name": "os-tmpdir",
+        "version": "1.0.1",
+        "path": "node_modules/atom-linter/node_modules/tmp/node_modules/os-tmpdir/index.js"
+      },
       {
         "name": "xregexp",
         "version": "2.0.0",
@@ -65,7 +75,7 @@
       },
       {
         "name": "lru-cache",
-        "version": "2.6.5",
+        "version": "2.7.0",
         "path": "node_modules/jshint/node_modules/cli/node_modules/glob/node_modules/minimatch/node_modules/lru-cache/lib/lru-cache.js"
       },
       {
@@ -165,7 +175,7 @@
       },
       {
         "name": "brace-expansion",
-        "version": "1.1.0",
+        "version": "1.1.1",
         "path": "node_modules/jshint/node_modules/minimatch/node_modules/brace-expansion/index.js"
       },
       {
@@ -185,7 +195,7 @@
       },
       {
         "name": "strip-json-comments",
-        "version": "1.0.2",
+        "version": "1.0.4",
         "path": "node_modules/jshint/node_modules/strip-json-comments/strip-json-comments.js"
       },
       {
@@ -197,6 +207,8 @@
     "extensions": {
       ".json": [
         "coffeelint.json",
+        "node_modules/atom-linter/node_modules/tmp/node_modules/os-tmpdir/package.json",
+        "node_modules/atom-linter/node_modules/tmp/package.json",
         "node_modules/atom-linter/node_modules/xregexp/package.json",
         "node_modules/atom-linter/package.json",
         "node_modules/jshint/node_modules/cli/node_modules/glob/node_modules/inherits/package.json",
@@ -250,6 +262,9 @@
         "node_modules/jshint/node_modules/cli/examples/static.coffee"
       ],
       ".js": [
+        "node_modules/atom-linter/node_modules/tmp/Gruntfile.js",
+        "node_modules/atom-linter/node_modules/tmp/lib/tmp.js",
+        "node_modules/atom-linter/node_modules/tmp/node_modules/os-tmpdir/index.js",
         "node_modules/atom-linter/node_modules/xregexp/xregexp-all.js",
         "node_modules/jshint/data/ascii-identifier-data.js",
         "node_modules/jshint/data/non-ascii-identifier-part-only.js",
@@ -795,9 +810,31 @@
           "lib"
         ],
         "dependencies": {
-          "atom-linter": "^2.0.0",
+          "atom-linter": "^3.2.0",
           "jshint": "^2.8",
           "jshint-json": "^1.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/atom-linter/lib",
+          "node_modules/atom-linter",
+          "node_modules/atom-linter/spec/fixtures",
+          "node_modules/atom-linter/spec"
+        ],
+        "dependencies": {
+          "xregexp": "^2.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/atom-linter/node_modules/tmp",
+          "node_modules/atom-linter/node_modules/tmp/lib",
+          "node_modules/atom-linter/node_modules/tmp/test",
+          "node_modules/atom-linter/node_modules/tmp/test/symlinkme"
+        ],
+        "dependencies": {
+          "os-tmpdir": "~1.0.1"
         }
       },
       {
@@ -932,8 +969,7 @@
       },
       {
         "paths": [
-          "node_modules/jshint/node_modules/minimatch/node_modules/brace-expansion",
-          "node_modules/jshint/node_modules/minimatch/node_modules/brace-expansion/test"
+          "node_modules/jshint/node_modules/minimatch/node_modules/brace-expansion"
         ],
         "dependencies": {
           "balanced-match": "^0.2.0",

@@ -1,4 +1,5 @@
 {CompositeDisposable} = require 'atom'
+uris = require './uris'
 ColorProject = require './color-project'
 [PigmentsProvider, PigmentsAPI, url] = []
 
@@ -30,6 +31,12 @@ module.exports =
       description: "Glob patterns of files to ignore when scanning the project for variables."
       items:
         type: 'string'
+    extendedSearchNames:
+      type: 'array'
+      default: [
+        '**/*.css'
+      ]
+      description: "When performing the `find-colors` command, the search will scans all the files that match the `sourceNames` glob patterns and the one defined in this setting."
     ignoredScopes:
       type: 'array'
       default: []
@@ -87,8 +94,8 @@ module.exports =
     atom.commands.add 'atom-workspace',
       'pigments:find-colors': => @findColors()
       'pigments:show-palette': => @showPalette()
+      'pigments:project-settings': => @showSettings()
       'pigments:reload': => @reloadProjectVariables()
-
 
     convertMethod = (action) => (event) =>
       marker = if @lastEvent?
@@ -107,6 +114,9 @@ module.exports =
       'pigments:convert-to-hex': convertMethod (marker) ->
         marker.convertContentToHex() if marker?
 
+      'pigments:convert-to-rgb': convertMethod (marker) ->
+        marker.convertContentToRGB() if marker?
+
       'pigments:convert-to-rgba': convertMethod (marker) ->
         marker.convertContentToRGBA() if marker?
 
@@ -114,24 +124,20 @@ module.exports =
       url ||= require 'url'
 
       {protocol, host} = url.parse uriToOpen
-      return unless protocol is 'pigments:' and host is 'search'
+      return unless protocol is 'pigments:'
 
-      atom.views.getView(@project.findAllColors())
-
-    atom.workspace.addOpener (uriToOpen) =>
-      url ||= require 'url'
-
-      {protocol, host} = url.parse uriToOpen
-      return unless protocol is 'pigments:' and host is 'palette'
-
-      atom.views.getView(@project.getPalette())
+      switch host
+        when 'search' then atom.views.getView(@project.findAllColors())
+        when 'palette' then atom.views.getView(@project.getPalette())
+        when 'settings' then atom.views.getView(@project)
 
     atom.contextMenu.add
       'atom-text-editor': [{
         label: 'Pigments'
         submenu: [
           {label: 'Convert to hexadecimal', command: 'pigments:convert-to-hex'}
-          {label: 'Convert to rgba', command: 'pigments:convert-to-rgba'}
+          {label: 'Convert to RGB', command: 'pigments:convert-to-rgb'}
+          {label: 'Convert to RGBA', command: 'pigments:convert-to-rgba'}
         ]
         shouldDisplay: (event) => @shouldDisplayContextMenu(event)
       }]
@@ -141,7 +147,7 @@ module.exports =
 
   provideAutocomplete: ->
     PigmentsProvider ?= require './pigments-provider'
-    new PigmentsProvider(@getProject())
+    new PigmentsProvider(this)
 
   provideAPI: ->
     PigmentsAPI ?= require './pigments-api'
@@ -162,21 +168,26 @@ module.exports =
   getProject: -> @project
 
   findColors: ->
-    uri = "pigments://search"
-
-    pane = atom.workspace.paneForURI(uri)
+    pane = atom.workspace.paneForURI(uris.SEARCH)
     pane ||= atom.workspace.getActivePane()
 
-    atom.workspace.openURIInPane(uri, pane, {})
+    atom.workspace.openURIInPane(uris.SEARCH, pane, {})
 
   showPalette: ->
     @project.initialize().then ->
-      uri = "pigments://palette"
-
-      pane = atom.workspace.paneForURI(uri)
+      pane = atom.workspace.paneForURI(uris.PALETTE)
       pane ||= atom.workspace.getActivePane()
 
-      atom.workspace.openURIInPane(uri, pane, {})
+      atom.workspace.openURIInPane(uris.PALETTE, pane, {})
+    .catch (reason) ->
+      console.error reason
+
+  showSettings: ->
+    @project.initialize().then ->
+      pane = atom.workspace.paneForURI(uris.SETTINGS)
+      pane ||= atom.workspace.getActivePane()
+
+      atom.workspace.openURIInPane(uris.SETTINGS, pane, {})
     .catch (reason) ->
       console.error reason
 

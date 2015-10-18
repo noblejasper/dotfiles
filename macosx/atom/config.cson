@@ -17,13 +17,13 @@
     ]
     disabledPackages: [
       "atom-alignment"
-      "language-csharp"
       "sort-lines"
       "atom-color-highlight"
-      "language-elixir"
       "linter-elixirc"
       "autocomplete-elixir"
-      "symbols-tree-view"
+      "color-picker"
+      "pigments"
+      "wercker-status"
     ]
   editor:
     invisibles: {}
@@ -52,6 +52,7 @@
       "pyflakes"
       "jshint"
     ]
+    statusIconPosition: "Right"
   "linter-python-pyflakes":
     pyflakesDirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
   "symbols-tree-view":
@@ -80,39 +81,41 @@
     communityPackages: [
       "Emmet"
     ]
-".basic.html.text":
-  editor:
-    preferredLineLength: 130
-".js.regexp.source":
-  editor:
-    preferredLineLength: 130
-".elixir.html.text":
-  editor:
-    preferredLineLength: 130
-".console.python.text":
-  editor:
-    preferredLineLength: 130
-".python.text.traceback":
+  "wercker-status":
+    Interval_Minutes: 2
+".html.jinja.text":
   editor:
     preferredLineLength: 130
 ".python.regexp.source":
   editor:
     preferredLineLength: 130
-".html.jinja.text":
+".python.text.traceback":
   editor:
     preferredLineLength: 130
-".js.source":
+".console.python.text":
   editor:
     preferredLineLength: 130
-".elixir.text":
+".elixir.html.text":
   editor:
     preferredLineLength: 130
-".elixir.source":
+".js.regexp.source":
+  editor:
+    preferredLineLength: 130
+".basic.html.text":
+  editor:
+    preferredLineLength: 130
+".jinja.source":
   editor:
     preferredLineLength: 130
 ".python.source":
   editor:
     preferredLineLength: 130
-".jinja.source":
+".elixir.source":
+  editor:
+    preferredLineLength: 130
+".elixir.text":
+  editor:
+    preferredLineLength: 130
+".js.source":
   editor:
     preferredLineLength: 130

@@ -14,12 +14,21 @@ module.exports =
       type: 'boolean'
       default: false
       description: 'If this option is enabled then symbols-tree-view is always hidden unless mouse hover over it.'
+    zAutoHideTypes:
+      title: 'AutoHideTypes'
+      type: 'string'
+      description: 'Here you can specify a list of types that will be hidden by default (ex: "variable class")'
+      default: ''
+
+
 
   symbolsTreeView: null
 
   activate: (state) ->
     @symbolsTreeView = new SymbolsTreeView(state.symbolsTreeViewState)
     atom.commands.add 'atom-workspace', 'symbols-tree-view:toggle': => @symbolsTreeView.toggle()
+    atom.commands.add 'atom-workspace', 'symbols-tree-view:show': => @symbolsTreeView.showView()
+    atom.commands.add 'atom-workspace', 'symbols-tree-view:hide': => @symbolsTreeView.hideView()
 
     atom.config.observe 'tree-view.showOnRightSide', (value) =>
       if @symbolsTreeView.hasParent()
@@ -38,3 +47,13 @@ module.exports =
 
   serialize: ->
     symbolsTreeViewState: @symbolsTreeView.serialize()
+
+  getProvider: ->
+    view = @symbolsTreeView
+    { getSuggestionForWord: (textEditor, text, range) =>
+      {
+        range: range
+        callback: ()=>
+          view.focusClickedTag.bind(view)(textEditor, text)
+      }
+    }

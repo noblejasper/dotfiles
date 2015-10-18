@@ -1,17 +1,26 @@
 @import "ui-variables";
 @import 'octicon-utf-codes';
 
+@spacing: 3px;
+
 linter-message {
   display: flex;
-  align-items: flex-end;
-  padding: 2px;
+  align-items: flex-start;
   font-size: @font-size;
-  span {
-    padding: 0 6px;
-  }
-  & > .badge {
-    align-self: flex-start;
-  }
+  line-height: 1.2;
+}
+
+.linter-message-item {
+  margin: @spacing;
+}
+
+.linter-highlight {
+  flex: 0 0 auto;
+}
+
+.linter-message-link {
+  float: right;
+  margin: 0 0 @spacing @spacing;
 }
 
 linter-multiline-message {
@@ -46,11 +55,18 @@ linter-multiline-message {
 
 linter-panel {
   display: block;
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: 150px;
-  padding: 4px 8px;
   &[hidden]{
     display: none;
+  }
+  padding-left: @spacing;
+  padding-right: @spacing;
+  linter-message:first-child {
+    padding-top: @spacing;
+  }
+  linter-message:last-child {
+    padding-bottom: @spacing;
   }
 }
 
@@ -59,7 +75,7 @@ linter-panel {
   @linter-inline-fg: @base-background-color;
   @linter-inline-bg: @text-color;
   margin-top: 4px;
-  padding: 4px;
+  padding: @spacing;
   color: @linter-inline-fg;
   border-radius: @component-border-radius * 1.5;
   border-top-left-radius: 0;
@@ -82,7 +98,9 @@ linter-panel {
   }
   a {
     color: @linter-inline-link;
-    margin-right: 4px;
+    &:last-of-type {
+      padding-right: @spacing * 1.5; // a bit extra space for visual pleasing
+    }
   }
 }
 
@@ -96,6 +114,8 @@ linter-bottom-tab {
   background: fade(@button-background-color, 33%);
   cursor: pointer;
   vertical-align: middle;
+  position: relative;
+  top: -2px;
   &:first-of-type {
     border-top-left-radius: @component-border-radius;
     border-bottom-left-radius: @component-border-radius;
@@ -118,13 +138,13 @@ linter-bottom-tab {
     margin-left: .2em;
   }
 }
-
-atom-text-editor::shadow .linter-highlight .icon-right{
-  visibility: visible;
-  &::before{
-    content: @primitive-dot;
-    font-size: 1.1em;
-  }
+atom-text-editor::shadow .linter-gutter {
+  height: 7px !important;
+  width: 7px;
+  display: block;
+  margin-left: 2px;
+  margin-top: 6px;
+  border-radius: 50%;
 }
 // Styling Error Types
 atom-text-editor::shadow .linter-highlight, .linter-highlight{
@@ -138,7 +158,7 @@ atom-text-editor::shadow .linter-highlight, .linter-highlight{
       background-color: @background-color-error;
       color: white;
     }
-    .icon-right::before{
+    .linter-gutter{
       color: @background-color-error;
     }
     .region {
@@ -150,7 +170,7 @@ atom-text-editor::shadow .linter-highlight, .linter-highlight{
       background-color: @background-color-warning;
       color: white;
     }
-    .icon-right::before{
+    .linter-gutter{
       color: @background-color-warning;
     }
     .region {
@@ -162,7 +182,7 @@ atom-text-editor::shadow .linter-highlight, .linter-highlight{
       background-color: @background-color-info;
       color: white;
     }
-    .icon-right::before{
+    .linter-gutter{
       color: @background-color-info;
     }
     .region {

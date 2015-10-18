@@ -16,7 +16,8 @@ class ColorBuffer
 
     @subscriptions.add @editor.onDidDestroy => @destroy()
     @subscriptions.add @editor.displayBuffer.onDidTokenize =>
-      @getColorMarkers()?.forEach (marker) -> marker.checkMarkerScope()
+      @getColorMarkers()?.forEach (marker) ->
+        marker.checkMarkerScope(true)
 
     @subscriptions.add @editor.onDidChange =>
       @terminateRunningTask() if @initialized and @variableInitialized
@@ -40,15 +41,10 @@ class ColorBuffer
       return unless @variableInitialized
       @scanBufferForColors().then (results) => @updateColorMarkers(results)
 
+    @subscriptions.add @project.onDidChangeIgnoredScopes =>
+      @updateIgnoredScopes()
+
     @subscriptions.add atom.config.observe 'pigments.delayBeforeScan', (@delayBeforeScan=0) =>
-
-    @subscriptions.add atom.config.observe 'pigments.ignoredScopes', (ignoredScopes=[]) =>
-      @ignoredScopes = ignoredScopes.map (scope) ->
-        try new RegExp(scope)
-      .filter (re) -> re?
-
-      @getColorMarkers()?.forEach (marker) -> marker.checkMarkerScope(true)
-      @emitter.emit 'did-update-color-markers', {created: [], destroyed: []}
 
     # Needed to clean the serialized markers from previous versions
     @editor.findMarkers(type: 'pigments-variable').forEach (m) -> m.destroy()
@@ -57,6 +53,7 @@ class ColorBuffer
       @restoreMarkersState(colorMarkers)
       @cleanUnusedTextEditorMarkers()
 
+    @updateIgnoredScopes()
     @initialize()
 
   onDidUpdateColorMarkers: (callback) ->
@@ -160,6 +157,17 @@ class ColorBuffer
 
   isDestroyed: -> @destroyed
 
+  getPath: -> @editor.getPath()
+
+  updateIgnoredScopes: ->
+    @ignoredScopes = @project.getIgnoredScopes().map (scope) ->
+      try new RegExp(scope)
+    .filter (re) -> re?
+
+    @getColorMarkers()?.forEach (marker) -> marker.checkMarkerScope(true)
+    @emitter.emit 'did-update-color-markers', {created: [], destroyed: []}
+
+
   ##    ##     ##    ###    ########   ######
   ##    ##     ##   ## ##   ##     ## ##    ##
   ##    ##     ##  ##   ##  ##     ## ##
@@ -241,6 +249,8 @@ class ColorBuffer
 
       processResults = =>
         startDate = new Date
+
+        return resolve([]) if @editor.isDestroyed()
 
         while results.length
           result = results.shift()
@@ -367,6 +377,7 @@ class ColorBuffer
 
     config =
       buffer: @editor.getText()
+      bufferPath: @getPath()
       variables: variables
       colorVariables: variables.filter (v) -> v.isColor
 

@@ -16,6 +16,7 @@ module.exports =
 
       @cachedStatus = {}
       @contextMenu = new SymbolsContextMenu
+      @autoHideTypes = atom.config.get('symbols-tree-view.zAutoHideTypes')
 
       @treeView.onSelect ({node, item}) =>
         if item.position.row >= 0 and editor = atom.workspace.getActiveTextEditor()
@@ -76,6 +77,14 @@ module.exports =
         tag = @parser.getNearestTag(row)
         @treeView.select(tag)
 
+    focusClickedTag: (editor, text) ->
+      console.log "clicked: #{text}"
+      if editor = @getEditor()
+        tag =  (t for t in @parser.tags when t.name is text)[0]
+        @treeView.select(tag)
+        # imho, its a bad idea =(
+        jQuery('.list-item.list-selectable-item.selected').click()
+
     updateContextMenu: (types) ->
       @contextMenu.clear()
       editor = @getEditor()?.id
@@ -115,6 +124,13 @@ module.exports =
         @treeView.setRoot(root)
         @updateContextMenu(types)
         @focusCurrentCursorTag()
+
+        if (@autoHideTypes)
+          for type in types
+            if(@autoHideTypes.indexOf(type) != -1)
+              @treeView.toggleTypeVisible(type)
+              @contextMenu.toggle(type)
+
 
     # Returns an object that can be retrieved when package is activated
     serialize: ->
@@ -180,3 +196,14 @@ module.exports =
       else
         @populate()
         @attach()
+
+    # Show view if hidden
+    showView: ->
+      if not @hasParent()
+        @populate()
+        @attach()
+
+    # Hide view if visisble
+    hideView: ->
+      if @hasParent()
+        @remove()

@@ -1,11 +1,11 @@
 {
   "name": "project-manager",
   "main": "./lib/project-manager",
-  "version": "1.15.11",
+  "version": "2.6.1",
   "description": "Project Manager for easy access and switching between projects in Atom.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/danielbrodin/atom-project-manager"
+    "url": "git+https://github.com/danielbrodin/atom-project-manager.git"
   },
   "license": "MIT",
   "keywords": [
@@ -23,22 +23,30 @@
     "season": "^5.2.0",
     "underscore-plus": "^1.6.6"
   },
-  "readme": "# Project Manager\n\n![Project Manager](https://raw.github.com/danielbrodin/atom-project-manager/master/project-manager.gif)\n\nA package for saving your projects for fast and easy access.\n\n## Installation\n```sh\napm install project-manager\n```\nor find it in the Packages tab under settings\n\n## Usage\nAll commands can also be found in the Packages menu\n### List projects\n`ctrl-cmd-p` (mac) / `alt-shift-P` (win & linux) or **Project Manager** in the Command Palette.\n\nYou can filter result by `title`, `group` and `template`.\n`group: atom` would list all projects with the group `atom`. Default is `title`\n\n### Save project\n**Project Manager: Save Project** in the Command Palette and write the title you want to save the project as.\n\n### Edit projects\nAll projects are saved in a `.cson` file which you can easily reach by searching for **Project Manager: Edit Projects** in the Command Palette.\n\n## Project Settings\n### `settings:`\nUnder settings you can set everything that you can have in the `config.cson` file which is what you see under the settings view.\nThe formatting should be as follows:\n```\n'settings':\n  'editor.tabLength': 2\n  'project-manager.showPath': true\n```\nThe settings will be updated on change, but can also manually be done from the command palette with **Project Manager: Reload Project Settings**\n\n### `devMode:`\nWill open the project in dev mode. The API for this doesn't work perfectly though so if you try to switch to a project that is already open in dev mode, a new window will open.\n\n### `icon:`\nThis changes the icon displayed next to the project title in the list view. The icon is class-based, so you can either use the classes already provided by Atom like `icon-squirrel` or make your own class (target `:before`). The GitHub [octicons](https://octicons.github.com/) font is available to use, and most, if not all classes, just replace `octicon-` with `icon-`.\n\n### `template:`\nYou can specify a template in the `projects.cson` file to share settings between projects. The settings will merge so you can still specify project specific settings.\n\n### `group:`\nYou can specify a group that the project belongs to and then sort the projects list after group.\n\n### Example\n```coffeeScript\n'Project Manager':\n  'title': 'Project Manager'\n  'devMode': true\n  'group': 'Atom'\n  'template': 'coffeescript-template'\n  'paths': [\n    '/path/to/project-manager'\n  ]\n  'settings':\n    'editor.showIndentGuide': false\n    'project-manager:showPath': true\n\n'coffeescript-template':\n  'icon': 'icon-coffeescript'\n  'settings':\n    'editor.tabLength': 2\n    'editor.preferredLineLength': 80\n```\n\n## Package Settings\n**Show Path:** Shows the path in the list view\n\n~~**Close Current:** Closes the current window before opening the new project~~ *(Currently disabled)*\n\n**Environment Specific Projects:** Use `projects.[hostname].cson` instead of `projects.cson`\n\n**Sort By:** Sorts the projects list by selected option\n",
+  "providedServices": {
+    "project-manager": {
+      "description": "Get access to all saved projects",
+      "versions": {
+        "2.3.0": "provideProjects"
+      }
+    }
+  },
+  "readme": "# Project Manager\n[![Build status](https://travis-ci.org/danielbrodin/atom-project-manager.svg?branch=master)](https://travis-ci.org/danielbrodin/atom-project-manager/)\n[![apm](https://img.shields.io/apm/dm/project-manager.svg)](https://atom.io/packages/project-manager)\n[![apm](https://img.shields.io/apm/v/project-manager.svg)]()\n\n![Project Manager](https://raw.github.com/danielbrodin/atom-project-manager/master/project-manager.gif)\n\n\nGet easy access to all your projects and manage them with project specific settings and options.\n\n\n## Install\n```\n$ apm install project-manager\n```\nor open Atom and go to Preferences > Install and search for `project-manager`\n\n\n## Use\n### List Projects\n`ctrl-cmd-p` (mac) / `alt-shift-P` (win & linux) or `Project Manager: List Projects` in the Command Palette.\n\nYou can filter projects by `title`, `group` and `template`.\n`group: atom` would list all projects with the group `atom`. Default is `title`\n\n### Save Project\n`Project Manager: Save Project` in the Command Palette and write the title you want to save the project as.\n\n### Edit Projects\nAll projects are saved in a `.cson` file which you can easily reach by searching for `Project Manager: Edit Projects` in the Command Palette.\n\n## Project Settings\n\nsetting    | Type      | Description                                                                                                                                           | Default               \n-----------|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------\n`title`    | `string`  | Projects title. Used in the projects list                                                                                                | `''`                  \n`paths`    | `array`   | The folders that will open in the tree view. First path is the main one that counts as the project.                                                   | `[]`                  \n`settings` | `Object`  | Enables you to set project specific settings. Everything that goes in the `config.cson` file can go here. It also supports scoped settings.           | `{}`                  \n`icon`     | `string`  | Icon that shows in the projects list. It's class-based so can either be a class already provided by Atom like `icon-squirell` or a class of your own. | `'icon-chevron-right'`\n`devMode`  | `boolean` | `true` if project should open in dev mode                                                                                                             | `false`               \n`group`    | `string`  | Adds a group to the projects list that can be used to group and filter projects                                                                       | `null`                \n`template` | `string`  | If you add a project in the `projects.cson` file without `paths` it will count as a template. This way you can easily share settings between projects | `null`                \n\n\n### Example\n```\nprojectmanager:\n  title: 'Project Manager'\n  devMode: true\n  group: 'Atom'\n  template: 'coffeescript-template'\n  paths: [\n    '/path/to/project-manager'\n  ]\n  settings:\n    '*':\n      'editor.tabLength': 4\n\n'coffeescript-template':\n  icon: 'icon-coffeescript'\n  settings:\n    '.source.coffee':\n      'editor.tabLength': 2\n      'editor.preferredLineLength': 80\n```\n\n## Package Settings\nName                          | Setting                                       | Default     | Description                                                                                                                                      \n------------------------------|-----------------------------------------------|-------------|------------\nShow Path                     | `project-manager.showPath`                    | `true`      | Shows each projects paths in the projects list                                                                                                   \nEnvironment Specific Projects | `project-manager.environmentSpecificProjects` | `false`     | If you share your `.atom` folder between computers but don't use the same projects. Will create a `projects.[hostname].cson` for each environment\nSort By                       | `project-manager.sortBy`                      | `'default'` | Will sort the projects list by selected option. Default sorting is the order in which the are                                                    \n~~Close Current~~             | ~~`project-manager.closeCurrent`~~            | ~~`false`~~ | ~~Closes the current window before opening a new project.~~ **Currently disabled** because I haven't found a proper way to achieve this anymore.\n\n\n## API\nThe project manager provides a service that you can use in your own Atom packages. To use it, include `project-manager` in the `consumedServices` section of your package.json.\n\n```\n\"consumedServices\": {\n    \"project-manager\": {\n      \"versions\": {\n        \"^2.2.1\": \"consumeProjectManager\"\n      }\n    }\n  }\n```\nThen in your package's main module, call methods on the service\n```\nmodule.exports =\n  doSomethingWithTheCurrentProject: (project) ->\n\n  consumeProjectManager: (PM) ->\n    PM.projects.getCurrent (project) =>\n      if project\n        @doSomethingWithTheCurrentProject(project)\n```\n\n### Methods\n#### `{Projects}`\n- `::getAll`\n  - `{Function} callback` - Callback that receives an `Array` of `{Project}`'s\n- `::getCurrent`\n  - `{Function} callback` - Callback that receives the current `{Project}` or `false` if there is none active\n- `::onUpdate`\n  - `{Function} callback` - Will be called each time a project have been updated\n\n#### `{Project}`\n- `{props}` - Contains all properties of the project like `title`, `paths` and `settings`\n- `::open` - Will open the project\n- `::isCurrent` - Returns `true` if it's the current project\n- `::onUpdate`\n  - `{Function} callback` - Will be called when the project have been updated\n- `::set` - Will set the property on the project\n  - `{String} key`\n  - `{Mixed} value`\n- `::unset` - Will remove the property from the project\n  - `{String} key`\n\n\nPlease let me know if you make something out of it :)\n\n## Contribute\nIf you would like to contribute to the project manager, be it new features or bugs,\nplease do the following:\n\n1. Fork the repository\n2. Create a new topic branch off the master branch that describe what it does\n3. Commit and push the branch\n4. Make a pull request describing what you have done\n5. Now it will hopefully get merged :)\n\nAll PR's should:\n- Pass the [jscs](https://atom.io/packages/linter-jscs) linter\n- Pass the [jshint](https://atom.io/packages/linter-jshint) linter\n- Add a test when it makes sense, which should be most of the time\n\n--------\n\n[![Paypal Donations](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=DR4XQWAZV6M2A&lc=SE&item_name=Project%20Manager&item_number=atom%2dproject%2dmanager&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted) a :beer: if you enjoy using the [project manager](https://github.com/danielbrodin/atom-project-manager) :)",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/danielbrodin/atom-project-manager/issues"
   },
-  "homepage": "https://github.com/danielbrodin/atom-project-manager",
-  "_id": "project-manager@1.15.11",
-  "_shasum": "76787a054e8bdbf449092dfdc25adc7794364c0a",
-  "_resolved": "file:../d-11568-62209-mlehs6/package.tgz",
-  "_from": "../d-11568-62209-mlehs6/package.tgz",
+  "homepage": "https://github.com/danielbrodin/atom-project-manager#readme",
+  "_id": "project-manager@2.6.1",
+  "_shasum": "2537b4c4812ada4bb67eaed8405061b762024562",
+  "_resolved": "file:../d-11593-43406-1nshubn/package.tgz",
+  "_from": "../d-11593-43406-1nshubn/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
       {
         "name": "atom-space-pen-views",
-        "version": "2.0.5",
+        "version": "2.1.0",
         "path": "node_modules/atom-space-pen-views/lib/main.js"
       },
       {
@@ -53,53 +61,8 @@
       },
       {
         "name": "grim",
-        "version": "1.4.1",
+        "version": "1.4.2",
         "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/lib/grim.js"
-      },
-      {
-        "name": "coffeestack",
-        "version": "1.1.2",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/index.js"
-      },
-      {
-        "name": "coffee-script",
-        "version": "1.8.0",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/coffee-script.js"
-      },
-      {
-        "name": "mkdirp",
-        "version": "0.3.5",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/index.js"
-      },
-      {
-        "name": "fs-plus",
-        "version": "2.8.1",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/lib/fs-plus.js"
-      },
-      {
-        "name": "async",
-        "version": "0.2.10",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/async/lib/async.js"
-      },
-      {
-        "name": "mkdirp",
-        "version": "0.3.5",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/mkdirp/index.js"
-      },
-      {
-        "name": "rimraf",
-        "version": "2.2.8",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/rimraf/rimraf.js"
-      },
-      {
-        "name": "source-map",
-        "version": "0.1.43",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map.js"
-      },
-      {
-        "name": "amdefine",
-        "version": "0.1.1",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/amdefine.js"
       },
       {
         "name": "emissary",
@@ -118,8 +81,18 @@
       },
       {
         "name": "es5-ext",
-        "version": "0.10.7",
+        "version": "0.10.8",
         "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/index.js"
+      },
+      {
+        "name": "es6-iterator",
+        "version": "2.0.0",
+        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/index.js"
+      },
+      {
+        "name": "es6-symbol",
+        "version": "3.0.0",
+        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/index.js"
       },
       {
         "name": "es6-iterator",
@@ -203,13 +176,15 @@
       }
     ],
     "extensions": {
-      ".coffee": [
-        "lib/project-manager-add-view.coffee",
-        "lib/project-manager-view.coffee",
-        "lib/project-manager.coffee",
-        "lib/settings.coffee"
-      ],
       ".js": [
+        "lib/_dialog.js",
+        "lib/_save-dialog.js",
+        "lib/db.js",
+        "lib/project-manager.js",
+        "lib/project.js",
+        "lib/projects-list-view.js",
+        "lib/projects.js",
+        "lib/settings.js",
         "node_modules/atom-space-pen-views/lib/main.js",
         "node_modules/atom-space-pen-views/lib/scroll-view.js",
         "node_modules/atom-space-pen-views/lib/select-list-view.js",
@@ -221,51 +196,6 @@
         "node_modules/atom-space-pen-views/node_modules/space-pen/lib/space-pen.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/lib/deprecation.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/lib/grim.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/index.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/browser.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/cake.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/coffee-script.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/command.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/grammar.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/helpers.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/index.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/lexer.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/nodes.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/optparse.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/parser.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/register.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/repl.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/rewriter.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/scope.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/sourcemap.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/examples/pow.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/index.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/register.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/repl.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/lib/fs-plus.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/async/lib/async.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/mkdirp/examples/pow.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/mkdirp/index.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/rimraf/bin.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/rimraf/rimraf.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/Makefile.dryice.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/assert-shim.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/mini-require.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/suffix-browser.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/test-prefix.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/test-suffix.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/array-set.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/base64-vlq.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/base64.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/binary-search.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/mapping-list.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-map-consumer.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-map-generator.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-node.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/util.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/amdefine.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/intercept.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/lib/behavior.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/lib/emissary.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/lib/emitter.js",
@@ -489,6 +419,21 @@
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/trunc/index.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/trunc/is-implemented.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/trunc/shim.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/#/chain.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/array.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/for-of.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/get.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/index.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/is-iterable.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/string.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/valid-iterable.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/implement.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/index.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/is-implemented.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/is-native-implemented.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/is-symbol.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/polyfill.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/validate-symbol.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/#/index.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/#/pad.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/epsilon/implement.js",
@@ -507,6 +452,7 @@
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/is-nan/index.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/is-nan/is-implemented.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/is-nan/shim.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/is-natural.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/is-number.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/is-safe-integer/implement.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/is-safe-integer/index.js",
@@ -536,6 +482,8 @@
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/eq.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/every.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/filter.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/find-key.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/find.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/first-key.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/flatten.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/for-each.js",
@@ -643,6 +591,7 @@
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/string/#/starts-with/index.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/string/#/starts-with/is-implemented.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/string/#/starts-with/shim.js",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/string/#/uncapitalize.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/string/format-method.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/string/from-code-point/implement.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/string/from-code-point/index.js",
@@ -811,20 +760,17 @@
         "node_modules/underscore-plus/node_modules/underscore/underscore-min.js",
         "node_modules/underscore-plus/node_modules/underscore/underscore.js"
       ],
+      ".coffee": [
+        "lib/db.coffee",
+        "lib/dialog.coffee",
+        "lib/save-dialog.coffee"
+      ],
       ".json": [
         "node_modules/atom-space-pen-views/node_modules/fuzzaldrin/package.json",
         "node_modules/atom-space-pen-views/node_modules/space-pen/api.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/package.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/package.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/async/component.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/async/package.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/mkdirp/package.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/rimraf/package.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/package.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/package.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/package.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/package.json",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/d/package.json",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/package.json",
+        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/package.json",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/package.json",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/package.json",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/package.json",
@@ -893,52 +839,7 @@
           "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim"
         ],
         "dependencies": {
-          "coffeestack": "^1",
           "emissary": "^1.2.0"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack"
-        ],
-        "dependencies": {
-          "coffee-script": "~1.8.0",
-          "fs-plus": "^2.5.0",
-          "source-map": "~0.1.43"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script",
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script"
-        ],
-        "dependencies": {
-          "mkdirp": "~0.3.5"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/lib",
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/fs-plus"
-        ],
-        "dependencies": {
-          "underscore-plus": "1.x",
-          "mkdirp": "~0.3.5",
-          "rimraf": "~2.2.2",
-          "async": "~0.2.9"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map",
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build",
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map",
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib",
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/test",
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/test/source-map"
-        ],
-        "dependencies": {
-          "amdefine": ">=0.0.4"
         }
       },
       {
@@ -1130,8 +1031,31 @@
           "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/string/raw"
         ],
         "dependencies": {
-          "es6-iterator": "~0.1.3",
-          "es6-symbol": "~2.0.1"
+          "es6-iterator": "2",
+          "es6-symbol": "3"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/#",
+          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator",
+          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/test/#",
+          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/test"
+        ],
+        "dependencies": {
+          "d": "^0.1.1",
+          "es5-ext": "^0.10.7",
+          "es6-symbol": "3"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol",
+          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/test"
+        ],
+        "dependencies": {
+          "d": "~0.1.1",
+          "es5-ext": "~0.10.7"
         }
       },
       {

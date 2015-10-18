@@ -1,5 +1,4 @@
 {TextEditorView, View} = require 'atom-space-pen-views'
-Clipboard = require 'clipboard'
 {CompositeDisposable} = require 'atom'
 
 Gist = require './gist-model'
@@ -7,7 +6,7 @@ Gist = require './gist-model'
 module.exports =
 class GistView extends View
   @content: ->
-    @div class: "gist overlay from-top padded", =>
+    @div tabIndex: -1, class: "gist overlay from-top padded", =>
       @div class: "inset-panel", =>
         @div class: "panel-heading", =>
           @span outlet: "title"
@@ -28,8 +27,10 @@ class GistView extends View
             @span "All Done! the Gist's URL has been copied to your clipboard."
 
   initialize: (serializeState) ->
-    @handleEvents()
     @gist = null
+    @subscriptions = new CompositeDisposable
+
+    @handleEvents()
 
     atom.commands.add 'atom-text-editor',
       'gist-it:gist-current-file': => @gistCurrentFile(),
@@ -42,7 +43,8 @@ class GistView extends View
 
   # Tear down any state and detach
   destroy: ->
-    @disposables.dispose()
+    @subscriptions?.dispose()
+    atom.views.getView(atom.workspace).focus()
     @detach()
 
   handleEvents: ->
@@ -51,10 +53,17 @@ class GistView extends View
     @publicButton.on 'click', => @makePublic()
     @privateButton.on 'click', => @makePrivate()
 
-    @disposables = new CompositeDisposable
-    @disposables.add atom.commands.add '.gist-form atom-text-editor',
+    @subscriptions.add atom.commands.add @descriptionEditor.element,
       'core:confirm': => @gistIt()
       'core:cancel': => @destroy()
+
+    @subscriptions.add atom.commands.add @element,
+      'core:close': => @destroy
+      'core:cancel': => @destroy
+
+    @on 'focus', =>
+      console.log("foo")
+      @descriptionEditor.focus()
 
   gistCurrentFile: ->
     @gist = new Gist()
@@ -97,7 +106,7 @@ class GistView extends View
     @gist.description = @descriptionEditor.getText()
 
     @gist.post (response) =>
-      Clipboard.writeText response.html_url
+      atom.clipboard.write response.html_url
       @showUrlDisplay()
       setTimeout (=>
         @destroy()

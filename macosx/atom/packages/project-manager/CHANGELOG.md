@@ -1,5 +1,49 @@
 # Changelog
 
+## 2.6.1
+Fixed bug that happened when there where no settings on a project
+
+## 2.6.0
+Package now use ES6 mostly. Still some views done in CoffeeScript.
+A restart of Atom could be needed for it to work after the update.
+
+## 2.5.2
+Now shows a notification if the `projects.cson` file isn't correctly formatted.
+
+## 2.5.1
+- Fixes a bug that would not update a project if the key had changed manually in the `projects.cson`. Not a 100% fix, but will hopefully work for now until a prettier one is around :)
+- Added a notification with a link to a fix for when the `projects.cson` file can't be watched.
+
+## 2.5.0
+- Updated READ ME to be a bit more clear
+- Added cleaning of package commands on deactivation.
+
+## 2.4.0
+Now automatically updates a project and its settings if it's the active project when it has been updated in the `projects.cson` file
+
+## 2.3.0
+Added services to let other packages get access to the saved projects. Look through the API section of the read me and let me know if you have any questions or you find any bugs with it.
+
+And also fixed some bugs :)
+
+## 2.2.1
+Fixed bug where the list view would sort projects wrong if there were to many
+
+## 2.2.0
+Added back the menu under Packages
+
+## 2.1.0
+Renamed `Project Manager: Toggle` to `Project Manager: List Projects` to make it clearer what it does.
+
+## 2.0.1
+Fixed an issue where the projects file would be added to late.
+
+## 2.0.0
+No noticeable changes, just a rewrite of the package to make it easier to add new features and take in pull requests. Please let me know if you find any bugs :)
+
+## 1.16.0
+Added support for scoped settings. Thanks to [@benjic](https://github.com/benjic)
+
 ## 1.15.11
 Fixes issue where projects couldn't be listed because template didn't exist. Thanks to  [@coopermaruyama](https://github.com/coopermaruyama)
 

@@ -205,9 +205,9 @@ module.exports = getRegistry: (context) ->
     hsl#{ps}\\s*
       (#{int}|#{variables})
       #{comma}
-      (#{percent}|#{variables})
+      (#{optionalPercent}|#{variables})
       #{comma}
-      (#{percent}|#{variables})
+      (#{optionalPercent}|#{variables})
     #{pe}
   "), (match, expression, context) ->
     [_,h,_,s,_,l] = match
@@ -228,9 +228,9 @@ module.exports = getRegistry: (context) ->
     hsla#{ps}\\s*
       (#{int}|#{variables})
       #{comma}
-      (#{percent}|#{variables})
+      (#{optionalPercent}|#{variables})
       #{comma}
-      (#{percent}|#{variables})
+      (#{optionalPercent}|#{variables})
       #{comma}
       (#{float}|#{variables})
     #{pe}
@@ -250,15 +250,15 @@ module.exports = getRegistry: (context) ->
 
   # hsv(210,70%,90%)
   registry.createExpression 'hsv', strip("
-    hsv#{ps}\\s*
+    (hsv|hsb)#{ps}\\s*
       (#{int}|#{variables})
       #{comma}
-      (#{percent}|#{variables})
+      (#{optionalPercent}|#{variables})
       #{comma}
-      (#{percent}|#{variables})
+      (#{optionalPercent}|#{variables})
     #{pe}
   "), (match, expression, context) ->
-    [_,h,_,s,_,v] = match
+    [_,_,h,_,s,_,v] = match
 
     hsv = [
       context.readInt(h)
@@ -273,17 +273,17 @@ module.exports = getRegistry: (context) ->
 
   # hsva(210,70%,90%,0.7)
   registry.createExpression 'hsva', strip("
-    hsva#{ps}\\s*
+    (hsva|hsba)#{ps}\\s*
       (#{int}|#{variables})
       #{comma}
-      (#{percent}|#{variables})
+      (#{optionalPercent}|#{variables})
       #{comma}
-      (#{percent}|#{variables})
+      (#{optionalPercent}|#{variables})
       #{comma}
       (#{float}|#{variables})
     #{pe}
   "), (match, expression, context) ->
-    [_,h,_,s,_,v,_,a] = match
+    [_,_,h,_,s,_,v,_,a] = match
 
     hsv = [
       context.readInt(h)
@@ -322,9 +322,9 @@ module.exports = getRegistry: (context) ->
     hwb#{ps}\\s*
       (#{int}|#{variables})
       #{comma}
-      (#{percent}|#{variables})
+      (#{optionalPercent}|#{variables})
       #{comma}
-      (#{percent}|#{variables})
+      (#{optionalPercent}|#{variables})
       (#{comma}(#{float}|#{variables}))?
     #{pe}
   "), (match, expression, context) ->
@@ -341,7 +341,7 @@ module.exports = getRegistry: (context) ->
   # The priority is set to 1 to make sure that it appears before named colors
   registry.createExpression 'gray', strip("
     gray#{ps}\\s*
-      (#{percent}|#{variables})
+      (#{optionalPercent}|#{variables})
       (#{comma}(#{float}|#{variables}))?
     #{pe}"), 1, (match, expression, context) ->
 
@@ -410,14 +410,15 @@ module.exports = getRegistry: (context) ->
     @alpha = baseColor.alpha
 
   # fade(#ffffff, 0.5)
+  # alpha(#ffffff, 0.5)
   registry.createExpression 'fade', strip("
-    fade#{ps}
+    (fade|alpha)#{ps}
       (#{notQuote})
       #{comma}
       (#{floatOrPercent}|#{variables})
     #{pe}
   "), (match, expression, context) ->
-    [_, subexpr, amount] = match
+    [_, _, subexpr, amount] = match
 
     amount = context.readFloatOrPercent(amount)
     baseColor = context.readColor(subexpr)
@@ -431,7 +432,7 @@ module.exports = getRegistry: (context) ->
   # transparentize(#ffffff, 50%)
   # fadeout(#ffffff, 0.5)
   registry.createExpression 'transparentize', strip("
-    (transparentize|fadeout)#{ps}
+    (transparentize|fadeout|fade-out|fade_out)#{ps}
       (#{notQuote})
       #{comma}
       (#{floatOrPercent}|#{variables})
@@ -450,8 +451,9 @@ module.exports = getRegistry: (context) ->
   # opacify(0x78ffffff, 0.5)
   # opacify(0x78ffffff, 50%)
   # fadein(0x78ffffff, 0.5)
+  # alpha(0x78ffffff, 0.5)
   registry.createExpression 'opacify', strip("
-    (opacify|fadein)#{ps}
+    (opacify|fadein|fade-in|fade_in)#{ps}
       (#{notQuote})
       #{comma}
       (#{floatOrPercent}|#{variables})
@@ -466,6 +468,106 @@ module.exports = getRegistry: (context) ->
 
     @rgb = baseColor.rgb
     @alpha = clamp(baseColor.alpha + amount)
+
+  # red(#000,255)
+  # green(#000,255)
+  # blue(#000,255)
+  registry.createExpression 'stylus_component_functions', strip("
+    (red|green|blue)#{ps}
+      (#{notQuote})
+      #{comma}
+      (#{int}|#{variables})
+    #{pe}
+  "), (match, expression, context) ->
+    [_, channel, subexpr, amount] = match
+
+    amount = context.readInt(amount)
+    baseColor = context.readColor(subexpr)
+
+    return @invalid = true if isInvalid(baseColor)
+    return @invalid = true if isNaN(amount)
+
+    @[channel] = amount
+
+  # transparentify(#808080)
+  registry.createExpression 'transparentify', strip("
+    transparentify#{ps}
+    (#{notQuote})
+    #{pe}
+  "), (match, expression, context) ->
+    [_, expr] = match
+
+    [top, bottom, alpha] = split(expr)
+
+    top = context.readColor(top)
+    bottom = context.readColor(bottom)
+    alpha = context.readFloatOrPercent(alpha)
+
+    return @invalid = true if isInvalid(top)
+    return @invalid = true if bottom? and isInvalid(bottom)
+
+    bottom ?= new Color(255,255,255,1)
+    alpha = undefined if isNaN(alpha)
+
+    bestAlpha = ['red','green','blue'].map((channel) ->
+      res = (top[channel] - (bottom[channel])) / ((if 0 < top[channel] - (bottom[channel]) then 255 else 0) - (bottom[channel]))
+      res
+    ).sort((a, b) -> a < b)[0]
+
+    processChannel = (channel) ->
+      if bestAlpha is 0
+        bottom[channel]
+      else
+        bottom[channel] + (top[channel] - (bottom[channel])) / bestAlpha
+
+    bestAlpha = alpha if alpha?
+    bestAlpha = Math.max(Math.min(bestAlpha, 1), 0)
+
+    @red = processChannel('red')
+    @green = processChannel('green')
+    @blue = processChannel('blue')
+    @alpha = Math.round(bestAlpha * 100) / 100
+
+  # hue(#855, 60deg)
+  registry.createExpression 'hue', strip("
+    hue#{ps}
+      (#{notQuote})
+      #{comma}
+      (#{int}deg|#{variables})
+    #{pe}
+  "), (match, expression, context) ->
+    [_, subexpr, amount] = match
+
+    amount = context.readFloat(amount)
+    baseColor = context.readColor(subexpr)
+
+    return @invalid = true if isInvalid(baseColor)
+    return @invalid = true if isNaN(amount)
+
+    [h,s,l] = baseColor.hsl
+
+    @hsl = [amount % 360, s, l]
+    @alpha = baseColor.alpha
+
+  # saturation(#855, 60deg)
+  # lightness(#855, 60deg)
+  registry.createExpression 'stylus_sl_component_functions', strip("
+    (saturation|lightness)#{ps}
+      (#{notQuote})
+      #{comma}
+      (#{intOrPercent}|#{variables})
+    #{pe}
+  "), (match, expression, context) ->
+    [_, channel, subexpr, amount] = match
+
+    amount = context.readInt(amount)
+    baseColor = context.readColor(subexpr)
+
+    return @invalid = true if isInvalid(baseColor)
+    return @invalid = true if isNaN(amount)
+
+    baseColor[channel] = amount
+    @rgba = baseColor.rgba
 
   # adjust-hue(#855, 60deg)
   registry.createExpression 'adjust-hue', strip("
@@ -631,11 +733,12 @@ module.exports = getRegistry: (context) ->
     @alpha = baseColor.alpha
 
   # spin(green, 20)
+  # spin(green, 20deg)
   registry.createExpression 'spin', strip("
     spin#{ps}
       (#{notQuote})
       #{comma}
-      (-?#{int}|#{variables})
+      (-?(#{int})(deg)?|#{variables})
     #{pe}
   "), (match, expression, context) ->
     [_, subexpr, angle] = match

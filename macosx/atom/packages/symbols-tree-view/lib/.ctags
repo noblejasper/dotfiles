@@ -1,20 +1,12 @@
 --langdef=CoffeeScript
 --langmap=CoffeeScript:.coffee
---regex-CoffeeScript=/^[ \t]*(@?[a-zA-Z$_\.0-9]+)[ \t]*(=|\:)[ \t]*(\(.*\))?[ \t]*(-|=)>/\1/f,function/
---regex-CoffeeScript=/^[ \t]*([a-zA-Z$_0-9]+\:\:[a-zA-Z$_\.0-9]+)[ \t]*(=|\:)[ \t]*(\(.*\))?[ \t]*(-|=)>/\1/f,function/
---regex-CoffeeScript=/^[ \t]*describe[ \t]"(.+)"[ \t]*,[ \t]+[-=]>/\1/f,function/
---regex-CoffeeScript=/^[ \t]*describe[ \t]'(.+)'[ \t]*,[ \t]+[-=]>/\1/f,function/
---regex-CoffeeScript=/^[ \t]*it[ \t]"([^"]+)"[ \t]*,[ \t]+[-=]>/\1/f,function/
---regex-CoffeeScript=/^[ \t]*it[ \t]'([^']+)'[ \t]*,[ \t]+[-=]>/\1/f,function/
---regex-CoffeeScript=/^[ \t]*f+describe[ \t]"(.+)"[ \t]*,[ \t]+[-=]>/focused\: \1/f,function/
---regex-CoffeeScript=/^[ \t]*f+describe[ \t]'(.+)'[ \t]*,[ \t]+[-=]>/focused: \1/f,function/
---regex-CoffeeScript=/^[ \t]*f+it[ \t]"([^"]+)"[ \t]*,[ \t]+[-=]>/focused: \1/f,function/
---regex-CoffeeScript=/^[ \t]*f+it[ \t]'([^']+)'[ \t]*,[ \t]+[-=]>/focused: \1/f,function/
---regex-CoffeeScript=/^[ \t]*xdescribe[ \t]"(.+)"[ \t]*,[ \t]+[-=]>/disabled\: \1/f,function/
---regex-CoffeeScript=/^[ \t]*xdescribe[ \t]'(.+)'[ \t]*,[ \t]+[-=]>/disabled: \1/f,function/
---regex-CoffeeScript=/^[ \t]*xit[ \t]"([^"]+)"[ \t]*,[ \t]+[-=]>/disabled: \1/f,function/
---regex-CoffeeScript=/^[ \t]*xit[ \t]'([^']+)'[ \t]*,[ \t]+[-=]>/disabled: \1/f,function/
---regex-CoffeeScript=/^[ \t]*class[ \t]*([a-zA-Z$_\.0-9]+)[ \t]*/\1/f,function/
+--regex-CoffeeScript=/^[ \t]*(@?[a-zA-Z$_\.0-9]+)[ \t]*=[ \t]*.*/\1/v,variable/
+--regex-CoffeeScript=/(^|=[ \t])*class ([A-Za-z_][A-Za-z0-9_]+\.)*([A-Za-z_][A-Za-z0-9_]+)( extends ([A-Za-z][A-Za-z0-9_.]*)+)?$/\3/c,class/
+--regex-CoffeeScript=/^[ \t]*(module\.)?(exports\.)?@?(([A-Za-z][A-Za-z0-9_.]*)+):.*[-=]>.*$/\3/m,method/
+--regex-CoffeeScript=/^[ \t]*(module\.)?(exports\.)?(([A-Za-z][A-Za-z0-9_.]*)+)[ \t]*=.*[-=]>.*$/\3/f,function/
+--regex-CoffeeScript=/^[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)[ \t]*=[^->\n]*$/\1/f,field/
+--regex-CoffeeScript=/^[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+):[^->\n]*$/\1/f,static field/
+--regex-CoffeeScript=/^[ \t]*(([A-Za-z][A-Za-z0-9_.]*)+):[^->\n]*$/\1/f,field/
 
 --langdef=Css
 --langmap=Css:.css
@@ -32,7 +24,9 @@
 --langmap=Yaml:+.yml
 --regex-Yaml=/^[ \t]*([a-zA-Z_0-9 ]+)[ \t]*\:[ \t]*/\1/f,function/
 
---regex-Html=/^[ \t]*<([a-zA-Z]+)[ \t]*.*>/\1/f,function/
+--regex-Html=/^[ \t]*<([a-zA-Z]+)[ \t]*.*id="([^"]+)".*>/\1#\2/m,member\tclass:id/
+--regex-Html=/^[ \t]*<([a-zA-Z]+)[ \t]*.*class="([^"]+)".*>/\1.\2/m,member\tclass:class/
+--regex-Html=/^[ \t]*<([a-zA-Z]+)[ \t]*>/\1/m,member\tclass:no-attr/
 
 --langdef=Markdown
 --langmap=Markdown:.md
@@ -100,3 +94,25 @@
 --regex-haxe=/^[ \t]*typedef[ \t]+([A-Za-z0-9_]+)/\1/t,typedef/
 --regex-haxe=/^[ \t]*enum[ \t]+([A-Za-z0-9_]+)/\1/t,typedef/
 --regex-haxe=/^[ \t]*+([A-Za-z0-9_]+)(;|\([^)]*:[^)]*\))/\1/t,enum_field/
+
+--langdef=Nim
+--langmap=Nim:.nim
+--regex-Nim=/^[\t\s]*proc\s+([_A-Za-z0-9]+)\**(\[\w+(\:\s+\w+)?\])?\s*\(/\1/f,function/
+--regex-Nim=/^[\t\s]*iterator\s+([_A-Za-z0-9]+)\**(\[\w+(\:\s+\w+)?\])?\s*\(/\1/i,iterator/
+--regex-Nim=/^[\t\s]*macro\s+([_A-Za-z0-9]+)\**(\[\w+(\:\s+\w+)?\])?\s*\(/\1/m,macro/
+--regex-Nim=/^[\t\s]*method\s+([_A-Za-z0-9]+)\**(\[\w+(\:\s+\w+)?\])?\s*\(/\1/h,method/
+--regex-Nim=/^[\t\s]*template\s+([_A-Za-z0-9]+)\**(\[\w+(\:\s+\w+)?\])?\s*\(/\1/t,generics/
+--regex-Nim=/^[\t\s]*converter\s+([_A-Za-z0-9]+)\**(\[\w+(\:\s+\w+)?\])?\s*\(/\1/c,converter/
+
+--langdef=Rust
+--langmap=Rust:.rs
+--regex-Rust=/^[ \t]*(#\[[^\]]\][ \t]*)*(pub[ \t]+)?(extern[ \t]+)?("[^"]+"[ \t]+)?(unsafe[ \t]+)?fn[ \t]+([a-zA-Z0-9_]+)/\6/f,function/
+--regex-Rust=/^[ \t]*(pub[ \t]+)?type[ \t]+([a-zA-Z0-9_]+)/\2/T,typedef/
+--regex-Rust=/^[ \t]*(pub[ \t]+)?enum[ \t]+([a-zA-Z0-9_]+)/\2/g,enum/
+--regex-Rust=/^[ \t]*(pub[ \t]+)?struct[ \t]+([a-zA-Z0-9_]+)/\2/s,struct/
+--regex-Rust=/^[ \t]*(pub[ \t]+)?mod[ \t]+([a-zA-Z0-9_]+)/\2/m,namespace/
+--regex-Rust=/^[ \t]*(pub[ \t]+)?static[ \t]+([a-zA-Z0-9_]+)/\2/c,constant/
+--regex-Rust=/^[ \t]*(pub[ \t]+)?trait[ \t]+([a-zA-Z0-9_]+)/\2/t,method/
+--regex-Rust=/^[ \t]*(pub[ \t]+)?impl([ \t\n]*<[^>]*>)?[ \t]+(([a-zA-Z0-9_:]+)[ \t]*(<[^>]*>)?[ \t]+(for)[ \t]+)?([a-zA-Z0-9_]+)/\4 \6 \7/i,generic/
+--regex-Rust=/^[ \t]*macro_rules![ \t]+([a-zA-Z0-9_]+)/\1/d,macro/
+

@@ -1,4 +1,3 @@
-# See https://atom.io/docs/latest/creating-a-package#menus for more details
 'menu': [
   {
     'label': 'Packages'
@@ -6,8 +5,8 @@
       'label': 'Project Manager'
       'submenu': [
         {
-          'label': 'Toggle',
-          'command': 'project-manager:toggle'
+          'label': 'List Projects',
+          'command': 'project-manager:list-projects'
         }
         {
           'label': 'Save Project',
