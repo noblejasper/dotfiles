@@ -24,6 +24,10 @@
       "color-picker"
       "pigments"
       "wercker-status"
+      "alignment"
+      "japanese-wrap"
+      "python-isort"
+      "emacs-plus"
     ]
   editor:
     invisibles: {}
@@ -55,6 +59,11 @@
     statusIconPosition: "Right"
   "linter-python-pyflakes":
     pyflakesDirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
+  "linter-python-pep8":
+    pep8DirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
+    ignoreErrorCodes: "E501, W292"
+  "python-isort":
+    isortPath: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
   "symbols-tree-view":
     autoToggle: true
   autocomplete:
@@ -83,39 +92,52 @@
     ]
   "wercker-status":
     Interval_Minutes: 2
-".html.jinja.text":
-  editor:
-    preferredLineLength: 130
-".python.regexp.source":
-  editor:
-    preferredLineLength: 130
-".python.text.traceback":
-  editor:
-    preferredLineLength: 130
-".console.python.text":
-  editor:
-    preferredLineLength: 130
-".elixir.html.text":
+  "aligner-python":
+    ":-leftSpace": true
+".basic.html.text":
   editor:
     preferredLineLength: 130
 ".js.regexp.source":
   editor:
     preferredLineLength: 130
-".basic.html.text":
+".elixir.html.text":
   editor:
     preferredLineLength: 130
-".jinja.source":
+".console.python.text":
   editor:
     preferredLineLength: 130
-".python.source":
+".python.text.traceback":
   editor:
     preferredLineLength: 130
-".elixir.source":
+".python.regexp.source":
   editor:
     preferredLineLength: 130
-".elixir.text":
+".html.jinja.text":
+  editor:
+    preferredLineLength: 130
+".3.actionscript.source":
+  editor:
+    preferredLineLength: 130
+".asdoc.html.text":
+  editor:
+    preferredLineLength: 130
+".flex-config.text.xml":
   editor:
     preferredLineLength: 130
 ".js.source":
   editor:
     preferredLineLength: 130
+".elixir.text":
+  editor:
+    preferredLineLength: 130
+".elixir.source":
+  editor:
+    preferredLineLength: 130
+".python.source":
+  editor:
+    preferredLineLength: 130
+".jinja.source":
+  editor:
+    preferredLineLength: 130
+"linter-python-pyflakes":
+  pyflakesDirToExecutable: "/usr/local/opt/pyenv/shims/pyflakes"

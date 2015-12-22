@@ -1,5 +1,6 @@
 [core]
     pager = lv -c
+	excludesfile = /Users/jasper/.gitignore_global
 [color]
     # colorの設定(以下のコマンドは自動で色つける)
     ui = 1
@@ -21,10 +22,14 @@
     unmerged = !git --no-pager diff --name-only --diff-filter=U
     sync = !git checkout master && git pull origin master && git fetch -p origin && git branch -d $(git branch --merged | grep -v master | grep -v '*')
 [user]
-    name = nobjas
-    email = nobjas@gmail.com
+	name = 
+	email = 
 [push]
     default = current
 [filter "media"]
     clean = git-media-clean %f
     smudge = git-media-smudge %f
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true

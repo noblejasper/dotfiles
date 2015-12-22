@@ -22,7 +22,7 @@ export HISTSIZE=10000000000000  # 履歴のMAX保存数を指定
 export GOPATH=~/gocode
 
 # PATH
-export PATH="$(brew --prefix coreutils)/libexec/gnubin:~/.bin:/usr/local/bin:/usr/local/sbin:~/.bin/mongodb:~/.composer/vendor/bin:$PATH"
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:~/.bin:/usr/local/bin:/usr/local/sbin:~/.bin/mongodb:~/.composer/vendor/bin:~/.bin/flex_sdk/bin:$PATH"
 export MANPATH="$(brew --prefix coreutils)/libexec/gnuman:$MANPATH"
 
 #hub

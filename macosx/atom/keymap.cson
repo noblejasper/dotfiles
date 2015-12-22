@@ -51,6 +51,6 @@
   'alt-g': 'go-to-line:toggle'
 '.platform-darwin atom-text-editor:not([mini])':
   'ctrl-d': 'core:delete'
-  'ctrl-w': 'emacs-plus:kill-region'
+  'ctrl-w': 'core:cut'
 '.platform-darwin atom-pane atom-text-editor:not([mini])':
   'cmd-/': 'unset!'
