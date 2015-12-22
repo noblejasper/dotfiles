@@ -76,12 +76,31 @@
 --regex-perl=/^\=head2[ \t]+(.+)/-- \1/p,pod,Plain Old Documentation/
 --regex-perl=/^\=head[3-5][ \t]+(.+)/---- \1/p,pod,Plain Old Documentation/
 
---regex-JavaScript=/(,|(;|^)[ \t]*(var|let|([A-Za-z_$][A-Za-z0-9_$.]*\.)*))[ \t]*([A-Za-z0-9_$]+)[ \t]*=[ \t]*function[ \t]*\(/\5/,function/
---regex-JavaScript=/function[ \t]+([A-Za-z0-9_$]+)[ \t]*\([^)]*\)/\1/,function/
---regex-JavaScript=/(,|^|\*\/)[ \t]*([A-Za-z_$][A-Za-z0-9_$]+)[ \t]*:[ \t]*function[ \t]*\(/\2/,function/
---regex-JavaScript=/(,|^|\*\/)[ \t]*(while|if|for|function|([A-Za-z_$][A-Za-z0-9_$]+))[ \t]*\([^)]*\)[ \t]*\{/\3/,function/
---regex-JavaScript=/(,|^|\*\/)[ \t]*get[ \t]+([A-Za-z_$][A-Za-z0-9_$]+)[ \t]*\([ \t]*\)[ \t]*\{/get \2/,function/
---regex-JavaScript=/(,|^|\*\/)[ \t]*set[ \t]+([A-Za-z_$][A-Za-z0-9_$]+)[ \t]*\([ \t]*([A-Za-z_$][A-Za-z0-9_$]+)?[ \t]*\)[ \t]*\{/set \2/,function/
+
+--regex-JavaScript=/(,|(;|^)[ \t]*(var|let|const|([A-Za-z_$][A-Za-z0-9_$.]*\.)+))[ \t]*([A-Za-z_$][A-Za-z0-9_$.]*)[ \t]*=[ \t]*\{/\5/,object/
+--regex-JavaScript=/(,|(;|^)[ \t]*(var|let|const|([A-Za-z_$][A-Za-z0-9_$.]*\.)+))[ \t]*([A-Za-z_$][A-Za-z0-9_$.]*)[ \t]*=[ \t]*\[/\5/,array/
+--regex-JavaScript=/(,|(;|^)[ \t]*(var|let|const|([A-Za-z_$][A-Za-z0-9_$.]*\.)+))[ \t]*([A-Za-z_$][A-Za-z0-9_$.]*)[ \t]*=[ \t]*[^"]'[^']*/\5/,string/
+--regex-JavaScript=/(,|(;|^)[ \t]*(var|let|const|([A-Za-z_$][A-Za-z0-9_$.]*\.)+))[ \t]*([A-Za-z_$][A-Za-z0-9_$.]*)[ \t]*=[ \t]*(true|false)/\5/,boolean/
+--regex-JavaScript=/(,|(;|^)[ \t]*(var|let|const|([A-Za-z_$][A-Za-z0-9_$.]*\.)+))[ \t]*([A-Za-z_$][A-Za-z0-9_$.]*)[ \t]*=[ \t]*[0-9]+/\5/,number/
+
+--regex-JavaScript=/(,|(;|^)[ \t]*(var|let|([A-Za-z_$][A-Za-z0-9_$.]*\.)+))[ \t]*([A-Za-z_$][A-Za-z0-9_$.]*)[ \t]*=[ \t]*.+([,;=]|$)/\5/,variable/
+--regex-JavaScript=/(,|(;|^)[ \t]*(var|let|([A-Za-z_$][A-Za-z0-9_$.]*\.)+))[ \t]*([A-Za-z_$][A-Za-z0-9_$.]*)[ \t]*[ \t]*([,;]|$)/\5/,variable/
+--regex-JavaScript=/(,|(;|^)[ \t]*)const[ \t]*([A-Za-z_$][A-Za-z0-9_$]*)[ \t]*=[ \t]*.+([,;=]|$)/\3/,constant/
+
+--regex-JavaScript=/function[ \t]+([A-Za-z_$][A-Za-z0-9_$]*)[ \t]*\([^)]*\)/\1/,function/
+
+--regex-JavaScript=/(,|^|\*\/)[ \t]*(while|if|for|switch|function|([A-Za-z_$][A-Za-z0-9_$]*))[ \t]*\([^)]*\)[ \t]*\{/\3/,function/
+
+--regex-JavaScript=/(,|^|\*\/|\{)[ \t]*get[ \t]+([A-Za-z_$][A-Za-z0-9_$]*)[ \t]*\([ \t]*\)[ \t]*\{/get \2/,getter/
+--regex-JavaScript=/(,|^|\*\/|\{)[ \t]*set[ \t]+([A-Za-z_$][A-Za-z0-9_$]*)[ \t]*\([ \t]*([A-Za-z_$][A-Za-z0-9_$]*)?[ \t]*\)[ \t]*\{/set \2/,setter/
+
+--regex-JavaScript=/(,|^|\*\/)[ \t]*([A-Za-z_$][A-Za-z0-9_$]*)[ \t]*:[ \t]*\{/\2/,object/
+--regex-JavaScript=/(,|^|\*\/)[ \t]*([A-Za-z_$][A-Za-z0-9_$]*)[ \t]*:[ \t]*\[/\2/,array/
+--regex-JavaScript=/(,|^|\*\/)[ \t]*([A-Za-z_$][A-Za-z0-9_$]*)[ \t]*:[ \t]*[^"]'[^']*/\2/,string/
+--regex-JavaScript=/(,|^|\*\/)[ \t]*([A-Za-z_$][A-Za-z0-9_$]*)[ \t]*:[ \t]*(true|false)/\2/,boolean/
+--regex-JavaScript=/(,|^|\*\/)[ \t]*([A-Za-z_$][A-Za-z0-9_$]*)[ \t]*:[ \t]*[0-9]+/\2/,number/
+--regex-JavaScript=/(,|^|\*\/)[ \t]*([A-Za-z_$][A-Za-z0-9_$]*)[ \t]*:[ \t]*[^=]+([,;]|$)/\2/,variable/
+
 
 --langdef=haxe
 --langmap=haxe:.hx
@@ -116,3 +135,30 @@
 --regex-Rust=/^[ \t]*(pub[ \t]+)?impl([ \t\n]*<[^>]*>)?[ \t]+(([a-zA-Z0-9_:]+)[ \t]*(<[^>]*>)?[ \t]+(for)[ \t]+)?([a-zA-Z0-9_]+)/\4 \6 \7/i,generic/
 --regex-Rust=/^[ \t]*macro_rules![ \t]+([a-zA-Z0-9_]+)/\1/d,macro/
 
+--langdef=LiveCode
+--langmap=LiveCode:.livecodescript
+--langmap=LiveCode:+.lc
+--langmap=LiveCode:+.irev
+--regex-LiveCode=/^[ \t]*(private[ \t]+)*(on|command)[ \t]*([A-Za-z0-9_]+)/\3/h,method/
+--regex-LiveCode=/^[ \t]*(private[ \t]+)*function[ \t]+([A-Za-z0-9_]+)/\2/f,function/
+--regex-LiveCode=/^[ \t]*constant[ \t]+([A-Za-z0-9_]+)/\1/c,constant/
+--regex-LiveCode=/^[ \t]*(global|local)[ \t]+([A-Za-z0-9_]+)/\2/v,variable/
+
+--langdef=sql
+--langmap=sql:.sql
+--langmap=sql:+.bdy
+--langmap=sql:+.spc
+--langmap=sql:+.pls
+--langmap=sql:+.plb
+--langmap=sql:+.ddl
+--langmap=sql:+.pks
+--langmap=sql:+.pkb
+--regex-sql=/^[ \t]*create[ \t]+([a-zA-Z0-9 \t]*)?(table)[\t]+([^.]+\.)?([a-zA-Z0-9_@.]+)/\4/t,table/i
+--regex-sql=/^[ \t]*create[ \t]+([a-zA-Z0-9 \t]*)?(procedure|package)[\t]+([^.]+\.)?"?([a-zA-Z0-9_@.]+)/\4/p,procedure/i
+--regex-sql=/^[ \t]*create[ \t]+([a-zA-Z0-9 \t]*)?(function)[\t]+([^.]+\.)?"?([a-zA-Z0-9_@.]+)/\4/f,function/i
+--regex-sql=/^[ \t]*create[ \t]+([a-zA-Z0-9 \t]*)?(trigger)[\t]+([^.]+\.)?"?([a-zA-Z0-9_@.]+)/\4/r,trigger/i
+--regex-sql=/^[ \t]*create[ \t]+([a-zA-Z0-9 \t]*)?(event)[\t]+([^.]+\.)?"?([a-zA-Z0-9_@.]+)/\4/e,event/i
+--regex-sql=/^[ \t]*create[ \t]+([a-zA-Z0-9 \t]*)?(index)[\t]+([^.]+\.)?"?([a-zA-Z0-9_@.]+)/\4/i,index/i
+--regex-sql=/^[ \t]*create[ \t]+([a-zA-Z0-9\t]*)?(publication|subscription to|synchronization user)[\t]+([^.]+\.)?"?([a-zA-Z0-9_@.]+)/\4/m,mobilink/i
+--regex-sql=/^[ \t]*create[ \t]+([a-zA-Z0-9 \t]*)?(variable)[\t]+([^.]+\.)?"?([a-zA-Z0-9_@.]+)/\4/v,variable/i
+--regex-sql=/^[ \t]*create[ \t]+([a-zA-Z0-9\t]*)?(rule|schema|server|datatype|database|message)[\t]+([^.]+\.)?"?([a-zA-Z0-9_@.]+)/\4/o,other/I

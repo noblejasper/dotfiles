@@ -101,7 +101,7 @@ export default class ProjectsListView extends SelectListView {
 
   close() {
     if (this.panel) {
-      this.panel.hide();
+      this.panel.emitter.emit('did-destroy');
     }
   }
 

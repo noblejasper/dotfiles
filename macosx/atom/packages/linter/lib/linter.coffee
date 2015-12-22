@@ -1,7 +1,11 @@
 Path = require 'path'
 {CompositeDisposable, Emitter} = require 'atom'
 LinterViews = require './linter-views'
+MessageRegistry = require './message-registry'
+EditorRegistry = require './editor-registry'
 EditorLinter = require './editor-linter'
+LinterRegistry = require './linter-registry'
+IndieRegistry = require './indie-registry'
 Helpers = require './helpers'
 Commands = require './commands'
 
@@ -15,18 +19,26 @@ class Linter
 
     # Private Stuff
     @emitter = new Emitter
-    @linters = new (require('./linter-registry'))()
-    @editors = new (require('./editor-registry'))()
-    @messages = new (require('./message-registry'))()
-    @views = new LinterViews(this)
+    @linters = new LinterRegistry
+    @indieLinters = new IndieRegistry()
+    @editors = new EditorRegistry
+    @messages = new MessageRegistry()
+    @views = new LinterViews(state.scope, @editors)
     @commands = new Commands(this)
 
-    @subscriptions = new CompositeDisposable(@views, @editors, @linters, @messages, @commands)
+    @subscriptions = new CompositeDisposable(@views, @editors, @linters, @messages, @commands, @indieLinters)
 
-    @subscriptions.add @linters.onDidUpdateMessages (info) =>
-      @messages.set(info)
-    @subscriptions.add @messages.onDidUpdateMessages (messages) =>
+    @indieLinters.observe (indieLinter) =>
+      indieLinter.onDidDestroy =>
+        @messages.deleteMessages(indieLinter)
+    @indieLinters.onDidUpdateMessages ({linter, messages}) =>
+      @messages.set({linter, messages})
+    @linters.onDidUpdateMessages ({linter, messages, editor}) =>
+      @messages.set({linter, messages, editorLinter: @editors.ofTextEditor(editor)})
+    @messages.onDidUpdateMessages (messages) =>
       @views.render(messages)
+    @views.onDidUpdateScope (scope) =>
+      @state.scope = scope
 
     @subscriptions.add atom.config.observe 'linter.lintOnFly', (value) =>
       @lintOnFly = value
@@ -77,16 +89,19 @@ class Linter
     @editors.observe(callback)
 
   createEditorLinter: (editor) ->
+    return if @editors.has(editor)
+
     editorLinter = @editors.create(editor)
     editorLinter.onShouldUpdateBubble =>
-      @views.renderBubble()
-    editorLinter.onShouldUpdateLineMessages =>
-      @views.renderLineMessages(true)
+      @views.renderBubble(editorLinter)
     editorLinter.onShouldLint (onChange) =>
       @linters.lint({onChange, editorLinter})
     editorLinter.onDidDestroy =>
-      @messages.deleteEditorMessages(editor)
-    @views.notifyEditor(editorLinter)
+      @messages.deleteEditorMessages(editorLinter)
+    editorLinter.onDidCalculateLineMessages =>
+      @views.updateCounts()
+      @views.bottomPanel.refresh() if @state.scope is 'Line'
+    @views.notifyEditorLinter(editorLinter)
 
   deactivate: ->
     @subscriptions.dispose()

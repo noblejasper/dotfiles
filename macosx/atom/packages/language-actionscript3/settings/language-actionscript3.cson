@@ -1,0 +1,4 @@
+'.source.actionscript.3':
+  'editor':
+    'increaseIndentPattern': '^.*\\{[^}"\']*$|^\\s*(public|final|dynamic|internal):\\s*$'
+    'decreaseIndentPattern': '^(.*\\*/)?\\s*\\}([^}{"\']*\\{)?[;\\s]*(//.*|/\\*.*\\*/\\s*)?$|^\\s*(public|final|dynamic|internal):\\s*$'

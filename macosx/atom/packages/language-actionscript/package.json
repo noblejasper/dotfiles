@@ -1,0 +1,34 @@
+{
+  "name": "language-actionscript",
+  "version": "0.2.0",
+  "description": "Syntax highlighting and snippets for ActionScript files.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonrohan/language-actionscript.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {},
+  "readme": "# ActionScript package\n\nAdds syntax highlighting and snippets to ActionScript files in Atom. Originally converted from https://github.com/textmate/actionscript.tmbundle\n\nContributions are greatly appreciated. Please fork this repository and open a pull request to add snippets, make grammar tweaks, etc.\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/jonrohan/language-actionscript/issues"
+  },
+  "homepage": "https://github.com/jonrohan/language-actionscript#readme",
+  "_id": "language-actionscript@0.2.0",
+  "_shasum": "ae4874ad4b6c871ad657830b6e9ab6badd07b1c4",
+  "_resolved": "file:../d-1151014-18731-1egmvrv/package.tgz",
+  "_from": "../d-1151014-18731-1egmvrv/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

@@ -1,0 +1,95 @@
+'.comment.block.documentation.asdoc':
+  'Long Tag':
+    'prefix': '<'
+    'body': '<${1:name}>$0</${1/([^ ]+).*/$1/}>'
+'.source.actionscript.3':
+  '[Bindable]':
+    'prefix': 'bindable'
+    'body': '[Bindable${1:(event="${2:eventName}")}]'
+  '[SWF]':
+    'prefix': 'swf'
+    'body': '[SWF(width=\'${1:550}\', height=\'${2:400}\', backgroundColor=\'#${3:FFFFFF}\', frameRate=\'${4:60}\')]'
+  'break':
+    'prefix': 'break'
+    'body': 'break ${1:label};'
+  'case':
+    'prefix': 'case'
+    'body': 'case ${1:expression} :\n\t$0\nbreak;'
+  'catch':
+    'prefix': 'catch'
+    'body': 'catch (e:${1:Error})\n{\n\t$0\n}'
+  '?':
+    'prefix': '?'
+    'body': '? ${1:trueExpression} : ${2:falseExpression}$0'
+  'const':
+    'prefix': 'const'
+    'body': 'const ${1:name}:${2:Object};'
+  'default xml namespace':
+    'prefix': 'default'
+    'body': 'default xml namespace = ${1:nsName};'
+  'default':
+    'prefix': 'default'
+    'body': 'default ${1:expression} :\n\t$0\nbreak;'
+  'dispatchEvent':
+    'prefix': 'dispatch'
+    'body': 'dispatchEvent(new ${1:Event}(${1:Event}.${2/^.+$/\\U$0\\E/g})); // ${2:CLICK}\n'
+  'do while':
+    'prefix': 'do'
+    'body': 'do\n{\n\t$2\n}\nwhile ($1);'
+  'else if':
+    'prefix': 'else'
+    'body': 'else if ($1)\n{\n\t$0\n}'
+  'else':
+    'prefix': 'else'
+    'body': 'else\n{\n\t$0\n}'
+  'for each':
+    'prefix': 'for'
+    'body': 'for each (var ${1:item}:${2:Object} in ${3:obj})\n{\n\t$0\n}'
+  'for in':
+    'prefix': 'for'
+    'body': 'for (var ${1:p}:String in ${2:obj})\n{\n\t$0\n}'
+  'for':
+    'prefix': 'for'
+    'body': 'for (var ${1:i}:int = ${2:0}; ${1:i} < ${3:n}; ${1:i}++)\n{\n\t$0\n}'
+  'if':
+    'prefix': 'if'
+    'body': 'if ($1)\n{\n\t$2\n}\n$0'
+  'include':
+    'prefix': 'include'
+    'body': 'include "${1:path/filename.as}";'
+  'log':
+    'prefix': 'log'
+    'body': 'Log.getLogger("${1:`echo ${TM_FILENAME%.as}`}").${2:error}(${3:message});'
+  'return':
+    'prefix': 'return'
+    'body': 'return ${1:null};'
+  'switch':
+    'prefix': 'switch'
+    'body': 'switch ($1)\n{\n\t$0\n}'
+  'throw':
+    'prefix': 'throw'
+    'body': 'throw new ${1:Error}("${2:Error Message}");'
+  'try':
+    'prefix': 'try'
+    'body': 'try\n{\n\t$1\n}'
+  'try..catch':
+    'prefix': 'try'
+    'body': 'try\n{\n\t$1\n} \ncatch (e:Error)\n{\n\t$2\n}'
+  'try..catch..finally':
+    'prefix': 'try'
+    'body': 'try\n{\n\t$1\n}\ncatch (e:Error)\n{\n\t$2\n} \nfinally\n{\n\t$3\n}'
+  'use':
+    'prefix': 'use'
+    'body': 'use namespace ${1:nsName};'
+  'var':
+    'prefix': 'var'
+    'body': 'var ${1:name}:${2:Object}${3: = ${2/(Object)|(Array)|(Number)|(String)|(int)|(uint)|(XML)|(Boolean)|(.+)/(?1:{)(?2:[)(?3:0.0)(?4:")(?5:0)(?6:0)(?7:<doc)(?8:true)(?9:new $9\\()/}$4${2/(Object)|(Array)|(Number)|(String)|(int)|(uint)|(XML)|(Boolean)|(.+)/(?1:})(?2:])(?3:)(?4:")(?5:)(?6:)(?7:\\/>)(?8:)(?9:\\))/}};'
+  'vector':
+    'prefix': 'vector'
+    'body': 'Vector.<${1:Type}>'
+  'while':
+    'prefix': 'while'
+    'body': 'while ($1)\n{\n\t$0\n}'
+  'with':
+    'prefix': 'with'
+    'body': 'with ($1)\n{\n\t$0\n}\n\n'

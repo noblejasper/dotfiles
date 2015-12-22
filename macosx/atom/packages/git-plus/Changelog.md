@@ -1,5 +1,71 @@
 ## Changelog
 
+### 5.7.0
+- Added config options for pulling before pushing
+
+### 5.6.10
+- Fix #340 (@brettle)
+
+### 5.6.8
+- Fix #322 (@teefax)
+- Change format of list of commands in README (@capncodewash)
+
+### 5.6.6
+- Fix #322 (@mightydok)
+- Make all notifications dismissable (@jamen)
+- Fix height for long log outputs (@sxasraf)
+
+### 5.6.5
+- Trigger checkout from clicking on branch name in status bar on atom-workspace
+- Update splitPaneDirection config to be an enum
+
+### 5.6.3
+- Fix #318
+
+### 5.6.2
+- Disable color for 'Git show' (@modosc)
+
+### 5.6.1
+- Display untracked files in list of files to stage as separate items
+
+### 5.6.0
+- Fix #270. When pulling, you now have the default option to pull from the origin of the current branch
+
+### 5.5.7
+- Fix #317 and #319
+
+### 5.5.6
+- Fix #315
+
+### 5.5.5
+- Complete fix for #310
+
+### 5.5.4
+- Refactor
+- Try to ignore CRLF errors when commiting
+
+### 5.5.3
+- Fix #311
+
+### 5.5.2
+- Refactoring
+- Catch unstage files errors
+
+### 5.5.0
+- A lot of refactoring into promises
+- __Output console__
+  - Add toggle on the right of status-bar for toggling the output console
+  - Output from `Git Run` will be displayed in the output console
+  - Show notification when Push/Pull/Fetch starts in the output console
+  - Show bigger messages like results of stash/merge in output console
+- Clicking on the branch name in the status-bar will trigger the `Git Checkout` menu (@kandros)
+- Amending no longer resets HEAD so you can safely cancel an amend
+- __`Add All Commit And Push`__
+  - is now an activation command (@dbenson24)
+  - it tries to `pull` before pushing (@mhuggins7278)
+- Add `Git Difftool` to open up a difftool (@outsmirkable)
+- Add `Git Rebase` (@afontaine)
+
 ### 5.4.7
 - #269
 

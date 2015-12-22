@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.6.5
+Fixes [#163](https://github.com/danielbrodin/atom-project-manager/issues/163)
+
+## 2.6.4
+[#161](https://github.com/danielbrodin/atom-project-manager/issues/161) should now be fixed for real thanks to [@douggr](https://github.com/douggr) :)
+
+## 2.6.3
+Should fix [#161](https://github.com/danielbrodin/atom-project-manager/issues/161)
+
+## 2.6.2
+Fixed [#160](https://github.com/danielbrodin/atom-project-manager/issues/160)
+
 ## 2.6.1
 Fixed bug that happened when there where no settings on a project
 

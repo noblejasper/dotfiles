@@ -25,7 +25,7 @@ class CommandOutputView extends View
       @setCommand(command)
     @subscriptions.add = runner.onData (data) =>
       @addOutput(data)
-    @subscriptions.add = runner.onExit =>
+    @subscriptions.add = runner.onClose =>
       @setExited()
     @subscriptions.add = runner.onKill (signal) =>
       @setKillSignal(signal)

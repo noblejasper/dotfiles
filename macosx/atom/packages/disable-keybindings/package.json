@@ -1,14 +1,14 @@
 {
   "name": "disable-keybindings",
   "main": "./lib/main",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Disables keybindings",
   "keywords": [
     "keybindings"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/aki77/atom-disable-keybindings"
+    "url": "git+https://github.com/aki77/atom-disable-keybindings.git"
   },
   "license": "MIT",
   "engines": {
@@ -17,16 +17,16 @@
   "dependencies": {
     "underscore-plus": "^1.6.0"
   },
-  "readme": "# disable-keybindings package\n\nDisables keybindings\n[![Build Status](https://travis-ci.org/aki77/atom-disable-keybindings.svg)](https://travis-ci.org/aki77/atom-disable-keybindings)\n\n## Settings\n\n- `allBundledPackages` (default: false)\n- `bundledPackages` (default: [])\n- `exceptBundledPackages` (default: [])\n- `allCommunityPackages` (default: false)\n- `communityPackages` (default: [])\n- `exceptCommunityPackages` (default: [])\n- `PrefixKeys` (default: [])\n\n[![Gyazo](http://i.gyazo.com/18a6d9f4ffb4371b947e22e9977bbe5a.png)](http://gyazo.com/18a6d9f4ffb4371b947e22e9977bbe5a)\n\n## Commands\n\n- `disable-keybindings:reload`\n\n## Links\n\n- [Bundled prefixed keys bindings delay even if 'unset!' by user keymap · Issue #78 · atom/atom-keymap](https://github.com/atom/atom-keymap/issues/78)\n- [Direct bindings should override prefixes? · Issue #49 · atom/atom-keymap](https://github.com/atom/atom-keymap/issues/49)\n- [Key-binding hell - features - Atom Discussion](https://discuss.atom.io/t/key-binding-hell/12075)\n",
+  "readme": "# disable-keybindings package\n\nDisables keybindings\n[![Build Status](https://travis-ci.org/aki77/atom-disable-keybindings.svg)](https://travis-ci.org/aki77/atom-disable-keybindings)\n\n## Settings\n\n- `allBundledPackages` (default: false)\n- `bundledPackages` (default: [])\n- `exceptBundledPackages` (default: [])\n- `allCommunityPackages` (default: false)\n- `communityPackages` (default: [])\n- `exceptCommunityPackages` (default: [])\n- `PrefixKeys` (default: [])\n\n[![Gyazo](http://i.gyazo.com/18a6d9f4ffb4371b947e22e9977bbe5a.png)](http://gyazo.com/18a6d9f4ffb4371b947e22e9977bbe5a)\n\n## Commands\n\n- `disable-keybindings:reload`\n- `disable-keybindings:reset`\n\n## Links\n\n- [Bundled prefixed keys bindings delay even if 'unset!' by user keymap · Issue #78 · atom/atom-keymap](https://github.com/atom/atom-keymap/issues/78)\n- [Direct bindings should override prefixes? · Issue #49 · atom/atom-keymap](https://github.com/atom/atom-keymap/issues/49)\n- [Key-binding hell - features - Atom Discussion](https://discuss.atom.io/t/key-binding-hell/12075)\n",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/aki77/atom-disable-keybindings/issues"
   },
-  "homepage": "https://github.com/aki77/atom-disable-keybindings",
-  "_id": "disable-keybindings@0.5.0",
-  "_shasum": "6300db7fbc5f62e26acd947547956407e8dd359a",
-  "_resolved": "file:../d-115518-6991-1h5z6ud/package.tgz",
-  "_from": "../d-115518-6991-1h5z6ud/package.tgz",
+  "homepage": "https://github.com/aki77/atom-disable-keybindings#readme",
+  "_id": "disable-keybindings@0.6.0",
+  "_shasum": "9bde0547c1b7c4062378825798107f178d07076e",
+  "_resolved": "file:../d-1151014-46292-1d20gt0/package.tgz",
+  "_from": "../d-1151014-46292-1d20gt0/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [

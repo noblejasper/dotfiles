@@ -2,7 +2,6 @@ path = require 'path'
 Color = require '../lib/color'
 ColorMarker = require '../lib/color-marker'
 ColorMarkerElement = require '../lib/color-marker-element'
-{TextEditor} = require 'atom'
 
 stylesheetPath = path.resolve __dirname, '..', 'styles', 'pigments.less'
 stylesheet = atom.themes.loadStylesheet(stylesheetPath)
@@ -20,7 +19,7 @@ describe 'ColorMarkerElement', ->
 
     jasmineContent.appendChild(styleNode)
 
-    editor = new TextEditor({})
+    editor = atom.workspace.buildTextEditor({})
     editor.setText("""
     body {
       color: red;
@@ -35,7 +34,15 @@ describe 'ColorMarkerElement', ->
     color = new Color('#ff0000')
     text = 'red'
 
-    colorMarker = new ColorMarker({marker, color, text})
+    colorMarker = new ColorMarker({
+      marker
+      color
+      text
+      colorBuffer: {
+        editor
+        ignoredScopes: []
+      }
+    })
 
   it 'releases itself when the marker is destroyed', ->
     colorMarkerElement = new ColorMarkerElement
@@ -207,10 +214,18 @@ describe 'ColorMarkerElement', ->
       color = new Color(color)
       text = text
 
-      colorMarker = new ColorMarker({marker, color, text})
+      colorMarker = new ColorMarker({
+        marker
+        color
+        text
+        colorBuffer: {
+          editor
+          ignoredScopes: []
+        }
+      })
 
     beforeEach ->
-      editor = new TextEditor({})
+      editor = atom.workspace.buildTextEditor({})
       editor.setText("""
       body {
         background: red, green, blue;
@@ -258,10 +273,18 @@ describe 'ColorMarkerElement', ->
       color = new Color(color)
       text = text
 
-      colorMarker = new ColorMarker({marker, color, text})
+      colorMarker = new ColorMarker({
+        marker
+        color
+        text
+        colorBuffer: {
+          editor
+          ignoredScopes: []
+        }
+      })
 
     beforeEach ->
-      editor = new TextEditor({})
+      editor = atom.workspace.buildTextEditor({})
       editor.setText("""
       body {
         background: red, green, blue;

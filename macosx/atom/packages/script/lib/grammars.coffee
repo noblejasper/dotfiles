@@ -49,7 +49,7 @@ module.exports =
   CoffeeScript:
     "Selection Based":
       command: "coffee"
-      args: (context)  -> ['-e', context.getCode()]
+      args: (context)  -> ['-e', '--cli', context.getCode()]
     "File Based":
       command: "coffee"
       args: (context) -> [context.filepath]
@@ -57,7 +57,7 @@ module.exports =
   'CoffeeScript (Literate)':
     "Selection Based":
       command: "coffee"
-      args: (context)  -> ['-e', context.getCode()]
+      args: (context)  -> ['-e', '--cli', context.getCode()]
     "File Based":
       command: "coffee"
       args: (context) -> [context.filepath]
@@ -164,6 +164,14 @@ module.exports =
       command: "babel-node"
       args: (context) -> [context.filepath]
 
+  "JavaScript for Automation (JXA)":
+    "Selection Based":
+      command: "osascript"
+      args: (context)  -> ['-l', 'JavaScript', '-e', context.getCode()]
+    "File Based":
+      command: "osascript"
+      args: (context) -> ['-l', 'JavaScript', context.filepath]
+
   Julia:
     "Selection Based":
       command: "julia"
@@ -191,7 +199,7 @@ module.exports =
   LaTeX:
     "File Based":
       command: "latexmk"
-      args: (context) -> ['-pv', '-quiet', '-pdf', '-shell-escape', context.filepath]
+      args: (context) -> ['-cd', '-quiet', '-pdf', '-pv', '-shell-escape', context.filepath]
 
   LilyPond:
     "File Based":
@@ -272,6 +280,12 @@ module.exports =
       args: (context) -> [context.filepath]
 
   NSIS:
+    "Selection Based":
+      command: "makensis"
+      args: (context) ->
+        code = context.getCode()
+        tmpFile = GrammarUtils.createTempFileWithCode(code)
+        [tmpFile]
     "File Based":
       command: "makensis"
       args: (context) -> [context.filepath]
@@ -402,6 +416,14 @@ module.exports =
       command: "make"
       args: (context) -> ['-f', context.filepath]
 
+  Sage:
+    "Selection Based":
+      command: "sage"
+      args: (context) -> ['-c', context.getCode()]
+    "File Based":
+      command: "sage"
+      args: (context) -> [context.filepath]
+
   Sass:
     "File Based":
       command: "sass"
@@ -444,6 +466,14 @@ module.exports =
       command: "fish"
       args: (context) -> [context.filepath]
 
+  "SQL (PostgreSQL)":
+    "Selection Based":
+      command: "psql"
+      args: (context) -> ['-c', context.getCode()]
+    "File Based":
+      command: "psql"
+      args: (context) -> ['-f', context.filepath]
+
   "Standard ML":
     "File Based":
       command: "sml"
@@ -451,11 +481,11 @@ module.exports =
 
   Nim:
     "File Based":
-      command: "nim"
+      command: "bash"
       args: (context) ->
         file = GrammarUtils.Nim.findNimProjectFile(context.filepath)
-        ['c', '--colors:off', '--verbosity:0', '--parallelBuild:1',
-          '-r', '"' + file + '"']
+        path = GrammarUtils.Nim.projectDir(context.filepath)
+        ['-c', 'cd "' + path + '" && nim c --colors:on --hints:off --parallelBuild:1 -r "' + file + '" 2>&1']
 
   Swift:
     "File Based":
@@ -474,3 +504,16 @@ module.exports =
     "File Based":
       command: "bash"
       args: (context) -> ['-c', "tsc '#{context.filepath}' --out /tmp/js.out && node /tmp/js.out"]
+
+  Dart:
+    "File Based":
+      command: "dart"
+      args: (context) -> [context.filepath]
+
+  Octave:
+    "Selection Based":
+      command: "octave"
+      args: (context) -> ['-p', context.filepath.replace(/[^\/]*$/, ''), '--eval', context.getCode()]
+    "File Based":
+      command: "octave"
+      args: (context) -> ['-p', context.filepath.replace(/[^\/]*$/, ''), context.filepath]

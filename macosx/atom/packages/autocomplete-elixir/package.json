@@ -1,7 +1,7 @@
 {
   "name": "autocomplete-elixir",
   "main": "./lib/autocomplete-elixir",
-  "version": "1.3.12",
+  "version": "1.5.12",
   "author": {
     "name": "Krzysztof Wende",
     "email": "iraasta",
@@ -16,7 +16,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/iraasta/autocomplete-elixir"
+    "url": "git+https://github.com/iraasta/autocomplete-elixir.git"
   },
   "homepage": "https://github.com/iraasta/autocomplete-elixir",
   "bugs": {
@@ -41,10 +41,10 @@
   },
   "readme": "# Atom Autocomplete+ Elixir. Provides intelligent code completion for Elixir. Requires [Autocomplete+](https://github.com/atom-community/autocomplete-plus)",
   "readmeFilename": "README.md",
-  "_id": "autocomplete-elixir@1.3.12",
+  "_id": "autocomplete-elixir@1.5.12",
   "_shasum": "2a160ad7bc20a2f00e02c9689b0435f269d1759c",
-  "_resolved": "file:../d-115530-52659-ztw0h0/package.tgz",
-  "_from": "../d-115530-52659-ztw0h0/package.tgz",
+  "_resolved": "file:../d-1151122-92183-1wk98r2/package.tgz",
+  "_from": "../d-1151122-92183-1wk98r2/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -66,22 +66,16 @@
     ],
     "extensions": {
       ".coffee": [
+        "lib/alchemide/doendmatcher.coffee",
+        "lib/alchemide/jumptodef.coffee",
         "lib/alchemide/wrapper.coffee",
         "lib/autocomplete-elixir-client.coffee",
         "lib/autocomplete-elixir-provider.coffee",
-        "lib/autocomplete-elixir.coffee"
-      ],
-      ".json": [
-        "node_modules/extend/.jscs.json",
-        "node_modules/extend/component.json",
-        "node_modules/extend/package.json",
-        "node_modules/jquery/bower.json",
-        "node_modules/jquery/package.json",
-        "node_modules/mime/package.json",
-        "node_modules/mime/types.json",
-        "package.json"
+        "lib/autocomplete-elixir.coffee",
+        "lib/delorean/delorean.coffee"
       ],
       ".js": [
+        "lib/alchemide/extend.js",
         "node_modules/extend/index.js",
         "node_modules/jquery/dist/jquery.js",
         "node_modules/jquery/dist/jquery.min.js",
@@ -172,6 +166,16 @@
         "node_modules/mime/build/test.js",
         "node_modules/mime/cli.js",
         "node_modules/mime/mime.js"
+      ],
+      ".json": [
+        "node_modules/extend/.jscs.json",
+        "node_modules/extend/component.json",
+        "node_modules/extend/package.json",
+        "node_modules/jquery/bower.json",
+        "node_modules/jquery/package.json",
+        "node_modules/mime/package.json",
+        "node_modules/mime/types.json",
+        "package.json"
       ]
     },
     "folders": [
@@ -179,6 +183,7 @@
         "paths": [
           "lib/alchemide",
           "lib",
+          "lib/delorean",
           "",
           "spec"
         ],

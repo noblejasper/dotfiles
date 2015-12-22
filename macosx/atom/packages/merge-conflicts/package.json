@@ -1,7 +1,7 @@
 {
   "name": "merge-conflicts",
   "main": "./lib/main",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "private": true,
   "description": "Resolve git conflicts within Atom",
   "contributors": [
@@ -33,10 +33,10 @@
     "url": "https://github.com/smashwilson/merge-conflicts/issues"
   },
   "homepage": "https://github.com/smashwilson/merge-conflicts#readme",
-  "_id": "merge-conflicts@1.3.6",
-  "_shasum": "c69a4a7fe447460688084553f898dbbf912e1fbc",
-  "_resolved": "file:../d-11593-43388-94go79/package.tgz",
-  "_from": "../d-11593-43388-94go79/package.tgz",
+  "_id": "merge-conflicts@1.3.7",
+  "_shasum": "ae60808270e5145151904550d50e2fcae85b07ed",
+  "_resolved": "file:../d-115105-7166-oi3785/package.tgz",
+  "_from": "../d-115105-7166-oi3785/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -47,7 +47,7 @@
       },
       {
         "name": "grim",
-        "version": "1.4.2",
+        "version": "1.5.0",
         "path": "node_modules/space-pen/node_modules/grim/lib/grim.js"
       },
       {
@@ -77,7 +77,7 @@
       },
       {
         "name": "es6-symbol",
-        "version": "3.0.0",
+        "version": "3.0.1",
         "path": "node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/index.js"
       },
       {
@@ -920,7 +920,7 @@
         ],
         "dependencies": {
           "d": "~0.1.1",
-          "es5-ext": "~0.10.7"
+          "es5-ext": "~0.10.8"
         }
       },
       {

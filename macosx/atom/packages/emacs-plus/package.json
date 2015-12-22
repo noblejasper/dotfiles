@@ -1,11 +1,11 @@
 {
   "name": "emacs-plus",
   "main": "./lib/main",
-  "version": "0.9.8",
+  "version": "0.9.10",
   "description": "Emacs-like experience in the Atom.(Fork of atomic-emacs)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aki77/atom-emacs-plus"
+    "url": "git+https://github.com/aki77/atom-emacs-plus.git"
   },
   "license": "MIT",
   "engines": {
@@ -22,11 +22,11 @@
   "bugs": {
     "url": "https://github.com/aki77/atom-emacs-plus/issues"
   },
-  "homepage": "https://github.com/aki77/atom-emacs-plus",
-  "_id": "emacs-plus@0.9.8",
-  "_shasum": "edb1015cbe3f9d77bbd2d65209f2537f5438f542",
-  "_resolved": "file:../d-115620-30454-14a7dsm/package.tgz",
-  "_from": "../d-115620-30454-14a7dsm/package.tgz",
+  "homepage": "https://github.com/aki77/atom-emacs-plus#readme",
+  "_id": "emacs-plus@0.9.10",
+  "_shasum": "e36f20cb65880ff28177170aed4bf231eafbc7fa",
+  "_resolved": "file:../d-1151122-92208-1b5qu8n/package.tgz",
+  "_from": "../d-1151122-92208-1b5qu8n/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [

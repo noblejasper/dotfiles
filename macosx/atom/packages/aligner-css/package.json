@@ -1,0 +1,46 @@
+{
+  "name": "aligner-css",
+  "main": "./lib/main",
+  "version": "1.2.0",
+  "description": "CSS support for aligner",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrianlee44/atom-aligner-css.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "dependencies": {},
+  "providedServices": {
+    "aligner.provider": {
+      "versions": {
+        "1.0.0": "getProvider"
+      }
+    }
+  },
+  "readme": "# aligner-css\n\n[Aligner](https://github.com/adrianlee44/atom-aligner) add-on to support CSS and LESS.\n\n## Installation\nAligner must be installed along with this package. For more information, please check out [Aligner](https://github.com/adrianlee44/atom-aligner)\n\n## Changelog\n- 2015-03-26   v1.2.0   Added LESS and moved SASS/SCSS to [aligner-scss](https://github.com/adrianlee44/atom-aligner-scss)\n- 2015-03-22   v1.1.0   Added support for SASS and SCSS\n- 2015-03-22   v1.0.0   Initial release\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/adrianlee44/atom-aligner-css/issues"
+  },
+  "homepage": "https://github.com/adrianlee44/atom-aligner-css#readme",
+  "_id": "aligner-css@1.2.0",
+  "_shasum": "c6792ad8c8fd6fb67c6addc6f223137e68b06a03",
+  "_resolved": "file:../d-115105-27319-785f1s/package.tgz",
+  "_from": "../d-115105-27319-785f1s/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".coffee": [
+        "lib/main.coffee",
+        "lib/provider.coffee"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

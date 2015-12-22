@@ -1,6 +1,6 @@
 {
   "name": "language-csharp",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "private": true,
   "description": "C# language support for Atom",
   "repository": {
@@ -26,10 +26,10 @@
     "url": "https://github.com/atom/language-csharp/issues"
   },
   "homepage": "https://github.com/atom/language-csharp#readme",
-  "_id": "language-csharp@0.10.0",
-  "_shasum": "146024423f8103672fdd4d7b7ce9015b0b9a91ff",
-  "_resolved": "file:../d-115812-3660-1qfsclr/package.tgz",
-  "_from": "../d-115812-3660-1qfsclr/package.tgz",
+  "_id": "language-csharp@0.11.0",
+  "_shasum": "0fad94aab7de5c46d18bd42fd33112270d37c3bf",
+  "_resolved": "file:../d-115105-7142-1a61xih/package.tgz",
+  "_from": "../d-115105-7142-1a61xih/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],

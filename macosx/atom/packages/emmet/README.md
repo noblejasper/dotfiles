@@ -4,7 +4,9 @@
 
 ## Installation
 
-In Atom, open Preferences > Packages, search for `Emmet` package. Once it found, click `Install` button to install package.
+* In Atom, open *Preferences* (*Settings* on Windows)
+* Go to *Install* section
+* Search for `Emmet` package. Once it found, click `Install` button to install package.
 
 ### Manual installation
 
@@ -49,14 +51,14 @@ You can add as many sections as you like for different syntaxes. Note that defau
 
 ## Default Keybindings
 
-You can change these Preferences > Emmet.
+You can change these in Preferences > Keybindings.
 
 Command | Darwin | Linux/Windows
 ------- | ------ | -------------
 Expand Abbreviation | <kbd>tab</kbd> or <kbd>shift</kbd> + <kbd>⌘</kbd> + <kbd>e</kbd> | <kbd>tab</kbd> or <kbd>ctrl</kbd> + <kbd>e</kbd>
 Expand Abbreviation (interactive) | <kbd>alt</kbd> + <kbd>⌘</kbd> + <kbd>enter</kbd> | <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>enter</kbd>
 Wrap with Abbreviation | <kbd>ctrl</kbd> + <kbd>w</kbd> | <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>w</kbd>
-Balance (outward) | <kbd>ctrl</kbd> + <kbd>d</kbd> | <kbd>ctrl</kbd> + <kbd>,</kbd>
+Balance (outward) | <kbd>ctrl</kbd> + <kbd>d</kbd> | <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>e</kbd>
 Balance (inward) | <kbd>alt</kbd> + <kbd>d</kbd> | <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>0</kbd>
 Go to Matching Pair | <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>j</kbd> | <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>j</kbd>
 Next Edit Point | <kbd>ctrl</kbd> + <kbd>→</kbd> | <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>→</kbd>

@@ -5,65 +5,36 @@ fs = require 'fs-plus'
 
 git = require '../git'
 notifier = require '../notifier'
+splitPane = require '../splitPane'
 
 disposables = new CompositeDisposable
-diffFilePath = null
 
-gitDiff = (repo, {diffStat, file}={}) ->
+module.exports = (repo, {diffStat, file}={}) ->
   diffFilePath = Path.join(repo.getPath(), "atom_git_plus.diff")
   file ?= repo.relativize(atom.workspace.getActiveTextEditor()?.getPath())
   if not file
     return notifier.addError "No open file. Select 'Diff All'."
-  diffStat ?= ''
   args = ['diff', '--color=never']
   args.push 'HEAD' if atom.config.get 'git-plus.includeStagedDiff'
   args.push '--word-diff' if atom.config.get 'git-plus.wordDiff'
-  args.push file if diffStat is ''
-  git.cmd
-    args: args
-    cwd: repo.getWorkingDirectory()
-    stdout: (data) -> diffStat += data
-    exit: (code) -> prepFile diffStat if code is 0
+  args.push file unless diffStat
+  git.cmd(args, cwd: repo.getWorkingDirectory())
+  .then (data) -> prepFile (diffStat ? '') + data, diffFilePath
+  .then -> showFile diffFilePath
+  .then (textEditor) -> disposables.add textEditor.onDidDestroy ->
+    fs.unlink diffFilePath
 
-prepFile = (text) ->
-  if text?.length > 0
-    fs.writeFileSync diffFilePath, text, flag: 'w+'
-    showFile()
-  else
-    notifier.addInfo 'Nothing to show.'
+prepFile = (text, filePath) ->
+  new Promise (resolve, reject) ->
+    if text?.length is 0
+      notifier.addInfo 'Nothing to show.'
+    else
+      fs.writeFile filePath, text, flag: 'w+', (err) ->
+        if err then reject err else resolve true
 
-showFile = ->
-  atom.workspace
-  .open(diffFilePath, searchAllPanes: true)
-  .done (textEditor) ->
+showFile = (filePath) ->
+  atom.workspace.open(filePath, searchAllPanes: true).then (textEditor) ->
     if atom.config.get('git-plus.openInPane')
       splitPane(atom.config.get('git-plus.splitPane'), textEditor)
     else
-      disposables.add textEditor.onDidDestroy =>
-        fs.unlink diffFilePath
-
-splitPane = (splitDir, oldEditor) ->
-  pane = atom.workspace.paneForURI(diffFilePath)
-  options = { copyActiveItem: true }
-  hookEvents = (textEditor) ->
-    oldEditor.destroy()
-    disposables.add textEditor.onDidDestroy =>
-      fs.unlink diffFilePath
-
-  directions =
-    left: =>
-      pane = pane.splitLeft options
-      hookEvents(pane.getActiveEditor())
-    right: =>
-      pane = pane.splitRight options
-      hookEvents(pane.getActiveEditor())
-    up: =>
-      pane = pane.splitUp options
-      hookEvents(pane.getActiveEditor())
-    down: =>
-      pane = pane.splitDown options
-      hookEvents(pane.getActiveEditor())
-  directions[splitDir]()
-  oldEditor.destroy()
-
-module.exports = gitDiff
+      textEditor
