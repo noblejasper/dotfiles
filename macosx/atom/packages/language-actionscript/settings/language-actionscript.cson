@@ -1,3 +1,0 @@
-'.source.actionscript.2':
-  'editor':
-    'increaseIndentPattern': '^.*(\\{[^}"\']*|\\([^)"\']*)$'

@@ -1,3 +1,0 @@
-'.atom-workspace':
-  'shift-ctrl-w': 'wercker-status:checknow'
-  'shift-cmd-w': 'wercker-status:checknow'
