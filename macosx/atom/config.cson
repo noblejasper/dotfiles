@@ -27,7 +27,7 @@
       "alignment"
       "japanese-wrap"
       "python-isort"
-      "emacs-plus"
+      "atomic-emacs"
     ]
   editor:
     invisibles: {}
@@ -94,6 +94,15 @@
     Interval_Minutes: 2
   "aligner-python":
     ":-leftSpace": true
+  "autocomplete-python":
+    pythonPaths: '''
+      /usr/local/opt/pyenv/versions/tyrus2.7.9/bin/python
+      
+    '''
+    extraPaths: '''
+      /usr/local/opt/pyenv/versions/tyrus2.7.9/lib/python2.7/site-packages
+      
+    '''
 ".basic.html.text":
   editor:
     preferredLineLength: 130

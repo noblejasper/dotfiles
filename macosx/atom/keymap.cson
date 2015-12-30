@@ -38,6 +38,7 @@
   'f10': 'bookmarks:toggle-bookmark'
 'atom-text-editor:not([mini])':
   'ctrl-e': 'editor:move-to-end-of-line'
+  'alt->': 'core:move-to-bottom'
 'atom-text-editor:not(mini).autocomplete-active':
   'enter': 'autocomplete-plus:confirm'
   'up': 'unset!'
@@ -52,5 +53,3 @@
 '.platform-darwin atom-text-editor:not([mini])':
   'ctrl-d': 'core:delete'
   'ctrl-w': 'core:cut'
-'.platform-darwin atom-pane atom-text-editor:not([mini])':
-  'cmd-/': 'unset!'
