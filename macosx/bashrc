@@ -30,8 +30,11 @@ if which hub > /dev/null; then eval "$(hub alias -s)"; else echo "please 'brew i
 
 #pyenv
 export PYENV_ROOT=/usr/local/opt/pyenv
+export PATH="$PYENV_ROOT/bin:$PATH"
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+
+export CFLAGS="-I$(xcrun --show-sdk-path)/usr/include"
 
 # save history of screen
 function share_history {  # 以下の内容を関数として定義
@@ -78,6 +81,23 @@ fi
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 # enhancd
-if [ -f "/Users/jasper/.enhancd/bash/enhancd.bash" ]; then
-    source "/Users/jasper/.enhancd/bash/enhancd.bash"
+if [ -f "/Users/jasper/.enhancd/enhancd.sh" ]; then
+    source "/Users/jasper/.enhancd/enhancd.sh"
+    export ENHANCD_FILTER=fzf:peco;
 fi
+
+function random_cowsay() {
+    # Only brew user!
+    # If you are not brew user, change 'COWS' path
+    COWS=`brew --prefix`/Cellar/cowsay/3.03/share/cows
+    NBRE_COWS=$(ls -1 $COWS | wc -l)
+    COWS_RANDOM=$(expr $RANDOM % $NBRE_COWS + 1)
+    COW_NAME=$(ls -1 $COWS | awk -F\. -v COWS_RANDOM_AWK=$COWS_RANDOM 'NR == COWS_RANDOM_AWK {print $1}')
+    cowsay -f $COW_NAME "`Fortune -s`"
+}
+if which fortune cowsay >/dev/null; then
+    while :
+    do
+        random_cowsay 2>/dev/null && break
+    done
+fi && unset -f random_cowsay
