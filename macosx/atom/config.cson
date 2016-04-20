@@ -1,20 +1,25 @@
 "*":
-  "exception-reporting":
-    userId: "fa06383b-9023-9082-cb83-6c0ba6b7ca5b"
-  welcome:
-    showOnStartup: false
+  "aligner-python":
+    ":-leftSpace": true
+  "atom-beautify":
+    _analyticsUserId: "21d09d52-6271-4f0e-ad21-e1e3f9bd06ee"
+  autocomplete:
+    includeCompletionsFromAllBuffers: true
+  "autocomplete-elixir": {}
+  "autocomplete-plus":
+    includeCompletionsFromAllBuffers: true
+  "autocomplete-python":
+    extraPaths: '''
+      /usr/local/opt/pyenv/versions/tyrus2.7.9/lib/python2.7/site-packages
+      
+    '''
+    pythonPaths: '''
+      /usr/local/opt/pyenv/versions/tyrus2.7.9/bin/python
+      
+    '''
+  "bracket-matcher":
+    autocompleteBrackets: false
   core:
-    followSymlinks: true
-    themes: [
-      "seti-ui"
-      "monokai"
-    ]
-    ignoredNames: [
-      ".git"
-      ".bundle"
-      ".sass-cache"
-      "vendor"
-    ]
     disabledPackages: [
       "atom-alignment"
       "sort-lines"
@@ -29,123 +34,128 @@
       "python-isort"
       "atomic-emacs"
     ]
+    followSymlinks: true
+    ignoredNames: [
+      ".git"
+      ".bundle"
+      ".sass-cache"
+      "vendor"
+    ]
+    themes: [
+      "seti-ui"
+      "monokai"
+    ]
+  "disable-keybindings":
+    communityPackages: [
+      "Emmet"
+    ]
+    prefixKeys: [
+      "ctrl-w"
+    ]
   editor:
-    invisibles: {}
-    showIndentGuide: true
-    preferredLineLength: 130
-    tabLength: 4
-    useShadowDOM: false
     ensure_newline_at_eof_on_save: true
+    fontFamily: "Ricty Diminished"
+    fontSize: 16
+    invisibles: {}
+    preferredLineLength: 130
+    showIndentGuide: true
+    showInvisibles: true
     show_full_path: true
+    softWrap: true
+    tabLength: 4
     translate_tabs_to_spaces: true
     trim_trailing_white_space_on_save: true
-    fontFamily: "Ricty Diminished"
-    showInvisibles: true
-    softWrap: true
-    fontSize: 17
+    useShadowDOM: false
   "emacs-mode":
-    hideTabs: false
     hideSidebar: false
+    hideTabs: false
     useEmacsCursor: true
-    useFuzzyFileFinder: false
     useFuzzyBufferFinder: false
+    useFuzzyFileFinder: false
+  "exception-reporting":
+    userId: "fa06383b-9023-9082-cb83-6c0ba6b7ca5b"
+  "git-plus": {}
+  "inline-autocomplete":
+    includeCompletionsFromAllBuffers: true
+    includeGrammarKeywords: true
+  "japanese-wrap":
+    characterWidth: {}
   linter:
-    lintOnChange: false
-    statusBar: "Show error if the cursor is in range"
     ignoredLinterErrors: [
       "pyflakes"
       "jshint"
     ]
+    lintOnChange: false
+    statusBar: "Show error if the cursor is in range"
     statusIconPosition: "Right"
-  "linter-python-pyflakes":
-    pyflakesDirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
-  "linter-python-pep8":
-    pep8DirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
-    ignoreErrorCodes: "E501, W292"
-  "python-isort":
-    isortPath: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
-  "symbols-tree-view":
-    autoToggle: true
-  autocomplete:
-    includeCompletionsFromAllBuffers: true
-  "run-command":
-    precedeCommandsWith: "export PATH=${PATH}:/usr/local/bin; echo $PATH; source ~/.profile"
-  "bracket-matcher":
-    autocompleteBrackets: false
-  "inline-autocomplete":
-    includeCompletionsFromAllBuffers: true
-    includeGrammarKeywords: true
-  "autocomplete-plus":
-    includeCompletionsFromAllBuffers: true
-  "git-plus": {}
-  "japanese-wrap":
-    characterWidth: {}
-  "autocomplete-elixir": {}
   "linter-elixirc":
     elixircExecutablePath: "/usr/local/bin/"
-  "disable-keybindings":
-    prefixKeys: [
-      "ctrl-w"
-    ]
-    communityPackages: [
-      "Emmet"
-    ]
+  "linter-python-pep8":
+    ignoreErrorCodes: "E501, W292"
+    pep8DirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
+  "linter-python-pyflakes":
+    pyflakesDirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
+  "python-isort":
+    isortPath: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
+  "python-tools": {}
+  "run-command":
+    precedeCommandsWith: "export PATH=${PATH}:/usr/local/bin; echo $PATH; source ~/.profile"
+  "symbols-tree-view":
+    autoToggle: true
+  welcome:
+    showOnStartup: false
   "wercker-status":
     Interval_Minutes: 2
-  "aligner-python":
-    ":-leftSpace": true
-  "autocomplete-python":
-    pythonPaths: '''
-      /usr/local/opt/pyenv/versions/tyrus2.7.9/bin/python
-      
-    '''
-    extraPaths: '''
-      /usr/local/opt/pyenv/versions/tyrus2.7.9/lib/python2.7/site-packages
-      
-    '''
-".basic.html.text":
-  editor:
-    preferredLineLength: 130
-".js.regexp.source":
-  editor:
-    preferredLineLength: 130
-".elixir.html.text":
-  editor:
-    preferredLineLength: 130
-".console.python.text":
-  editor:
-    preferredLineLength: 130
-".python.text.traceback":
-  editor:
-    preferredLineLength: 130
-".python.regexp.source":
-  editor:
-    preferredLineLength: 130
-".html.jinja.text":
-  editor:
-    preferredLineLength: 130
 ".3.actionscript.source":
   editor:
     preferredLineLength: 130
 ".asdoc.html.text":
   editor:
     preferredLineLength: 130
-".flex-config.text.xml":
+".basic.html.text":
   editor:
     preferredLineLength: 130
-".js.source":
+".coffee.source":
   editor:
     preferredLineLength: 130
-".elixir.text":
+    tabLength: 2
+".console.python.text":
+  editor:
+    preferredLineLength: 130
+".elixir.html.text":
   editor:
     preferredLineLength: 130
 ".elixir.source":
   editor:
     preferredLineLength: 130
-".python.source":
+".elixir.text":
+  editor:
+    preferredLineLength: 130
+".flex-config.text.xml":
+  editor:
+    preferredLineLength: 130
+".html.jinja.text":
   editor:
     preferredLineLength: 130
 ".jinja.source":
+  editor:
+    preferredLineLength: 130
+".js.regexp.source":
+  editor:
+    preferredLineLength: 130
+".js.source":
+  editor:
+    preferredLineLength: 130
+".litcoffee.source":
+  editor:
+    preferredLineLength: 130
+".python.regexp.source":
+  editor:
+    preferredLineLength: 130
+".python.source":
+  editor:
+    preferredLineLength: 130
+".python.text.traceback":
   editor:
     preferredLineLength: 130
 "linter-python-pyflakes":
