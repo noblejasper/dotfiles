@@ -3,6 +3,8 @@
     ":-leftSpace": true
   "atom-beautify":
     _analyticsUserId: "21d09d52-6271-4f0e-ad21-e1e3f9bd06ee"
+    general:
+      _analyticsUserId: "6ceb357c-1aa7-4ab1-9137-464b7143d993"
   autocomplete:
     includeCompletionsFromAllBuffers: true
   "autocomplete-elixir": {}
@@ -33,6 +35,10 @@
       "japanese-wrap"
       "python-isort"
       "atomic-emacs"
+      "symbols-tree-view"
+      "tablr"
+      "linter-jshint"
+      "linter-pylint"
     ]
     followSymlinks: true
     ignoredNames: [
@@ -53,6 +59,7 @@
       "ctrl-w"
     ]
   editor:
+    backUpBeforeSaving: true
     ensure_newline_at_eof_on_save: true
     fontFamily: "Ricty Diminished"
     fontSize: 16
@@ -61,8 +68,10 @@
     showIndentGuide: true
     showInvisibles: true
     show_full_path: true
+    softTabs: false
     softWrap: true
     tabLength: 4
+    tabType: "soft"
     translate_tabs_to_spaces: true
     trim_trailing_white_space_on_save: true
     useShadowDOM: false
@@ -81,20 +90,21 @@
   "japanese-wrap":
     characterWidth: {}
   linter:
-    ignoredLinterErrors: [
-      "pyflakes"
-      "jshint"
-    ]
-    lintOnChange: false
+    gutterPosition: "Left"
+    ignoreMatchedFiles: "*.es6"
+    lintOnChange: true
     statusBar: "Show error if the cursor is in range"
     statusIconPosition: "Right"
   "linter-elixirc":
     elixircExecutablePath: "/usr/local/bin/"
+  "linter-eslint":
+    disableWhenNoEslintConfig: false
+  "linter-pylint": {}
   "linter-python-pep8":
     ignoreErrorCodes: "E501, W292"
-    pep8DirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
+    pep8DirToExecutable: "/usr/local/opt/pyenv/shims/flake8"
   "linter-python-pyflakes":
-    pyflakesDirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
+    pyflakesDirToExecutable: "/usr/local/opt/pyenv/shims/"
   "python-isort":
     isortPath: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
   "python-tools": {}
@@ -140,12 +150,18 @@
 ".jinja.source":
   editor:
     preferredLineLength: 130
+".js.regexp.replacement.source":
+  editor:
+    preferredLineLength: 130
+    tabLength: 4
 ".js.regexp.source":
   editor:
     preferredLineLength: 130
+    tabLength: 4
 ".js.source":
   editor:
     preferredLineLength: 130
+    tabLength: 4
 ".litcoffee.source":
   editor:
     preferredLineLength: 130

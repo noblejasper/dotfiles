@@ -23,13 +23,21 @@
     sync = !git checkout master && git pull origin master && git fetch -p origin && git branch -d $(git branch --merged | grep -v master | grep -v '*')
 [user]
 	name = 
-	email = 
+	email = nobjas@gmail.com
 [push]
     default = current
 [filter "media"]
     clean = git-media-clean %f
     smudge = git-media-smudge %f
 [filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
 	required = true
+[pager]
+	log = diff-highlight | less
+	show = diff-highlight | less
+	diff = diff-highlight | less
+[diff]
+	compactionHeuristic = true
+[commit]
+	template = /Users/jasper/.commit_template
