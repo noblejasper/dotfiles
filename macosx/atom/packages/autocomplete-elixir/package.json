@@ -1,88 +1,41 @@
 {
-  "name": "autocomplete-elixir",
-  "main": "./lib/autocomplete-elixir",
-  "version": "1.3.12",
-  "author": {
-    "name": "Krzysztof Wende",
-    "email": "iraasta",
-    "url": "http://neontree.pl/"
-  },
-  "description": "Intelligent elixir code completion",
-  "keywords": [
-    "autocomplete",
-    "autocomplete-plus",
-    "alchemide",
-    "elixir"
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61458-1g35aek.ftxpw4s4i/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61458-1g35aek.ftxpw4s4i/package.tgz",
+        "spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61458-1g35aek.ftxpw4s4i/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/apm-install-dir-118818-61458-96gq63.nhp4zbmx6r"
+    ]
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/iraasta/autocomplete-elixir"
-  },
-  "homepage": "https://github.com/iraasta/autocomplete-elixir",
-  "bugs": {
-    "url": "https://github.com/iraasta/autocomplete-elixir/issues"
-  },
-  "license": "MIT",
-  "engines": {
-    "atom": ">=0.174.0 <2.0.0"
-  },
-  "dependencies": {
-    "extend": "^2.0.0",
-    "jquery": "^2",
-    "mime": "^1.3.4"
-  },
-  "providedServices": {
-    "autocomplete.provider": {
-      "description": "Intelligent Elixir code completion",
-      "versions": {
-        "2.0.0": "provideAutocompletion"
-      }
-    }
-  },
-  "readme": "# Atom Autocomplete+ Elixir. Provides intelligent code completion for Elixir. Requires [Autocomplete+](https://github.com/atom-community/autocomplete-plus)",
-  "readmeFilename": "README.md",
-  "_id": "autocomplete-elixir@1.3.12",
-  "_shasum": "2a160ad7bc20a2f00e02c9689b0435f269d1759c",
-  "_resolved": "file:../d-115530-52659-ztw0h0/package.tgz",
-  "_from": "../d-115530-52659-ztw0h0/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
       {
-        "name": "extend",
-        "version": "2.0.1",
-        "path": "node_modules/extend/index.js"
-      },
-      {
         "name": "jquery",
-        "version": "2.1.4",
+        "version": "2.1.3",
         "path": "node_modules/jquery/dist/jquery.js"
-      },
-      {
-        "name": "mime",
-        "version": "1.3.4",
-        "path": "node_modules/mime/mime.js"
       }
     ],
     "extensions": {
       ".coffee": [
-        "lib/alchemide/wrapper.coffee",
         "lib/autocomplete-elixir-client.coffee",
         "lib/autocomplete-elixir-provider.coffee",
         "lib/autocomplete-elixir.coffee"
       ],
       ".json": [
-        "node_modules/extend/.jscs.json",
-        "node_modules/extend/component.json",
-        "node_modules/extend/package.json",
         "node_modules/jquery/bower.json",
         "node_modules/jquery/package.json",
-        "node_modules/mime/package.json",
-        "node_modules/mime/types.json",
         "package.json"
       ],
       ".js": [
-        "node_modules/extend/index.js",
+        "node_modules/jquery/dist/cdn/jquery-2.1.3.js",
+        "node_modules/jquery/dist/cdn/jquery-2.1.3.min.js",
         "node_modules/jquery/dist/jquery.js",
         "node_modules/jquery/dist/jquery.min.js",
         "node_modules/jquery/src/ajax/jsonp.js",
@@ -167,27 +120,86 @@
         "node_modules/jquery/src/var/strundefined.js",
         "node_modules/jquery/src/var/support.js",
         "node_modules/jquery/src/var/toString.js",
-        "node_modules/jquery/src/wrap.js",
-        "node_modules/mime/build/build.js",
-        "node_modules/mime/build/test.js",
-        "node_modules/mime/cli.js",
-        "node_modules/mime/mime.js"
+        "node_modules/jquery/src/wrap.js"
       ]
     },
     "folders": [
       {
         "paths": [
-          "lib/alchemide",
           "lib",
-          "",
+          "server",
           "spec"
         ],
         "dependencies": {
-          "extend": "^2.0.0",
-          "jquery": "^2",
-          "mime": "^1.3.4"
+          "jquery": "^2"
         }
       }
     ]
-  }
+  },
+  "_from": "../d-118818-61458-1g35aek.ftxpw4s4i/package.tgz",
+  "_id": "autocomplete-elixir@1.5.16",
+  "_inCache": true,
+  "_location": "/autocomplete-elixir",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61458-1g35aek.ftxpw4s4i/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61458-1g35aek.ftxpw4s4i/package.tgz",
+    "spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61458-1g35aek.ftxpw4s4i/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-118818-61458-1g35aek.ftxpw4s4i/package.tgz",
+  "_shasum": "2a160ad7bc20a2f00e02c9689b0435f269d1759c",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61458-1g35aek.ftxpw4s4i/package.tgz",
+  "_where": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/apm-install-dir-118818-61458-96gq63.nhp4zbmx6r",
+  "author": {
+    "name": "Krzysztof Wende",
+    "email": "iraasta",
+    "url": "http://neontree.pl/"
+  },
+  "bugs": {
+    "url": "https://github.com/iraasta/autocomplete-elixir/issues"
+  },
+  "dependencies": {
+    "extend": "^2.0.0",
+    "jquery": "^2",
+    "mime": "^1.3.4"
+  },
+  "description": "Intelligent elixir code completion",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "homepage": "https://github.com/iraasta/autocomplete-elixir",
+  "keywords": [
+    "autocomplete",
+    "autocomplete-plus",
+    "alchemide",
+    "elixir"
+  ],
+  "license": "MIT",
+  "main": "./lib/autocomplete-elixir",
+  "name": "autocomplete-elixir",
+  "optionalDependencies": {},
+  "providedServices": {
+    "autocomplete.provider": {
+      "description": "Intelligent Elixir code completion",
+      "versions": {
+        "2.0.0": "provideAutocompletion"
+      }
+    }
+  },
+  "readme": "# Atom Autocomplete+ Elixir. Provides intelligent code completion for Elixir. Requires [Autocomplete+](https://github.com/atom-community/autocomplete-plus)",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iraasta/autocomplete-elixir.git"
+  },
+  "version": "1.5.16"
 }

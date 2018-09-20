@@ -1,0 +1,70 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61720-6tltdz.oypn9udi/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61720-6tltdz.oypn9udi/package.tgz",
+        "spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61720-6tltdz.oypn9udi/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/apm-install-dir-118818-61720-187rd0l.os6o4rt3xr"
+    ]
+  ],
+  "_from": "../d-118818-61720-6tltdz.oypn9udi/package.tgz",
+  "_id": "react-snippets@1.1.1",
+  "_inCache": true,
+  "_location": "/react-snippets",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61720-6tltdz.oypn9udi/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61720-6tltdz.oypn9udi/package.tgz",
+    "spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61720-6tltdz.oypn9udi/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-118818-61720-6tltdz.oypn9udi/package.tgz",
+  "_shasum": "9e608253f51e8959b725cc03c0165921e3a25f11",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61720-6tltdz.oypn9udi/package.tgz",
+  "_where": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/apm-install-dir-118818-61720-187rd0l.os6o4rt3xr",
+  "bugs": {
+    "url": "https://github.com/webbushka/atom-react-snippets/issues"
+  },
+  "dependencies": {},
+  "description": "Atom Snippets for React",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-lintspaces": "^0.3.0"
+  },
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "homepage": "https://github.com/webbushka/atom-react-snippets",
+  "keywords": [
+    "react",
+    "snippets",
+    "es6"
+  ],
+  "license": "MIT",
+  "main": "./lib/react-snippets",
+  "name": "react-snippets",
+  "optionalDependencies": {},
+  "readme": "Atom React.js Snippets [![Build Status](https://travis-ci.org/webbushka/atom-react-snippets.svg?branch=master)](https://travis-ci.org/webbushka/atom-react-snippets)\n====================================================================================================================================================================\n\nAn [Atom](https://atom.io/) snippet library for React. This library uses ES6 syntax, if you would prefer ES5 or Coffeescript snippets please use the [Atom React Package](https://atom.io/packages/react).\n\nInstall\n-------\n\nGo to `Packages > Settings View > Open` once in settings go to the Install tab and search for **react-snippets**\n\nRestart Atom\n\nDevelopment\n-----------\n\n```sh\n$ cd ~/.atom/packages\n$ git clone https://github.com/webbushka/atom-react-snippets.git\n$ cd atom-react-snippets\n$ apm install\n$ apm link\n```\n\nSnippets\n--------\n\nThe **⇥** means the `TAB` key\n\n| Trigger      | Content |\n| -------:     | ------- |\n| `_i→`       | import empty |\n| `_ir→`      | import react |\n| `_irc→`     | import react and component |\n| `_irp→`     | import react and prop-types |\n| `_ircp→`    | import react, component and prop-types |\n| `_ird→`     | import react-dom |\n| `_ex→`      | export |\n| `_exd→`     | export default |\n| `_cdm→`     | `componentDidMount method` |\n| `_cwm→`     | `componentWillMount method` |\n| `_cwr→`     | `componentWillReceiveProps method` |\n| `_scu→`     | `shouldComponentUpdate method` |\n| `_cwup→`    | `componentWillUpdate method` |\n| `_cdup→`    | `componentDidUpdate method` |\n| `_cwun→`    | `componentWillUnmount method` |\n| `_cdc→`     | `componentDidCatch method` |\n| `_cx→`      | `cx` |\n| `_fup→`     | `forceUpdate` |\n| `_cct→`     | component contextTypes |\n| `_cpt→`     | component propTypes |\n| `_cdp→`     | component defaultProps |\n| `_scct→`    | static component contextTypes |\n| `_scpt→`    | static component propTypes |\n| `_scdp→`    | static component defaultProps |\n| `_cer→`     | class component skeleton |\n| `_rsc→`     | stateless component skeleton |\n| `_rscp→`    | stateless component skeleton with PropTypes |\n| `_rscr→`    | stateless component skeleton with explicit `return` |\n| `_rscc→`    | stateless component skeleton with `handleClick` |\n| `_rsf→`     | stateless function |\n| `_cdn→`     | component display name |\n| `_ren→`     | `render() method` |\n| `_sst→`     | `setState()` |\n| `_props→`   | `this.props.` |\n| `_state→`   | `this.state.` |\n| `_rrc→`     | `React.render()` |\n| `_frag→`    | `<React.Fragment></React.Fragment>` |\n| `_cns→`     | `constructor method` |\n| `_clss→`    | class extends |\n| `_dnghtml→` | `dangerouslySetInnerHTML` |\n\nIn this version the PropTypes snippets prefix has changed to `_pt` instead of `rp`. All snippets have two versions to allow for required and not required types.\n\n| Trigger  | Content |\n| -------: | ------- |\n| `_pta→`   | `PropTypes.array,` |\n| `_ptar→`  | `PropTypes.array.isRequired,` |\n| `_ptb→`   | `PropTypes.bool,` |\n| `_ptbr→`  | `PropTypes.bool.isRequired,` |\n| `_ptf→`   | `PropTypes.func,` |\n| `_ptfr→`  | `PropTypes.func.isRequired,` |\n| `_ptn→`   | `PropTypes.number,` |\n| `_ptnr→`  | `PropTypes.number.isRequired,` |\n| `_pto→`   | `PropTypes.object.,` |\n| `_ptor→`  | `PropTypes.object.isRequired,` |\n| `_pts→`   | `PropTypes.string,` |\n| `_ptsr→`  | `PropTypes.string.isRequired,` |\n| `_ptnd→`  | `PropTypes.node,` |\n| `_ptndr→` | `PropTypes.node.isRequired,` |\n| `_ptel→`  | `PropTypes.element,` |\n| `_ptelr→` | `PropTypes.element.isRequired,` |\n| `_pti→`   | `PropTypes.instanceOf(ClassName),` |\n| `_ptir→`  | `PropTypes.instanceOf(ClassName).isRequired,` |\n| `_pte→`   | `PropTypes.oneOf(['News', 'Photos']),` |\n| `_pter→`  | `PropTypes.oneOf(['News', 'Photos']).isRequired,` |\n| `_ptet→`  | `PropTypes.oneOfType([PropTypes.string, PropTypes.number]),` |\n| `_ptetr→` | `PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,` |\n| `_ptao→`  | `PropTypes.arrayOf(PropTypes.number),` |\n| `_ptaor→` | `PropTypes.arrayOf(PropTypes.number).isRequired,` |\n| `_ptoo→`  | `PropTypes.objectOf(PropTypes.number),` |\n| `_ptoor→` | `PropTypes.objectOf(PropTypes.number).isRequired,` |\n| `_ptsh→`  | `PropTypes.shape({color: PropTypes.string, fontSize: PropTypes.number}),` |\n| `_ptshr→` | `PropTypes.shape({color: PropTypes.string, fontSize: PropTypes.number}).isRequired,` |\n\nContributing\n------------\n\n1.\tFork it!\n2.\tCreate your feature branch: `git checkout -b my-new-feature`\n3.\tCommit your changes: `git commit -m 'Add some feature'`\n4.\tPush to the branch: `git push origin my-new-feature`\n5.\tSubmit a pull request\n\nLicense\n-------\n\n[MIT License](http://zenorocha.mit-license.org/) © Zeno Rocha\n\nCredit\n------\n\nThe React.js snippets were originally created by [orktes](https://atom.io/users/orktes) in [Atom React](https://atom.io/packages/react) in ES5 syntax.\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webbushka/atom-react-snippets.git"
+  },
+  "scripts": {
+    "test": "gulp"
+  },
+  "version": "1.1.1"
+}

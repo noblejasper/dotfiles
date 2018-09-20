@@ -1,20 +1,14 @@
 "*":
-  "exception-reporting":
-    userId: "fa06383b-9023-9082-cb83-6c0ba6b7ca5b"
-  welcome:
-    showOnStartup: false
+  autocomplete:
+    includeCompletionsFromAllBuffers: true
+  "autocomplete-elixir": {}
+  "autocomplete-plus":
+    includeCompletionsFromAllBuffers: true
+  "autocomplete-python":
+    useKite: false
+  "bracket-matcher":
+    autocompleteBrackets: false
   core:
-    followSymlinks: true
-    themes: [
-      "seti-ui"
-      "monokai"
-    ]
-    ignoredNames: [
-      ".git"
-      ".bundle"
-      ".sass-cache"
-      "vendor"
-    ]
     disabledPackages: [
       "atom-alignment"
       "sort-lines"
@@ -24,90 +18,96 @@
       "color-picker"
       "pigments"
       "wercker-status"
+      "japanese-wrap"
+      "linter-jshint"
+      "linter-pycodestyle"
+      "linter-python"
+    ]
+    followSymlinks: true
+    ignoredNames: [
+      ".git"
+      ".bundle"
+      ".sass-cache"
+      "vendor"
+    ]
+    telemetryConsent: "limited"
+    themes: [
+      "seti-ui"
+      "monokai"
+    ]
+  "disable-keybindings":
+    communityPackages: [
+      "Emmet"
+    ]
+    prefixKeys: [
+      "ctrl-w"
     ]
   editor:
+    autoIndentOnPaste: false
+    ensure_newline_at_eof_on_save: true
+    fontSize: 21
     invisibles: {}
     showIndentGuide: true
-    preferredLineLength: 130
-    tabLength: 4
-    useShadowDOM: false
-    ensure_newline_at_eof_on_save: true
+    showInvisibles: true
     show_full_path: true
     translate_tabs_to_spaces: true
     trim_trailing_white_space_on_save: true
-    fontFamily: "Ricty Diminished"
-    showInvisibles: true
-    softWrap: true
-    fontSize: 17
+    useShadowDOM: false
   "emacs-mode":
-    hideTabs: false
     hideSidebar: false
+    hideTabs: false
     useEmacsCursor: true
-    useFuzzyFileFinder: false
     useFuzzyBufferFinder: false
+    useFuzzyFileFinder: false
+  "exception-reporting":
+    userId: "fa06383b-9023-9082-cb83-6c0ba6b7ca5b"
+  "git-plus":
+    general:
+      _analyticsUserId: "5a6f7f1c-80ca-4318-b7d7-662fa11ca0fc"
+  "inline-autocomplete":
+    includeCompletionsFromAllBuffers: true
+    includeGrammarKeywords: true
+  "japanese-wrap":
+    characterWidth: {}
   linter:
-    lintOnChange: false
-    statusBar: "Show error if the cursor is in range"
     ignoredLinterErrors: [
       "pyflakes"
       "jshint"
     ]
-    statusIconPosition: "Right"
-  "linter-python-pyflakes":
-    pyflakesDirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
-  "symbols-tree-view":
-    autoToggle: true
-  autocomplete:
-    includeCompletionsFromAllBuffers: true
-  "run-command":
-    precedeCommandsWith: "export PATH=${PATH}:/usr/local/bin; echo $PATH; source ~/.profile"
-  "bracket-matcher":
-    autocompleteBrackets: false
-  "inline-autocomplete":
-    includeCompletionsFromAllBuffers: true
-    includeGrammarKeywords: true
-  "autocomplete-plus":
-    includeCompletionsFromAllBuffers: true
-  "git-plus": {}
-  "japanese-wrap":
-    characterWidth: {}
-  "autocomplete-elixir": {}
+    lintOnChange: true
+    statusBar: "Show error if the cursor is in range"
   "linter-elixirc":
     elixircExecutablePath: "/usr/local/bin/"
-  "disable-keybindings":
-    prefixKeys: [
-      "ctrl-w"
-    ]
-    communityPackages: [
-      "Emmet"
-    ]
+  "linter-flake8":
+    maxLineLength: 120
+  "linter-pycodestyle":
+    executablePath: "/usr/local/opt/pyenv/shims/pycodestyle"
+    maxLineLength: 120
+  "linter-python":
+    executablePath: "/usr/local/opt/pyenv/shims/pylama"
+  "linter-python-pyflakes":
+    pyflakesDirToExecutable: "/usr/local/opt/pyenv/versions/global2.7.9/bin/"
+  "linter-ui-default":
+    panelHeight: 300
+    showPanel: true
+  "run-command":
+    precedeCommandsWith: "export PATH=${PATH}:/usr/local/bin; echo $PATH; source ~/.profile"
+  "symbols-tree-view":
+    autoToggle: true
+  welcome:
+    showOnStartup: false
   "wercker-status":
     Interval_Minutes: 2
-".html.jinja.text":
+".basic.html.text":
   editor:
     preferredLineLength: 130
-".python.regexp.source":
+".coffee.jsx.source":
   editor:
-    preferredLineLength: 130
-".python.text.traceback":
-  editor:
-    preferredLineLength: 130
+    autoIndent: true
 ".console.python.text":
   editor:
     preferredLineLength: 130
 ".elixir.html.text":
-  editor:
-    preferredLineLength: 130
-".js.regexp.source":
-  editor:
-    preferredLineLength: 130
-".basic.html.text":
-  editor:
-    preferredLineLength: 130
-".jinja.source":
-  editor:
-    preferredLineLength: 130
-".python.source":
   editor:
     preferredLineLength: 130
 ".elixir.source":
@@ -116,6 +116,28 @@
 ".elixir.text":
   editor:
     preferredLineLength: 130
+".html.jinja.text":
+  editor:
+    preferredLineLength: 130
+".jinja.source":
+  editor:
+    preferredLineLength: 130
+".js.jsx.source":
+  editor:
+    preferredLineLength: 130
+    tabLength: 2
+".js.regexp.source":
+  editor:
+    preferredLineLength: 130
 ".js.source":
+  editor:
+    preferredLineLength: 130
+".python.regexp.source":
+  editor:
+    preferredLineLength: 130
+".python.source":
+  editor:
+    preferredLineLength: 130
+".python.text.traceback":
   editor:
     preferredLineLength: 130

@@ -7,11 +7,10 @@ These are just guidelines, not rules, use your best judgment and feel free to
 propose changes to this document in a pull request.
 
 This project adheres to the [Open Code of Conduct][code-of-conduct]. By participating, you are expected to uphold this code.
-[code-of-conduct]: http://todogroup.org/opencodeofconduct/#Atom/opensource@github.com
 
 ## Submitting Issues
 
-* You can create an issue [here](https://github.com/atom-community/linter/issues/new), but
+* You can create an issue [here](https://github.com/steelbrain/linter/issues/new), but
   before doing that please read the notes below on collecting information and submitting issues.
   Include as many details as possible with your report.
 * Include the version of Atom you are using and the OS.
@@ -24,7 +23,7 @@ This project adheres to the [Open Code of Conduct][code-of-conduct]. By particip
   will be logged. If you can reproduce the error, use this approach to get the
   full stack trace and include it in the issue.
 * On Mac, check Console.app for stack traces to include if reporting a crash.
-* Perform a [cursory search](https://github.com/atom-community/linter/search?q=&type=Issues&utf8=%E2%9C%93)
+* Perform a [cursory search](https://github.com/steelbrain/linter/search?q=&type=Issues&utf8=%E2%9C%93)
   to see if a similar issue has already been submitted.
 * Please setup a [profile picture](https://help.github.com/articles/how-do-i-set-up-my-profile-picture)
   to make yourself recognizable and so we can all get to know each other better.
@@ -34,7 +33,7 @@ This project adheres to the [Open Code of Conduct][code-of-conduct]. By particip
 * We prefer small, focused, single-responsibility pull requests that include tests where possible. These can be contrasted with large pull requests, pull requests with multiple unrelated concerns, and pull requests which have no tests.
 * Include screenshots and animated GIFs in your pull request whenever possible.
 * **Please ensure that your pull request has no lint errors.** This is a project for linters after all,
-  so please ensure you have the [linter-coffeelint](https://atom.io/packages/linter-coffeelint) and [linter-eslint](https://atom.io/packages/linter-eslint) packages installed in
+  so please ensure you have the [linter-eslint](https://atom.io/packages/linter-eslint) package installed in
   Atom.
 * Include thoughtfully-worded, well-structured
   [Jasmine](http://jasmine.github.io/) specs in the `./spec` folder. Run them using `apm test`. See
@@ -98,30 +97,6 @@ describe 'when the dog is happy', ->
     # spec here
 ```
 
-## Documentation Styleguide
-
-* Use [AtomDoc](https://github.com/atom/atomdoc).
-* Use [Markdown](https://daringfireball.net/projects/markdown).
-* Reference methods and classes in markdown with the custom `{}` notation:
-    * Reference classes with `{ClassName}`
-    * Reference instance methods with `{ClassName::methodName}`
-    * Reference class methods with `{ClassName.methodName}`
-
-### Example
-
-```coffee
-# Public: Disable the package with the given name.
-#
-# * `name`    The {String} name of the package to disable.
-# * `options` (optional) The {Object} with disable options (default: {}):
-#   * `trackTime`     A {Boolean}, `true` to track the amount of time taken.
-#   * `ignoreErrors`  A {Boolean}, `true` to catch and ignore errors thrown.
-# * `callback` The {Function} to call after the package has been disabled.
-#
-# Returns `undefined`.
-disablePackage: (name, options, callback) ->
-```
-
 ### Commit Rights
 
 * Commit rights may be given to a contributor who has shown prior history of submitting high
@@ -131,3 +106,5 @@ that has repeatedly or willfully disregarded the [code of conduct][code-of-condu
 
 Committers are expected to submit non-trivial changes via pull request, and receive :+1: / :-1: votes from two other contributors. Use your best judgement on what
 constitutes a "trivial" change.
+
+[code-of-conduct]: http://todogroup.org/opencodeofconduct/#Atom/opensource@github.com

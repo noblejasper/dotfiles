@@ -1,92 +1,89 @@
 'use babel';
 
-let CompositeDisposable;
-let ProjectsListView;
-let Projects;
-let SaveDialog;
-let DB;
+import { autorun } from 'mobx';
+import { CompositeDisposable, Disposable } from 'atom';
+import manager from './Manager';
+import { SAVE_URI, EDIT_URI } from './views/view-uri';
 
-export default class ProjectManager {
+let disposables = null;
+let projectsListView = null;
+let FileStore = null;
 
-  static get config() {
-    return {
-      showPath: {
-        type: 'boolean',
-        default: true
-      },
-      closeCurrent: {
-        type: 'boolean',
-        default: false,
-        description: `Currently disabled since it\'s broken.
-          Waiting for a better way to implement it.`
-      },
-      environmentSpecificProjects: {
-        type: 'boolean',
-        default: false
-      },
-      sortBy: {
-        type: 'string',
-        description: 'Default sorting is the order in which the projects are',
-        default: 'default',
-        enum: ['default', 'title', 'group']
-      }
-    };
-  }
+export function editComponent() {
+  const EditView = require('./views/EditView');
 
-  static activate() {
-    CompositeDisposable = require('atom').CompositeDisposable;
-    this.disposables = new CompositeDisposable();
+  return new EditView({ project: manager.activeProject });
+}
 
-    this.disposables.add(atom.commands.add('atom-workspace', {
-      'project-manager:list-projects': () => {
-        ProjectsListView = require('./projects-list-view');
-        let projectsListView = new ProjectsListView();
-        projectsListView.toggle();
-      },
+export function activate() {
+  disposables = new CompositeDisposable();
 
-      'project-manager:save-project': () => {
-        SaveDialog = require('./save-dialog');
-        let saveDialog = new SaveDialog();
-        saveDialog.attach();
-      },
-
-      'project-manager:edit-projects': () => {
-        DB = require('./db');
-        let db = new DB();
-        atom.workspace.open(db.file());
-      }
-    }));
-
-    atom.project.onDidChangePaths(() => this.updatePaths());
-    this.loadProject();
-  }
-
-  static loadProject() {
-    Projects = require('./projects');
-    this.projects = new Projects();
-    this.projects.getCurrent(project => {
-      if (project) {
-        this.project = project;
-        this.project.load();
-      }
-    });
-  }
-
-  static updatePaths() {
-    let paths = atom.project.getPaths();
-    if (this.project && paths.length) {
-      this.project.set('paths', paths);
+  disposables.add(atom.workspace.addOpener((uri) => {
+    if (uri === EDIT_URI || uri === SAVE_URI) {
+      return editComponent();
     }
-  }
 
-  static provideProjects() {
-    Projects = require('./projects');
-    return {
-      projects: new Projects()
-    };
-  }
+    return null;
+  }));
 
-  static deactivate() {
-    this.disposables.dispose();
-  }
+  disposables.add(atom.commands.add('atom-workspace', {
+    'project-manager:list-projects': () => {
+      if (!this.projectsListView) {
+        const ProjectsListView = require('./views/projects-list-view');
+
+        projectsListView = new ProjectsListView();
+      }
+
+      projectsListView.toggle();
+    },
+    'project-manager:edit-projects': () => {
+      if (!FileStore) {
+        FileStore = require('./stores/FileStore');
+      }
+
+      atom.workspace.open(FileStore.getPath());
+    },
+    'project-manager:save-project': () => {
+      atom.workspace.open(SAVE_URI);
+    },
+    'project-manager:edit-project': () => {
+      atom.workspace.open(EDIT_URI);
+    },
+    'project-manager:update-projects': () => {
+      manager.fetchProjects();
+    },
+  }));
+}
+
+export function deactivate() {
+  disposables.dispose();
+}
+
+export function provideProjects() {
+  return {
+    getProjects: (callback) => {
+      const disposer = autorun(() => {
+        callback(manager.projects);
+      });
+
+      return new Disposable(() => {
+        disposer();
+      });
+    },
+    getProject: (callback) => {
+      const disposer = autorun(() => {
+        callback(manager.activeProject);
+      });
+
+      return new Disposable(() => {
+        disposer();
+      });
+    },
+    saveProject: (project) => {
+      manager.saveProject(project);
+    },
+    openProject: (project) => {
+      manager.open(project);
+    },
+  };
 }

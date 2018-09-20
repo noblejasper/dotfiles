@@ -1,8 +1,9 @@
 {$, $$} = require 'atom-space-pen-views'
 
 git = require '../git'
-OutputView = require './output-view'
 notifier = require '../notifier'
+ActivityLogger = require('../activity-logger').default
+Repository = require('../repository').default
 SelectListMultipleView = require './select-list-multiple-view'
 
 module.exports =
@@ -18,8 +19,7 @@ class CherryPickSelectCommits extends SelectListMultipleView
     )
     @focusFilterEditor()
 
-  getFilterKey: ->
-    'hash'
+  getFilterKey: -> 'hash'
 
   addButtons: ->
     viewButton = $$ ->
@@ -40,11 +40,9 @@ class CherryPickSelectCommits extends SelectListMultipleView
 
     @storeFocusedElement()
 
-  cancelled: ->
-    @hide()
+  cancelled: -> @hide()
 
-  hide: ->
-    @panel?.destroy()
+  hide: -> @panel?.destroy()
 
   viewForItem: (item, matchedStr) ->
     $$ ->
@@ -56,9 +54,13 @@ class CherryPickSelectCommits extends SelectListMultipleView
 
   completed: (items) ->
     @cancel()
-    commits = (item.hash for item in items)
-    git.cmd
-      args: ['cherry-pick'].concat(commits)
-      cwd: @repo.getWorkingDirectory()
-      stdout: (data) =>
-        notifier.addSuccess data
+    commits = items.map (item) -> item.hash
+    message =  """cherry pick commits: #{commits.join(' ')}"""
+    repoName = new Repository(@repo).getName()
+    git.cmd(['cherry-pick'].concat(commits), cwd: @repo.getWorkingDirectory())
+    .then (msg) ->
+      notifier.addSuccess msg
+      ActivityLogger.record({repoName, message, output: msg})
+    .catch (msg) ->
+      notifier.addError msg
+      ActivityLogger.record({repoName, message, output: msg, failed: true})

@@ -46,7 +46,7 @@ describe "CommandOutputView", ->
     it "displays the last command's exit code", ->
       exitHandler = null
 
-      spyOn(@runner, 'onExit').andCallFake (handler) ->
+      spyOn(@runner, 'onClose').andCallFake (handler) ->
         exitHandler = handler
 
       view = new CommandOutputView(@runner)

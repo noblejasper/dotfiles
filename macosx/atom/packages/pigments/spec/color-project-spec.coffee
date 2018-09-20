@@ -1,3 +1,4 @@
+os = require 'os'
 fs = require 'fs-plus'
 path = require 'path'
 temp = require 'temp'
@@ -5,8 +6,7 @@ temp = require 'temp'
 {SERIALIZE_VERSION, SERIALIZE_MARKERS_VERSION} = require '../lib/versions'
 ColorProject = require '../lib/color-project'
 ColorBuffer = require '../lib/color-buffer'
-jsonFixture = require('./spec-helper').jsonFixture(__dirname, 'fixtures')
-require '../lib/register-elements'
+jsonFixture = require('./helpers/fixtures').jsonFixture(__dirname, 'fixtures')
 {click} = require './helpers/events'
 
 TOTAL_VARIABLES_IN_PROJECT = 12
@@ -20,6 +20,7 @@ describe 'ColorProject', ->
       '*.styl'
     ]
     atom.config.set 'pigments.ignoredNames', []
+    atom.config.set 'pigments.filetypesForColorWords', ['*']
 
     [fixturesPath] = atom.project.getPaths()
     rootPath = "#{fixturesPath}/project"
@@ -30,6 +31,9 @@ describe 'ColorProject', ->
       sourceNames: ['*.less']
       ignoredScopes: ['\\.comment']
     })
+
+  afterEach ->
+    project.destroy()
 
   describe '.deserialize', ->
     it 'restores the project in its previous state', ->
@@ -223,8 +227,8 @@ describe 'ColorProject', ->
       waitsForPromise -> project.initialize()
 
     it 'ignores the looping definition', ->
-      expect(project.getVariables().length).toEqual(4)
-      expect(project.getColorVariables().length).toEqual(4)
+      expect(project.getVariables().length).toEqual(5)
+      expect(project.getColorVariables().length).toEqual(5)
 
   describe 'when the variables have been loaded', ->
     beforeEach ->
@@ -486,7 +490,7 @@ describe 'ColorProject', ->
 
           waitsFor -> eventSpy.callCount > 0
 
-        it 'removes every variables from the file', ->
+        it 'removes every variable from the file', ->
           expect(colorBuffer.scanBufferForVariables).toHaveBeenCalled()
           expect(project.getVariables().length).toEqual(0)
 
@@ -521,13 +525,10 @@ describe 'ColorProject', ->
 
           spy = jasmine.createSpy 'did-update-variables'
           project.onDidUpdateVariables(spy)
-          project.setIgnoredNames(['vendor/*', '**/*.styl'])
+          waitsForPromise -> project.setIgnoredNames(['vendor/*', '**/*.styl'])
 
-          waitsFor -> project.getVariables().length < 12
-
-        it 'clears all the variables as there is no legible paths', ->
+        it 'clears all the paths as there is no legible paths', ->
           expect(project.getPaths().length).toEqual(0)
-          expect(project.getVariables().length).toEqual(0)
 
     describe 'when the project has multiple root directory', ->
       beforeEach ->
@@ -544,7 +545,7 @@ describe 'ColorProject', ->
         waitsForPromise -> project.initialize()
 
       it 'finds the variables from the two directories', ->
-        expect(project.getVariables().length).toEqual(16)
+        expect(project.getVariables().length).toEqual(17)
 
     describe 'when the project has VCS ignored files', ->
       [projectPath] = []
@@ -560,10 +561,12 @@ describe 'ColorProject', ->
         fs.writeFileSync(path.join(projectPath, '.gitignore'), fs.readFileSync(path.join(fixture, 'git.gitignore')))
         fs.writeFileSync(path.join(projectPath, 'base.sass'), fs.readFileSync(path.join(fixture, 'base.sass')))
         fs.writeFileSync(path.join(projectPath, 'ignored.sass'), fs.readFileSync(path.join(fixture, 'ignored.sass')))
+        fs.mkdirSync(path.join(projectPath, 'bower_components'))
+        fs.writeFileSync(path.join(projectPath, 'bower_components', 'some-ignored-file.sass'), fs.readFileSync(path.join(fixture, 'bower_components', 'some-ignored-file.sass')))
 
         # FIXME repo.getWorkingDirectory returns the project path prefixed with
         # /private
-        atom.project.setPaths([path.join('/private', projectPath)])
+        atom.project.setPaths([projectPath])
 
       describe 'when the ignoreVcsIgnoredPaths setting is enabled', ->
         beforeEach ->
@@ -572,8 +575,9 @@ describe 'ColorProject', ->
 
           waitsForPromise -> project.initialize()
 
-        it 'finds the variables from the two directories', ->
+        it 'finds the variables from the three files', ->
           expect(project.getVariables().length).toEqual(3)
+          expect(project.getPaths().length).toEqual(1)
 
         describe 'and then disabled', ->
           beforeEach ->
@@ -584,10 +588,10 @@ describe 'ColorProject', ->
             waitsFor -> spy.callCount > 0
 
           it 'reloads the paths', ->
-            expect(project.getPaths().length).toEqual(2)
+            expect(project.getPaths().length).toEqual(3)
 
           it 'reloads the variables', ->
-            expect(project.getVariables().length).toEqual(6)
+            expect(project.getVariables().length).toEqual(10)
 
       describe 'when the ignoreVcsIgnoredPaths setting is disabled', ->
         beforeEach ->
@@ -596,8 +600,9 @@ describe 'ColorProject', ->
 
           waitsForPromise -> project.initialize()
 
-        it 'finds the variables from the two directories', ->
-          expect(project.getVariables().length).toEqual(6)
+        it 'finds the variables from the three files', ->
+          expect(project.getVariables().length).toEqual(10)
+          expect(project.getPaths().length).toEqual(3)
 
         describe 'and then enabled', ->
           beforeEach ->
@@ -791,7 +796,7 @@ describe 'ColorProject', ->
         atom.themes.deactivateThemes()
         atom.themes.unwatchUserStylesheet()
 
-      it 'includes the variables set for ui and syntaxt themes in the palette', ->
+      it 'includes the variables set for ui and syntax themes in the palette', ->
         expect(project.getColorVariables().length).toEqual(72)
 
       it 'still includes the paths from the project', ->
@@ -1009,4 +1014,4 @@ describe 'ColorProject', ->
       waitsForPromise -> project.initialize()
 
     it 'loads the defaults file content', ->
-      expect(project.getColorVariables().length).toEqual(6)
+      expect(project.getColorVariables().length).toEqual(12)

@@ -17,6 +17,9 @@ singleSelectionActions = [
 
 toggleCommentSyntaxes = ['html', 'css', 'less', 'scss']
 
+for k, v of  atom.config.get 'emmet.stylus'
+    emmet.preferences.set('stylus.' + k, v);
+
 getUserHome = () ->
   if process.platform is 'win32'
     return process.env.USERPROFILE
@@ -82,7 +85,7 @@ runAction = (action, evt) ->
     return evt.abortKeyBinding()
 
   if action is 'insert_formatted_line_break_only'
-    if syntax isnt 'html' or not atom.config.get 'emmet.formatLineBreaks'
+    if not atom.config.get 'emmet.formatLineBreaks'
       return evt.abortKeyBinding()
 
     result = emmet.run action, editorProxy

@@ -1,7 +1,8 @@
-_ = require 'underscore-plus'
-fs = require 'fs-plus'
-path = require 'path'
-{Range, CompositeDisposable} = require 'atom'
+[
+  Range, CompositeDisposable,
+  _, path
+] = []
+
 {SpacePenDSL, EventsDelegation, AncestorsMethods} = require 'atom-utils'
 
 removeLeadingWhitespace = (string) -> string.replace(/^\s+/, '')
@@ -23,6 +24,8 @@ class ColorResultsElement extends HTMLElement
       @ol outlet: 'resultsList', class: 'search-colors-results results-view list-tree focusable-panel has-collapsable-children native-key-bindings', tabindex: -1
 
   createdCallback: ->
+    {Range, CompositeDisposable} = require 'atom' unless CompositeDisposable?
+
     @subscriptions = new CompositeDisposable
     @pathMapping = {}
 
@@ -63,12 +66,6 @@ class ColorResultsElement extends HTMLElement
 
     @colorSearch.search()
 
-  getTitle: -> 'Pigments Find Results'
-
-  getURI: -> 'pigments://search'
-
-  getIconName: -> "pigments"
-
   addFileResult: (result) ->
     @files += 1
     @colors += result.matches.length
@@ -104,6 +101,9 @@ class ColorResultsElement extends HTMLElement
       "No colors found in #{@files} #{filesString}"
 
   createFileResult: (fileResult) ->
+    _ ?= require 'underscore-plus'
+    path ?= require 'path'
+
     {filePath,matches} = fileResult
     fileBasename = path.basename(filePath)
 
@@ -125,6 +125,8 @@ class ColorResultsElement extends HTMLElement
     </li>"""
 
   createMatchResult: (match) ->
+    {Range, CompositeDisposable} = require 'atom' unless CompositeDisposable?
+
     textColor = if match.color.luma > 0.43
       'black'
     else
@@ -158,9 +160,3 @@ module.exports = ColorResultsElement =
 document.registerElement 'pigments-color-results', {
   prototype: ColorResultsElement.prototype
 }
-
-ColorResultsElement.registerViewProvider = (modelClass) ->
-  atom.views.addViewProvider modelClass, (model) ->
-    element = new ColorResultsElement
-    element.setModel(model)
-    element

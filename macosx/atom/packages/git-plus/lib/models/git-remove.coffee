@@ -1,25 +1,22 @@
 git = require '../git'
-notifier = require '../notifier'
+ActivityLogger = require('../activity-logger').default
+Repository = require('../repository').default
 RemoveListView = require '../views/remove-list-view'
 
 gitRemove = (repo, {showSelector}={}) ->
+  cwd = repo.getWorkingDirectory()
   currentFile = repo.relativize(atom.workspace.getActiveTextEditor()?.getPath())
-
   if currentFile? and not showSelector
-    if window.confirm 'Are you sure?'
+    if repo.isPathModified(currentFile) is false or window.confirm('Are you sure?')
       atom.workspace.getActivePaneItem().destroy()
-      git.cmd
-        args: ['rm', '-f', '--ignore-unmatch', currentFile]
-        cwd: repo.getWorkingDirectory()
-        stdout: (data) ->
-          notifier.addSuccess("Removed #{prettify data}")
+      repoName = new Repository(repo).getName()
+      git.cmd(['rm', '-f', '--ignore-unmatch', currentFile], {cwd})
+      .then (data) -> ActivityLogger.record({repoName, message: "Remove '#{prettify data}'", output: data})
+      .catch (data) -> ActivityLogger.record({repoName, message: "Remove '#{prettify data}'", output: data, failed: true})
   else
-    git.cmd
-      args: ['rm', '-r', '-n', '--ignore-unmatch', '-f', '*']
-      cwd: repo.getWorkingDirectory()
-      stdout: (data) -> new RemoveListView(repo, prettify(data))
+    git.cmd(['rm', '-r', '-n', '--ignore-unmatch', '-f', '*'], {cwd})
+    .then (data) -> new RemoveListView(repo, prettify(data))
 
-# cut off rm '' around the filenames.
 prettify = (data) ->
   data = data.match(/rm ('.*')/g)
   if data

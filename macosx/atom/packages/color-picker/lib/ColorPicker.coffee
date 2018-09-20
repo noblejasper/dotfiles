@@ -3,7 +3,10 @@
 # ----------------------------------------------------------------------------
 
     module.exports =
+        view: null
+
         activate: ->
+            @view = (require './ColorPicker-view')()
             _command = 'color-picker:open'
 
         #  Set key bindings
@@ -39,12 +42,21 @@
 
         #  Add color-picker:open command
         # ---------------------------
-            _commands = {}; _commands["#{ _command }"] = => @view?.open()
+            _commands = {}; _commands["#{ _command }"] = =>
+                return unless @view?.canOpen
+                @view.open()
             atom.commands.add 'atom-text-editor', _commands
 
             return @view.activate()
 
         deactivate: -> @view?.destroy()
+
+        provideColorPicker: ->
+            return {
+                open: (Editor, Cursor) =>
+                    return unless @view?.canOpen
+                    return @view.open Editor, Cursor
+            }
 
         config:
             # Random color configuration: On Color Picker open, show a random color
@@ -57,6 +69,12 @@
             automaticReplace:
                 title: 'Automatically Replace Color'
                 description: 'Replace selected color automatically on change. Works well with as-you-type CSS reloaders.'
+                type: 'boolean'
+                default: false
+            # Always output alpha value
+            alphaChannelAlways:
+                title: 'Always include alpha channel value'
+                description: 'Output alpha channel value, even if it is 1.0'
                 type: 'boolean'
                 default: false
             # Abbreviate values configuration: If possible, abbreviate color values. Eg. “0.3” to “.3”
@@ -88,5 +106,3 @@
                 type: 'string'
                 enum: ['C', 'E', 'H', 'K']
                 default: 'C'
-
-        view: (require './ColorPicker-view')()

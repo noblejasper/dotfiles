@@ -1,12 +1,12 @@
 [![Build Status](https://travis-ci.org/abe33/atom-pigments.svg?branch=master)](https://travis-ci.org/abe33/atom-pigments)
 
-## <img src='https://cdn.rawgit.com/abe33/atom-pigments/master/resources/logo.svg' width='320' height='80'>
+## <img src='http://abe33.github.io/atom-pigments/logo.svg' width='320' height='80'>
 
 A package to display colors in project and files:
 
-![Screenshot](https://github.com/abe33/atom-pigments/blob/master/resources/pigments.gif?raw=true)
+![Screenshot](http://abe33.github.io/atom-pigments/pigments.gif?raw=true)
 
-Pigments will scan source files in your project directories looking for colors and will build a palette with all of them. Then for each opened file, it will use the palette to evaluate the value of a given color. The legible source paths can be defined through various settings either at the global or per project level.
+Pigments will scan source files in your project directories looking for colors and will build a palette with all of them. Then for each opened file, it will use the palette to evaluate the value of a given color. The legible source paths can be defined through various settings either at the global or per project level. **By default colors in every file will be highlighted, to limit the display of colors to the desired filetype only please see the [Defining Where Pigments Applies](#defining-where-pigments-applies) below.**
 
 Pigments supports out of the box most of the color transformations functions and expressions of the three biggest CSS pre-processors out there, namely LESS, Sass and Stylus. However, it doesn't mean pigments is able to parse and understand all of these languages constructs. For the moment, Pigments' aim is to support the widest range of usage, even if it implies reducing its ability to parse certain complex constructs. You can refer to the [parser specs](https://github.com/abe33/atom-pigments/blob/master/spec/color-parser-spec.coffee) for an exhaustive list of the supported expressions.
 
@@ -14,11 +14,21 @@ Pigments supports out of the box most of the color transformations functions and
 
 Using `apm`:
 
-```
+```sh
 apm install pigments
 ```
 
 Or search for `pigments` in Atom settings view.
+
+## Defining Where Pigments Applies
+
+By default, Pigments will highlight every color in every file, but you can limit that using the two settings [`Supported Filetypes`](#supported-filetypes) and [`Ignored Scopes`](#ignored-scopes).
+
+The first setting allow you to specify the list of extensions where pigments will apply. For instance, by using the values `css, less`, colors will be visible only in CSS and Less files.
+
+The second setting takes an array of regular expression strings used to exclude colors in specific scopes (like comments or strings). You can find the scope that applies at the cursor position with the `Editor: Log Cursor Scope` command (<kbd>cmd-alt-p</kbd> or <kbd>ctrl-alt-shift-p</kbd>).
+
+![get scope](http://abe33.github.io/atom-pigments/get-scope.gif?raw=true)
 
 ## Defaults File
 
@@ -36,9 +46,9 @@ This can also be used when your project core palette is dynamically defined so t
 
 You can display the project's palette through the `Pigments: Show Palette` command from the command palette:
 
-![Screenshot](https://github.com/abe33/atom-pigments/blob/master/resources/palette.gif?raw=true)
+![Screenshot](http://abe33.github.io/atom-pigments/palette.gif?raw=true)
 
-The project palette is made of all the colors that are affected to a variable, which means it won't display hardcoded colors affected to a CSS property. If you want to find every colors used in a project, including the hardcoded colors in CSS files, use the `Pigments: Find Colors` instead.
+The project palette is made of all the colors that are affected to a variable, which means it won't display hardcoded colors affected to a CSS property. If you want to find every color used in a project, including the hardcoded colors in CSS files, use the `Pigments: Find Colors` instead.
 
 Patterns for Less, Sass, Scss and Stylus variables are currently supported, which includes:
 
@@ -53,7 +63,7 @@ $my-var: #123456; // scss
 @my-var: #123456; /* less */
 ```
 
-As with every commands, this command can be triggered using the keyboard by defining a keybinding like this:
+As with every command, this command can be triggered using the keyboard by defining a keybinding like this:
 
 ```coffee
 'atom-workspace':
@@ -64,9 +74,9 @@ As with every commands, this command can be triggered using the keyboard by defi
 
 You can search for all colors in your project using the `Pigments: Find Colors` command from the command palette:
 
-![Screenshot](https://github.com/abe33/atom-pigments/blob/master/resources/search.gif?raw=true)
+![Screenshot](http://abe33.github.io/atom-pigments/search.gif?raw=true)
 
-The results will include colors declared in variables, places where the color variables are used as well as hardcoded color values in every files that matches one of the patterns defined in both `pigments.sourceNames` and `pigments.extendedSearchNames` settings.
+The results will include colors declared in variables, places where the color variables are used as well as hardcoded color values in every file that matches one of the patterns defined in both `pigments.sourceNames` and `pigments.extendedSearchNames` settings.
 
 By default this includes:
 
@@ -86,12 +96,12 @@ This command can be triggered using the keyboard by defining a keybinding like t
   'alt-shift-f': 'pigments:find-colors'
 ```
 
-### Pigments: Convert To Hexadecimal/Pigments: Convert to RGB(A)
+### Pigments: Convert To *
 
-It evaluates and replace a color by either its hexadecimal notation or rgb/rgba notation.
+It evaluates and replace a color by the corresponding notation.
 Accessible from the command palette or by right clicking on a color.
 
-![pigments-conversion](https://github.com/abe33/atom-pigments/blob/master/resources/context-menu-conversion.gif?raw=true)
+![pigments-conversion](http://abe33.github.io/atom-pigments/context-menu-conversion.gif?raw=true)
 
 These commands can be triggered using the keyboard by defining a keybinding like this:
 
@@ -100,21 +110,23 @@ These commands can be triggered using the keyboard by defining a keybinding like
   'alt-shift-h': 'pigments:convert-to-hex'
   'alt-shift-g': 'pigments:convert-to-rgb'
   'alt-shift-j': 'pigments:convert-to-rgba'
+  'alt-shift-k': 'pigments:convert-to-hsl'
+  'alt-shift-l': 'pigments:convert-to-hsla'
 ```
 
-When triggered from the command palette or from the keyboard, the conversion will operate on every cursors positioned on color markers.
+When triggered from the command palette or from the keyboard, the conversion will operate on every cursor positioned on color markers.
 
 ### Pigments: Project Settings
 
 Each Pigments project has its own set of settings that can extend or replace the global configuration. These settings are available through the `pigments:project-settings` command:
 
-![pigments-conversion](https://github.com/abe33/atom-pigments/blob/master/resources/project-settings.png?raw=true)
+![pigments-conversion](http://abe33.github.io/atom-pigments/project-settings.png?raw=true)
 
 The `Source Names`, `Ignored Names`, `Ignored Scopes` and `Extended Search Names` fields all match a global configuration. When defined the project will use both the global config and the one of the current project, except when the `Ignore Global` checkbox is checked.
 
 The `Include Atom Themes Stylesheets` setting is specific to the project and can't be defined globally. When enabled, it'll add all the public themes variables in the current project palette:
 
-![pigments-conversion](https://github.com/abe33/atom-pigments/blob/master/resources/project-settings.gif?raw=true)
+![pigments-conversion](http://abe33.github.io/atom-pigments/project-settings.gif?raw=true)
 
 **Note that it won't add all the variables defined in the less files of the syntax and ui themes, only the ones that must be present as defined in the [themes documentation](https://atom.io/docs/latest/hacking-atom-creating-a-theme).**
 
@@ -154,6 +166,22 @@ An array of glob patterns of files to include in the `Pigments: Find Colors` sca
 * Key: `pigments.extendedSearchNames`
 * Default: `['**/*.css']`
 
+### Supported Filetypes
+
+An array of file extensions where colors will be highlighted. If the wildcard `*` is present in this array then colors in every file will be highlighted.
+
+* Key: `pigments.supportedFiletypes`
+* Default: `['*']`
+
+### Filetypes For Color Words
+
+An array of file extensions where color values such as `red`, `azure` or `whitesmoke` will be highlighted. By default CSS and CSS pre-processors files are supported.
+
+You can use `none` or whatever value that doesn't match a file extension to completely prevent color words from being highlighted.
+
+* Key: `pigments.filetypesForColorWords`
+* Default: `['css', 'less', 'styl', 'stylus', 'sass', 'scss']`
+
 ### Ignored Scopes
 
 An array of regular expressions strings to match scopes to ignore when rendering colors in a text editor.
@@ -166,7 +194,7 @@ For instance, if you want to ignore colors in comments and strings in your sourc
 
 As you can notice, the `.` character in scopes are escaped. This is due to the fact that this setting uses javascript `RegExp` to test the token's scope and the `.` is used to match against any character.
 
-For instance, to ignores colors in html attributes you can use the following expression:
+For instance, to ignore colors in html attributes you can use the following expression:
 
 ```
 \.text\.html(.*)\.string
@@ -186,11 +214,25 @@ The autocomplete provider will only complete color names in editors whose scope 
 * Key: `pigments.autocompleteScopes`
 * Default: `['.source.css', '.source.css.less', '.source.sass', '.source.css.scss', '.source.stylus']`
 
+### Sass Shade And Tint Implementation
+
+Sass doesn't provide any implementation for shade and tint function, and Compass and Bourbon have different implementation for these two methods. This setting allow you to chose which implementation to use.
+
+* Key: `pigments.sassShadeAndTintImplementation`
+* Default: `'compass'`
+
 ### Extend Autocomplete To Variables
 
 When enabled, the autocomplete provider will also provides completion for non-color variables.
 
 * Key: `pigments.extendAutocompleteToVariables`
+* Default: `false`
+
+### Extend Autocomplete To Color Value
+
+When enabled, the autocomplete provider will also provides color value.
+
+* Key: `pigments.extendAutocompleteToColorValue`
 * Default: `false`
 
 ### Traverse Into Symlink Directories
@@ -202,7 +244,7 @@ Whether to traverse symlinked directories to find source files or not.
 
 ### Ignore VCS Ignored Paths
 
-When this setting is enabled, every files that are ignored by the VCS will also be ignored in Pigments. That means they'll be excluded when searching for colors and when building the project palette.
+When this setting is enabled, every file that are ignored by the VCS will also be ignored in Pigments. That means they'll be excluded when searching for colors and when building the project palette.
 
 * Key: `pigments.ignoreVcsIgnoredPaths`
 * Default: `true`
@@ -219,25 +261,29 @@ Defines the render mode of color markers. The possible values are:
   </tr>
   <tr>
     <td>
-      <img src='https://github.com/abe33/atom-pigments/blob/master/resources/background-renderer.png?raw=true'/>
+      <img src='http://abe33.github.io/atom-pigments/background-renderer.png?raw=true'/>
     </td>
     <td>
-      <img src='https://github.com/abe33/atom-pigments/blob/master/resources/outline-renderer.png?raw=true'/>
+      <img src='http://abe33.github.io/atom-pigments/outline-renderer.png?raw=true'/>
     </td>
     <td>
-      <img src='https://github.com/abe33/atom-pigments/blob/master/resources/underline-renderer.png?raw=true'/>
+      <img src='http://abe33.github.io/atom-pigments/underline-renderer.png?raw=true'/>
     </td>
   </tr>
   <tr>
     <th>dot</th>
     <th>square-dot</th>
+    <th>gutter</th>
   </tr>
   <tr>
     <td>
-      <img src='https://github.com/abe33/atom-pigments/blob/master/resources/dot-renderer.png?raw=true'/>
+      <img src='http://abe33.github.io/atom-pigments/dot-renderer.png?raw=true'/>
     </td>
     <td>
-      <img src='https://github.com/abe33/atom-pigments/blob/master/resources/square-dot-renderer.png?raw=true'/>
+      <img src='http://abe33.github.io/atom-pigments/square-dot-renderer.png?raw=true'/>
+    </td>
+    <td>
+      <img src='http://abe33.github.io/atom-pigments/gutter-color.png?raw=true'/>
     </td>
   </tr>
 </table>

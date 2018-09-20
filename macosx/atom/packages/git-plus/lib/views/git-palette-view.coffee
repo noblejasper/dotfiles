@@ -1,10 +1,9 @@
 _ = require 'underscore-plus'
 {$, $$, SelectListView} = require 'atom-space-pen-views'
-git = require '../git'
 GitPlusCommands = require '../git-plus-commands'
 GitInit = require '../models/git-init'
-fuzzy = require('../models/fuzzy').filter
-
+fuzzyFilter = require('fuzzaldrin').filter
+CommandsKeystrokeHumanizer = require('../command-keystroke-humanizer')()
 module.exports =
 class GitPaletteView extends SelectListView
 
@@ -37,8 +36,9 @@ class GitPaletteView extends SelectListView
 
     GitPlusCommands()
       .then (commands) =>
-        commands = commands.map (c) -> { name: c[0], description: c[1], func: c[2] }
-        commands = _.sortBy(commands, 'name')
+        keystrokes = CommandsKeystrokeHumanizer.get(commands)
+        commands = commands.map (c) -> { name: c[0], description: c[1], func: c[2], keystroke: keystrokes[c[0]] }
+        commands = _.sortBy(commands, 'description')
         @setItems(commands)
         @panel.show()
         @focusFilterEditor()
@@ -54,10 +54,8 @@ class GitPaletteView extends SelectListView
     filterQuery = @getFilterQuery()
     if filterQuery.length
       options =
-        pre: '<span class="text-warning" style="font-weight:bold">'
-        post: "</span>"
-        extract: (el) => if @getFilterKey()? then el[@getFilterKey()] else el
-      filteredItems = fuzzy(filterQuery, @items, options)
+        key: @getFilterKey()
+      filteredItems = fuzzyFilter(@items, filterQuery, options)
     else
       filteredItems = @items
 
@@ -77,10 +75,15 @@ class GitPaletteView extends SelectListView
   hide: ->
     @panel?.destroy()
 
-  viewForItem: ({name, description}, matchedStr) ->
+  viewForItem: ({name, description, keystroke}, matchedStr) ->
     $$ ->
       @li class: 'command', 'data-command-name': name, =>
-        if matchedStr? then @raw(matchedStr) else @span description
+        if matchedStr? then @raw(matchedStr)
+        else
+          @span description
+          if keystroke?
+            @div class: 'pull-right', =>
+              @kbd class: 'key-binding', keystroke
 
   confirmed: ({func}) ->
     @cancel()

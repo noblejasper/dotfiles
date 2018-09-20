@@ -1,3 +1,186 @@
+## 3.15.0
+
+* Improved documentation
+* JSX now handled by node
+* C++ Grammar supports C++14 now too
+* Selection based support for C++ on macOS
+* added selection based code execution for C++ & C++14 in macOS
+* :new: support for Idris, Fable, Bats, Lisp, Turing
+* improved Java support
+
+## 3.14.1
+
+* Fix exception occuring during closing of output panel
+
+## 3.14.0
+
+* Support for `PureScript`
+* Support for `Robot Framework`
+* Fix exception in options view
+
+## 3.13.0
+
+* Support for `HTML`
+* Fix exception during profile saving
+
+## 3.12.2
+
+* Fix condition for detecting cwd.
+
+## 3.12.1
+
+* Fix `Cannot read property 'path' of undefined`
+
+## 3.12.0
+
+* Convert codebase to ES6 Javascript
+* Fix path to fixtures in tests
+* Support for `LAMMPS`
+* Support for `VBScript`
+
+## 3.11.1
+
+* Revert `Support java packages`
+
+## 3.11.0
+
+* Add ability to set how `current working directory` is calculated. See the package settings!
+* Support for `Ren'py`
+* Add a dummy runner for generic `SQL`
+* Support `c++14` standard for `c++`
+* Support `java` packages
+* Use `ts-node` as `typescript` runner
+* Tune `F*` run
+* Fix `MIPS` file-based run
+
+## 3.10.1
+
+* Fix `tsc` run
+
+## 3.10.0
+
+* Support for `BuckleScript`
+* Support for `F*`
+* Support for `Hy`
+* Support for `MIPS`
+* Support for `Oz`
+* Ignore first line check in scripts on Windows
+* Fix the `{FILE_ACTIVE_NAME_BASE}}` doesn't work
+* Fix run `tsc` on non amd or system module types
+
+## 3.9.0
+
+* Support "Selection Based" run for `C#`
+* Support "Selection Based" run for `C# Script`
+* Support "Selection Based" run for `C`
+* Support "Selection Based" run for `C++`
+* Support "Selection Based" run for `D`
+* Support "Selection Based" run for `Dart`
+* Support "Selection Based" run for `DOT (Graphviz)`
+* Support "Selection Based" run for `Powershell`
+* Fix `MATLAB` plot support
+* Fix #973 (`args.split is not a function`)
+
+## 3.8.3
+
+* Support for Processing
+
+## 3.8.2
+
+* Support for Lua (WoW)
+
+## 3.8.1
+
+* Fix compilation errors
+
+## 3.8.0
+
+* Support for C/C++ on Windows (only latest win10 builds with `bash` and `g++` installed)
+* Support for Fortran
+* Support for `Inno Setup`
+* Support for Tcl
+* Use `cmd.exe` for `Batch` files
+* Change `stata` intrepreter to `stata`
+
+## 3.7.3
+
+* Support for Stata
+* Support for MATLAB
+
+## 3.7.2
+
+* Support Rust on Windows
+
+## 3.7.1
+
+* Support for Ansible playbooks
+
+## 3.7.0
+
+* Adapt script for tests in go
+* Support Jolie language
+* Keep Java runner within same console on Windows
+* Option to ignore selection runs
+* Fix C++ not running on Linux
+* Fix OCaml support
+
+## 3.6.3
+
+* Fix bug prevents the package from disabling and updating
+
+## 3.6.2
+
+* Fix running of atom://config files
+
+## 3.6.1
+
+* Fix bug prevents the package from loading
+
+## 3.6.0
+
+* Support ioLanguage
+* Ability to set working directory
+* File based prolog command runs swipl from file directory
+* Templated args support
+
+## 3.5.2
+
+* Support `LaTeX Beamer`
+
+## 3.5.1
+
+* Temporarily remove a `Cake[file]` support cause of bugs
+
+## 3.5.0
+
+* Visual updates to the options view
+* Support prolog
+* Support `Cake[file]`
+* Improved selection based support for Perl
+* Small bug fixes all over
+* We promise to lint and have some sanity around :coffee:script
+* New profiles mode!
+
+## 3.0.2
+
+* Fix when stdin is coming on in (still doesn't accept it, but it also doesn't act wild)
+* JXA language support fixed
+* Support for Postgres
+* Selection based support for Octave
+
+## 3.0.1
+
+* Quick doc updates
+
+## 3.0.0
+
+* Support for Dart
+* Support for Nim/Nimscript
+* Support for JXA (OS X - JavaScript for Automation)
+* Selection support for NSIS
+* Major refactor of runs - let us know how it goes
+* File paths get wrapped as links
+
 ## 2.29.0
 
 * Really 2.28.0 again, can't seem to delete failed releases on atom.io

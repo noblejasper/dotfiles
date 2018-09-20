@@ -1,0 +1,84 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-117118-33348-pv5cz3/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-117118-33348-pv5cz3/package.tgz",
+        "spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-117118-33348-pv5cz3/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/apm-install-dir-117118-33348-12f1hpv"
+    ]
+  ],
+  "_from": "../d-117118-33348-pv5cz3/package.tgz",
+  "_id": "atom-react-native-autocomplete@0.0.27",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/atom-react-native-autocomplete",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-117118-33348-pv5cz3/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-117118-33348-pv5cz3/package.tgz",
+    "spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-117118-33348-pv5cz3/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117118-33348-pv5cz3/package.tgz",
+  "_shasum": "f8c0907ea4b7aee5f26a22a1d6369d60033b7c98",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-117118-33348-pv5cz3/package.tgz",
+  "_where": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/apm-install-dir-117118-33348-12f1hpv",
+  "bugs": {
+    "url": "https://github.com/TOP-Chao/atom-react-native-autocomplete/issues"
+  },
+  "dependencies": {
+    "atom-package-deps": "^4.0.1"
+  },
+  "description": "React-Native autocompletion for Atom text editor! ",
+  "devDependencies": {
+    "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-preset-es2015": "^6.3.13",
+    "cheerio": "^0.19.0",
+    "request": "^2.67.0"
+  },
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/TOP-Chao/atom-react-native-autocomplete#readme",
+  "keywords": [
+    "react-native",
+    "autocomplete"
+  ],
+  "license": "MIT",
+  "main": "./lib/autocomplete",
+  "name": "atom-react-native-autocomplete",
+  "optionalDependencies": {},
+  "package-deps": [
+    "language-javascript-jsx"
+  ],
+  "providedServices": {
+    "autocomplete.provider": {
+      "versions": {
+        "2.0.0": "getProvider"
+      }
+    }
+  },
+  "readme": "# atom-react-native-autocomplete package\n\nReact-Native autocompletion for Atom text editor! Only supports the suffix for `.js` and `.jsx` files.\n\n## Install\nUsing `apm`:\n\n```\napm install atom-react-native-autocomplete\n```\n\nOr search for `atom-react-native-autocomplete` in Atom settings view.  <br />\n\nPotentially wait for further installs  (just `apm install language-javascript-jsx` if its not there already).  <br />\n\n## Options\n- #### prefix\n    AutoComplete feature the string parsing rules\n\n    *Default:* `React`\n\n<br />\n![demo](http://7oxfk1.com1.z0.glb.clouddn.com/atom-react-native-autocomplete-demo.gif)\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TOP-Chao/atom-react-native-autocomplete.git"
+  },
+  "scripts": {
+    "prepublish": "babel -d lib/ src/ --presets es2015 --plugins add-module-exports"
+  },
+  "version": "0.0.27"
+}

@@ -1,28 +1,15 @@
 
-Color = require './color'
-ColorExpression = require './color-expression'
-ColorContext = null
-
-{getRegistry} = require './color-expressions'
-
 module.exports =
 class ColorParser
-  constructor: ->
+  constructor: (@registry, @context) ->
 
-  parse: (expression, context) ->
-    unless context?
-      ColorContext ?= require './color-context'
-      context = new ColorContext
-    context.parser ?= this
-
+  parse: (expression, scope='*', collectVariables=true) ->
     return undefined if not expression? or expression is ''
 
-    registry = getRegistry(context)
-
-    for e in registry.getExpressions()
+    for e in @registry.getExpressionsForScope(scope)
       if e.match(expression)
-        res = e.parse(expression, context)
-        res.variables = context.readUsedVariables()
+        res = e.parse(expression, @context)
+        res.variables = @context.readUsedVariables() if collectVariables
         return res
 
     return undefined

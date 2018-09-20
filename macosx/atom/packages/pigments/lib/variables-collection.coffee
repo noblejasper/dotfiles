@@ -1,13 +1,9 @@
-{Emitter} = require 'atom'
-ColorContext = require './color-context'
-Color = require './color'
+[Emitter, ColorExpression, ColorContext, Color, registry] = []
 
 nextId = 0
 
 module.exports =
 class VariablesCollection
-  atom.deserializers.add(this)
-
   @deserialize: (state) ->
     new VariablesCollection(state)
 
@@ -17,20 +13,53 @@ class VariablesCollection
   }
 
   constructor: (state) ->
+    Emitter ?= require('atom').Emitter
+
     @emitter = new Emitter
+
+    @reset()
+    @initialize(state?.content)
+
+  onDidChange: (callback) ->
+    @emitter.on 'did-change', callback
+
+  onceInitialized: (callback) ->
+    return unless callback?
+    if @initialized
+      callback()
+    else
+      disposable = @emitter.on 'did-initialize', ->
+        disposable.dispose()
+        callback()
+
+  initialize: (content=[]) ->
+    iteration = (cb) =>
+      start = new Date
+      end = new Date
+
+      while content.length > 0 and end - start < 100
+        v = content.shift()
+        @restoreVariable(v)
+
+      if content.length > 0
+        requestAnimationFrame(-> iteration(cb))
+      else
+        cb?()
+
+    iteration =>
+      @initialized = true
+      @emitter.emit('did-initialize')
+
+  reset: ->
     @variables = []
     @variableNames = []
     @colorVariables = []
     @variablesByPath = {}
     @dependencyGraph = {}
 
-    if state?.content?
-      @restoreVariable(v) for v in state.content
-
-  onDidChange: (callback) ->
-    @emitter.on 'did-change', callback
-
   getVariables: -> @variables.slice()
+
+  getNonColorVariables: -> @getVariables().filter (v) -> not v.isColor
 
   getVariablesForPath: (path) -> @variablesByPath[path] ? []
 
@@ -65,10 +94,12 @@ class VariablesCollection
 
   updateCollection: (collection, paths) ->
     pathsCollection = {}
+    remainingPaths = []
 
     for v in collection
       pathsCollection[v.path] ?= []
       pathsCollection[v.path].push(v)
+      remainingPaths.push(v.path) unless v.path in remainingPaths
 
     results = {
       created: []
@@ -83,8 +114,13 @@ class VariablesCollection
       results.updated = results.updated.concat(updated) if updated?
       results.destroyed = results.destroyed.concat(destroyed) if destroyed?
 
-    if collection.length is 0 and paths
-      for path in paths
+    if paths?
+      pathsToDestroy = if collection.length is 0
+        paths
+      else
+        paths.filter (p) -> p not in remainingPaths
+
+      for path in pathsToDestroy
         {created, updated, destroyed} = @updatePathCollection(path, collection, true) or {}
 
         results.created = results.created.concat(created) if created?
@@ -123,6 +159,8 @@ class VariablesCollection
 
   add: (variable, batch=false) ->
     [status, previousVariable] = @getVariableStatus(variable)
+
+    variable.default ||= variable.path.match /\/.pigments$/
 
     switch status
       when 'moved'
@@ -195,7 +233,40 @@ class VariablesCollection
 
     delete @dependencyGraph[variable.name]
 
-  getContext: -> new ColorContext({@variables, @colorVariables})
+  getContext: ->
+    ColorContext ?= require './color-context'
+    registry ?= require './color-expressions'
+
+    new ColorContext({@variables, @colorVariables, registry})
+
+  evaluateVariables: (variables, callback) ->
+    updated = []
+    remainingVariables = variables.slice()
+
+    iteration = (cb) =>
+      start = new Date
+      end = new Date
+
+      while remainingVariables.length > 0 and end - start < 100
+        v = remainingVariables.shift()
+        wasColor = v.isColor
+        @evaluateVariableColor(v, wasColor)
+        isColor = v.isColor
+
+        if isColor isnt wasColor
+          updated.push(v)
+          @buildDependencyGraph(v) if isColor
+
+          end = new Date
+
+      if remainingVariables.length > 0
+        requestAnimationFrame(-> iteration(cb))
+      else
+        cb?()
+
+    iteration =>
+      @emitChangeEvent(@updateDependencies({updated})) if updated.length > 0
+      callback?(updated)
 
   updateVariable: (previousVariable, variable, batch) ->
     previousDependencies = @getVariableDependencies(previousVariable)
@@ -216,6 +287,8 @@ class VariablesCollection
       @emitChangeEvent(@updateDependencies(updated: [previousVariable]))
 
   restoreVariable: (variable) ->
+    Color ?= require './color'
+
     @variableNames.push(variable.name)
     @variables.push variable
     variable.id = nextId++
@@ -229,7 +302,6 @@ class VariablesCollection
     @variablesByPath[variable.path] ?= []
     @variablesByPath[variable.path].push(variable)
 
-    @evaluateVariableColor(variable)
     @buildDependencyGraph(variable)
 
   createVariable: (variable, batch) ->
@@ -312,7 +384,7 @@ class VariablesCollection
     dependencies = []
     dependencies.push(variable.value) if variable.value in @variableNames
 
-    if variable.color?.variables.length > 0
+    if variable.color?.variables?.length > 0
       variables = variable.color.variables
 
       for v in variables
@@ -338,6 +410,8 @@ class VariablesCollection
       @dependencyGraph[v].push(from)
 
   updateDependencies: ({created, updated, destroyed}) ->
+    @updateColorVariablesExpression()
+
     variables = []
     dirtyVariableNames = []
 
@@ -368,7 +442,19 @@ class VariablesCollection
 
   emitChangeEvent: ({created, destroyed, updated}) ->
     if created?.length or destroyed?.length or updated?.length
+      @updateColorVariablesExpression()
       @emitter.emit 'did-change', {created, destroyed, updated}
+
+  updateColorVariablesExpression: ->
+    registry ?= require './color-expressions'
+
+    colorVariables = @getColorVariables()
+    if colorVariables.length > 0
+      ColorExpression ?= require './color-expression'
+
+      registry.addExpression(ColorExpression.colorExpressionForColorVariables(colorVariables))
+    else
+      registry.removeExpression('pigments:variables')
 
   diffArrays: (a,b) ->
     removed = []
@@ -390,6 +476,10 @@ class VariablesCollection
           range: v.range
           line: v.line
         }
+
+        res.isAlternate = true if v.isAlternate
+        res.noNamePrefix = true if v.noNamePrefix
+        res.default = true if v.default
 
         if v.isColor
           res.isColor = true

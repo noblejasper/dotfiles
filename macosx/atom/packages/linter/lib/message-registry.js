@@ -1,119 +1,156 @@
-'use babel'
-import {Emitter, TextEditor, CompositeDisposable} from 'atom'
+/* @flow */
 
-const Validate = require('./validate')
-const Helpers = require('./helpers')
+import { CompositeDisposable, Emitter } from 'atom'
+import debounce from 'sb-debounce'
+import type { Disposable, TextBuffer } from 'atom'
+import { messageKey, messageKeyLegacy } from './helpers'
+import type { MessagesPatch, Message, MessageLegacy, Linter } from './types'
+
+type Linter$Message$Map = {
+  buffer: ?TextBuffer,
+  linter: Linter,
+  changed: boolean,
+  deleted: boolean,
+  messages: Array<Message | MessageLegacy>,
+  oldMessages: Array<Message | MessageLegacy>
+}
 
 class MessageRegistry {
+  emitter: Emitter;
+  messages: Array<Message | MessageLegacy>;
+  messagesMap: Set<Linter$Message$Map>;
+  subscriptions: CompositeDisposable;
+  debouncedUpdate: (() => void);
+
   constructor() {
-    this.hasChanged = false
-    this.shouldRefresh = true
-    this.publicMessages = []
-    this.subscriptions = new CompositeDisposable()
     this.emitter = new Emitter()
-    this.linterResponses = new Map()
-    // We track messages by the underlying TextBuffer the lint was run against
-    // rather than the TextEditor because there may be multiple TextEditors per
-    // TextBuffer when multiple panes are in use.  For each buffer, we store a
-    // map whose values are messages and whose keys are the linter that produced
-    // the messages.  (Note that we are talking about linter instances, not
-    // EditorLinter instances.  EditorLinter instances are per-TextEditor and
-    // could result in duplicated sets of messages.)
-    this.bufferMessages = new Map()
+    this.messages = []
+    this.messagesMap = new Set()
+    this.subscriptions = new CompositeDisposable()
+    this.debouncedUpdate = debounce(this.update, 100, true)
 
     this.subscriptions.add(this.emitter)
-    this.subscriptions.add(atom.config.observe('linter.ignoredMessageTypes', value => this.ignoredMessageTypes = (value || [])))
+  }
+  set({ messages, linter, buffer }: { messages: Array<Message | MessageLegacy>, linter: Linter, buffer: TextBuffer }) {
+    let found = null
+    for (const entry of this.messagesMap) {
+      if (entry.buffer === buffer && entry.linter === linter) {
+        found = entry
+        break
+      }
+    }
 
-    const UpdateMessages = () => {
-      if (this.shouldRefresh) {
-        if (this.hasChanged) {
-          this.hasChanged = false
-          this.updatePublic()
+    if (found) {
+      found.messages = messages
+      found.changed = true
+    } else {
+      this.messagesMap.add({ messages, linter, buffer, oldMessages: [], changed: true, deleted: false })
+    }
+    this.debouncedUpdate()
+  }
+  update() {
+    const result = { added: [], removed: [], messages: [] }
+
+    for (const entry of this.messagesMap) {
+      if (entry.deleted) {
+        result.removed = result.removed.concat(entry.oldMessages)
+        this.messagesMap.delete(entry)
+        continue
+      }
+      if (!entry.changed) {
+        result.messages = result.messages.concat(entry.oldMessages)
+        continue
+      }
+      entry.changed = false
+      if (!entry.oldMessages.length) {
+        // All messages are new, no need to diff
+        // NOTE: No need to add .key here because normalizeMessages already does that
+        result.added = result.added.concat(entry.messages)
+        result.messages = result.messages.concat(entry.messages)
+        entry.oldMessages = entry.messages
+        continue
+      }
+      if (!entry.messages.length) {
+        // All messages are old, no need to diff
+        result.removed = result.removed.concat(entry.oldMessages)
+        entry.oldMessages = []
+        continue
+      }
+
+      const newKeys = new Set()
+      const oldKeys = new Set()
+      const oldMessages = entry.oldMessages
+      let foundNew = false
+      entry.oldMessages = []
+
+      for (let i = 0, length = oldMessages.length; i < length; ++i) {
+        const message = oldMessages[i]
+        if (message.version === 2) {
+          message.key = messageKey(message)
+        } else {
+          message.key = messageKeyLegacy(message)
         }
-        Helpers.requestUpdateFrame(UpdateMessages)
+        oldKeys.add(message.key)
       }
-    }
-    Helpers.requestUpdateFrame(UpdateMessages)
-  }
-  set({linter, messages, editor}) {
-    if (linter.deactivated) return
-    try {
-      Validate.messages(messages, linter)
-    } catch (e) { return Helpers.error(e) }
-    messages = messages.filter(i => this.ignoredMessageTypes.indexOf(i.type) === -1)
-    if (linter.scope === 'file') {
-      if (!editor.alive) return
-      if (!(editor instanceof TextEditor)) throw new Error("Given editor isn't really an editor")
-      let buffer = editor.getBuffer()
-      if (!this.bufferMessages.has(buffer))
-        this.bufferMessages.set(buffer, new Map())
-      this.bufferMessages.get(buffer).set(linter, messages)
-    } else { // It's project
-      this.linterResponses.set(linter, messages)
-    }
-    this.hasChanged = true
-  }
-  updatePublic() {
-    let latestMessages = []
-    let publicMessages = []
-    let added = []
-    let removed = []
-    let currentKeys
-    let lastKeys
 
-    this.linterResponses.forEach(messages => latestMessages = latestMessages.concat(messages))
-    this.bufferMessages.forEach(bufferMessages =>
-      bufferMessages.forEach(messages => latestMessages = latestMessages.concat(messages))
-    )
+      for (let i = 0, length = entry.messages.length; i < length; ++i) {
+        const message = entry.messages[i]
+        if (newKeys.has(message.key)) {
+          continue
+        }
+        newKeys.add(message.key)
+        if (!oldKeys.has(message.key)) {
+          foundNew = true
+          result.added.push(message)
+          result.messages.push(message)
+          entry.oldMessages.push(message)
+        }
+      }
 
-    currentKeys = latestMessages.map(i => i.key)
-    lastKeys = this.publicMessages.map(i => i.key)
+      if (!foundNew && entry.messages.length === oldMessages.length) {
+        // Messages are unchanged
+        result.messages = result.messages.concat(oldMessages)
+        entry.oldMessages = oldMessages
+        continue
+      }
 
-    for (let i of latestMessages) {
-      if (lastKeys.indexOf(i.key) === -1) {
-        added.push(i)
-        publicMessages.push(i)
+      for (let i = 0, length = oldMessages.length; i < length; ++i) {
+        const message = oldMessages[i]
+        if (newKeys.has(message.key)) {
+          entry.oldMessages.push(message)
+          result.messages.push(message)
+        } else {
+          result.removed.push(message)
+        }
       }
     }
 
-    for (let i of this.publicMessages)
-      if (currentKeys.indexOf(i.key) === -1)
-        removed.push(i)
-      else
-        publicMessages.push(i)
-
-    this.publicMessages = publicMessages
-    this.emitter.emit('did-update-messages', {added, removed, messages: publicMessages})
+    if (result.added.length || result.removed.length) {
+      this.messages = result.messages
+      this.emitter.emit('did-update-messages', result)
+    }
   }
-  onDidUpdateMessages(callback) {
+  onDidUpdateMessages(callback: ((difference: MessagesPatch) => void)): Disposable {
     return this.emitter.on('did-update-messages', callback)
   }
-  deleteMessages(linter) {
-    if (linter.scope === 'file') {
-      this.bufferMessages.forEach(r => r.delete(linter))
-      this.hasChanged = true
-    } else if(this.linterResponses.has(linter)) {
-      this.linterResponses.delete(linter)
-      this.hasChanged = true
+  deleteByBuffer(buffer: TextBuffer) {
+    for (const entry of this.messagesMap) {
+      if (entry.buffer === buffer) {
+        entry.deleted = true
+      }
     }
+    this.debouncedUpdate()
   }
-  deleteEditorMessages(editor) {
-    // Caveat: in the event that there are multiple TextEditor instances open
-    // referring to the same underlying buffer and those instances are not also
-    // closed, the linting results for this buffer will be temporarily removed
-    // until such time as a lint is re-triggered by one of the other
-    // corresponding EditorLinter instances.  There are ways to mitigate this,
-    // but they all involve some complexity that does not yet seem justified.
-    let buffer = editor.getBuffer();
-    if (!this.bufferMessages.has(buffer)) return
-    this.bufferMessages.delete(buffer)
-    this.hasChanged = true
+  deleteByLinter(linter: Linter) {
+    for (const entry of this.messagesMap) {
+      if (entry.linter === linter) {
+        entry.deleted = true
+      }
+    }
+    this.debouncedUpdate()
   }
   dispose() {
-    this.shouldRefresh = false
     this.subscriptions.dispose()
-    this.linterResponses.clear()
-    this.bufferMessages.clear()
   }
 }
 

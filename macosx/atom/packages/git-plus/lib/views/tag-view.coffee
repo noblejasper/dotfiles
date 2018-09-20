@@ -1,8 +1,9 @@
 {$$, SelectListView} = require 'atom-space-pen-views'
 
-git = require '../git'
+git = require('../git-es').default
 GitShow = require '../models/git-show'
-notifier = require '../notifier'
+ActivityLogger = require('../activity-logger').default
+Repository = require('../repository').default
 RemoteListView = require '../views/remote-list-view'
 
 module.exports =
@@ -45,13 +46,9 @@ class TagView extends SelectListView
     switch cmd
       when 'Show'
         GitShow(@repo, tag)
-        return
       when 'Push'
-        git.cmd
-          args: ['remote']
-          cwd: @repo.getWorkingDirectory()
-          stdout: (data) => new RemoteListView(@repo, data, mode: 'push', tag: @tag)
-        return
+        git(['remote'], cwd: @repo.getWorkingDirectory())
+        .then (result) => new RemoteListView(@repo, result.output, mode: 'push', tag: @tag)
       when 'Checkout'
         args = ['checkout', tag]
       when 'Verify'
@@ -59,7 +56,7 @@ class TagView extends SelectListView
       when 'Delete'
         args = ['tag', '--delete', tag]
 
-    git.cmd
-      args: args
-      cwd: @repo.getWorkingDirectory()
-      stdout: (data) -> notifier.addSuccess(data.toString())
+    if args?
+      repoName = new Repository(@repo).getName()
+      git(args, cwd: @repo.getWorkingDirectory())
+      .then (result) -> ActivityLogger.record(Object.assign({repoName, message: "#{cmd} tag '#{tag}'"}, result))

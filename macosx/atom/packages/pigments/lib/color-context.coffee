@@ -1,11 +1,42 @@
-Color = require './color'
-ColorParser = null
-ColorExpression = require './color-expression'
+[
+  Color, ColorParser, ColorExpression, SVGColors, BlendModes,
+  int, float, percent, optionalPercent, intOrPercent, floatOrPercent, comma,
+  notQuote, hexadecimal, ps, pe, variables, namePrefixes,
+  split, clamp, clampInt, scopeFromFileName
+] = []
 
 module.exports =
 class ColorContext
   constructor: (options={}) ->
-    {variables, colorVariables, @referenceVariable, @referencePath, @rootPaths, @parser, @colorVars, @vars, @defaultVars, @defaultColorVars, sorted} = options
+    unless Color?
+      Color = require './color'
+      SVGColors = require './svg-colors'
+      BlendModes = require './blend-modes'
+      ColorExpression ?= require './color-expression'
+
+      {
+        int, float, percent, optionalPercent, intOrPercent, floatOrPercent
+        comma, notQuote, hexadecimal, ps, pe, variables, namePrefixes
+      } = require './regexes'
+
+      ColorContext::SVGColors = SVGColors
+      ColorContext::Color = Color
+      ColorContext::BlendModes = BlendModes
+      ColorContext::int = int
+      ColorContext::float = float
+      ColorContext::percent = percent
+      ColorContext::optionalPercent = optionalPercent
+      ColorContext::intOrPercent = intOrPercent
+      ColorContext::floatOrPercent = floatOrPercent
+      ColorContext::comma = comma
+      ColorContext::notQuote = notQuote
+      ColorContext::hexadecimal = hexadecimal
+      ColorContext::ps = ps
+      ColorContext::pe = pe
+      ColorContext::variablesRE = variables
+      ColorContext::namePrefixes = namePrefixes
+
+    {variables, colorVariables, @referenceVariable, @referencePath, @rootPaths, @parser, @colorVars, @vars, @defaultVars, @defaultColorVars, sorted, @registry, @sassScopeSuffix} = options
 
     variables ?= []
     colorVariables ?= []
@@ -26,18 +57,23 @@ class ColorContext
       @defaultColorVars = {}
 
       for v in @variables
-        @vars[v.name] = v
-        @defaultVars[v.name] = v if v.path.match /\/.pigments$/
+        @vars[v.name] = v unless v.default
+        @defaultVars[v.name] = v if v.default
 
       for v in @colorVariables
-        @colorVars[v.name] = v
-        @defaultColorVars[v.name] = v if v.path.match /\/.pigments$/
+        @colorVars[v.name] = v unless v.default
+        @defaultColorVars[v.name] = v if v.default
+
+    if not @registry.getExpression('pigments:variables')? and @colorVariables.length > 0
+      expr = ColorExpression.colorExpressionForColorVariables(@colorVariables)
+      @registry.addExpression(expr)
 
     unless @parser?
-      ColorParser = require './color-parser'
-      @parser = new ColorParser
+      ColorParser ?= require './color-parser'
+      @parser = new ColorParser(@registry, this)
 
     @usedVariables = []
+    @resolvedVariables = []
 
   sortPaths: (a,b) =>
     if @referencePath?
@@ -73,6 +109,14 @@ class ColorContext
       sorted: true
     })
 
+  ##    ##     ##    ###    ########   ######
+  ##    ##     ##   ## ##   ##     ## ##    ##
+  ##    ##     ##  ##   ##  ##     ## ##
+  ##    ##     ## ##     ## ########   ######
+  ##     ##   ##  ######### ##   ##         ##
+  ##      ## ##   ##     ## ##    ##  ##    ##
+  ##       ###    ##     ## ##     ##  ######
+
   containsVariable: (variableName) -> variableName in @getVariablesNames()
 
   hasColorVariables: -> @colorVariables.length > 0
@@ -85,55 +129,85 @@ class ColorContext
 
   getVariablesCount: -> @varCount ?= @getVariablesNames().length
 
-  getValue: (value) ->
-    [realValue, lastRealValue] = []
-
-    while realValue = @vars[value]?.value
-      @usedVariables.push(value)
-      value = lastRealValue = realValue
-
-    lastRealValue
-
-  getColorValue: (value) ->
-    [realValue, lastRealValue] = []
-
-    while realValue = @colorVars[value]?.value
-      @usedVariables.push(value)
-      value = lastRealValue = realValue
-
-    lastRealValue
-
   readUsedVariables: ->
     usedVariables = []
     usedVariables.push v for v in @usedVariables when v not in usedVariables
     @usedVariables = []
+    @resolvedVariables = []
     usedVariables
+
+  ##    ##     ##    ###    ##       ##     ## ########  ######
+  ##    ##     ##   ## ##   ##       ##     ## ##       ##    ##
+  ##    ##     ##  ##   ##  ##       ##     ## ##       ##
+  ##    ##     ## ##     ## ##       ##     ## ######    ######
+  ##     ##   ##  ######### ##       ##     ## ##             ##
+  ##      ## ##   ##     ## ##       ##     ## ##       ##    ##
+  ##       ###    ##     ## ########  #######  ########  ######
+
+  getValue: (value) ->
+    [realValue, lastRealValue] = []
+    lookedUpValues = [value]
+
+    while (realValue = @vars[value]?.value) and realValue not in lookedUpValues
+      @usedVariables.push(value)
+      value = lastRealValue = realValue
+      lookedUpValues.push(realValue)
+
+    if realValue in lookedUpValues then undefined else lastRealValue
 
   readColorExpression: (value) ->
     if @colorVars[value]?
       @usedVariables.push(value)
       @colorVars[value].value
+    else if @defaultColorVars[value]?
+      @usedVariables.push(value)
+      @defaultColorVars[value].value
     else
       value
 
   readColor: (value, keepAllVariables=false) ->
+    return if value in @usedVariables and not (value in @resolvedVariables)
+
     realValue = @readColorExpression(value)
-    result = @parser.parse(realValue, @clone())
+
+    return if not realValue? or realValue in @usedVariables
+
+    scope = if @colorVars[value]?
+      @scopeFromFileName(@colorVars[value].path)
+    else
+      '*'
+
+    @usedVariables = @usedVariables.filter (v) -> v isnt realValue
+    result = @parser.parse(realValue, scope, false)
 
     if result?
       if result.invalid and @defaultColorVars[realValue]?
-        @usedVariables.push(realValue)
         result = @readColor(@defaultColorVars[realValue].value)
         value = realValue
 
     else if @defaultColorVars[value]?
-      @usedVariables.push(realValue)
+      @usedVariables.push(value)
       result = @readColor(@defaultColorVars[value].value)
 
-    if result? and (keepAllVariables or value not in @usedVariables)
-      result.variables = result.variables.concat(@readUsedVariables())
+    else
+      @usedVariables.push(value) if @vars[value]?
+
+    if result?
+      @resolvedVariables.push(value)
+      if keepAllVariables or value not in @usedVariables
+        result.variables = (result.variables ? []).concat(@readUsedVariables())
 
     return result
+
+  scopeFromFileName: (path) ->
+    scopeFromFileName ?= require './scope-from-file-name'
+
+    scope = scopeFromFileName(path)
+
+    if scope is 'sass' or scope is 'scss'
+      scope = [scope, @sassScopeSuffix].join(':')
+
+    scope
 
   readFloat: (value) ->
     res = parseFloat(value)
@@ -211,3 +285,63 @@ class ColorContext
       res
 
     res
+
+  ##    ##     ## ######## #### ##        ######
+  ##    ##     ##    ##     ##  ##       ##    ##
+  ##    ##     ##    ##     ##  ##       ##
+  ##    ##     ##    ##     ##  ##        ######
+  ##    ##     ##    ##     ##  ##             ##
+  ##    ##     ##    ##     ##  ##       ##    ##
+  ##     #######     ##    #### ########  ######
+
+  split: (value) ->
+    {split, clamp, clampInt} = require './utils' unless split?
+    split(value)
+
+  clamp: (value) ->
+    {split, clamp, clampInt} = require './utils' unless clamp?
+    clamp(value)
+
+  clampInt: (value) ->
+    {split, clamp, clampInt} = require './utils' unless clampInt?
+    clampInt(value)
+
+  isInvalid: (color) -> not Color.isValid(color)
+
+  readParam: (param, block) ->
+    re = ///\$(\w+):\s*((-?#{@float})|#{@variablesRE})///
+    if re.test(param)
+      [_, name, value] = re.exec(param)
+
+      block(name, value)
+
+  contrast: (base, dark=new Color('black'), light=new Color('white'), threshold=0.43) ->
+    [light, dark] = [dark, light] if dark.luma > light.luma
+
+    if base.luma > threshold
+      dark
+    else
+      light
+
+  mixColors: (color1, color2, amount=0.5, round=Math.floor) ->
+    return new Color(NaN, NaN, NaN, NaN) unless color1? and color2? and not isNaN(amount)
+
+    inverse = 1 - amount
+    color = new Color
+
+    color.rgba = [
+      round(color1.red * amount + color2.red * inverse)
+      round(color1.green * amount + color2.green * inverse)
+      round(color1.blue * amount + color2.blue * inverse)
+      color1.alpha * amount + color2.alpha * inverse
+    ]
+
+    color
+
+  ##    ########  ########  ######   ######## ##     ## ########
+  ##    ##     ## ##       ##    ##  ##        ##   ##  ##     ##
+  ##    ##     ## ##       ##        ##         ## ##   ##     ##
+  ##    ########  ######   ##   #### ######      ###    ########
+  ##    ##   ##   ##       ##    ##  ##         ## ##   ##
+  ##    ##    ##  ##       ##    ##  ##        ##   ##  ##
+  ##    ##     ## ########  ######   ######## ##     ## ##

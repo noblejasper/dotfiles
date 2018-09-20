@@ -1,0 +1,177 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-117520-49951-4hzjmw.w5vmwjyvi/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-117520-49951-4hzjmw.w5vmwjyvi/package.tgz",
+        "spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-117520-49951-4hzjmw.w5vmwjyvi/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/apm-install-dir-117520-49951-6lrtpo.iy3du3ow29"
+    ]
+  ],
+  "_from": "../d-117520-49951-4hzjmw.w5vmwjyvi/package.tgz",
+  "_id": "linter-python@3.1.2",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/linter-python",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-117520-49951-4hzjmw.w5vmwjyvi/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-117520-49951-4hzjmw.w5vmwjyvi/package.tgz",
+    "spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-117520-49951-4hzjmw.w5vmwjyvi/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117520-49951-4hzjmw.w5vmwjyvi/package.tgz",
+  "_shasum": "19d96d71e7f9cf11cb4906a1a936c4604e74c774",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-117520-49951-4hzjmw.w5vmwjyvi/package.tgz",
+  "_where": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/apm-install-dir-117520-49951-6lrtpo.iy3du3ow29",
+  "bugs": {
+    "url": "https://github.com/pchomik/linter-python/issues"
+  },
+  "configSchema": {
+    "executablePath": {
+      "type": "string",
+      "default": "pylama",
+      "description": "Excutable path for external Pylama. Example: /usr/local/bin/pylama.",
+      "order": 1
+    },
+    "withPep8": {
+      "type": "boolean",
+      "default": false,
+      "description": "Run pylama with pep8 linter.",
+      "order": 2
+    },
+    "withPep257": {
+      "type": "boolean",
+      "default": false,
+      "description": "Run pylama with PEP257 linter.",
+      "order": 3
+    },
+    "withMcCabe": {
+      "type": "boolean",
+      "default": false,
+      "description": "Run pylama with McCabe linter.",
+      "order": 4
+    },
+    "withPyflakes": {
+      "type": "boolean",
+      "default": false,
+      "description": "Run pylama with Pyflakes linter.",
+      "order": 5
+    },
+    "withPylint": {
+      "type": "boolean",
+      "default": false,
+      "description": "Run pylama with Pylint linter. To enable this option please execute following command: pip install pylama-pylint.",
+      "order": 6
+    },
+    "skipFiles": {
+      "type": "string",
+      "default": "",
+      "description": "Skip files by masks (comma-separated, ex. */message,py,*/ignore.py).",
+      "order": 7
+    },
+    "ignoreCodes": {
+      "type": "string",
+      "default": "",
+      "description": "Provided codes will be ignored by linters. Example: E111,E114,D101,D102,DW0311.",
+      "order": 8
+    },
+    "optionsFile": {
+      "type": "string",
+      "default": "",
+      "description": "Path to configuration file. By default is <project dir>/pylama.ini",
+      "order": 9
+    },
+    "force": {
+      "type": "boolean",
+      "default": false,
+      "description": "Force code checking (if linter doesnt allow).",
+      "order": 10
+    },
+    "lintTrigger": {
+      "type": "string",
+      "default": "File saved",
+      "enum": [
+        "File saved",
+        "File modified",
+        "File saved or modified"
+      ],
+      "description": "Defines when lint action should be triggered.",
+      "order": 11
+    },
+    "enableDebug": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable debug console prints.",
+      "order": 12
+    },
+    "limitToSingleInstance": {
+      "type": "boolean",
+      "default": true,
+      "description": "Limit how many pylama binaries can be executed. By default is set to single instance.",
+      "order": 13
+    },
+    "linkColor": {
+      "type": "color",
+      "default": "#bf6815",
+      "description": "Link color for all errors/warning/types",
+      "order": 14
+    }
+  },
+  "dependencies": {
+    "atom-linter": "^6.0.0",
+    "atom-package-deps": "^4.0.1",
+    "child-process-es6-promise": "^1.0.0",
+    "temp": "^0.8.3"
+  },
+  "description": "Linter for python files. Lint operation based on pylama application.",
+  "devDependencies": {
+    "atom": "^1.0.0",
+    "typescript": "^1.8.10",
+    "typings": "^1.0.4"
+  },
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/pchomik/linter-python#readme",
+  "license": "MIT",
+  "main": "./lib/init",
+  "name": "linter-python",
+  "optionalDependencies": {},
+  "package-deps": [
+    "linter"
+  ],
+  "providedServices": {
+    "linter": {
+      "versions": {
+        "1.0.0": "provideLinter"
+      }
+    }
+  },
+  "readme": "# linter-python package\n\nPlugin to lint python files. Whole logic based on pylama and pylama-pylint applications.\n\n![Package usage](https://raw.githubusercontent.com/pchomik/linter-python-doc/master/img/example.gif)\n\n## Requirements\n\n* python >= 2.7\n* pylama >= 7.3.3\n* pylama-pylint (optional)\n\n## Atom linters\n\n* [Atom Linters](http://atomlinter.github.io/)\n\n#### Linters for python\n\n* [linter-python](https://atom.io/packages/linter-python)\n* [linter-pep8](https://atom.io/packages/linter-pep8)\n* [linter-pydocstyle](https://atom.io/packages/linter-pydocstyle)\n* [linter-flake8](https://atom.io/packages/linter-flake8)\n* [linter-pylama](https://atom.io/packages/linter-pylama)\n\n## Plugin installation\n\n#### Atom plugin installation\n\n![Package usage](https://raw.githubusercontent.com/pchomik/linter-python-doc/master/img/install.gif)\n\n* Go to Settings -> Install\n* Type \"linter-python\"\n* Press \"Install\"\n\n#### Pylama installation\n\n```\npip install pylama pylama-pylint\n```\n\nIf pip is something new for you please look [here](https://pip.pypa.io/en/stable/installing/) for more detail.\n\n## Plugin configuration\n\n#### Basic plugin configuration\n\n![Package usage](https://raw.githubusercontent.com/pchomik/linter-python-doc/master/img/config.gif)\n\n* Go to Settings -> Packages\n* Type \"linter-python\" and go to plugin settings\n* Set path to pylama binary e.g. /usr/bin/pylama\n* Select needed pylama options\n\n#### Options added in 3.0.4 version\n\n![Package usage](https://raw.githubusercontent.com/pchomik/linter-python-doc/master/img/3.0.4.gif)\n\n* Atom API was used to select error\n* URL to error description\n\n#### Plugin configuration vs. performance\n\nPlease be informed that plugin has to create temporary files to lint file in the fly. In case of any performance issues please try\nto change trigger option to \"File saved\". For such option temporary files are not needed.\n\n## Pylama related topics\n\n#### Pylama results depend on plugin order\n\nIt was discovered that pylama plugin order may change lint results. Issue is under investigated and will be reported\nto pylama project as soon as I get time to create test scenarios.\n\nTests show that the most trusted configuration is: mccabe,pyflakes,pylint,pep8,pep257\n\n#### Pyflakes plugin may change pylama result\n\nNew issue was created in pylama project. Pylama results are not constant when pyflakes plugin is enabled. Issue is visible with Python 3.5.1\n\nIssue details are available [here](https://github.com/klen/pylama/issues/67).\n\n## Lint errors\n\nStarting from plugin version 3.0.0 lint output provides link to error description available on GitHub [project](https://github.com/pchomik/linter-python-doc/blob/master/errors/).\n\nThanks to @linickx who created all pages. Please provide more pull requests if you like to create single place for all python defined errors.\n\n## Contribution\n\nPull requests, issues, issue investigation, reviews are more than welcome.\n\n## Contributors\n\n* @linickx\n* @Arcanemagus\n* @Zebradil\n\n## License\n\nPackage license is available [here](https://raw.githubusercontent.com/pchomik/linter-python/master/LICENSE.md)\n\n## Contact\n\nPlease create issue in case of any question or feature request.\n\n## Changelog\n\nThis section contains changes from last 3 releases.\n\nFull list of changes is available [here](https://raw.githubusercontent.com/pchomik/linter-python/master/CHANGELOG.md)\n\n#### 3.1.2\n* (#37) Fix issue: Cannot read property 'getPath' of undefined\n\n#### 3.1.1\n* Update release notes and readme file\n\n#### 3.1.0\n* (#31) Execution finished with error because of pylama exit code change\n\n#### 3.0.5\n* (#28) Add cache functionality\n* (#25) Remove underline options from plugin configuration\n* (#27) Documentation update\n* (#26) Regenerate new plugin exaples\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pchomik/linter-python.git"
+  },
+  "scripts": {
+    "afterinstall": "typings install",
+    "start": "npm run tsc:w",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "typings": "typings"
+  },
+  "version": "3.1.2"
+}

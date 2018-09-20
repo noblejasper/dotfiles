@@ -286,6 +286,72 @@ hslToRGB = (h, s, l) ->
     hue(h - 1 / 3) * 255
   ]
 
+# Public: Converts a color in the `rgb` color space in an
+# {Array} with the color in the `hcg` color space.
+#
+# r - An integer in the range [O-255] for the red component
+# g - An integer in the range [O-255] for the green component
+# b - An integer in the range [O-255] for the blue component
+#
+# Returns an {Array} containing the hue, chroma and grayness of the color
+rgbToHCG = (r, g, b) ->
+  r = r / 255
+  g = g / 255
+  b = b / 255
+  max = Math.max(r, g, b)
+  min = Math.min(r, g, b)
+  c = (max - min)
+  gr = 0
+  h = 0
+
+  if (c < 1)
+    gr = min / (1 - c)
+
+  if (c > 0)
+    switch (max)
+      when r
+        h = (g - b) / c + (g < b ? 6 : 0)
+      when g
+        h = (b - r) / c + 2
+      when b
+        h = (r - g) / c + 4
+    h /= 6
+
+  [h * 360, c * 100, gr * 100]
+
+# Public: Converts a color defined in the `hcg` color space into
+# an {Array} containing the color in the `rgb` color space.
+#
+# h - An integer in the range [O-360] for the hue component
+# c - A float in the range [O-100] for the chroma component
+# gr - A float in the range [O-100] for the grayness component
+#
+# Returns an {Array} containing the red, green and blue components
+# of the color
+hcgToRGB = (h, c, gr) ->
+  h  = h / 360 * 6
+  c  = c / 100
+  gr = gr / 100
+
+  if (c <= 0)
+    return [gr * 255, gr * 255, gr * 255]
+
+  i = Math.floor(h)
+  f = h - i
+  q = c * (1 - f)
+  t = c * f
+  mod = i % 6
+  r = [c, q, 0, 0, t, c][mod]
+  g = [t, c, c, q, 0, 0][mod]
+  b = [0, 0, t, c, c, q][mod]
+  m = (1 - c) * gr
+
+  [
+    (r + m) * 255,
+    (g + m) * 255,
+    (b + m) * 255
+  ]
+
 # Public: Converts a color from the `hsv` color space to the `hwb` one.
 #
 # h - The {Number} for the hue component.
@@ -338,19 +404,54 @@ rgbToHWB = (r,g,b) -> hsvToHWB(rgbToHSV(r,g,b)...)
 # of the color
 hwbToRGB = (h,w,b) -> hsvToRGB(hwbToHSV(h,w,b)...)
 
+# Public: Converts a color from the CMYK color space to the RGB color space
+cmykToRGB = (c,m,y,k) ->
+  r = 1 - Math.min(1, c * (1 - k) + k)
+  g = 1 - Math.min(1, m * (1 - k) + k)
+  b = 1 - Math.min(1, y * (1 - k) + k)
+
+  r = Math.floor(r * 255)
+  g = Math.floor(g * 255)
+  b = Math.floor(b * 255)
+
+  [r,g,b]
+
+
+# Public: Converts a color from the RGB color space to the CMYK color space
+rgbToCMYK = (r,g,b) ->
+  # BLACK
+  return [0, 0, 0, 1] if r == 0 and g == 0 and b == 0
+
+  computedC = 1 - (r / 255)
+  computedM = 1 - (g / 255)
+  computedY = 1 - (b / 255)
+
+  minCMY = Math.min(computedC, Math.min(computedM, computedY))
+
+  computedC = (computedC - minCMY) / (1 - minCMY)
+  computedM = (computedM - minCMY) / (1 - minCMY)
+  computedY = (computedY - minCMY) / (1 - minCMY)
+  computedK = minCMY
+
+  [computedC, computedM, computedY, computedK]
+
 module.exports = {
+  cmykToRGB
   hexARGBToRGB
   hexRGBAToRGB
   hexToRGB
   hslToRGB
   hsvToHWB
   hsvToRGB
+  hcgToRGB
   hwbToHSV
   hwbToRGB
-  rgbToHSL
-  rgbToHSV
-  rgbToHWB
+  rgbToCMYK
   rgbToHex
   rgbToHexARGB
   rgbToHexRGBA
+  rgbToHSL
+  rgbToHSV
+  rgbToHWB
+  rgbToHCG
 }

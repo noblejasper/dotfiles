@@ -2,12 +2,22 @@
 {$, TextEditorView, View} = require 'atom-space-pen-views'
 
 git = require '../git'
-notifier = require '../notifier'
+git2 = require('../git-es').default
+Repository = require('../repository').default
+ActivityLogger = require('../activity-logger').default
+
+runCommand = (repo, args) ->
+  repoName = new Repository(repo).getName()
+  promise = git2(args, cwd: repo.getWorkingDirectory(), color: true)
+  promise.then (result) ->
+    ActivityLogger.record(Object.assign({repoName, message: "#{args.join(' ')}"}, result))
+    git.refresh repo
+  return promise
 
 class InputView extends View
   @content: ->
     @div =>
-      @subview 'commandEditor', new TextEditorView(mini: true, placeHolderText: 'Git command and arguments')
+      @subview 'commandEditor', new TextEditorView(mini: true, placeholderText: 'Git command and arguments')
 
   initialize: (@repo) ->
     @disposables = new CompositeDisposable
@@ -24,14 +34,12 @@ class InputView extends View
     @disposables.add atom.commands.add 'atom-text-editor', 'core:confirm', (e) =>
       @disposables.dispose()
       @panel?.destroy()
-      args = @commandEditor.getText().split(' ')
-      if args[0] is 1 then args.shift()
-      git.cmd
-        args: args
-        cwd: @repo.getWorkingDirectory()
-        stdout: (data) =>
-          notifier.addSuccess(data.toString()) if data.toString().length > 0
-          git.refresh()
-          @currentPane.activate()
+      runCommand(@repo, @commandEditor.getText().split(' ')).then =>
+        @currentPane.activate()
+        git.refresh @repo
 
-module.exports = (repo) -> new InputView(repo)
+module.exports = (repo, args=[]) ->
+  if args.length > 0
+    runCommand repo, args.split(' ')
+  else
+    new InputView(repo)

@@ -22,6 +22,7 @@ module.exports =
       'run-command:run': => @run()
       'run-command:toggle-panel': => @togglePanel(),
       'run-command:kill-last-command': => @killLastCommand()
+      'run-command:re-run-last-command': => @reRunLastCommand()
 
   deactivate: ->
     @runCommandView.destroy()
@@ -43,3 +44,7 @@ module.exports =
 
   killLastCommand: ->
     @runner.kill()
+
+  reRunLastCommand: ->
+    @runCommandView.show()
+    @runCommandView.confirm()

@@ -20,6 +20,7 @@ export HISTIGNORE=?:??:???:exit
 export HISTSIZE=10000000000000  # 履歴のMAX保存数を指定
 # go
 export GOPATH=~/gocode
+export HOMEBREW_GITHUB_API_TOKEN=76abc35d210efb6b2113cfa861e719b5b73da9d4
 
 # PATH
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:~/.bin:/usr/local/bin:/usr/local/sbin:~/.bin/mongodb:~/.composer/vendor/bin:$PATH"
@@ -81,3 +82,22 @@ export PATH="/usr/local/heroku/bin:$PATH"
 if [ -f "/Users/jasper/.enhancd/bash/enhancd.bash" ]; then
     source "/Users/jasper/.enhancd/bash/enhancd.bash"
 fi
+export PATH="$HOME/.anyenv/bin:$PATH"
+eval "$(anyenv init -)"
+
+eval "$(goenv init -)"
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[ -f /Users/jasper/.anyenv/envs/ndenv/versions/v8.4.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash ] && . /Users/jasper/.anyenv/envs/ndenv/versions/v8.4.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[ -f /Users/jasper/.anyenv/envs/ndenv/versions/v8.4.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash ] && . /Users/jasper/.anyenv/envs/ndenv/versions/v8.4.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash
+
+source ~/perl5/perlbrew/etc/bashrc
+
+PATH="/Users/jasper/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/Users/jasper/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/jasper/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/jasper/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/jasper/perl5"; export PERL_MM_OPT;

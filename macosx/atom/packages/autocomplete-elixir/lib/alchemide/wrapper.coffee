@@ -1,5 +1,6 @@
 IS_ELIXIR = true
 
+extend = require "./extend"
 autocomplete = "autocompleter/autocomplete.exs"
 Process = require("atom").BufferedProcess
 
@@ -26,17 +27,37 @@ exports.init = (pP) ->
   name = if IS_ELIXIR then 'autocomplete-elixir' else 'autocomplete-erlang'
   setting = atom.config.get("#{name}.elixirPath").replace(/elixir$/,"")
   command = path.join ( setting || "") , "elixir"
+
+  #line 1  #line 2
+
+  erlPath = atom.config.get("#{name}.erlangHome").trim()
+  env = if erlPath
+      extend({
+        ERL_HOME: erlPath,
+        ERL_PATH: path.join(erlPath, 'erl')
+      }, process.env)
+  else
+      process.env
+  options = {
+    env: env
+  }
+
   console.log(setting)
-  ac = new Process({command: command, args: array.reverse(), stderr, exit, stdout: ->})
+  ac = new Process({
+    command: command,
+    options: options,
+    args: array.reverse(), stderr, exit, stdout: ->})
   unless ac.process then exports.init(pP)
 
   out = ac.process.stdout
   inp = ac.process.stdin
-  
+
 
 
 exports.getAutocompletion = (prefix, cb) ->
-  unless inp then exports.init(projectPaths)
+  unless inp
+    exports.init(projectPaths)
+    return
   if prefix.trim().length < 1
     cb()
     return
@@ -47,7 +68,9 @@ exports.getAutocompletion = (prefix, cb) ->
     cb({one, multi: multi.split(";").filter((a) -> a.trim())})
 
 exports.loadFile =          (path,   cb = (->)) ->
-  unless inp then exports.init(projectPaths)
+  unless inp
+    exports.init(projectPaths)
+    return
   unless /.ex$/.test(path)
     cb()
     return

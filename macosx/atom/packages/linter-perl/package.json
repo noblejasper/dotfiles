@@ -1,0 +1,74 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-64026-1t2ywl2.wt033rqkt9/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-64026-1t2ywl2.wt033rqkt9/package.tgz",
+        "spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-64026-1t2ywl2.wt033rqkt9/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/apm-install-dir-118818-64026-5rphl8.z1ey8vkj4i"
+    ]
+  ],
+  "_from": "../d-118818-64026-1t2ywl2.wt033rqkt9/package.tgz",
+  "_id": "linter-perl@0.8.2",
+  "_inCache": true,
+  "_location": "/linter-perl",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-64026-1t2ywl2.wt033rqkt9/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-64026-1t2ywl2.wt033rqkt9/package.tgz",
+    "spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-64026-1t2ywl2.wt033rqkt9/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-118818-64026-1t2ywl2.wt033rqkt9/package.tgz",
+  "_shasum": "cfad422a0e71e69fe9caf872cd0346e0288acff0",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-64026-1t2ywl2.wt033rqkt9/package.tgz",
+  "_where": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/apm-install-dir-118818-64026-5rphl8.z1ey8vkj4i",
+  "bugs": {
+    "url": "https://github.com/AtomLinter/linter-perl/issues"
+  },
+  "dependencies": {
+    "atom-linter": "^10.0.0",
+    "atom-package-deps": "^4.6.0",
+    "grim": "^1.4.1",
+    "lodash": "^3.10.0"
+  },
+  "description": "Lint perl on the fly, using perl (B::Lint)",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/AtomLinter/linter-perl#readme",
+  "license": "MIT",
+  "main": "./lib/init",
+  "name": "linter-perl",
+  "optionalDependencies": {},
+  "package-deps": [
+    "linter"
+  ],
+  "providedServices": {
+    "linter": {
+      "versions": {
+        "1.0.0": "provideLinter"
+      }
+    }
+  },
+  "readme": "linter-perl package\n===================\n\nThis linter plugin for [Linter](https://github.com/AtomLinter/Linter) provides an interface to perl.\nIt will be used with files that have the \"Perl\" syntax.\n\n## Installation\n\n* Install [Perl 5](http://www.perl.org/).\n* `apm install linter` (optional)\n  * If you didn't install linter package, it will be installed on first activation.\n* `apm install linter-perl`\n\n## Settings\n\nYou can configure linter-perl by editing ~/.atom/config.cson (choose Open Your Config in Atom menu):\n\n```coffee\n\"linter-perl\":\n  # The absolute path of perl interpreter.\n  # If this was given, executeCommandViaShell and autoDetectCarton are ignored.\n  \"executablePath\": null\n  # Is the command executed via `$SHELL -l`?\n  # This is useful when PATH is setup in .bash_profile, etc.\n  # If true, executablePath option is ignored.\n  \"executeCommandViaShell\": false\n  # Is carton enabled if there are both \"cpanfile.snapshot\" and \"local/\"\n  # in the current root directory?\n  \"autoDetectCarton\": true\n  # This is passed to the perl interpreter directly.\n  \"additionalPerlOptions\": null\n  # Relative include paths from the current root directory.\n  \"incPathsFromProjectRoot\": [\".\", \"lib\"]\n  # B::Lint options. \"-MO=Lint,HERE\"\n  # ex. \"all,no-bare-subs,no-context\"\n  \"lintOptions\": \"all\"\n```\n\nNOTE: \"The current root directory\" is the root directory in tree-view\nwhich contains the file opened in the active text editor.\nIf no root directories contain the file, its parent directory is selected\nas the current root directory.\n\n### plenv Support\n\nThere are three ways to use this package with [plenv](https://github.com/tokuhirom/plenv):\n\n- Open a project by `atom .` in your shell.\n- Otherwise (e.g. drag & drop),\n  - set `\"/absolute/path/to/.plenv/shims\"` to `perlExecutablePath` (this way is not portable)\n  - set `true` to `executeCommnadViaShell` (`perlExecutablePath` is ignored)\n\n[Perlbrew](http://perlbrew.pl/) is not tested, but those methods could be used.\n\n## Contributing\n\nIf you would like to contribute enhancements or fixes, please do the following:\n\n1. Fork the plugin repository.\n1. Hack on a separate topic branch created from the latest `master`.\n1. Commit and push the topic branch.\n1. Make a pull request.\n1. welcome to the club\n\nPlease note that modifications should follow these coding guidelines:\n\n- Indent is 2 spaces.\n- Code should pass coffeelint linter.\n- Vertical whitespace helps readability, don’t be afraid to use it.\n\nThank you for helping out!\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AtomLinter/linter-perl.git"
+  },
+  "version": "0.8.2"
+}

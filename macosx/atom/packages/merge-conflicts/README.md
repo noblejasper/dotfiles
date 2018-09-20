@@ -1,5 +1,9 @@
 # Merge Conflicts
 
+## Deprecation Notice
+
+This package is **deprecated** and subsumed by the [Git and GitHub integration](https://github.atom.io/) that's bundled with Atom starting with [1.18.0-beta0](https://github.com/atom/atom/releases/tag/v1.18.0-beta0). I highly recommend using that instead!
+
 [![Build Status](https://travis-ci.org/smashwilson/merge-conflicts.svg?branch=master)](https://travis-ci.org/smashwilson/merge-conflicts)
 
 Resolve your git merge conflicts in Atom!
@@ -7,6 +11,11 @@ Resolve your git merge conflicts in Atom!
 ![conflict-resolution](https://raw.github.com/smashwilson/merge-conflicts/master/docs/conflict-resolution.gif)
 
 This package detects the conflict markers left by `git merge` and overlays a set of controls for resolving each and navigating among them. Additionally, it displays your progress through a merge.
+
+## Installation
+```bash
+apm install merge-conflicts
+```
 
 ## Features
 
@@ -45,6 +54,25 @@ Finally, when *all* of the conflicts throughout the project have been dealt with
 
 ![onward!](https://raw.github.com/smashwilson/merge-conflicts/master/docs/merge-complete.jpg)
 
+## Key bindings
+
+To customize your key bindings, choose "Keymap..." from your Atom menu and add CSON to bind whatever keys you wish to `merge-conflicts` events. To get started, you can copy and paste this snippet and change the bindings to whatever you prefer:
+
+```
+'atom-text-editor.conflicted':
+  'alt-m down': 'merge-conflicts:next-unresolved'
+  'alt-m up': 'merge-conflicts:previous-unresolved'
+  'alt-m enter': 'merge-conflicts:accept-current'
+  'alt-m r': 'merge-conflicts:revert-current'
+  'alt-m 1': 'merge-conflicts:accept-ours'
+  'alt-m 2': 'merge-conflicts:accept-theirs'
+
+'atom-workspace':
+  'alt-m d': 'merge-conflicts:detect'
+```
+
+For more detail, the Atom docs include both [basic](http://flight-manual.atom.io/using-atom/sections/basic-customization/#_customizing_keybindings) and [advanced](http://flight-manual.atom.io/behind-atom/sections/keymaps-in-depth/) guidelines describing the syntax.
+
 ## Events
 
 The merge-conflicts plugin emits a number of events that other packages can subscribe to, if they wish. If you want your plugin to consume one, use code like the following:
@@ -63,7 +91,7 @@ subs.dispose()
 ```
 
  * `onDidResolveConflict`: broadcast whenever a conflict is resolved. `event.file`: the absolute path of the file in which the conflict was found; `event.total`: the total number of conflicts in that file; `event.resolved`: the number of conflicts that are resolved, including this one.
- * `onDidStageFile`: broadcast whenever a file has been completed and staged for commit. `event.file`: the absolute path of the file that was staged.
+ * `onDidResolveFile`: broadcast whenever a file has been completed and staged for commit. `event.file`: the absolute path of the file that was staged.
  * `onDidQuitConflictResolution`: broadcast when you stop merging conflicts by clicking the quit button.
  * `onDidCompleteConflictResolution`: broadcast when all conflicts in all files have successfully been resolved.
 

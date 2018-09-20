@@ -1,13 +1,15 @@
 defmodule Test do
-
-
-  defmacro a :: b do
-    IO.puts("test #{a} #{b}")
-    
+  
+  fn asda ->
+    for a <- [1,2,3], do: a*2
   end
 
-
   def test(a,b) do
-    a :: b
+    Enum.
+  end
+end
+defmodule Test do
+  def test1() do
+    1
   end
 end

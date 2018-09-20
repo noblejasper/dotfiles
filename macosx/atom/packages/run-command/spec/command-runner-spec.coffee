@@ -58,6 +58,26 @@ describe "CommandRunner", ->
       secondPromise.then (result) ->
         expect(result.exited).toBe(true)
 
+  it "doesn't kill closed processes", ->
+    command = 'echo -n'
+
+    killHandler = jasmine.createSpy('onKill')
+    exitHandler = jasmine.createSpy('onExit')
+    closeHandler = jasmine.createSpy('onClose')
+
+    @runner.onKill(killHandler)
+    @runner.onExit(exitHandler)
+    @runner.onClose(closeHandler)
+
+    promise = @runner.run(command).then =>
+      @runner.kill('SIGKILL')
+
+    waitsForPromise =>
+      promise.then (result) =>
+        expect(killHandler.calls.length).toEqual(0)
+        expect(exitHandler.calls.length).toEqual(1)
+        expect(closeHandler.calls.length).toEqual(1)
+
   describe "the working directory", ->
     it "is set to a project directory", ->
       spyOn(atom.workspace, 'getActiveTextEditor').andReturn(null)

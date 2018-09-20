@@ -75,9 +75,9 @@
 
           suggestion =
             snippet:  if one then prefix + postfix + word else word
-            displayText:  if one then prefix + postfix + word else word
-            prefix:  if one then prefix + postfix else last
-            label: if ret then ret else "any"
+            displayText:  (if one then prefix + postfix + word else word).replace(/\(.*\).*}/g, "/#{count}")
+            replacementPrefix:  if one then prefix + postfix else last
+            rightLabel: if ret then ret else "any"
             type: type
             description: spec || ret || "Desc"
             #inclusionPriority: -1

@@ -1,175 +1,138 @@
+Path = require 'path'
 {CompositeDisposable} = require 'atom'
 fs = require 'fs-plus'
-Path = require 'flavored-path'
-os = require 'os'
-
 git = require '../git'
-notifier = require '../notifier'
+notifier = require('../notifier')
+ActivityLogger = require('../activity-logger').default
+Repository = require('../repository').default
 GitPush = require './git-push'
+GitPull = require './git-pull'
 
-module.exports =
-class GitCommit
-  # Public: Helper method to return the current working directory.
-  #
-  # Returns: The cwd as a String.
-  dir: ->
-    # path is different for submodules
-    if @submodule ?= git.getSubmodule()
-      @submodule.getWorkingDirectory()
+disposables = new CompositeDisposable
+
+verboseCommitsEnabled = -> atom.config.get('git-plus.commits.verboseCommits')
+
+scissorsLine = '------------------------ >8 ------------------------'
+
+getStagedFiles = (repo) ->
+  git.stagedFiles(repo).then (files) ->
+    if files.length >= 1
+      git.cmd(['-c', 'color.ui=false', 'status'], cwd: repo.getWorkingDirectory())
     else
-      @repo.getWorkingDirectory()
+      Promise.reject "Nothing to commit."
 
-  # Public: Helper method to join @dir() and filename to use it with fs.
-  #
-  # Returns: The full path to our COMMIT_EDITMSG file as {String}
-  filePath: -> Path.join(@repo.getPath(), 'COMMIT_EDITMSG')
+getTemplate = (filePath) ->
+  if filePath
+    try
+      fs.readFileSync(fs.absolute(filePath.trim())).toString().trim()
+    catch e
+      throw new Error("Your configured commit template file can't be found.")
+  else
+    ''
 
-  constructor: (@repo, {@amend, @andPush, @stageChanges}={}) ->
-    @currentPane = atom.workspace.getActivePane()
-    @disposables = new CompositeDisposable
+prepFile = ({status, filePath, diff, commentChar, template}) ->
+  if commitEditor = atom.workspace.paneForURI(filePath)?.itemForURI(filePath)
+    text = commitEditor.getText()
+    indexOfComments = text.indexOf(commentChar)
+    if indexOfComments > 0
+      template = text.substring(0, indexOfComments - 1)
 
-    # Check if we are amending right now.
-    @amend ?= ''
-    @isAmending = @amend.length > 0
+  cwd = Path.dirname(filePath)
+  status = status.replace(/\s*\(.*\)\n/g, "\n")
+  status = status.trim().replace(/\n/g, "\n#{commentChar} ")
+  content =
+    """#{template}
+    #{commentChar} #{scissorsLine}
+    #{commentChar} Do not touch the line above.
+    #{commentChar} Everything below will be removed.
+    #{commentChar} Please enter the commit message for your changes. Lines starting
+    #{commentChar} with '#{commentChar}' will be ignored, and an empty message aborts the commit.
+    #{commentChar}
+    #{commentChar} #{status}"""
+  if diff
+    content +=
+      """\n#{commentChar}
+      #{diff}"""
+  fs.writeFileSync filePath, content
 
-    # Load the commentchar from git config, defaults to '#'
-    @commentchar = '#'
-    git.cmd
-      args: ['config', '--get', 'core.commentchar'],
-      stdout: (data) =>
-        if data.trim() isnt ''
-          @commentchar = data.trim()
+destroyCommitEditor = (filePath) ->
+  atom.workspace.paneForURI(filePath).itemForURI(filePath)?.destroy()
 
-    if @stageChanges
-      git.add @repo,
-        update: true,
-        exit: (code) => @getStagedFiles()
+trimFile = (filePath, commentChar) ->
+  findScissorsLine = (line) ->
+    line.includes("#{commentChar} #{scissorsLine}")
+
+  cwd = Path.dirname(filePath)
+  content = fs.readFileSync(fs.absolute(filePath)).toString()
+  startOfComments = content.indexOf(content.split('\n').find(findScissorsLine))
+  content = if startOfComments > 0 then content.substring(0, startOfComments) else content
+  fs.writeFileSync filePath, content
+
+commit = (repo, filePath) ->
+  repoName = new Repository(repo).getName()
+  git.cmd(['commit', "--cleanup=whitespace", "--file=#{filePath}"], cwd: repo.getWorkingDirectory())
+  .then (data) ->
+    ActivityLogger.record({ repoName, message: 'commit', output: data})
+    destroyCommitEditor(filePath)
+    git.refresh()
+  .catch (data) ->
+    ActivityLogger.record({repoName,  message: 'commit', output: data, failed: true })
+    destroyCommitEditor(filePath)
+
+cleanup = (currentPane) ->
+  currentPane.activate() if currentPane.isAlive()
+  disposables.dispose()
+
+showFile = (filePath) ->
+  commitEditor = atom.workspace.paneForURI(filePath)?.itemForURI(filePath)
+  if not commitEditor
+    if atom.config.get('git-plus.general.openInPane')
+      splitDirection = atom.config.get('git-plus.general.splitPane')
+      atom.workspace.getCenter().getActivePane()["split#{splitDirection}"]()
+    atom.workspace.open filePath
+  else
+    if atom.config.get('git-plus.general.openInPane')
+      atom.workspace.paneForURI(filePath).activate()
     else
-      @getStagedFiles()
+      atom.workspace.paneForURI(filePath).activateItemForURI(filePath)
+    Promise.resolve(commitEditor)
 
-  getStagedFiles: ->
-    git.stagedFiles @repo, (files) =>
-      if @amend isnt '' or files.length >= 1
-        git.cmd
-          args: ['status'],
-          cwd: @repo.getWorkingDirectory()
-          stdout: (data) => @prepFile data
+module.exports = (repo, {stageChanges, andPush}={}) ->
+  filePath = Path.join(repo.getPath(), 'COMMIT_EDITMSG')
+  currentPane = atom.workspace.getActivePane()
+  commentChar = git.getConfig(repo, 'core.commentchar') ? '#'
+  try
+    template = getTemplate(git.getConfig(repo, 'commit.template'))
+  catch e
+    notifier.addError(e.message)
+    return Promise.reject(e.message)
+
+  init = -> getStagedFiles(repo).then (status) ->
+    if verboseCommitsEnabled()
+      args = ['diff', '--color=never', '--staged']
+      args.push '--word-diff' if atom.config.get('git-plus.diffs.wordDiff')
+      git.cmd(args, cwd: repo.getWorkingDirectory())
+      .then (diff) -> prepFile {status, filePath, diff, commentChar, template}
+    else
+      prepFile {status, filePath, commentChar, template}
+  startCommit = ->
+    showFile filePath
+    .then (textEditor) ->
+      disposables.dispose()
+      disposables = new CompositeDisposable
+      disposables.add textEditor.onDidSave ->
+        trimFile(filePath, commentChar)
+        commit(repo, filePath)
+        .then -> GitPush(repo) if andPush
+      disposables.add textEditor.onDidDestroy -> cleanup(currentPane)
+    .catch(notifier.addError)
+
+  if stageChanges
+    git.add(repo, update: true).then(init).then(startCommit)
+  else
+    init().then -> startCommit()
+    .catch (message) ->
+      if message.includes?('CRLF')
+        startCommit()
       else
-        @cleanup()
-        notifier.addInfo 'Nothing to commit.'
-
-  # Public: Prepares our commit message file by writing the status and a
-  #         possible amend message to it.
-  #
-  # status - The current status as {String}.
-  prepFile: (status) ->
-    # format the status to be ignored in the commit message
-    status = status.replace(/\s*\(.*\)\n/g, "\n")
-    status = status.trim().replace(/\n/g, "\n#{@commentchar} ")
-
-    @getTemplate().then (template) =>
-      fs.writeFileSync @filePath(),
-        """#{ if @amend.length > 0 then @amend else template}
-        #{@commentchar} Please enter the commit message for your changes. Lines starting
-        #{@commentchar} with '#{@commentchar}' will be ignored, and an empty message aborts the commit.
-        #{@commentchar}
-        #{@commentchar} #{status}"""
-      @showFile()
-
-  getTemplate: ->
-    new Promise (resolve, reject) ->
-      git.cmd
-        args: ['config', '--get', 'commit.template']
-        stdout: (data) =>
-          resolve (if data.trim() isnt '' then fs.readFileSync(Path.get(data.trim())) else '')
-
-  # Public: Helper method to open the commit message file and to subscribe the
-  #         'saved' and `destroyed` events of the underlaying text-buffer.
-  showFile: ->
-    atom.workspace
-      .open(@filePath(), searchAllPanes: true)
-      .done (textEditor) =>
-        if atom.config.get('git-plus.openInPane')
-          @splitPane(atom.config.get('git-plus.splitPane'), textEditor)
-        else
-          @disposables.add textEditor.onDidSave => @commit()
-          @disposables.add textEditor.onDidDestroy =>
-            if @isAmending then @undoAmend() else @cleanup()
-
-  splitPane: (splitDir, oldEditor) ->
-    pane = atom.workspace.paneForURI(@filePath())
-    options = { copyActiveItem: true }
-    hookEvents = (textEditor) =>
-      oldEditor.destroy()
-      @disposables.add textEditor.onDidSave => @commit()
-      @disposables.add textEditor.onDidDestroy =>
-        if @isAmending then @undoAmend() else @cleanup()
-
-    directions =
-      left: =>
-        pane = pane.splitLeft options
-        hookEvents(pane.getActiveEditor())
-      right: ->
-        pane = pane.splitRight options
-        hookEvents(pane.getActiveEditor())
-      up: ->
-        pane = pane.splitUp options
-        hookEvents(pane.getActiveEditor())
-      down: ->
-        pane = pane.splitDown options
-        hookEvents(pane.getActiveEditor())
-    directions[splitDir]()
-
-  # Public: When the user is done editing the commit message an saves the file
-  #         this method gets invoked and commits the changes.
-  commit: ->
-    args = ['commit', '--cleanup=strip', "--file=#{@filePath()}"]
-    git.cmd
-      args: args,
-      options:
-        cwd: @dir()
-      stdout: (data) =>
-        notifier.addSuccess data
-        if @andPush
-          new GitPush(@repo)
-        @isAmending = false
-        @destroyCommitEditor()
-        # Activate the former active pane.
-        @currentPane.activate() if @currentPane.alive
-        git.refresh()
-
-      stderr: (err) => @destroyCommitEditor()
-
-  destroyCommitEditor: ->
-    @cleanup()
-    atom.workspace.getPanes().some (pane) ->
-      pane.getItems().some (paneItem) ->
-        if paneItem?.getURI?()?.includes 'COMMIT_EDITMSG'
-          if pane.getItems().length is 1
-            pane.destroy()
-          else
-            paneItem.destroy()
-          return true
-
-  # Public: Undo the amend
-  #
-  # err - The error message as {String}.
-  undoAmend: (err='') ->
-    git.cmd
-      args: ['reset', 'ORIG_HEAD'],
-      stdout: ->
-        notifier.addError "#{err}: Commit amend aborted!"
-      stderr: ->
-        notifier.addError 'ERROR! Undoing the amend failed! Please fix your repository manually!'
-      exit: =>
-        # Set @isAmending to false since the amending process has been aborted.
-        @isAmending = false
-
-        # Destroying the active EditorView will trigger our cleanup method.
-        @destroyCommitEditor()
-
-  # Public: Cleans up after the EditorView gets destroyed.
-  cleanup: ->
-    @currentPane.activate() if @currentPane.alive
-    @disposables.dispose()
-    try fs.unlinkSync @filePath()
+        notifier.addInfo message

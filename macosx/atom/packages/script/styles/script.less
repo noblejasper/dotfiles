@@ -5,20 +5,6 @@
 @import "ui-variables";
 
 .header-view {
-  position: fixed;
-  width: 100%;
-  z-index:10;
-  position:relative;
-
-
-  .heading-close {
-    color: @text-color-highlight;
-  }
-
-  .heading-title {
-    padding-left: 6px;
-  }
-
   .heading-status {
     padding-left: 9px;
   }
@@ -40,13 +26,92 @@
   }
 }
 
-.script-view {
-  overflow: scroll;
-  max-height: 300px;
-  height: auto;
-  margin-bottom: 0px;
+.script-input-view {
+  .caption {
+    margin-bottom: 5px;
+  }
+}
 
-  .panel-body pre{
+.script-profile-run-view {
+  width: 100%;
+  margin-left: -50%;
+  padding: 0;
+
+  .profile {
+    .name {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .description {
+      font-style: italic;
+      color: @text-color-subtle;
+    }
+  }
+
+  .buttons {
+    margin-top: 1rem;
+
+    .rename, .cancel {
+      float: left;
+      margin-right: 5px;
+    }
+    .delete {
+      float: left;
+    }
+    .run {
+      float: right;
+    }
+  }
+}
+
+.options-view {
+  width: 100%;
+
+  table {
+    margin-top: 10px;
+
+    td.first {
+      width: 40%;
+    }
+
+    td.second {
+      width: 60%;
+    }
+
+    td {
+      padding: 0 5px;
+      vertical-align: middle;
+
+      atom-text-editor {
+        // fix for editor growth on focus/blur
+        max-width: 99%;
+      }
+    }
+
+    td:first-child {
+      width: 15rem;
+      text-align: right;
+    }
+  }
+
+  .buttons {
+    padding: 5px;
+
+    .cancel {
+      float: left;
+    }
+
+    .right-buttons {
+      float: right;
+    }
+    .save-profile {
+      margin-right: 5px;
+    }
+  }
+}
+
+.script-view {
+  .panel-body pre {
     background: @tool-panel-background-color;
     color: @text-color;
   }

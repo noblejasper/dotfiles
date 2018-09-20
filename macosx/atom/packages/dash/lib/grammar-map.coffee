@@ -19,6 +19,8 @@ js = [
   'jquery',
   'jqueryui',
   'jquerym',
+  'react',
+  'nodejs',
   'angularjs',
   'backbone',
   'marionette',
@@ -98,10 +100,25 @@ objectiveC = [
   'manpages'
 ]
 
+python = [
+  'python',
+  'django',
+  'twisted',
+  'sphinx',
+  'flask',
+  'tornado',
+  'sqlalchemy',
+  'numpy',
+  'scipy',
+  'salt',
+  'cvp'
+]
+
 module.exports =
   'ActionScript': [
     'actionscript'
   ]
+  'Babel ES6 JavaScript': js
   'Boo': [
     'unity3d'
   ]
@@ -182,6 +199,9 @@ module.exports =
     'processing'
   ]
   'JavaScript': js
+  'LaTeX': [
+    'latex'
+  ]
   'LESS': css
   'Lisp': [
     'lisp'
@@ -196,6 +216,7 @@ module.exports =
   'GitHub Markdown': [
     'markdown'
   ]
+  'MagicPython': python
   'Objective-C': objectiveC
   'Objective-C++': [
     'cpp',
@@ -215,19 +236,7 @@ module.exports =
   'Puppet': [
     'puppet'
   ]
-  'Python': [
-    'python',
-    'django',
-    'twisted',
-    'sphinx',
-    'flask',
-    'tornado',
-    'sqlalchemy',
-    'numpy',
-    'scipy',
-    'salt',
-    'cvp'
-  ]
+  'Python': python
   'R': [
     'r'
   ]

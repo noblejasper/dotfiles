@@ -1,0 +1,136 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61681-1da2kmn.h9hq1wnrk9/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61681-1da2kmn.h9hq1wnrk9/package.tgz",
+        "spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61681-1da2kmn.h9hq1wnrk9/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/apm-install-dir-118818-61681-4atyan.fdv5lmobt9"
+    ]
+  ],
+  "_from": "../d-118818-61681-1da2kmn.h9hq1wnrk9/package.tgz",
+  "_id": "linter-pycodestyle@2.1.3",
+  "_inCache": true,
+  "_location": "/linter-pycodestyle",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61681-1da2kmn.h9hq1wnrk9/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61681-1da2kmn.h9hq1wnrk9/package.tgz",
+    "spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61681-1da2kmn.h9hq1wnrk9/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-118818-61681-1da2kmn.h9hq1wnrk9/package.tgz",
+  "_shasum": "d3bf96f2b19a5e5b114abff26f940edf3b7ca6a6",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61681-1da2kmn.h9hq1wnrk9/package.tgz",
+  "_where": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/apm-install-dir-118818-61681-4atyan.fdv5lmobt9",
+  "bugs": {
+    "url": "https://github.com/AtomLinter/linter-pycodestyle/issues"
+  },
+  "configSchema": {
+    "executablePath": {
+      "type": "string",
+      "default": "pycodestyle",
+      "description": "Semicolon separated list of paths to a binary (e.g. `/usr/local/bin/pycodestyle`). Use `$PROJECT` or `$PROJECT_NAME` substitutions for project specific paths e.g. `$PROJECT/.venv/bin/pycodestyle;/usr/bin/pycodestyle`"
+    },
+    "maxLineLength": {
+      "type": "integer",
+      "default": 0
+    },
+    "ignoreErrorCodes": {
+      "title": "Ignored Error Codes",
+      "type": "array",
+      "default": [],
+      "description": "For a list of code visit http://pycodestyle.readthedocs.org/en/latest/intro.html#error-codes"
+    },
+    "convertAllErrorsToWarnings": {
+      "type": "boolean",
+      "default": true
+    },
+    "forcedConfig": {
+      "type": "string",
+      "default": "",
+      "description": "Forces `pycodestyle` to use this configuration at all times. Supports substituion of `$PROJECT` and `$PROJECT_NAME`."
+    }
+  },
+  "dependencies": {
+    "atom-linter": "^10.0.0",
+    "atom-package-deps": "^4.6.0",
+    "fs-plus": "^3.0.1"
+  },
+  "description": "Linter plugin for pycodestyle",
+  "devDependencies": {
+    "eslint": "^4.4.1",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-plugin-import": "^2.7.0",
+    "jasmine-fix": "^1.0.1"
+  },
+  "engines": {
+    "atom": ">=1.7.0 <2.0.0"
+  },
+  "eslintConfig": {
+    "extends": "airbnb-base",
+    "rules": {
+      "global-require": "off",
+      "import/no-unresolved": [
+        "error",
+        {
+          "ignore": [
+            "atom"
+          ]
+        }
+      ]
+    },
+    "globals": {
+      "atom": true
+    },
+    "env": {
+      "node": true,
+      "browser": true
+    }
+  },
+  "homepage": "https://github.com/AtomLinter/linter-pycodestyle#readme",
+  "keywords": [
+    "atom",
+    "python",
+    "linter",
+    "pep8",
+    "pycodestyle"
+  ],
+  "license": "MIT",
+  "main": "./lib/index",
+  "name": "linter-pycodestyle",
+  "optionalDependencies": {},
+  "package-deps": [
+    "linter:2.0.0"
+  ],
+  "providedServices": {
+    "linter": {
+      "versions": {
+        "2.0.0": "provideLinter"
+      }
+    }
+  },
+  "readme": "# linter-pycodestyle\n\n[![Greenkeeper badge](https://badges.greenkeeper.io/AtomLinter/linter-pycodestyle.svg)](https://greenkeeper.io/)\n\nThis linter plugin for [Linter](https://github.com/AtomLinter/Linter) provides\nan interface to [pycodestyle](https://pypi.python.org/pypi/pycodestyle). It will be used\nwith Python files.\n\n## Installation\n\nLinter package must be installed in order to use this plugin. If Linter is not\ninstalled, please follow the instructions [here](https://github.com/AtomLinter/Linter).\n\n### pycodestyle installation\n\nBefore using this plugin, you must ensure that `pycodestyle` is installed on your\nsystem. To install `pycodestyle`, do the following:\n\nInstall [pycodestyle](https://pypi.python.org/pypi/pycodestyle) by typing the following in a\nterminal:\n\n```ShellSession\npip install pycodestyle\n```\n\nNow you can proceed to install the linter-pycodestyle plugin.\n\n### Plugin installation\n\n```ShellSession\n apm install linter-pycodestyle\n```\n\n## Settings\n\nYou can configure linter-pycodestyle from the settings menu:\n\n*   **executablePath** Path to your pycodestyle executable. This is useful if you\n    have different versions of pycodestyle for Python 2 and 3 or if you are using a\n    virtualenv\n\n*   **maxLineLength** The max line length for your python code, defaults to 79\n\n*   **ignoreErrorCodes** A list of pycodestyle error codes to ignore. For a list of\n    code visit <http://pycodestyle.readthedocs.org/en/latest/intro.html#error-codes>\n\n    Example: To ignore `W191` and `E501` you would enter something like this:\n\n    ```coffeescript\n    W191, E501\n    ```\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AtomLinter/linter-pycodestyle.git"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "apm test"
+  },
+  "version": "2.1.3"
+}

@@ -1,44 +1,64 @@
 {
-  "name": "language-csharp",
-  "version": "0.10.0",
-  "private": true,
-  "description": "C# language support for Atom",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/atom/language-csharp.git"
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61608-1vzvix6.c4cnfdpldi/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61608-1vzvix6.c4cnfdpldi/package.tgz",
+        "spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61608-1vzvix6.c4cnfdpldi/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/apm-install-dir-118818-61608-116ir7z.0af4txzuxr"
+    ]
+  ],
+  "_from": "../d-118818-61608-1vzvix6.c4cnfdpldi/package.tgz",
+  "_id": "language-csharp@1.1.0",
+  "_inCache": true,
+  "_location": "/language-csharp",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61608-1vzvix6.c4cnfdpldi/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61608-1vzvix6.c4cnfdpldi/package.tgz",
+    "spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61608-1vzvix6.c4cnfdpldi/package.tgz",
+    "type": "local"
   },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-118818-61608-1vzvix6.c4cnfdpldi/package.tgz",
+  "_shasum": "a4a77c512bfd883ddc399c8631ef35a46dd62d29",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/d-118818-61608-1vzvix6.c4cnfdpldi/package.tgz",
+  "_where": "/private/var/folders/vd/ttw9r6ls0xbdvvgh6jmgdgv00000gn/T/apm-install-dir-118818-61608-116ir7z.0af4txzuxr",
+  "bugs": {
+    "url": "https://github.com/atom/language-csharp/issues"
+  },
+  "dependencies": {},
+  "description": "C# language support for Atom",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "homepage": "https://github.com/atom/language-csharp#readme",
   "keywords": [
     "C#",
     "csharp",
     ".Net"
   ],
   "license": "MIT",
-  "engines": {
-    "atom": ">0.50.0"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "coffeelint": "^1.10.1"
-  },
-  "readme": "# C# language support in Atom [![Build Status](https://travis-ci.org/atom/language-csharp.svg?branch=master)](https://travis-ci.org/atom/language-csharp)\n\nAdds syntax highlighting and snippets to C# files in Atom.\n\nOriginally [converted](http://atom.io/docs/latest/converting-a-text-mate-bundle)\nfrom the [C# TextMate bundle](https://github.com/wintermi/csharp-tmbundle).\n\nContributions are greatly appreciated. Please fork this repository and open a\npull request to add snippets, make grammar tweaks, etc.\n",
+  "name": "language-csharp",
+  "optionalDependencies": {},
+  "private": true,
+  "readme": "# C# language support in Atom\n[![macOS Build Status](https://travis-ci.org/atom/language-csharp.svg?branch=master)](https://travis-ci.org/atom/language-csharp)\n[![Windows Build Status](https://ci.appveyor.com/api/projects/status/j1as3753y5t90obn/branch/master?svg=true)](https://ci.appveyor.com/project/Atom/language-csharp/branch/master) [![Dependency Status](https://david-dm.org/atom/language-csharp.svg)](https://david-dm.org/atom/language-csharp)\n\nAdds syntax highlighting and snippets to C# files in Atom.\n\nThe C# grammar comes from the [.NET Foundation's C# grammar](https://github.com/dotnet/csharp-tmLanguage)\n\nContributions and issues with the the grammar should be raised upstream. \n",
   "readmeFilename": "README.md",
-  "bugs": {
-    "url": "https://github.com/atom/language-csharp/issues"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atom/language-csharp.git"
   },
-  "homepage": "https://github.com/atom/language-csharp#readme",
-  "_id": "language-csharp@0.10.0",
-  "_shasum": "146024423f8103672fdd4d7b7ce9015b0b9a91ff",
-  "_resolved": "file:../d-115812-3660-1qfsclr/package.tgz",
-  "_from": "../d-115812-3660-1qfsclr/package.tgz",
-  "_atomModuleCache": {
-    "version": 1,
-    "dependencies": [],
-    "extensions": {
-      ".json": [
-        "coffeelint.json",
-        "package.json"
-      ]
-    },
-    "folders": []
-  }
+  "version": "1.1.0"
 }

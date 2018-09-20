@@ -1,10 +1,12 @@
 async = require 'async'
 fs = require 'fs'
 VariableScanner = require '../variable-scanner'
+VariableExpression = require '../variable-expression'
+ExpressionsRegistry = require '../expressions-registry'
 
 class PathScanner
-  constructor: (@path) ->
-    @scanner = new VariableScanner
+  constructor: (@filePath, scope, registry) ->
+    @scanner = new VariableScanner({registry, scope})
 
   load: (done) ->
     currentChunk = ''
@@ -14,7 +16,7 @@ class PathScanner
     line = 0
     results = []
 
-    readStream = fs.createReadStream(@path)
+    readStream = fs.createReadStream(@filePath)
 
     readStream.on 'data', (chunk) =>
       currentChunk += chunk.toString()
@@ -26,7 +28,7 @@ class PathScanner
         result.range[1] += index
 
         for v in result
-          v.path = @path
+          v.path = @filePath
           v.range[0] += index
           v.range[1] += index
           v.definitionRange = result.range
@@ -45,10 +47,11 @@ class PathScanner
       emit('scan-paths:path-scanned', results)
       done()
 
-module.exports = (paths) ->
+module.exports = ([paths, registry]) ->
+  registry = ExpressionsRegistry.deserialize(registry, VariableExpression)
   async.each(
     paths,
-    (path, next) ->
-      new PathScanner(path).load(next)
+    ([p, s], next) ->
+      new PathScanner(p, s, registry).load(next)
     @async()
   )

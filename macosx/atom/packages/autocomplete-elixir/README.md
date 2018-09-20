@@ -1,4 +1,10 @@
+# PROJECT DEPRACATED BECAUSE OF DRASTIC CHANGES IN ATOM EXTERNAL PROCESS API.
+# For Elixir autocompletion in Atom head to https://github.com/msaraiva/atom-elixir
+
+
 # Atom intelligent Elixir Autocompletion for Autocomplete+
+
+![Image of autocomplete-elixir](https://raw.githubusercontent.com/wende/autocomplete-elixir/master/pics/presentation.png)
 
 ## Features
 - Intelligent autocompletion of
@@ -9,6 +15,8 @@
   - Return types
 - Type aliases replaced with primitive structures they represent
 - Snippets for common structures
+- `do`/`fn` -> `end` highlighting
+- Jump to local function/macro defintion with `alt-.` and back with `alt-,`
 
 ## Installation
 Installation is done using Atom package manager or command
@@ -19,25 +27,23 @@ CAUTION: MAKE SURE TO HAVE `autocomplete-plus` PACKAGE INSTALLED
 
 
 ## Incoming features
-- Local variables autocompletion
-- Variable type inference (by priority)
-  1. Assignment ( T = T )
-  2. Expressions ( T = fn() :: T  , T = T + T)
-  3. Extraction ( [ T | [T] ] = [T] )
-  4. Matching ( { T1, T2 } = {T1, T2} )
-  5. Remote types
-- Obvious type errors warnings ( Variable doesn't conform to required type / Extraction of non-parametric type)
-- Feel free to suggest additional features at [issues page](https://github.com/iraasta/autocomplete-elixir/issues)
+### 1.6
+- Jump to definition out of local module
 
+Feel free to suggest additional features at [issues page](https://github.com/iraasta/autocomplete-elixir/issues)
 
 ### Common Errors
 
-#### Package spits out a lot of errors on my MacOS
-  It seems that MacOS has a lot of different safe measures which don't cooperate nicely with atom environment.  
+#### Package spits out a lot of errors on my OSX
+  It seems that OSX has a lot of different safe measures which don't cooperate nicely with atom environment.  
+  Make sure you've got both erlang and elixir installed and paths set up in package settings:
+  ![Image of autocomplete-elixir](https://raw.githubusercontent.com/wende/autocomplete-elixir/master/pics/Screen.Shot.2016-02-19.at.17.12.58.png)
+
+  
   For optimal behaviour always start atom from command line instead of Finder.
   
 #### `Failed to spawn command elixir. Make sure elixir is installed and in your PATH`  
-  Let me guess. You're using MacOS. This happens when starting atom from Finder.
+  Let me guess. You're using OSX. This happens when starting atom from Finder.
   Finder-started applications have no access to PATH variable. To go around that make
   sure to set "Elixir Path" in package configuration to Your absolute elixir executable
   path or start atom from command line instead.
@@ -48,6 +54,15 @@ CAUTION: MAKE SURE TO HAVE `autocomplete-plus` PACKAGE INSTALLED
 - [autocomplete-snippets](https://atom.io/packages/autocomplete-snippets)
 - [language-elixir](https://atom.io/packages/language-elixir)
 
-### Recommended modules
-- [term](https://atom.io/packages/term)
-- [layout-manager](https://atom.io/packages/layout-manager)
+### Troubleshooting
+1. Make sure you've got both Elixir and Erlang installed
+2. Make sure you've got both paths set up in settings
+You can check both things by running:
+`which elixir` -> /usr/local/bin/elixir
+`which erl` -> /usr/local/bin/erl
+And insert the whole path of elixir but only folder path of erl
+![Image of autocomplete-elixir](https://raw.githubusercontent.com/wende/autocomplete-elixir/master/pics/Screen.Shot.2016-02-19.at.17.12.58.png)
+3. Make sure You've got Elixir-language package installed
+4. Try running atom from the CLI
+5. If functions are not showing up in the auto-complete list, be sure that atom's root directory has your `mix.exs` file. This can be either your individual application or an umbrella app.
+6. Read existing issues ;)

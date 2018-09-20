@@ -52,5 +52,3 @@
 '.platform-darwin atom-text-editor:not([mini])':
   'ctrl-d': 'core:delete'
   'ctrl-w': 'emacs-plus:kill-region'
-'.platform-darwin atom-pane atom-text-editor:not([mini])':
-  'cmd-/': 'unset!'

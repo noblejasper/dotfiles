@@ -1,7 +1,7 @@
 {
   "name": "wercker-status",
   "main": "./lib/init",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Add Wercker status of the project to the Atom status bar.",
   "repository": {
     "type": "git",
@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "engines": {
-    "atom": ">0.200.0"
+    "atom": ">1.1"
   },
   "dependencies": {
     "async": "^1.0.0",
@@ -27,16 +27,16 @@
     "url": "https://github.com/felipefdl/wercker-status/issues"
   },
   "homepage": "https://github.com/felipefdl/wercker-status#readme",
-  "_id": "wercker-status@1.0.5",
-  "_shasum": "85aac803875bde45c032bcfbcee083bd1d90f9a7",
-  "_resolved": "file:../d-11593-14318-1wnxxld/package.tgz",
-  "_from": "../d-11593-14318-1wnxxld/package.tgz",
+  "_id": "wercker-status@1.0.6",
+  "_shasum": "77a189072ae5d6835d6be4369c53d10f836c75c6",
+  "_resolved": "file:../d-116114-7859-1aewehq/package.tgz",
+  "_from": "../d-116114-7859-1aewehq/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
       {
         "name": "async",
-        "version": "1.4.2",
+        "version": "1.5.2",
         "path": "node_modules/async/lib/async.js"
       },
       {
@@ -51,27 +51,37 @@
       },
       {
         "name": "request",
-        "version": "2.64.0",
+        "version": "2.69.0",
         "path": "node_modules/request/index.js"
       },
       {
         "name": "aws-sign2",
-        "version": "0.5.0",
+        "version": "0.6.0",
         "path": "node_modules/request/node_modules/aws-sign2/index.js"
       },
       {
+        "name": "aws4",
+        "version": "1.2.1",
+        "path": "node_modules/request/node_modules/aws4/aws4.js"
+      },
+      {
+        "name": "lru-cache",
+        "version": "2.7.3",
+        "path": "node_modules/request/node_modules/aws4/node_modules/lru-cache/lib/lru-cache.js"
+      },
+      {
         "name": "bl",
-        "version": "1.0.0",
+        "version": "1.0.3",
         "path": "node_modules/request/node_modules/bl/bl.js"
       },
       {
         "name": "readable-stream",
-        "version": "2.0.2",
+        "version": "2.0.5",
         "path": "node_modules/request/node_modules/bl/node_modules/readable-stream/readable.js"
       },
       {
         "name": "core-util-is",
-        "version": "1.0.1",
+        "version": "1.0.2",
         "path": "node_modules/request/node_modules/bl/node_modules/readable-stream/node_modules/core-util-is/lib/util.js"
       },
       {
@@ -86,7 +96,7 @@
       },
       {
         "name": "process-nextick-args",
-        "version": "1.0.3",
+        "version": "1.0.6",
         "path": "node_modules/request/node_modules/bl/node_modules/readable-stream/node_modules/process-nextick-args/index.js"
       },
       {
@@ -96,7 +106,7 @@
       },
       {
         "name": "util-deprecate",
-        "version": "1.0.1",
+        "version": "1.0.2",
         "path": "node_modules/request/node_modules/bl/node_modules/readable-stream/node_modules/util-deprecate/node.js"
       },
       {
@@ -131,13 +141,8 @@
       },
       {
         "name": "har-validator",
-        "version": "1.8.0",
+        "version": "2.0.6",
         "path": "node_modules/request/node_modules/har-validator/lib/index.js"
-      },
-      {
-        "name": "bluebird",
-        "version": "2.10.2",
-        "path": "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/bluebird.js"
       },
       {
         "name": "chalk",
@@ -151,7 +156,7 @@
       },
       {
         "name": "escape-string-regexp",
-        "version": "1.0.3",
+        "version": "1.0.4",
         "path": "node_modules/request/node_modules/har-validator/node_modules/chalk/node_modules/escape-string-regexp/index.js"
       },
       {
@@ -181,7 +186,7 @@
       },
       {
         "name": "commander",
-        "version": "2.8.1",
+        "version": "2.9.0",
         "path": "node_modules/request/node_modules/har-validator/node_modules/commander/index.js"
       },
       {
@@ -191,7 +196,7 @@
       },
       {
         "name": "is-my-json-valid",
-        "version": "2.12.2",
+        "version": "2.12.4",
         "path": "node_modules/request/node_modules/har-validator/node_modules/is-my-json-valid/index.js"
       },
       {
@@ -216,17 +221,27 @@
       },
       {
         "name": "xtend",
-        "version": "4.0.0",
+        "version": "4.0.1",
         "path": "node_modules/request/node_modules/har-validator/node_modules/is-my-json-valid/node_modules/xtend/immutable.js"
       },
       {
+        "name": "pinkie-promise",
+        "version": "2.0.0",
+        "path": "node_modules/request/node_modules/har-validator/node_modules/pinkie-promise/index.js"
+      },
+      {
+        "name": "pinkie",
+        "version": "2.0.4",
+        "path": "node_modules/request/node_modules/har-validator/node_modules/pinkie-promise/node_modules/pinkie/index.js"
+      },
+      {
         "name": "hawk",
-        "version": "3.1.0",
+        "version": "3.1.3",
         "path": "node_modules/request/node_modules/hawk/lib/index.js"
       },
       {
         "name": "boom",
-        "version": "2.9.0",
+        "version": "2.10.1",
         "path": "node_modules/request/node_modules/hawk/node_modules/boom/lib/index.js"
       },
       {
@@ -246,23 +261,78 @@
       },
       {
         "name": "http-signature",
-        "version": "0.11.0",
+        "version": "1.1.1",
         "path": "node_modules/request/node_modules/http-signature/lib/index.js"
       },
       {
-        "name": "asn1",
-        "version": "0.1.11",
-        "path": "node_modules/request/node_modules/http-signature/node_modules/asn1/lib/index.js"
-      },
-      {
         "name": "assert-plus",
-        "version": "0.1.5",
+        "version": "0.2.0",
         "path": "node_modules/request/node_modules/http-signature/node_modules/assert-plus/assert.js"
       },
       {
-        "name": "ctype",
-        "version": "0.5.3",
-        "path": "node_modules/request/node_modules/http-signature/node_modules/ctype/ctype.js"
+        "name": "jsprim",
+        "version": "1.2.2",
+        "path": "node_modules/request/node_modules/http-signature/node_modules/jsprim/lib/jsprim.js"
+      },
+      {
+        "name": "extsprintf",
+        "version": "1.0.2",
+        "path": "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/extsprintf/lib/extsprintf.js"
+      },
+      {
+        "name": "json-schema",
+        "version": "0.2.2",
+        "path": "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/json-schema/lib/validate.js"
+      },
+      {
+        "name": "verror",
+        "version": "1.3.6",
+        "path": "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/verror/lib/verror.js"
+      },
+      {
+        "name": "sshpk",
+        "version": "1.7.4",
+        "path": "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/index.js"
+      },
+      {
+        "name": "asn1",
+        "version": "0.2.3",
+        "path": "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/asn1/lib/index.js"
+      },
+      {
+        "name": "dashdash",
+        "version": "1.13.0",
+        "path": "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/dashdash/lib/dashdash.js"
+      },
+      {
+        "name": "assert-plus",
+        "version": "1.0.0",
+        "path": "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/dashdash/node_modules/assert-plus/assert.js"
+      },
+      {
+        "name": "ecc-jsbn",
+        "version": "0.1.1",
+        "path": "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/ecc-jsbn/index.js"
+      },
+      {
+        "name": "jodid25519",
+        "version": "1.0.2",
+        "path": "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jodid25519/index.js"
+      },
+      {
+        "name": "jsbn",
+        "version": "0.1.0",
+        "path": "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jsbn/index.js"
+      },
+      {
+        "name": "tweetnacl",
+        "version": "0.13.3",
+        "path": "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/tweetnacl/nacl-fast.js"
+      },
+      {
+        "name": "is-typedarray",
+        "version": "1.0.0",
+        "path": "node_modules/request/node_modules/is-typedarray/index.js"
       },
       {
         "name": "isstream",
@@ -276,42 +346,42 @@
       },
       {
         "name": "mime-types",
-        "version": "2.1.7",
+        "version": "2.1.9",
         "path": "node_modules/request/node_modules/mime-types/index.js"
       },
       {
         "name": "mime-db",
-        "version": "1.19.0",
+        "version": "1.21.0",
         "path": "node_modules/request/node_modules/mime-types/node_modules/mime-db/index.js"
       },
       {
         "name": "node-uuid",
-        "version": "1.4.3",
+        "version": "1.4.7",
         "path": "node_modules/request/node_modules/node-uuid/uuid.js"
       },
       {
         "name": "oauth-sign",
-        "version": "0.8.0",
+        "version": "0.8.1",
         "path": "node_modules/request/node_modules/oauth-sign/index.js"
       },
       {
         "name": "qs",
-        "version": "5.1.0",
+        "version": "6.0.2",
         "path": "node_modules/request/node_modules/qs/lib/index.js"
       },
       {
         "name": "stringstream",
-        "version": "0.0.4",
+        "version": "0.0.5",
         "path": "node_modules/request/node_modules/stringstream/stringstream.js"
       },
       {
         "name": "tough-cookie",
-        "version": "2.1.0",
+        "version": "2.2.1",
         "path": "node_modules/request/node_modules/tough-cookie/lib/cookie.js"
       },
       {
         "name": "tunnel-agent",
-        "version": "0.4.1",
+        "version": "0.4.2",
         "path": "node_modules/request/node_modules/tunnel-agent/index.js"
       }
     ],
@@ -322,6 +392,8 @@
         "node_modules/iniparser/package.json",
         "node_modules/lodash/package.json",
         "node_modules/request/node_modules/aws-sign2/package.json",
+        "node_modules/request/node_modules/aws4/node_modules/lru-cache/package.json",
+        "node_modules/request/node_modules/aws4/package.json",
         "node_modules/request/node_modules/bl/node_modules/readable-stream/node_modules/core-util-is/package.json",
         "node_modules/request/node_modules/bl/node_modules/readable-stream/node_modules/inherits/package.json",
         "node_modules/request/node_modules/bl/node_modules/readable-stream/node_modules/isarray/component.json",
@@ -354,7 +426,6 @@
         "node_modules/request/node_modules/har-validator/lib/schemas/request.json",
         "node_modules/request/node_modules/har-validator/lib/schemas/response.json",
         "node_modules/request/node_modules/har-validator/lib/schemas/timings.json",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/package.json",
         "node_modules/request/node_modules/har-validator/node_modules/chalk/node_modules/ansi-styles/package.json",
         "node_modules/request/node_modules/har-validator/node_modules/chalk/node_modules/escape-string-regexp/package.json",
         "node_modules/request/node_modules/har-validator/node_modules/chalk/node_modules/has-ansi/node_modules/ansi-regex/package.json",
@@ -371,6 +442,8 @@
         "node_modules/request/node_modules/har-validator/node_modules/is-my-json-valid/node_modules/jsonpointer/package.json",
         "node_modules/request/node_modules/har-validator/node_modules/is-my-json-valid/node_modules/xtend/package.json",
         "node_modules/request/node_modules/har-validator/node_modules/is-my-json-valid/package.json",
+        "node_modules/request/node_modules/har-validator/node_modules/pinkie-promise/node_modules/pinkie/package.json",
+        "node_modules/request/node_modules/har-validator/node_modules/pinkie-promise/package.json",
         "node_modules/request/node_modules/har-validator/package.json",
         "node_modules/request/node_modules/hawk/bower.json",
         "node_modules/request/node_modules/hawk/component.json",
@@ -379,10 +452,22 @@
         "node_modules/request/node_modules/hawk/node_modules/hoek/package.json",
         "node_modules/request/node_modules/hawk/node_modules/sntp/package.json",
         "node_modules/request/node_modules/hawk/package.json",
-        "node_modules/request/node_modules/http-signature/node_modules/asn1/package.json",
         "node_modules/request/node_modules/http-signature/node_modules/assert-plus/package.json",
-        "node_modules/request/node_modules/http-signature/node_modules/ctype/package.json",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/extsprintf/package.json",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/json-schema/package.json",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/verror/package.json",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/package.json",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/asn1/package.json",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/dashdash/node_modules/assert-plus/package.json",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/dashdash/package.json",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/ecc-jsbn/package.json",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jodid25519/jsdoc.json",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jodid25519/package.json",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jsbn/package.json",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/tweetnacl/package.json",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/package.json",
         "node_modules/request/node_modules/http-signature/package.json",
+        "node_modules/request/node_modules/is-typedarray/package.json",
         "node_modules/request/node_modules/isstream/package.json",
         "node_modules/request/node_modules/json-stringify-safe/package.json",
         "node_modules/request/node_modules/mime-types/node_modules/mime-db/db.json",
@@ -408,6 +493,8 @@
         "lib/wercker_status.coffee"
       ],
       ".js": [
+        "node_modules/async/dist/async.js",
+        "node_modules/async/dist/async.min.js",
         "node_modules/async/lib/async.js",
         "node_modules/iniparser/lib/node-iniparser.js",
         "node_modules/lodash/array/chunk.js",
@@ -840,6 +927,9 @@
         "node_modules/request/lib/redirect.js",
         "node_modules/request/lib/tunnel.js",
         "node_modules/request/node_modules/aws-sign2/index.js",
+        "node_modules/request/node_modules/aws4/aws4.js",
+        "node_modules/request/node_modules/aws4/example.js",
+        "node_modules/request/node_modules/aws4/node_modules/lru-cache/lib/lru-cache.js",
         "node_modules/request/node_modules/bl/bl.js",
         "node_modules/request/node_modules/bl/node_modules/readable-stream/duplex.js",
         "node_modules/request/node_modules/bl/node_modules/readable-stream/lib/_stream_duplex.js",
@@ -848,7 +938,7 @@
         "node_modules/request/node_modules/bl/node_modules/readable-stream/lib/_stream_transform.js",
         "node_modules/request/node_modules/bl/node_modules/readable-stream/lib/_stream_writable.js",
         "node_modules/request/node_modules/bl/node_modules/readable-stream/node_modules/core-util-is/lib/util.js",
-        "node_modules/request/node_modules/bl/node_modules/readable-stream/node_modules/core-util-is/util.js",
+        "node_modules/request/node_modules/bl/node_modules/readable-stream/node_modules/core-util-is/test.js",
         "node_modules/request/node_modules/bl/node_modules/readable-stream/node_modules/inherits/inherits.js",
         "node_modules/request/node_modules/bl/node_modules/readable-stream/node_modules/inherits/inherits_browser.js",
         "node_modules/request/node_modules/bl/node_modules/readable-stream/node_modules/inherits/test.js",
@@ -871,50 +961,11 @@
         "node_modules/request/node_modules/forever-agent/index.js",
         "node_modules/request/node_modules/form-data/lib/browser.js",
         "node_modules/request/node_modules/form-data/lib/form_data.js",
+        "node_modules/request/node_modules/har-validator/lib/async.js",
         "node_modules/request/node_modules/har-validator/lib/error.js",
         "node_modules/request/node_modules/har-validator/lib/index.js",
+        "node_modules/request/node_modules/har-validator/lib/runner.js",
         "node_modules/request/node_modules/har-validator/lib/schemas/index.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/browser/bluebird.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/browser/bluebird.min.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/any.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/assert.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/async.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/bind.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/bluebird.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/call_get.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/cancel.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/captured_trace.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/catch_filter.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/context.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/debuggability.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/direct_resolve.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/each.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/errors.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/es5.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/filter.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/finally.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/generators.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/join.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/map.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/method.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/nodeify.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/progress.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/promise.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/promise_array.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/promise_resolver.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/promisify.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/props.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/queue.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/race.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/reduce.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/schedule.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/settle.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/some.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/synchronous_inspection.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/thenables.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/timers.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/using.js",
-        "node_modules/request/node_modules/har-validator/node_modules/bluebird/js/main/util.js",
         "node_modules/request/node_modules/har-validator/node_modules/chalk/index.js",
         "node_modules/request/node_modules/har-validator/node_modules/chalk/node_modules/ansi-styles/index.js",
         "node_modules/request/node_modules/har-validator/node_modules/chalk/node_modules/escape-string-regexp/index.js",
@@ -940,6 +991,9 @@
         "node_modules/request/node_modules/har-validator/node_modules/is-my-json-valid/node_modules/xtend/mutable.js",
         "node_modules/request/node_modules/har-validator/node_modules/is-my-json-valid/node_modules/xtend/test.js",
         "node_modules/request/node_modules/har-validator/node_modules/is-my-json-valid/require.js",
+        "node_modules/request/node_modules/har-validator/node_modules/pinkie-promise/index.js",
+        "node_modules/request/node_modules/har-validator/node_modules/pinkie-promise/node_modules/pinkie/index.js",
+        "node_modules/request/node_modules/hawk/dist/client.js",
         "node_modules/request/node_modules/hawk/example/usage.js",
         "node_modules/request/node_modules/hawk/lib/browser.js",
         "node_modules/request/node_modules/hawk/lib/client.js",
@@ -958,20 +1012,66 @@
         "node_modules/request/node_modules/http-signature/lib/index.js",
         "node_modules/request/node_modules/http-signature/lib/parser.js",
         "node_modules/request/node_modules/http-signature/lib/signer.js",
-        "node_modules/request/node_modules/http-signature/lib/util.js",
+        "node_modules/request/node_modules/http-signature/lib/utils.js",
         "node_modules/request/node_modules/http-signature/lib/verify.js",
-        "node_modules/request/node_modules/http-signature/node_modules/asn1/lib/ber/errors.js",
-        "node_modules/request/node_modules/http-signature/node_modules/asn1/lib/ber/index.js",
-        "node_modules/request/node_modules/http-signature/node_modules/asn1/lib/ber/reader.js",
-        "node_modules/request/node_modules/http-signature/node_modules/asn1/lib/ber/types.js",
-        "node_modules/request/node_modules/http-signature/node_modules/asn1/lib/ber/writer.js",
-        "node_modules/request/node_modules/http-signature/node_modules/asn1/lib/index.js",
-        "node_modules/request/node_modules/http-signature/node_modules/asn1/tst/ber/reader.test.js",
-        "node_modules/request/node_modules/http-signature/node_modules/asn1/tst/ber/writer.test.js",
         "node_modules/request/node_modules/http-signature/node_modules/assert-plus/assert.js",
-        "node_modules/request/node_modules/http-signature/node_modules/ctype/ctf.js",
-        "node_modules/request/node_modules/http-signature/node_modules/ctype/ctio.js",
-        "node_modules/request/node_modules/http-signature/node_modules/ctype/ctype.js",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/lib/jsprim.js",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/extsprintf/examples/simple.js",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/extsprintf/lib/extsprintf.js",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/json-schema/lib/links.js",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/json-schema/lib/validate.js",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/verror/examples/levels-verror.js",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/verror/examples/levels-werror.js",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/verror/examples/varargs.js",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/verror/examples/verror.js",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/verror/examples/werror.js",
+        "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/verror/lib/verror.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/algs.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/dhe.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/ed-compat.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/errors.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/fingerprint.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/formats/auto.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/formats/pem.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/formats/pkcs1.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/formats/pkcs8.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/formats/rfc4253.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/formats/ssh-private.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/formats/ssh.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/index.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/key.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/private-key.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/signature.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/ssh-buffer.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/utils.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/asn1/lib/ber/errors.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/asn1/lib/ber/index.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/asn1/lib/ber/reader.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/asn1/lib/ber/types.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/asn1/lib/ber/writer.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/asn1/lib/index.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/asn1/tst/ber/reader.test.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/asn1/tst/ber/writer.test.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/dashdash/lib/dashdash.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/dashdash/node_modules/assert-plus/assert.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/ecc-jsbn/index.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/ecc-jsbn/lib/ec.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/ecc-jsbn/lib/sec.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/ecc-jsbn/test.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jodid25519/index.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jodid25519/lib/core.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jodid25519/lib/curve255.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jodid25519/lib/dh.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jodid25519/lib/eddsa.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jodid25519/lib/utils.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jsbn/example.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jsbn/index.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/tweetnacl/nacl-fast.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/tweetnacl/nacl-fast.min.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/tweetnacl/nacl.js",
+        "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/tweetnacl/nacl.min.js",
+        "node_modules/request/node_modules/is-typedarray/index.js",
+        "node_modules/request/node_modules/is-typedarray/test.js",
         "node_modules/request/node_modules/isstream/isstream.js",
         "node_modules/request/node_modules/isstream/test.js",
         "node_modules/request/node_modules/json-stringify-safe/stringify.js",
@@ -1022,25 +1122,35 @@
           "node_modules/request/lib"
         ],
         "dependencies": {
+          "aws-sign2": "~0.6.0",
+          "aws4": "^1.2.1",
           "bl": "~1.0.0",
           "caseless": "~0.11.0",
+          "combined-stream": "~1.0.5",
           "extend": "~3.0.0",
-          "forever-agent": "~0.6.0",
-          "form-data": "~1.0.0-rc1",
-          "json-stringify-safe": "~5.0.0",
-          "mime-types": "~2.1.2",
-          "node-uuid": "~1.4.0",
-          "qs": "~5.1.0",
-          "tunnel-agent": "~0.4.0",
-          "tough-cookie": ">=0.12.0",
-          "http-signature": "~0.11.0",
-          "oauth-sign": "~0.8.0",
+          "forever-agent": "~0.6.1",
+          "form-data": "~1.0.0-rc3",
+          "har-validator": "~2.0.6",
           "hawk": "~3.1.0",
-          "aws-sign2": "~0.5.0",
+          "http-signature": "~1.1.0",
+          "is-typedarray": "~1.0.0",
+          "isstream": "~0.1.2",
+          "json-stringify-safe": "~5.0.1",
+          "mime-types": "~2.1.7",
+          "node-uuid": "~1.4.7",
+          "oauth-sign": "~0.8.0",
+          "qs": "~6.0.2",
           "stringstream": "~0.0.4",
-          "combined-stream": "~1.0.1",
-          "isstream": "~0.1.1",
-          "har-validator": "^1.6.1"
+          "tough-cookie": "~2.2.0",
+          "tunnel-agent": "~0.4.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/request/node_modules/aws4"
+        ],
+        "dependencies": {
+          "lru-cache": "^2.6.5"
         }
       },
       {
@@ -1049,7 +1159,7 @@
           "node_modules/request/node_modules/bl/test"
         ],
         "dependencies": {
-          "readable-stream": "~2.0.0"
+          "readable-stream": "~2.0.5"
         }
       },
       {
@@ -1061,7 +1171,7 @@
           "core-util-is": "~1.0.0",
           "inherits": "~2.0.1",
           "isarray": "0.0.1",
-          "process-nextick-args": "~1.0.0",
+          "process-nextick-args": "~1.0.6",
           "string_decoder": "~0.10.x",
           "util-deprecate": "~1.0.1"
         }
@@ -1093,10 +1203,10 @@
           "node_modules/request/node_modules/har-validator"
         ],
         "dependencies": {
-          "bluebird": "^2.9.30",
-          "chalk": "^1.0.0",
-          "commander": "^2.8.1",
-          "is-my-json-valid": "^2.12.0"
+          "chalk": "^1.1.1",
+          "commander": "^2.9.0",
+          "is-my-json-valid": "^2.12.4",
+          "pinkie-promise": "^2.0.0"
         }
       },
       {
@@ -1159,14 +1269,23 @@
       },
       {
         "paths": [
+          "node_modules/request/node_modules/har-validator/node_modules/pinkie-promise"
+        ],
+        "dependencies": {
+          "pinkie": "^2.0.0"
+        }
+      },
+      {
+        "paths": [
           "node_modules/request/node_modules/hawk",
+          "node_modules/request/node_modules/hawk/dist",
           "node_modules/request/node_modules/hawk/example",
           "node_modules/request/node_modules/hawk/lib",
           "node_modules/request/node_modules/hawk/test"
         ],
         "dependencies": {
           "hoek": "2.x.x",
-          "boom": "^2.8.x",
+          "boom": "2.x.x",
           "cryptiles": "2.x.x",
           "sntp": "1.x.x"
         }
@@ -1208,9 +1327,74 @@
           "node_modules/request/node_modules/http-signature"
         ],
         "dependencies": {
-          "assert-plus": "^0.1.5",
-          "asn1": "0.1.11",
-          "ctype": "0.5.3"
+          "assert-plus": "^0.2.0",
+          "jsprim": "^1.2.2",
+          "sshpk": "^1.7.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/request/node_modules/http-signature/node_modules/jsprim/lib",
+          "node_modules/request/node_modules/http-signature/node_modules/jsprim"
+        ],
+        "dependencies": {
+          "extsprintf": "1.0.2",
+          "json-schema": "0.2.2",
+          "verror": "1.3.6"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/verror/examples",
+          "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/verror/lib",
+          "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/verror",
+          "node_modules/request/node_modules/http-signature/node_modules/jsprim/node_modules/verror/tests"
+        ],
+        "dependencies": {
+          "extsprintf": "1.0.2"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib",
+          "node_modules/request/node_modules/http-signature/node_modules/sshpk/lib/formats",
+          "node_modules/request/node_modules/http-signature/node_modules/sshpk"
+        ],
+        "dependencies": {
+          "asn1": ">=0.2.3 <0.3.0",
+          "assert-plus": ">=0.2.0 <0.3.0",
+          "dashdash": ">=1.10.1 <2.0.0",
+          "jsbn": ">=0.1.0 <0.2.0",
+          "tweetnacl": ">=0.13.0 <1.0.0",
+          "jodid25519": ">=1.0.0 <2.0.0",
+          "ecc-jsbn": ">=0.0.1 <1.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/dashdash/lib",
+          "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/dashdash"
+        ],
+        "dependencies": {
+          "assert-plus": "^1.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/ecc-jsbn",
+          "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/ecc-jsbn/lib"
+        ],
+        "dependencies": {
+          "jsbn": "~0.1.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jodid25519",
+          "node_modules/request/node_modules/http-signature/node_modules/sshpk/node_modules/jodid25519/lib"
+        ],
+        "dependencies": {
+          "jsbn": "~0.1.0"
         }
       },
       {
@@ -1218,7 +1402,7 @@
           "node_modules/request/node_modules/mime-types"
         ],
         "dependencies": {
-          "mime-db": "~1.19.0"
+          "mime-db": "~1.21.0"
         }
       }
     ]

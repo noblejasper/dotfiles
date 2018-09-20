@@ -1,5 +1,5 @@
 #alias screen='screen -xRU -D -RR'
-alias ls='ls -v --color=auto'
+alias ls='ls -vG'
 alias la='ls -a'
 alias ll='ls -l'
 alias grep='grep --color=auto'
@@ -67,3 +67,5 @@ alias cot='open $1 -a /Applications/CotEditor.app'
 
 # CSharp
 alias csharp="/Applications/Unity4.3.4/MonoDevelop.app/Contents/Frameworks/Mono.framework/Commands/csharp"
+
+alias py=ipython

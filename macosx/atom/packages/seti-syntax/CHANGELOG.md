@@ -1,3 +1,42 @@
+# Changelog
+
+## 1.0.1
+- Fix "path not defined" bug
+
+## 1.0.0
+* Misc tweaks to syntax colors
+* Consolidate duplicate language styles into syntax.less file
+* Add config file for user settings
+* Add theme files for syntax color options
+  * Blue (Default)
+  * Green
+  * Orange
+  * Pink
+  * Purple
+  * Steel
+  * Yellow
+* Enable user to select theme style in setting
+* Enable dynamic syntax color based on UI theme
+  * Update syntax theme ui theme changes
+  * Allow disabling of dynamic syntax theme in settings
+
+
+## 0.4.2
+* Add Javascript less file
+* Improve Python syntax highlighting
+* Fix nested JSON styles
+
+## 0.4.1
+* Fix cursor position error
+
+## 0.4.0
+* Improve Golang syntax support
+* Removed hightlight border
+* Fixed the deprecated call introduced in atom v0.189
+* Fixed crasher
+* Move to "stylesheet" vs "styles" folder for Atom 1.0
+
+
 ## 0.3.3
 * Fix C/C++ parenthesis highlighting
 * Adjust gutter padding

@@ -1,20 +1,17 @@
-{
-  hexARGBToRGB
-  hexRGBAToRGB
-  hexToRGB
-  hslToRGB
-  hsvToHWB
-  hsvToRGB
-  hwbToHSV
-  hwbToRGB
-  rgbToHSL
-  rgbToHSV
-  rgbToHWB
-  rgbToHex
-  rgbToHexARGB
-  rgbToHexRGBA
-} = require './color-conversions'
-SVGColors = require './svg-colors'
+[
+  SVGColors,
+  cmykToRGB, hexARGBToRGB, hexRGBAToRGB, hexToRGB, hslToRGB, hcgToRGB,
+  hsvToHWB, hsvToRGB, hwbToHSV, hwbToRGB, rgbToCMYK, rgbToHex, rgbToHexARGB,
+  rgbToHexRGBA, rgbToHSL, rgbToHSV, rgbToHWB, rgbToHCG
+] = []
+
+loadConverters = ->
+  unless cmykToRGB?
+    {
+      cmykToRGB, hexARGBToRGB, hexRGBAToRGB, hexToRGB, hslToRGB, hcgToRGB,
+      hsvToHWB, hsvToRGB, hwbToHSV, hwbToRGB, rgbToCMYK, rgbToHex,
+      rgbToHexARGB, rgbToHexRGBA, rgbToHSL, rgbToHSV, rgbToHWB, rgbToHCG
+    } = require './color-conversions'
 
 module.exports =
 class Color
@@ -26,6 +23,13 @@ class Color
     ['alpha', 3]
   ]
 
+  @isValid: (color) ->
+    color? and not color.invalid and
+    color.red? and color.green? and
+    color.blue? and color.alpha? and
+    not isNaN(color.red) and not isNaN(color.green) and
+    not isNaN(color.blue) and not isNaN(color.alpha)
+
   constructor: (r=0,g=0,b=0,a=1) ->
     if typeof r is 'object'
       if Array.isArray(r)
@@ -33,6 +37,8 @@ class Color
       else
         @[k] = v for k,v of r
     else if typeof r is 'string'
+      SVGColors ?= require './svg-colors'
+
       if r of SVGColors.allCases
         @name = r
         r = SVGColors.allCases[r]
@@ -73,8 +79,11 @@ class Color
 
   Object.defineProperty Color.prototype, 'hsv', {
     enumerable: true
-    get: -> rgbToHSV(@red, @green, @blue)
+    get: ->
+      loadConverters()
+      rgbToHSV(@red, @green, @blue)
     set: (hsv) ->
+      loadConverters()
       [@red, @green, @blue] = hsvToRGB.apply(@constructor, hsv)
   }
 
@@ -82,14 +91,37 @@ class Color
     enumerable: true
     get: -> @hsv.concat(@alpha)
     set: (hsva) ->
+      loadConverters()
       [h,s,v,@alpha] = hsva
       [@red, @green, @blue] = hsvToRGB.apply(@constructor, [h,s,v])
   }
 
+  Object.defineProperty Color.prototype, 'hcg', {
+    enumerable: true
+    get: ->
+      loadConverters()
+      rgbToHCG(@red, @green, @blue)
+    set: (hcg) ->
+      loadConverters()
+      [@red, @green, @blue] = hcgToRGB.apply(@constructor, hcg)
+  }
+
+  Object.defineProperty Color.prototype, 'hcga', {
+    enumerable: true
+    get: -> @hcg.concat(@alpha)
+    set: (hcga) ->
+      loadConverters()
+      [h,c,gr,@alpha] = hcga
+      [@red, @green, @blue] = hcgToRGB.apply(@constructor, [h,c,gr])
+  }
+
   Object.defineProperty Color.prototype, 'hsl', {
     enumerable: true
-    get: -> rgbToHSL(@red, @green, @blue)
+    get: ->
+      loadConverters()
+      rgbToHSL(@red, @green, @blue)
     set: (hsl) ->
+      loadConverters()
       [@red, @green, @blue] = hslToRGB.apply(@constructor, hsl)
   }
 
@@ -97,14 +129,18 @@ class Color
     enumerable: true
     get: -> @hsl.concat(@alpha)
     set: (hsl) ->
+      loadConverters()
       [h,s,l,@alpha] = hsl
       [@red, @green, @blue] = hslToRGB.apply(@constructor, [h,s,l])
   }
 
   Object.defineProperty Color.prototype, 'hwb', {
     enumerable: true
-    get: -> rgbToHWB(@red, @green, @blue)
+    get: ->
+      loadConverters()
+      rgbToHWB(@red, @green, @blue)
     set: (hwb) ->
+      loadConverters()
       [@red, @green, @blue] = hwbToRGB.apply(@constructor, hwb)
   }
 
@@ -112,26 +148,50 @@ class Color
     enumerable: true
     get: -> @hwb.concat(@alpha)
     set: (hwb) ->
+      loadConverters()
       [h,w,b,@alpha] = hwb
       [@red, @green, @blue] = hwbToRGB.apply(@constructor, [h,w,b])
   }
 
   Object.defineProperty Color.prototype, 'hex', {
     enumerable: true
-    get: -> rgbToHex(@red, @green, @blue)
-    set: (hex) -> [@red, @green, @blue] = hexToRGB(hex)
+    get: ->
+      loadConverters()
+      rgbToHex(@red, @green, @blue)
+    set: (hex) ->
+      loadConverters()
+      [@red, @green, @blue] = hexToRGB(hex)
   }
 
   Object.defineProperty Color.prototype, 'hexARGB', {
     enumerable: true
-    get: -> rgbToHexARGB(@red, @green, @blue, @alpha)
-    set: (hex) -> [@red, @green, @blue, @alpha] = hexARGBToRGB(hex)
+    get: ->
+      loadConverters()
+      rgbToHexARGB(@red, @green, @blue, @alpha)
+    set: (hex) ->
+      loadConverters()
+      [@red, @green, @blue, @alpha] = hexARGBToRGB(hex)
   }
 
   Object.defineProperty Color.prototype, 'hexRGBA', {
     enumerable: true
-    get: -> rgbToHexRGBA(@red, @green, @blue, @alpha)
-    set: (hex) -> [@red, @green, @blue, @alpha] = hexRGBAToRGB(hex)
+    get: ->
+      loadConverters()
+      rgbToHexRGBA(@red, @green, @blue, @alpha)
+    set: (hex) ->
+      loadConverters()
+      [@red, @green, @blue, @alpha] = hexRGBAToRGB(hex)
+  }
+
+  Object.defineProperty Color.prototype, 'cmyk', {
+    enumerable: true
+    get: ->
+      loadConverters()
+      rgbToCMYK(@red, @green, @blue, @alpha)
+    set: (cmyk) ->
+      loadConverters()
+      [c,m,y,k] = cmyk
+      [@red, @green, @blue] = cmykToRGB(c,m,y,k)
   }
 
   Object.defineProperty Color.prototype, 'length', {
@@ -188,10 +248,21 @@ class Color
       0.2126 * r + 0.7152 * g + 0.0722 * b
   }
 
+  Object.defineProperty Color.prototype, 'suggestionValues', {
+    enumerable: true
+    get: ->
+      rnd = Math.round
+
+      [
+        if @alpha is 1 then "##{@hex}" else "##{@hexRGBA}"
+        @toCSS()
+      ]
+  }
+
+  isLiteral: -> not @variables? or @variables.length is 0
+
   isValid: ->
-    !@invalid and
-    @red? and @green? and @blue? and @alpha? and
-    !isNaN(@red) and !isNaN(@green) and !isNaN(@blue) and !isNaN(@alpha)
+    @constructor.isValid(this)
 
   clone: -> new Color(@red, @green, @blue, @alpha)
 

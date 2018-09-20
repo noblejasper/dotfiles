@@ -1,0 +1,22 @@
+{
+  "extends": "airbnb-base",
+  "parser": "babel-eslint",
+  "env": {
+    "node": true,
+    "browser": true
+  },
+  "globals": {
+    "atom": true
+  },
+  "rules": {
+    "global-require": 0,
+    "no-unused-vars": ["error", {
+      "vars": "all",
+      "args": "after-used",
+      "ignoreRestSiblings": true
+    }]
+  },
+  "settings": {
+    "import/core-modules": ["atom"]
+  }
+}

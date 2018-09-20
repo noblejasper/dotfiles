@@ -1,7 +1,10 @@
+path = require 'path'
 VariableScanner = require '../lib/variable-scanner'
+registry = require '../lib/variable-expressions'
+scopeFromFileName = require '../lib/scope-from-file-name'
 
 describe 'VariableScanner', ->
-  [scanner, editor, text] = []
+  [scanner, editor, text, scope] = []
 
   withTextEditor = (fixture, block) ->
     describe "with #{fixture} buffer", ->
@@ -10,14 +13,17 @@ describe 'VariableScanner', ->
         runs ->
           editor = atom.workspace.getActiveTextEditor()
           text = editor.getText()
+          scope = scopeFromFileName(editor.getPath())
 
-      afterEach -> editor = null
+      afterEach ->
+        editor = null
+        scope = null
 
       do block
 
   withScannerForTextEditor = (fixture, block) ->
     withTextEditor fixture, ->
-      beforeEach -> scanner = new VariableScanner
+      beforeEach -> scanner = new VariableScanner({registry, scope})
 
       afterEach -> scanner = null
 
@@ -128,4 +134,15 @@ describe 'VariableScanner', ->
         doSearch()
 
       it 'finds the variable with an interpolation tag', ->
+        expect(result).toBeDefined()
+
+    withScannerForTextEditor 'crlf.styl', ->
+      beforeEach ->
+        result = null
+        doSearch = -> result = scanner.search(text, result?.lastIndex)
+
+        doSearch()
+        doSearch()
+
+      it 'finds all the variables even with crlf mode', ->
         expect(result).toBeDefined()

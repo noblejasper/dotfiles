@@ -1,81 +1,12 @@
-{Emitter, CompositeDisposable, Range} = require 'atom'
-minimatch = require 'minimatch'
-
-{SERIALIZE_VERSION, SERIALIZE_MARKERS_VERSION} = require './versions'
-{THEME_VARIABLES} = require './uris'
-ColorBuffer = require './color-buffer'
-ColorContext = require './color-context'
-ColorSearch = require './color-search'
-Palette = require './palette'
-PathsLoader = require './paths-loader'
-PathsScanner = require './paths-scanner'
-ColorMarkerElement = require './color-marker-element'
-VariablesCollection = require './variables-collection'
-
-ATOM_VARIABLES = [
-  'text-color'
-  'text-color-subtle'
-  'text-color-highlight'
-  'text-color-selected'
-  'text-color-info'
-  'text-color-success'
-  'text-color-warning'
-  'text-color-error'
-  'background-color-info'
-  'background-color-success'
-  'background-color-warning'
-  'background-color-error'
-  'background-color-highlight'
-  'background-color-selected'
-  'app-background-color'
-  'base-background-color'
-  'base-border-color'
-  'pane-item-background-color'
-  'pane-item-border-color'
-  'input-background-color'
-  'input-border-color'
-  'tool-panel-background-color'
-  'tool-panel-border-color'
-  'inset-panel-background-color'
-  'inset-panel-border-color'
-  'panel-heading-background-color'
-  'panel-heading-border-color'
-  'overlay-background-color'
-  'overlay-border-color'
-  'button-background-color'
-  'button-background-color-hover'
-  'button-background-color-selected'
-  'button-border-color'
-  'tab-bar-background-color'
-  'tab-bar-border-color'
-  'tab-background-color'
-  'tab-background-color-active'
-  'tab-border-color'
-  'tree-view-background-color'
-  'tree-view-border-color'
-  'ui-site-color-1'
-  'ui-site-color-2'
-  'ui-site-color-3'
-  'ui-site-color-4'
-  'ui-site-color-5'
-  'syntax-text-color'
-  'syntax-cursor-color'
-  'syntax-selection-color'
-  'syntax-background-color'
-  'syntax-wrap-guide-color'
-  'syntax-indent-guide-color'
-  'syntax-invisible-character-color'
-  'syntax-result-marker-color'
-  'syntax-result-marker-color-selected'
-  'syntax-gutter-text-color'
-  'syntax-gutter-text-color-selected'
-  'syntax-gutter-background-color'
-  'syntax-gutter-background-color-selected'
-  'syntax-color-renamed'
-  'syntax-color-added'
-  'syntax-color-modified'
-  'syntax-color-removed'
-]
+[
+  ColorBuffer, ColorSearch,
+  Palette, VariablesCollection,
+  PathsLoader, PathsScanner,
+  Emitter, CompositeDisposable, Range,
+  SERIALIZE_VERSION, SERIALIZE_MARKERS_VERSION, THEME_VARIABLES, ATOM_VARIABLES,
+  scopeFromFileName,
+  minimatch
+] = []
 
 compareArray = (a,b) ->
   return false if not a? or not b?
@@ -85,10 +16,13 @@ compareArray = (a,b) ->
 
 module.exports =
 class ColorProject
-  atom.deserializers.add(this)
-
   @deserialize: (state) ->
+    unless SERIALIZE_VERSION?
+      {SERIALIZE_VERSION, SERIALIZE_MARKERS_VERSION} = require './versions'
+
     markersVersion = SERIALIZE_MARKERS_VERSION
+    markersVersion += '-dev' if atom.inDevMode() and atom.project.getPaths().some (p) -> p.match(/\/pigments$/)
+
     if state?.version isnt SERIALIZE_VERSION
       state = {}
 
@@ -104,12 +38,20 @@ class ColorProject
     new ColorProject(state)
 
   constructor: (state={}) ->
+    {Emitter, CompositeDisposable, Range} = require 'atom' unless Emitter?
+    VariablesCollection ?= require './variables-collection'
+
     {
-      includeThemes, @ignoredNames, @sourceNames, @ignoredScopes, @paths, @searchNames, @ignoreGlobalSourceNames, @ignoreGlobalIgnoredNames, @ignoreGlobalIgnoredScopes, @ignoreGlobalSearchNames, variables, timestamp, buffers
+      @includeThemes, @ignoredNames, @sourceNames, @ignoredScopes, @paths, @searchNames, @ignoreGlobalSourceNames, @ignoreGlobalIgnoredNames, @ignoreGlobalIgnoredScopes, @ignoreGlobalSearchNames, @ignoreGlobalSupportedFiletypes, @supportedFiletypes, variables, timestamp, buffers
     } = state
+
     @emitter = new Emitter
     @subscriptions = new CompositeDisposable
     @colorBuffersByEditorId = {}
+    @bufferStates = buffers ? {}
+
+    @variableExpressionsRegistry = require './variable-expressions'
+    @colorExpressionsRegistry = require './color-expressions'
 
     if variables?
       @variables = atom.deserializers.deserialize(variables)
@@ -125,22 +67,46 @@ class ColorProject
     @subscriptions.add atom.config.observe 'pigments.ignoredNames', =>
       @updatePaths()
 
+    @subscriptions.add atom.config.observe 'pigments.ignoredBufferNames', (@ignoredBufferNames) =>
+      @updateColorBuffers()
+
     @subscriptions.add atom.config.observe 'pigments.ignoredScopes', =>
       @emitter.emit('did-change-ignored-scopes', @getIgnoredScopes())
 
-    @subscriptions.add atom.config.observe 'pigments.markerType', (type) ->
-      ColorMarkerElement.setMarkerType(type) if type?
+    @subscriptions.add atom.config.observe 'pigments.supportedFiletypes', =>
+      @updateIgnoredFiletypes()
+      @emitter.emit('did-change-ignored-scopes', @getIgnoredScopes())
 
     @subscriptions.add atom.config.observe 'pigments.ignoreVcsIgnoredPaths', =>
       @loadPathsAndVariables()
 
-    @bufferStates = buffers ? {}
+    @subscriptions.add atom.config.observe 'pigments.sassShadeAndTintImplementation', =>
+      @colorExpressionsRegistry.emitter.emit 'did-update-expressions', {
+        registry: @colorExpressionsRegistry
+      }
+
+    svgColorExpression = @colorExpressionsRegistry.getExpression('pigments:named_colors')
+    @subscriptions.add atom.config.observe 'pigments.filetypesForColorWords', (scopes) =>
+      svgColorExpression.scopes = scopes ? []
+      @colorExpressionsRegistry.emitter.emit 'did-update-expressions', {
+        name: svgColorExpression.name
+        registry: @colorExpressionsRegistry
+      }
+
+    @subscriptions.add @colorExpressionsRegistry.onDidUpdateExpressions ({name}) =>
+      return if not @paths? or name is 'pigments:variables'
+      @variables.evaluateVariables @variables.getVariables(), =>
+        colorBuffer.update() for id, colorBuffer of @colorBuffersByEditorId
+
+    @subscriptions.add @variableExpressionsRegistry.onDidUpdateExpressions =>
+      return unless @paths?
+      @reloadVariablesForPaths(@getPaths())
 
     @timestamp = new Date(Date.parse(timestamp)) if timestamp?
 
-    @setIncludeThemes(includeThemes) if includeThemes
+    @updateIgnoredFiletypes()
 
-    @initialize() if @paths? and @variables.length?
+    @initialize() if @paths?
     @initializeBuffers()
 
   onDidInitialize: (callback) ->
@@ -158,6 +124,9 @@ class ColorProject
   onDidChangeIgnoredScopes: (callback) ->
     @emitter.on 'did-change-ignored-scopes', callback
 
+  onDidChangePaths: (callback) ->
+    @emitter.on 'did-change-paths', callback
+
   observeColorBuffers: (callback) ->
     callback(colorBuffer) for id,colorBuffer of @colorBuffersByEditorId
     @onDidCreateColorBuffer(callback)
@@ -169,8 +138,14 @@ class ColorProject
   initialize: ->
     return Promise.resolve(@variables.getVariables()) if @isInitialized()
     return @initializePromise if @initializePromise?
-
-    @initializePromise = @loadPathsAndVariables().then =>
+    @initializePromise = new Promise((resolve) =>
+      @variables.onceInitialized(resolve)
+    )
+    .then =>
+      @loadPathsAndVariables()
+    .then =>
+      @includeThemesVariables() if @includeThemes
+    .then =>
       @initialized = true
 
       variables = @variables.getVariables()
@@ -179,6 +154,9 @@ class ColorProject
 
   destroy: ->
     return if @destroyed
+
+    PathsScanner ?= require './paths-scanner'
+
     @destroyed = true
 
     PathsScanner.terminateRunningTask()
@@ -191,6 +169,28 @@ class ColorProject
 
     @emitter.emit 'did-destroy', this
     @emitter.dispose()
+
+  reload: ->
+    @initialize().then =>
+      @variables.reset()
+      @paths = []
+      @loadPathsAndVariables()
+    .then =>
+      if atom.config.get('pigments.notifyReloads')
+        atom.notifications.addSuccess("Pigments successfully reloaded", dismissable: atom.config.get('pigments.dismissableReloadNotifications'), description: """Found:
+        - **#{@paths.length}** path(s)
+        - **#{@getVariables().length}** variables(s) including **#{@getColorVariables().length}** color(s)
+        """)
+      else
+        console.log("""Found:
+        - #{@paths.length} path(s)
+        - #{@getVariables().length} variables(s) including #{@getColorVariables().length} color(s)
+        """)
+    .catch (reason) ->
+      detail = reason.message
+      stack = reason.stack
+      atom.notifications.addError("Pigments couldn't be reloaded", {detail, stack, dismissable: true})
+      console.error reason
 
   loadPathsAndVariables: ->
     destroyed = null
@@ -231,11 +231,16 @@ class ColorProject
       @variables.updateCollection(results) if results?
 
   findAllColors: ->
+    ColorSearch ?= require './color-search'
+
     patterns = @getSearchNames()
     new ColorSearch
       sourceNames: patterns
+      project: this
       ignoredNames: @getIgnoredNames()
       context: @getContext()
+
+  setColorPickerAPI: (@colorPickerAPI) ->
 
   ##    ########  ##     ## ######## ######## ######## ########   ######
   ##    ##     ## ##     ## ##       ##       ##       ##     ## ##    ##
@@ -245,16 +250,26 @@ class ColorProject
   ##    ##     ## ##     ## ##       ##       ##       ##    ##  ##    ##
   ##    ########   #######  ##       ##       ######## ##     ##  ######
 
-  initializeBuffers: (buffers) ->
+  initializeBuffers: ->
     @subscriptions.add atom.workspace.observeTextEditors (editor) =>
+      editorPath = editor.getPath()
+      return if not editorPath? or @isBufferIgnored(editorPath)
+
       buffer = @colorBufferForEditor(editor)
       if buffer?
         bufferElement = atom.views.getView(buffer)
         bufferElement.attach()
 
+  hasColorBufferForEditor: (editor) ->
+    return false if @destroyed or not editor?
+    @colorBuffersByEditorId[editor.id]?
+
   colorBufferForEditor: (editor) ->
     return if @destroyed
     return unless editor?
+
+    ColorBuffer ?= require './color-buffer'
+
     if @colorBuffersByEditorId[editor.id]?
       return @colorBuffersByEditorId[editor.id]
 
@@ -281,6 +296,33 @@ class ColorProject
     for id,colorBuffer of @colorBuffersByEditorId
       return colorBuffer if colorBuffer.editor.getPath() is path
 
+  updateColorBuffers: ->
+    for id, buffer of @colorBuffersByEditorId
+      if @isBufferIgnored(buffer.editor.getPath())
+        buffer.destroy()
+        delete @colorBuffersByEditorId[id]
+
+    try
+      if @colorBuffersByEditorId?
+        for editor in atom.workspace.getTextEditors()
+          continue if @hasColorBufferForEditor(editor) or @isBufferIgnored(editor.getPath())
+
+          buffer = @colorBufferForEditor(editor)
+          if buffer?
+            bufferElement = atom.views.getView(buffer)
+            bufferElement.attach()
+
+    catch e
+      console.log e
+
+  isBufferIgnored: (path) ->
+    minimatch ?= require 'minimatch'
+
+    path = atom.project.relativize(path)
+    sources = @ignoredBufferNames ? []
+    return true for source in sources when minimatch(path, source, matchBase: true, dot: true)
+    false
+
   ##    ########     ###    ######## ##     ##  ######
   ##    ##     ##   ## ##      ##    ##     ## ##    ##
   ##    ##     ##  ##   ##     ##    ##     ## ##
@@ -293,7 +335,11 @@ class ColorProject
 
   appendPath: (path) -> @paths.push(path) if path?
 
+  hasPath: (path) -> path in (@paths ? [])
+
   loadPaths: (noKnownPaths=false) ->
+    PathsLoader ?= require './paths-loader'
+
     new Promise (resolve, reject) =>
       rootPaths = @getRootPaths()
       knownPaths = if noKnownPaths then [] else @paths ? []
@@ -326,19 +372,36 @@ class ColorProject
       @paths = @paths.filter (p) -> p not in removed
       @paths.push(p) for p in dirtied when p not in @paths
 
+      @emitter.emit 'did-change-paths', @getPaths()
       @reloadVariablesForPaths(dirtied)
 
   isVariablesSourcePath: (path) ->
     return false unless path
+
+    minimatch ?= require 'minimatch'
     path = atom.project.relativize(path)
     sources = @getSourceNames()
+
     return true for source in sources when minimatch(path, source, matchBase: true, dot: true)
 
   isIgnoredPath: (path) ->
     return false unless path
+
+    minimatch ?= require 'minimatch'
     path = atom.project.relativize(path)
     ignoredNames = @getIgnoredNames()
+
     return true for ignore in ignoredNames when minimatch(path, ignore, matchBase: true, dot: true)
+
+  scopeFromFileName: (path) ->
+    scopeFromFileName ?= require './scope-from-file-name'
+
+    scope = scopeFromFileName(path)
+
+    if scope is 'sass' or scope is 'scss'
+      scope = [scope, @getSassScopeSuffix()].join(':')
+
+    scope
 
   ##    ##     ##    ###    ########   ######
   ##    ##     ##   ## ##   ##     ## ##    ##
@@ -349,6 +412,8 @@ class ColorProject
   ##       ###    ##     ## ##     ##  ######
 
   getPalette: ->
+    Palette ?= require './palette'
+
     return new Palette unless @isInitialized()
     new Palette(@getColorVariables())
 
@@ -356,14 +421,20 @@ class ColorProject
 
   getVariables: -> @variables.getVariables()
 
+  getVariableExpressionsRegistry: -> @variableExpressionsRegistry
+
   getVariableById: (id) -> @variables.getVariableById(id)
 
   getVariableByName: (name) -> @variables.getVariableByName(name)
 
   getColorVariables: -> @variables.getColorVariables()
 
+  getColorExpressionsRegistry: -> @colorExpressionsRegistry
+
   showVariableInFile: (variable) ->
     atom.workspace.open(variable.path).then (editor) ->
+      {Emitter, CompositeDisposable, Range} = require 'atom' unless Range?
+
       buffer = editor.getBuffer()
 
       bufferRange = Range.fromObject [
@@ -410,9 +481,14 @@ class ColorProject
     if paths.length is 1 and colorBuffer = @colorBufferForPath(paths[0])
       colorBuffer.scanBufferForVariables().then (results) -> callback(results)
     else
-      PathsScanner.startTask paths, (results) -> callback(results)
+      PathsScanner ?= require './paths-scanner'
+
+      PathsScanner.startTask paths.map((p) => [p, @scopeFromFileName(p)]), @variableExpressionsRegistry, (results) -> callback(results)
 
   loadThemesVariables: ->
+    {THEME_VARIABLES} = require './uris' unless THEME_VARIABLES?
+    ATOM_VARIABLES ?= require './atom-variables'
+
     iterator = 0
     variables = []
     html = ''
@@ -450,6 +526,14 @@ class ColorProject
   ##     ######  ########    ##       ##    #### ##    ##  ######    ######
 
   getRootPaths: -> atom.project.getPaths()
+
+  getSassScopeSuffix: ->
+    @sassShadeAndTintImplementation ? atom.config.get('pigments.sassShadeAndTintImplementation') ? 'compass'
+
+  setSassShadeAndTintImplementation: (@sassShadeAndTintImplementation) ->
+    @colorExpressionsRegistry.emitter.emit 'did-update-expressions', {
+      registry: @colorExpressionsRegistry
+    }
 
   getSourceNames: ->
     names = ['.pigments']
@@ -491,7 +575,8 @@ class ColorProject
       if /\/\*$/.test(p) then p + '*' else p
 
   setIgnoredNames: (@ignoredNames=[]) ->
-    return if not @initialized? and not @initializePromise?
+    if not @initialized? and not @initializePromise?
+      return Promise.reject('Project is not initialized yet')
 
     @initialize().then =>
       dirtied = @paths.filter (p) => @isIgnoredPath(p)
@@ -507,12 +592,41 @@ class ColorProject
     scopes = @ignoredScopes ? []
     unless @ignoreGlobalIgnoredScopes
       scopes = scopes.concat(atom.config.get('pigments.ignoredScopes') ? [])
+
+    scopes = scopes.concat(@ignoredFiletypes)
     scopes
 
   setIgnoredScopes: (@ignoredScopes=[]) ->
     @emitter.emit('did-change-ignored-scopes', @getIgnoredScopes())
 
   setIgnoreGlobalIgnoredScopes: (@ignoreGlobalIgnoredScopes) ->
+    @emitter.emit('did-change-ignored-scopes', @getIgnoredScopes())
+
+  setSupportedFiletypes: (@supportedFiletypes=[]) ->
+    @updateIgnoredFiletypes()
+    @emitter.emit('did-change-ignored-scopes', @getIgnoredScopes())
+
+  updateIgnoredFiletypes: ->
+    @ignoredFiletypes = @getIgnoredFiletypes()
+
+  getIgnoredFiletypes: ->
+    filetypes = @supportedFiletypes ? []
+
+    unless @ignoreGlobalSupportedFiletypes
+      filetypes = filetypes.concat(atom.config.get('pigments.supportedFiletypes') ? [])
+
+    filetypes = ['*'] if filetypes.length is 0
+
+    return [] if filetypes.some (type) -> type is '*'
+
+    scopes = filetypes.map (ext) ->
+      atom.grammars.selectGrammar("file.#{ext}")?.scopeName.replace(/\./g, '\\.')
+    .filter (scope) -> scope?
+
+    ["^(?!\\.(#{scopes.join('|')}))"]
+
+  setIgnoreGlobalSupportedFiletypes: (@ignoreGlobalSupportedFiletypes) ->
+    @updateIgnoredFiletypes()
     @emitter.emit('did-change-ignored-scopes', @getIgnoredScopes())
 
   themesIncluded: -> @includeThemes
@@ -522,22 +636,35 @@ class ColorProject
 
     @includeThemes = includeThemes
     if @includeThemes
-      @themesSubscription = atom.themes.onDidChangeActiveThemes =>
-        return unless @includeThemes
-
-        variables = @loadThemesVariables()
-        @variables.updatePathCollection(THEME_VARIABLES, variables)
-
-      @subscriptions.add @themesSubscription
-      @variables.addMany(@loadThemesVariables())
+      @includeThemesVariables()
     else
-      @subscriptions.remove @themesSubscription
-      @variables.deleteVariablesForPaths([THEME_VARIABLES])
-      @themesSubscription.dispose()
+      @disposeThemesVariables()
+
+  includeThemesVariables: ->
+    @themesSubscription = atom.themes.onDidChangeActiveThemes =>
+      return unless @includeThemes
+
+      {THEME_VARIABLES} = require './uris' unless THEME_VARIABLES?
+
+      variables = @loadThemesVariables()
+      @variables.updatePathCollection(THEME_VARIABLES, variables)
+
+    @subscriptions.add @themesSubscription
+    @variables.addMany(@loadThemesVariables())
+
+  disposeThemesVariables: ->
+    {THEME_VARIABLES} = require './uris' unless THEME_VARIABLES?
+
+    @subscriptions.remove @themesSubscription
+    @variables.deleteVariablesForPaths([THEME_VARIABLES])
+    @themesSubscription.dispose()
 
   getTimestamp: -> new Date()
 
   serialize: ->
+    unless SERIALIZE_VERSION?
+      {SERIALIZE_VERSION, SERIALIZE_MARKERS_VERSION} = require './versions'
+
     data =
       deserializer: 'ColorProject'
       timestamp: @getTimestamp()

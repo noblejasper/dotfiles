@@ -1,0 +1,297 @@
+".source.js, .source.jsx, .source.ts, .source.tsx":
+  "React: import empty":
+    prefix: "_i"
+    body: "import ${1} from '${2}';"
+
+  "React: import empty named":
+    prefix: "_in"
+    body: "import { ${1} } from '${2}';"
+
+  "React: import":
+    prefix: "_ir"
+    body: "import React from 'react';"
+
+  "React: import with Component":
+    prefix: "_irc"
+    body: "import React, { Component } from 'react';"
+
+  "React: import with PureComponent":
+    prefix: "_irpc"
+    body: "import React, { PureComponent } from 'react';"
+
+  "React: import with PropTypes":
+    prefix: "_irp"
+    body: "import React from 'react';\nimport PropTypes from 'prop-types';"
+
+  "React: import with Component and PropTypes":
+    prefix: "_ircp"
+    body: "import React, { Component } from 'react';\nimport PropTypes from 'prop-types';"
+
+  "React: import react-dom()":
+    prefix: "_ird"
+    body: "import ReactDOM from 'react-dom';"
+
+  "React: export empty()":
+    prefix: "_ex"
+    body: "export ${1};"
+
+  "React: export default empty()":
+    prefix: "_exd"
+    body: "export default ${1};"
+
+  "React: componentDidMount() { ... }":
+    prefix: "_cdm"
+    body: "componentDidMount() {\n\t${1}\n}${2}"
+
+  "React: componentWillMount() { ... }":
+    prefix: "_cwm"
+    body: "componentWillMount() {\n\t${1}\n}${2}"
+
+  "React: componentWillReceiveProps(np) { ... }":
+    prefix: "_cwr"
+    body: "componentWillReceiveProps(nextProps) {\n\t${1}\n}${2}"
+
+  "React: shouldComponentUpdate(np, ns) { ... }":
+    prefix: "_scu"
+    body: "shouldComponentUpdate(nextProps, nextState) {\n\t${1}\n}${2}"
+
+  "React: componentWillUpdate(np, ns) { ... }":
+    prefix: "_cwup"
+    body: "componentWillUpdate(nextProps, nextState) {\n\t${1}\n}${2}"
+
+  "React: componentDidUpdate(pp, ps) { ... }":
+    prefix: "_cdup"
+    body: "componentDidUpdate(prevProps, prevState) {\n\t${1}\n}${2}"
+
+  "React: componentWillUnmount() { ... }":
+    prefix: "_cwun"
+    body: "componentWillUnmount() {\n\t${1}\n}${2}"
+
+  "React: componentDidCatch(error, info) { ... }":
+    prefix: "_cdc"
+    body: "componentDidCatch(error, info) {\n\t${1}\n}${2}"
+
+  "React: cx({ ... })":
+    prefix: "_cx"
+    body: "cx({\n\t$1: $2\n});"
+
+  "React: forceUpdate(...)":
+    prefix: "_fup"
+    body: "forceUpdate(${1:callback});"
+
+  "React: Class.contextTypes = { ... }":
+    prefix: "_cct"
+    body: "${1}.contextTypes = {\n\t${2}: PropTypes.${3:string}\n};"
+
+  "React: Class.propTypes = { ... }":
+    prefix: "_cpt"
+    body: "${1}.propTypes = {\n\t${2}: PropTypes.${3:string}\n};"
+
+  "React: Class.defaultProps = { ... }":
+    prefix: "_cdp"
+    body: "${1}.defaultProps = {\n\t${2}: ${3}\n};"
+
+  "React: static contextTypes = { ... }":
+    prefix: "_scct"
+    body: "static contextTypes = {\n\t${1}: PropTypes.${2:string}\n}"
+
+  "React: static propTypes = { ... }":
+    prefix: "_scpt"
+    body: "static propTypes = {\n\t${1}: PropTypes.${2:string}\n}"
+
+  "React: static defaultProps = { ... }":
+    prefix: "_scdp"
+    body: "static defaultProps = {\n\t${1}: ${2}\n}"
+
+  "React: class skeleton":
+    prefix: "_cer"
+    body: "import React, { Component } from 'react';\n\nclass ${1} extends Component {\n\n\trender() {\n\t\treturn (\n\t\t\t${2:<div></div>}\n\t\t);\n\t}\n\n}\n\nexport default ${1};"
+
+  "React: pure class skeleton":
+    prefix: "_cepr"
+    body: "import React, { PureComponent } from 'react';\n\nclass ${1} extends PureComponent {\n\n\trender() {\n\t\treturn (\n\t\t\t${2:<div></div>}\n\t\t);\n\t}\n\n}\n\nexport default ${1};"
+
+  "React: Stateless Component":
+    prefix: "_rsc"
+    body: "import React from 'react';\n\nconst ${1} = ({${2}}) => (\n\t<div>${4}</div>\n);\n\nexport default ${1};"
+
+  "React: Stateless Component PropTypes":
+    prefix: "_rscp"
+    body: "import React from 'react';\nimport PropTypes from 'prop-types';\n\nconst ${1} = ({${2}}) => (\n\t<div>${4}</div>\n);\n\n${1}.propTypes = {\n\t${2}: PropTypes.${3}\n};\n\nexport default ${1};"
+
+  "React: Stateless Component Return":
+    prefix: "_rscr"
+    body: "import React from 'react';\nimport PropTypes from 'prop-types';\n\nconst ${1} = ({${2}}) => {\n\treturn (\n\t\t<div>${4}</div>\n\t);\n}\n\n${1}.propTypes = {\n\t${2}: PropTypes.${3}\n};\n\nexport default ${1};"
+
+  "React: Stateless Component Click":
+    prefix: "_rscc"
+    body: "import React from 'react';\nimport PropTypes from 'prop-types';\n\nconst ${1} = ({${2}}) => {\n\tconst handleClick = () => {};\n\treturn (\n\t\t<div onClick={handleClick}>${4}</div>\n\t);\n}\n\n${1}.propTypes = {\n\t${2}: PropTypes.${3}\n};\n\nexport default ${1};"
+
+  "React: Stateless Function":
+    prefix: "_rsf"
+    body: "const ${1} = ({${2}}) => (\n\t<div>{${2}}</div>\n);"
+
+  "React: Component displayName":
+    prefix: "_cdn"
+    body: "${1}.displayName = '${1}';"
+
+  "React: render() { return ... }":
+    prefix: "_ren"
+    body: "render() {\n\treturn (\n\t\t${1:<div></div>}\n\t);\n}"
+
+  "React: setState({ ... })":
+    prefix: "_sst"
+    body: "this.setState({\n\t${1}: ${2}\n});"
+
+  "React: this.props.":
+    prefix: "_props"
+    body: "this.props.${1}"
+
+  "React: destruct this.props.":
+    prefix: "_dprops"
+    body: "const { ${1} } = this.props;"
+
+  "React: this.state.":
+    prefix: "_state"
+    body: "this.state.${1}"
+
+  "React: destruct this.state.":
+    prefix: "_dstate"
+    body: "const { ${1} } = this.state;"
+
+  "React: destruct object.":
+    prefix: "_dobj"
+    body: "const { ${1} } = ${2};"
+
+  "React: render(component, container, [callback])":
+    prefix: "_rrc"
+    body: "React.render(${1:<$2 />}, ${3:document.body}${4:, ${5:callback}});"
+
+  "React: Fragment":
+    prefix: "_frag"
+    body: "<React.Fragment>\n\t$1\n</React.Fragment>"
+
+  "React: constructor(props)":
+    prefix: "_cns"
+    body: "constructor(props) {\n\tsuper(props);\n\t${1:this.state = ${2};}\n}"
+
+  "React: class Foo extends Bar":
+    prefix: "_clss"
+    body: "class ${1:Foo} extends ${2:React.Component} {\n\trender() {\n\t\t${3}\n\t}\n}"
+
+  "React: dangerouslySetInnerHTML":
+    prefix: "_dnghtml"
+    body: "dangerouslySetInnerHTML={{__html: ${1}}}"
+
+  # PropTypes
+  "React: PropType array":
+    prefix: '_pta',
+    body: "PropTypes.array,"
+
+  "React: PropType array required":
+    prefix: "_ptar",
+    body: "PropTypes.array.isRequired,"
+
+  "React: PropType bool":
+    prefix: "_ptb",
+    body: "PropTypes.bool,"
+
+  "React: PropType bool required":
+    prefix: "_ptbr",
+    body: "PropTypes.bool.isRequired,"
+
+  "React: PropType function":
+    prefix: "_ptf",
+    body: "PropTypes.func,"
+
+  "React: PropType function required":
+    prefix: "_ptfr",
+    body: "PropTypes.func.isRequired,"
+
+  "React: PropType number":
+    prefix: "_ptn",
+    body: "PropTypes.number,"
+
+  "React: PropType number required":
+    prefix: "_ptnr",
+    body: "PropTypes.number.isRequired,"
+
+  "React: PropType object":
+    prefix: "_pto",
+    body: "PropTypes.object,"
+
+  "React: PropType object required":
+    prefix: "_ptor",
+    body: "PropTypes.object.isRequired,"
+
+  "React: PropType string":
+    prefix: "_pts",
+    body: "PropTypes.string,"
+
+  "React: PropType string required":
+    prefix: "_ptsr",
+    body: "PropTypes.string.isRequired,"
+
+  "React: PropType node":
+    prefix: "_ptnd",
+    body: "PropTypes.node,"
+
+  "React: PropType node required":
+    prefix: "_ptndr",
+    body: "PropTypes.node.isRequired,"
+
+  "React: PropType element":
+    prefix: "_ptel",
+    body: "PropTypes.element,"
+
+  "React: PropType element required":
+    prefix: "_ptelr",
+    body: "PropTypes.element.isRequired,"
+
+  "React: PropType instanceOf":
+    prefix: "_pti",
+    body: "PropTypes.instanceOf(${1}),"
+
+  "React: PropType instanceOf required":
+    prefix: "_ptir",
+    body: "PropTypes.instanceOf(${1}).isRequired,"
+
+  "React: PropType oneOf":
+    prefix: "_pte",
+    body: "PropTypes.oneOf([${1}]),"
+
+  "React: PropType oneOf required":
+    prefix: "_pter",
+    body: "PropTypes.oneOf([${1}]).isRequired,"
+
+  "React: PropType oneOfType":
+    prefix: "_ptet",
+    body: "PropTypes.oneOfType([${1}]),"
+
+  "React: PropType oneOfType required":
+    prefix: "_ptetr",
+    body: "PropTypes.oneOfType([${1}]).isRequired,"
+
+  "React: PropType arrayOf":
+    prefix: "_ptao",
+    body: "PropTypes.arrayOf(${1}),"
+
+  "React: PropType arrayOf required":
+    prefix: "_ptaor",
+    body: "PropTypes.arrayOf(${1}).isRequired,"
+
+  "React: PropType objectOf":
+    prefix: "_ptoo",
+    body: "PropTypes.objectOf(${1}),"
+
+  "React: PropType objectOf required":
+    prefix: "_ptoor",
+    body: "PropTypes.objectOf(${1}).isRequired,"
+
+  "React: PropType shape":
+    prefix: "_ptsh",
+    body: "PropTypes.shape({${1}}),"
+
+  "React: PropType shape required":
+    prefix: "_ptshr",
+    body: "PropTypes.shape({${1}}).isRequired,"

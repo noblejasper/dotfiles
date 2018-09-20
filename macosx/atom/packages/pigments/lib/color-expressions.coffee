@@ -1,5 +1,3 @@
-cssColor = require 'css-color-function'
-
 {
   int
   float
@@ -14,916 +12,1452 @@ cssColor = require 'css-color-function'
   pe
   variables
   namePrefixes
-  createVariableRegExpString
 } = require './regexes'
 
-{
-  strip
-  split
-  clamp
-  clampInt
-} = require './utils'
+{strip, insensitive} = require './utils'
 
 ExpressionsRegistry = require './expressions-registry'
 ColorExpression = require './color-expression'
 SVGColors = require './svg-colors'
-Color = require './color'
-BlendModes = require './blend-modes'
 
-MAX_PER_COMPONENT =
-  red: 255
-  green: 255
-  blue: 255
-  alpha: 1
-  hue: 360
-  saturation: 100
-  lightness: 100
+module.exports =
+registry = new ExpressionsRegistry(ColorExpression)
 
-mixColors = (color1, color2, amount=0.5) ->
-  inverse = 1 - amount
-  color = new Color
+##    ##       #### ######## ######## ########     ###    ##
+##    ##        ##     ##    ##       ##     ##   ## ##   ##
+##    ##        ##     ##    ##       ##     ##  ##   ##  ##
+##    ##        ##     ##    ######   ########  ##     ## ##
+##    ##        ##     ##    ##       ##   ##   ######### ##
+##    ##        ##     ##    ##       ##    ##  ##     ## ##
+##    ######## ####    ##    ######## ##     ## ##     ## ########
 
-  color.rgba = [
-    Math.floor(color1.red * amount) + Math.floor(color2.red * inverse)
-    Math.floor(color1.green * amount) + Math.floor(color2.green * inverse)
-    Math.floor(color1.blue * amount) + Math.floor(color2.blue * inverse)
-    color1.alpha * amount + color2.alpha * inverse
+# #6f3489ef
+registry.createExpression 'pigments:css_hexa_8', "#(#{hexadecimal}{8})(?![\\d\\w-])", 1, ['css', 'less', 'styl', 'stylus', 'sass', 'scss'], (match, expression, context) ->
+  [_, hexa] = match
+
+  @hexRGBA = hexa
+
+# #6f3489ef
+registry.createExpression 'pigments:argb_hexa_8', "#(#{hexadecimal}{8})(?![\\d\\w-])", ['*'], (match, expression, context) ->
+  [_, hexa] = match
+
+  @hexARGB = hexa
+
+# #3489ef
+registry.createExpression 'pigments:css_hexa_6', "#(#{hexadecimal}{6})(?![\\d\\w-])", ['*'], (match, expression, context) ->
+  [_, hexa] = match
+
+  @hex = hexa
+
+# #6f34
+registry.createExpression 'pigments:css_hexa_4', "(?:#{namePrefixes})#(#{hexadecimal}{4})(?![\\d\\w-])", ['*'], (match, expression, context) ->
+  [_, hexa] = match
+  colorAsInt = context.readInt(hexa, 16)
+
+  @colorExpression = "##{hexa}"
+  @red = (colorAsInt >> 12 & 0xf) * 17
+  @green = (colorAsInt >> 8 & 0xf) * 17
+  @blue = (colorAsInt >> 4 & 0xf) * 17
+  @alpha = ((colorAsInt & 0xf) * 17) / 255
+
+# #38e
+registry.createExpression 'pigments:css_hexa_3', "(?:#{namePrefixes})#(#{hexadecimal}{3})(?![\\d\\w-])", ['*'], (match, expression, context) ->
+  [_, hexa] = match
+  colorAsInt = context.readInt(hexa, 16)
+
+  @colorExpression = "##{hexa}"
+  @red = (colorAsInt >> 8 & 0xf) * 17
+  @green = (colorAsInt >> 4 & 0xf) * 17
+  @blue = (colorAsInt & 0xf) * 17
+
+# 0xab3489ef
+registry.createExpression 'pigments:int_hexa_8', "0x(#{hexadecimal}{8})(?!#{hexadecimal})", ['*'], (match, expression, context) ->
+  [_, hexa] = match
+
+  @hexARGB = hexa
+
+# 0x3489ef
+registry.createExpression 'pigments:int_hexa_6', "0x(#{hexadecimal}{6})(?!#{hexadecimal})", ['*'], (match, expression, context) ->
+  [_, hexa] = match
+
+  @hex = hexa
+
+# rgb(50,120,200)
+registry.createExpression 'pigments:css_rgb', strip("
+  #{insensitive 'rgb'}#{ps}\\s*
+    (#{intOrPercent}|#{variables})
+    #{comma}
+    (#{intOrPercent}|#{variables})
+    #{comma}
+    (#{intOrPercent}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_,r,g,b] = match
+
+  @red = context.readIntOrPercent(r)
+  @green = context.readIntOrPercent(g)
+  @blue = context.readIntOrPercent(b)
+  @alpha = 1
+
+# rgba(50,120,200,0.7)
+registry.createExpression 'pigments:css_rgba', strip("
+  #{insensitive 'rgba'}#{ps}\\s*
+    (#{intOrPercent}|#{variables})
+    #{comma}
+    (#{intOrPercent}|#{variables})
+    #{comma}
+    (#{intOrPercent}|#{variables})
+    #{comma}
+    (#{float}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_,r,g,b,a] = match
+
+  @red = context.readIntOrPercent(r)
+  @green = context.readIntOrPercent(g)
+  @blue = context.readIntOrPercent(b)
+  @alpha = context.readFloat(a)
+
+# rgba(green,0.7)
+registry.createExpression 'pigments:stylus_rgba', strip("
+  rgba#{ps}\\s*
+    (#{notQuote})
+    #{comma}
+    (#{float}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_,subexpr,a] = match
+
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  @rgb = baseColor.rgb
+  @alpha = context.readFloat(a)
+
+# hsl(210,50%,50%)
+registry.createExpression 'pigments:css_hsl', strip("
+  #{insensitive 'hsl'}#{ps}\\s*
+    (#{float}|#{variables})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+  #{pe}
+"), ['css', 'sass', 'scss', 'styl', 'stylus'], (match, expression, context) ->
+  [_,h,s,l] = match
+
+  hsl = [
+    context.readInt(h)
+    context.readFloat(s)
+    context.readFloat(l)
   ]
 
-  color
-
-contrast = (base, dark=new Color('black'), light=new Color('white'), threshold=0.43) ->
-  [light, dark] = [dark, light] if dark.luma > light.luma
-
-  if base.luma > threshold
-    dark
-  else
-    light
-
-blendMethod = (registry, name, method) ->
-  registry.createExpression name, strip("
-    #{name}#{ps}
-      (
-        #{notQuote}
-        #{comma}
-        #{notQuote}
-      )
-    #{pe}
-  "), (match, expression, context) ->
-    [_, expr] = match
-
-    [color1, color2] = split(expr)
-
-    baseColor1 = context.readColor(color1)
-    baseColor2 = context.readColor(color2)
-
-    return @invalid = true if isInvalid(baseColor1) or isInvalid(baseColor2)
-
-    {@rgba} = baseColor1.blend(baseColor2, method)
-
-
-readParam = (param, block) ->
-  re = ///\$(\w+):\s*((-?#{float})|#{variables})///
-  if re.test(param)
-    [_, name, value] = re.exec(param)
-
-    block(name, value)
-
-isInvalid = (color) -> not color?.isValid()
-
-module.exports = getRegistry: (context) ->
-  registry = new ExpressionsRegistry(ColorExpression)
-
-  ##    ##       #### ######## ######## ########     ###    ##
-  ##    ##        ##     ##    ##       ##     ##   ## ##   ##
-  ##    ##        ##     ##    ##       ##     ##  ##   ##  ##
-  ##    ##        ##     ##    ######   ########  ##     ## ##
-  ##    ##        ##     ##    ##       ##   ##   ######### ##
-  ##    ##        ##     ##    ##       ##    ##  ##     ## ##
-  ##    ######## ####    ##    ######## ##     ## ##     ## ########
-
-  # #6f3489ef
-  registry.createExpression 'css_hexa_8', "#(#{hexadecimal}{8})(?![\\d\\w])", (match, expression, context) ->
-    [_, hexa] = match
-
-    @hexRGBA = hexa
-
-  # #3489ef
-  registry.createExpression 'css_hexa_6', "#(#{hexadecimal}{6})(?![\\d\\w])", (match, expression, context) ->
-    [_, hexa] = match
-
-    @hex = hexa
-
-  # #6f34
-  registry.createExpression 'css_hexa_4', "(#{namePrefixes})#(#{hexadecimal}{4})(?![\\d\\w])", (match, expression, context) ->
-    [_, _, hexa] = match
-    colorAsInt = context.readInt(hexa, 16)
-
-    @colorExpression = "##{hexa}"
-    @red = (colorAsInt >> 12 & 0xf) * 17
-    @green = (colorAsInt >> 8 & 0xf) * 17
-    @blue = (colorAsInt >> 4 & 0xf) * 17
-    @alpha = ((colorAsInt & 0xf) * 17) / 255
-
-  # #38e
-  registry.createExpression 'css_hexa_3', "(#{namePrefixes})#(#{hexadecimal}{3})(?![\\d\\w])", (match, expression, context) ->
-    [_, _, hexa] = match
-    colorAsInt = context.readInt(hexa, 16)
-
-    @colorExpression = "##{hexa}"
-    @red = (colorAsInt >> 8 & 0xf) * 17
-    @green = (colorAsInt >> 4 & 0xf) * 17
-    @blue = (colorAsInt & 0xf) * 17
-
-  # 0xab3489ef
-  registry.createExpression 'int_hexa_8', "0x(#{hexadecimal}{8})(?!#{hexadecimal})", (match, expression, context) ->
-    [_, hexa] = match
-
-    @hexARGB = hexa
-
-  # 0x3489ef
-  registry.createExpression 'int_hexa_6', "0x(#{hexadecimal}{6})(?!#{hexadecimal})", (match, expression, context) ->
-    [_, hexa] = match
-
-    @hex = hexa
-
-  # rgb(50,120,200)
-  registry.createExpression 'css_rgb', strip("
-    rgb#{ps}\\s*
-      (#{intOrPercent}|#{variables})
-      #{comma}
-      (#{intOrPercent}|#{variables})
-      #{comma}
-      (#{intOrPercent}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_,r,_,_,g,_,_,b] = match
-
-    @red = context.readIntOrPercent(r)
-    @green = context.readIntOrPercent(g)
-    @blue = context.readIntOrPercent(b)
-    @alpha = 1
-
-  # rgba(50,120,200,0.7)
-  registry.createExpression 'css_rgba', strip("
-    rgba#{ps}\\s*
-      (#{intOrPercent}|#{variables})
-      #{comma}
-      (#{intOrPercent}|#{variables})
-      #{comma}
-      (#{intOrPercent}|#{variables})
-      #{comma}
-      (#{float}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_,r,_,_,g,_,_,b,_,_,a] = match
-
-    @red = context.readIntOrPercent(r)
-    @green = context.readIntOrPercent(g)
-    @blue = context.readIntOrPercent(b)
-    @alpha = context.readFloat(a)
-
-  # rgba(green,0.7)
-  registry.createExpression 'stylus_rgba', strip("
-    rgba#{ps}\\s*
-      (#{notQuote})
-      #{comma}
-      (#{float}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_,subexpr,a] = match
-
-    baseColor = context.readColor(subexpr)
-
-    return @invalid = true if isInvalid(baseColor)
-
-    @rgb = baseColor.rgb
-    @alpha = context.readFloat(a)
-
-  # hsl(210,50%,50%)
-  registry.createExpression 'css_hsl', strip("
-    hsl#{ps}\\s*
-      (#{int}|#{variables})
-      #{comma}
-      (#{optionalPercent}|#{variables})
-      #{comma}
-      (#{optionalPercent}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_,h,_,s,_,l] = match
-
-    hsl = [
-      context.readInt(h)
-      context.readFloat(s)
-      context.readFloat(l)
-    ]
-
-    return @invalid = true if hsl.some (v) -> not v? or isNaN(v)
-
-    @hsl = hsl
-    @alpha = 1
-
-  # hsla(210,50%,50%,0.7)
-  registry.createExpression 'css_hsla', strip("
-    hsla#{ps}\\s*
-      (#{int}|#{variables})
-      #{comma}
-      (#{optionalPercent}|#{variables})
-      #{comma}
-      (#{optionalPercent}|#{variables})
-      #{comma}
-      (#{float}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_,h,_,s,_,l,_,a] = match
-
-    hsl = [
-      context.readInt(h)
-      context.readFloat(s)
-      context.readFloat(l)
-    ]
-
-    return @invalid = true if hsl.some (v) -> not v? or isNaN(v)
-
-    @hsl = hsl
-    @alpha = context.readFloat(a)
-
-  # hsv(210,70%,90%)
-  registry.createExpression 'hsv', strip("
-    (hsv|hsb)#{ps}\\s*
-      (#{int}|#{variables})
-      #{comma}
-      (#{optionalPercent}|#{variables})
-      #{comma}
-      (#{optionalPercent}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_,_,h,_,s,_,v] = match
-
-    hsv = [
-      context.readInt(h)
-      context.readFloat(s)
-      context.readFloat(v)
-    ]
-
-    return @invalid = true if hsv.some (v) -> not v? or isNaN(v)
-
-    @hsv = hsv
-    @alpha = 1
-
-  # hsva(210,70%,90%,0.7)
-  registry.createExpression 'hsva', strip("
-    (hsva|hsba)#{ps}\\s*
-      (#{int}|#{variables})
-      #{comma}
-      (#{optionalPercent}|#{variables})
-      #{comma}
-      (#{optionalPercent}|#{variables})
-      #{comma}
-      (#{float}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_,_,h,_,s,_,v,_,a] = match
-
-    hsv = [
-      context.readInt(h)
-      context.readFloat(s)
-      context.readFloat(v)
-    ]
-
-    return @invalid = true if hsv.some (v) -> not v? or isNaN(v)
-
-    @hsv = hsv
-    @alpha = context.readFloat(a)
-
-  # vec4(0.2, 0.5, 0.9, 0.7)
-  registry.createExpression 'vec4', strip("
-    vec4#{ps}\\s*
-      (#{float})
-      #{comma}
-      (#{float})
-      #{comma}
-      (#{float})
-      #{comma}
-      (#{float})
-    #{pe}
-  "), (match, expression, context) ->
-    [_,h,s,l,a] = match
-
-    @rgba = [
-      context.readFloat(h) * 255
-      context.readFloat(s) * 255
-      context.readFloat(l) * 255
-      context.readFloat(a)
-    ]
-
-  # hwb(210,40%,40%)
-  registry.createExpression 'hwb', strip("
-    hwb#{ps}\\s*
-      (#{int}|#{variables})
-      #{comma}
-      (#{optionalPercent}|#{variables})
-      #{comma}
-      (#{optionalPercent}|#{variables})
-      (#{comma}(#{float}|#{variables}))?
-    #{pe}
-  "), (match, expression, context) ->
-    [_,h,_,w,_,b,_,_,a] = match
-
-    @hwb = [
-      context.readInt(h)
-      context.readFloat(w)
-      context.readFloat(b)
-    ]
-    @alpha = if a? then context.readFloat(a) else 1
-
-  # gray(50%)
-  # The priority is set to 1 to make sure that it appears before named colors
-  registry.createExpression 'gray', strip("
-    gray#{ps}\\s*
-      (#{optionalPercent}|#{variables})
-      (#{comma}(#{float}|#{variables}))?
-    #{pe}"), 1, (match, expression, context) ->
-
-    [_,p,_,_,a] = match
-
-    p = context.readFloat(p) / 100 * 255
-    @rgb = [p, p, p]
-    @alpha = if a? then context.readFloat(a) else 1
-
-  # dodgerblue
-  colors = Object.keys(SVGColors.allCases)
-  colorRegexp = "(#{namePrefixes})(#{colors.join('|')})(?!\\s*[-\\.:=\\(])\\b"
-
-  registry.createExpression 'named_colors', colorRegexp, (match, expression, context) ->
-    [_,_,name] = match
-
-    @colorExpression = @name = name
-    @hex = SVGColors.allCases[name].replace('#','')
-
-  ##    ######## ##     ## ##    ##  ######
-  ##    ##       ##     ## ###   ## ##    ##
-  ##    ##       ##     ## ####  ## ##
-  ##    ######   ##     ## ## ## ## ##
-  ##    ##       ##     ## ##  #### ##
-  ##    ##       ##     ## ##   ### ##    ##
-  ##    ##        #######  ##    ##  ######
-
-  # darken(#666666, 20%)
-  registry.createExpression 'darken', strip("
-    darken#{ps}
-      (#{notQuote})
-      #{comma}
-      (#{optionalPercent}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, subexpr, amount] = match
-
-    amount = context.readFloat(amount)
-    baseColor = context.readColor(subexpr)
-
-    return @invalid = true if isInvalid(baseColor)
-
-    [h,s,l] = baseColor.hsl
-
-    @hsl = [h, s, clampInt(l - amount)]
-    @alpha = baseColor.alpha
-
-  # lighten(#666666, 20%)
-  registry.createExpression 'lighten', strip("
-    lighten#{ps}
-      (#{notQuote})
-      #{comma}
-      (#{optionalPercent}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, subexpr, amount] = match
-
-    amount = context.readFloat(amount)
-    baseColor = context.readColor(subexpr)
-
-    return @invalid = true if isInvalid(baseColor)
-
-    [h,s,l] = baseColor.hsl
-
-    @hsl = [h, s, clampInt(l + amount)]
-    @alpha = baseColor.alpha
-
-  # fade(#ffffff, 0.5)
-  # alpha(#ffffff, 0.5)
-  registry.createExpression 'fade', strip("
-    (fade|alpha)#{ps}
-      (#{notQuote})
-      #{comma}
-      (#{floatOrPercent}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, _, subexpr, amount] = match
-
-    amount = context.readFloatOrPercent(amount)
-    baseColor = context.readColor(subexpr)
-
-    return @invalid = true if isInvalid(baseColor)
-
-    @rgb = baseColor.rgb
-    @alpha = amount
-
-  # transparentize(#ffffff, 0.5)
-  # transparentize(#ffffff, 50%)
-  # fadeout(#ffffff, 0.5)
-  registry.createExpression 'transparentize', strip("
-    (transparentize|fadeout|fade-out|fade_out)#{ps}
-      (#{notQuote})
-      #{comma}
-      (#{floatOrPercent}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, _, subexpr, amount] = match
-
-    amount = context.readFloatOrPercent(amount)
-    baseColor = context.readColor(subexpr)
-
-    return @invalid = true if isInvalid(baseColor)
-
-    @rgb = baseColor.rgb
-    @alpha = clamp(baseColor.alpha - amount)
-
-  # opacify(0x78ffffff, 0.5)
-  # opacify(0x78ffffff, 50%)
-  # fadein(0x78ffffff, 0.5)
-  # alpha(0x78ffffff, 0.5)
-  registry.createExpression 'opacify', strip("
-    (opacify|fadein|fade-in|fade_in)#{ps}
-      (#{notQuote})
-      #{comma}
-      (#{floatOrPercent}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, _, subexpr, amount] = match
-
-    amount = context.readFloatOrPercent(amount)
-    baseColor = context.readColor(subexpr)
-
-    return @invalid = true if isInvalid(baseColor)
-
-    @rgb = baseColor.rgb
-    @alpha = clamp(baseColor.alpha + amount)
-
-  # red(#000,255)
-  # green(#000,255)
-  # blue(#000,255)
-  registry.createExpression 'stylus_component_functions', strip("
-    (red|green|blue)#{ps}
-      (#{notQuote})
-      #{comma}
-      (#{int}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, channel, subexpr, amount] = match
-
-    amount = context.readInt(amount)
-    baseColor = context.readColor(subexpr)
-
-    return @invalid = true if isInvalid(baseColor)
-    return @invalid = true if isNaN(amount)
-
-    @[channel] = amount
-
-  # transparentify(#808080)
-  registry.createExpression 'transparentify', strip("
-    transparentify#{ps}
+  return @invalid = true if hsl.some (v) -> not v? or isNaN(v)
+
+  @hsl = hsl
+  @alpha = 1
+
+# hsl(210,50%,50%)
+registry.createExpression 'pigments:less_hsl', strip("
+  hsl#{ps}\\s*
+    (#{float}|#{variables})
+    #{comma}
+    (#{floatOrPercent}|#{variables})
+    #{comma}
+    (#{floatOrPercent}|#{variables})
+  #{pe}
+"), ['less'], (match, expression, context) ->
+  [_,h,s,l] = match
+
+  hsl = [
+    context.readInt(h)
+    context.readFloatOrPercent(s) * 100
+    context.readFloatOrPercent(l) * 100
+  ]
+
+  return @invalid = true if hsl.some (v) -> not v? or isNaN(v)
+
+  @hsl = hsl
+  @alpha = 1
+
+# hsla(210,50%,50%,0.7)
+registry.createExpression 'pigments:css_hsla', strip("
+  #{insensitive 'hsla'}#{ps}\\s*
+    (#{float}|#{variables})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+    #{comma}
+    (#{float}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_,h,s,l,a] = match
+
+  hsl = [
+    context.readInt(h)
+    context.readFloat(s)
+    context.readFloat(l)
+  ]
+
+  return @invalid = true if hsl.some (v) -> not v? or isNaN(v)
+
+  @hsl = hsl
+  @alpha = context.readFloat(a)
+
+# hsv(210,70%,90%)
+registry.createExpression 'pigments:hsv', strip("
+  (?:#{insensitive 'hsv'}|#{insensitive 'hsb'})#{ps}\\s*
+    (#{float}|#{variables})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_,h,s,v] = match
+
+  hsv = [
+    context.readInt(h)
+    context.readFloat(s)
+    context.readFloat(v)
+  ]
+
+  return @invalid = true if hsv.some (v) -> not v? or isNaN(v)
+
+  @hsv = hsv
+  @alpha = 1
+
+# hsva(210,70%,90%,0.7)
+registry.createExpression 'pigments:hsva', strip("
+  (?:#{insensitive 'hsva'}|#{insensitive 'hsba'})#{ps}\\s*
+    (#{float}|#{variables})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+    #{comma}
+    (#{float}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_,h,s,v,a] = match
+
+  hsv = [
+    context.readInt(h)
+    context.readFloat(s)
+    context.readFloat(v)
+  ]
+
+  return @invalid = true if hsv.some (v) -> not v? or isNaN(v)
+
+  @hsv = hsv
+  @alpha = context.readFloat(a)
+
+# hcg(210,60%,50%)
+registry.createExpression 'pigments:hcg', strip("
+  (?:#{insensitive 'hcg'})#{ps}\\s*
+    (#{float}|#{variables})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_,h,c,gr] = match
+
+  hcg = [
+    context.readInt(h)
+    context.readFloat(c)
+    context.readFloat(gr)
+  ]
+
+  return @invalid = true if hcg.some (v) -> not v? or isNaN(v)
+
+  @hcg = hcg
+  @alpha = 1
+
+# hcga(210,60%,50%,0.7)
+registry.createExpression 'pigments:hcga', strip("
+  (?:#{insensitive 'hcga'})#{ps}\\s*
+    (#{float}|#{variables})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+    #{comma}
+    (#{float}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_,h,c,gr,a] = match
+
+  hcg = [
+    context.readInt(h)
+    context.readFloat(c)
+    context.readFloat(gr)
+  ]
+
+  return @invalid = true if hcg.some (v) -> not v? or isNaN(v)
+
+  @hcg = hcg
+  @alpha = context.readFloat(a)
+
+# vec4(0.2, 0.5, 0.9, 0.7)
+registry.createExpression 'pigments:vec4', strip("
+  vec4#{ps}\\s*
+    (#{float})
+    #{comma}
+    (#{float})
+    #{comma}
+    (#{float})
+    #{comma}
+    (#{float})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_,h,s,l,a] = match
+
+  @rgba = [
+    context.readFloat(h) * 255
+    context.readFloat(s) * 255
+    context.readFloat(l) * 255
+    context.readFloat(a)
+  ]
+
+# hwb(210,40%,40%)
+registry.createExpression 'pigments:hwb', strip("
+  #{insensitive 'hwb'}#{ps}\\s*
+    (#{float}|#{variables})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+    (?:#{comma}(#{float}|#{variables}))?
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_,h,w,b,a] = match
+
+  @hwb = [
+    context.readInt(h)
+    context.readFloat(w)
+    context.readFloat(b)
+  ]
+  @alpha = if a? then context.readFloat(a) else 1
+
+# cmyk(0,0.5,1,0)
+registry.createExpression 'pigments:cmyk', strip("
+  #{insensitive 'cmyk'}#{ps}\\s*
+    (#{float}|#{variables})
+    #{comma}
+    (#{float}|#{variables})
+    #{comma}
+    (#{float}|#{variables})
+    #{comma}
+    (#{float}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_,c,m,y,k] = match
+
+  @cmyk = [
+    context.readFloat(c)
+    context.readFloat(m)
+    context.readFloat(y)
+    context.readFloat(k)
+  ]
+
+# gray(50%)
+# The priority is set to 1 to make sure that it appears before named colors
+registry.createExpression 'pigments:gray', strip("
+  #{insensitive 'gray'}#{ps}\\s*
+    (#{optionalPercent}|#{variables})
+    (?:#{comma}(#{float}|#{variables}))?
+  #{pe}"), 1, ['*'], (match, expression, context) ->
+
+  [_,p,a] = match
+
+  p = context.readFloat(p) / 100 * 255
+  @rgb = [p, p, p]
+  @alpha = if a? then context.readFloat(a) else 1
+
+# dodgerblue
+colors = Object.keys(SVGColors.allCases)
+colorRegexp = "(?:#{namePrefixes})(#{colors.join('|')})\\b(?![ \\t]*[-\\.:=\\(])"
+
+registry.createExpression 'pigments:named_colors', colorRegexp, [], (match, expression, context) ->
+  [_,name] = match
+
+  @colorExpression = @name = name
+  @hex = context.SVGColors.allCases[name].replace('#','')
+
+##    ######## ##     ## ##    ##  ######
+##    ##       ##     ## ###   ## ##    ##
+##    ##       ##     ## ####  ## ##
+##    ######   ##     ## ## ## ## ##
+##    ##       ##     ## ##  #### ##
+##    ##       ##     ## ##   ### ##    ##
+##    ##        #######  ##    ##  ######
+
+# darken(#666666, 20%)
+registry.createExpression 'pigments:darken', strip("
+  darken#{ps}
     (#{notQuote})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, expr] = match
+    #{comma}
+    (#{optionalPercent}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, subexpr, amount] = match
 
-    [top, bottom, alpha] = split(expr)
+  amount = context.readFloat(amount)
+  baseColor = context.readColor(subexpr)
 
-    top = context.readColor(top)
-    bottom = context.readColor(bottom)
-    alpha = context.readFloatOrPercent(alpha)
+  return @invalid = true if context.isInvalid(baseColor)
 
-    return @invalid = true if isInvalid(top)
-    return @invalid = true if bottom? and isInvalid(bottom)
+  [h,s,l] = baseColor.hsl
 
-    bottom ?= new Color(255,255,255,1)
-    alpha = undefined if isNaN(alpha)
+  @hsl = [h, s, context.clampInt(l - amount)]
+  @alpha = baseColor.alpha
 
-    bestAlpha = ['red','green','blue'].map((channel) ->
-      res = (top[channel] - (bottom[channel])) / ((if 0 < top[channel] - (bottom[channel]) then 255 else 0) - (bottom[channel]))
-      res
-    ).sort((a, b) -> a < b)[0]
+# lighten(#666666, 20%)
+registry.createExpression 'pigments:lighten', strip("
+  lighten#{ps}
+    (#{notQuote})
+    #{comma}
+    (#{optionalPercent}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, subexpr, amount] = match
 
-    processChannel = (channel) ->
-      if bestAlpha is 0
-        bottom[channel]
-      else
-        bottom[channel] + (top[channel] - (bottom[channel])) / bestAlpha
+  amount = context.readFloat(amount)
+  baseColor = context.readColor(subexpr)
 
-    bestAlpha = alpha if alpha?
-    bestAlpha = Math.max(Math.min(bestAlpha, 1), 0)
+  return @invalid = true if context.isInvalid(baseColor)
 
-    @red = processChannel('red')
-    @green = processChannel('green')
-    @blue = processChannel('blue')
-    @alpha = Math.round(bestAlpha * 100) / 100
+  [h,s,l] = baseColor.hsl
 
-  # hue(#855, 60deg)
-  registry.createExpression 'hue', strip("
-    hue#{ps}
-      (#{notQuote})
-      #{comma}
-      (#{int}deg|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, subexpr, amount] = match
+  @hsl = [h, s, context.clampInt(l + amount)]
+  @alpha = baseColor.alpha
 
-    amount = context.readFloat(amount)
-    baseColor = context.readColor(subexpr)
+# fade(#ffffff, 0.5)
+# alpha(#ffffff, 0.5)
+registry.createExpression 'pigments:fade', strip("
+  (?:fade|alpha)#{ps}
+    (#{notQuote})
+    #{comma}
+    (#{floatOrPercent}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, subexpr, amount] = match
 
-    return @invalid = true if isInvalid(baseColor)
-    return @invalid = true if isNaN(amount)
+  amount = context.readFloatOrPercent(amount)
+  baseColor = context.readColor(subexpr)
 
-    [h,s,l] = baseColor.hsl
+  return @invalid = true if context.isInvalid(baseColor)
 
-    @hsl = [amount % 360, s, l]
-    @alpha = baseColor.alpha
+  @rgb = baseColor.rgb
+  @alpha = amount
 
-  # saturation(#855, 60deg)
-  # lightness(#855, 60deg)
-  registry.createExpression 'stylus_sl_component_functions', strip("
-    (saturation|lightness)#{ps}
-      (#{notQuote})
-      #{comma}
-      (#{intOrPercent}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, channel, subexpr, amount] = match
+# transparentize(#ffffff, 0.5)
+# transparentize(#ffffff, 50%)
+# fadeout(#ffffff, 0.5)
+registry.createExpression 'pigments:transparentize', strip("
+  (?:transparentize|fadeout|fade-out|fade_out)#{ps}
+    (#{notQuote})
+    #{comma}
+    (#{floatOrPercent}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, subexpr, amount] = match
 
-    amount = context.readInt(amount)
-    baseColor = context.readColor(subexpr)
+  amount = context.readFloatOrPercent(amount)
+  baseColor = context.readColor(subexpr)
 
-    return @invalid = true if isInvalid(baseColor)
-    return @invalid = true if isNaN(amount)
+  return @invalid = true if context.isInvalid(baseColor)
 
-    baseColor[channel] = amount
-    @rgba = baseColor.rgba
+  @rgb = baseColor.rgb
+  @alpha = context.clamp(baseColor.alpha - amount)
 
-  # adjust-hue(#855, 60deg)
-  registry.createExpression 'adjust-hue', strip("
-    adjust-hue#{ps}
-      (#{notQuote})
-      #{comma}
-      (-?#{int}deg|#{variables}|-?#{optionalPercent})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, subexpr, amount] = match
+# opacify(0x78ffffff, 0.5)
+# opacify(0x78ffffff, 50%)
+# fadein(0x78ffffff, 0.5)
+# alpha(0x78ffffff, 0.5)
+registry.createExpression 'pigments:opacify', strip("
+  (?:opacify|fadein|fade-in|fade_in)#{ps}
+    (#{notQuote})
+    #{comma}
+    (#{floatOrPercent}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, subexpr, amount] = match
 
-    amount = context.readFloat(amount)
-    baseColor = context.readColor(subexpr)
+  amount = context.readFloatOrPercent(amount)
+  baseColor = context.readColor(subexpr)
 
-    return @invalid = true if isInvalid(baseColor)
+  return @invalid = true if context.isInvalid(baseColor)
 
-    [h,s,l] = baseColor.hsl
+  @rgb = baseColor.rgb
+  @alpha = context.clamp(baseColor.alpha + amount)
 
-    @hsl = [(h + amount) % 360, s, l]
-    @alpha = baseColor.alpha
+# red(#000,255)
+# green(#000,255)
+# blue(#000,255)
+registry.createExpression 'pigments:stylus_component_functions', strip("
+  (red|green|blue)#{ps}
+    (#{notQuote})
+    #{comma}
+    (#{int}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, channel, subexpr, amount] = match
 
-  # mix(#f00, #00F, 25%)
-  # mix(#f00, #00F)
-  registry.createExpression 'mix', strip("
-    mix#{ps}
-      (
-        #{notQuote}
-        #{comma}
-        #{notQuote}
-        #{comma}
-        (#{floatOrPercent}|#{variables})
-      )
-    #{pe}
-  "), (match, expression, context) ->
-    [_, expr] = match
+  amount = context.readInt(amount)
+  baseColor = context.readColor(subexpr)
 
-    [color1, color2, amount] = split(expr)
+  return @invalid = true if context.isInvalid(baseColor)
+  return @invalid = true if isNaN(amount)
 
-    if amount?
-      amount = context.readFloatOrPercent(amount)
+  @[channel] = amount
+
+# transparentify(#808080)
+registry.createExpression 'pigments:transparentify', strip("
+  transparentify#{ps}
+  (#{notQuote})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, expr] = match
+
+  [top, bottom, alpha] = context.split(expr)
+
+  top = context.readColor(top)
+  bottom = context.readColor(bottom)
+  alpha = context.readFloatOrPercent(alpha)
+
+  return @invalid = true if context.isInvalid(top)
+  return @invalid = true if bottom? and context.isInvalid(bottom)
+
+  bottom ?= new context.Color(255,255,255,1)
+  alpha = undefined if isNaN(alpha)
+
+  bestAlpha = ['red','green','blue'].map((channel) ->
+    res = (top[channel] - (bottom[channel])) / ((if 0 < top[channel] - (bottom[channel]) then 255 else 0) - (bottom[channel]))
+    res
+  ).sort((a, b) -> a < b)[0]
+
+  processChannel = (channel) ->
+    if bestAlpha is 0
+      bottom[channel]
     else
-      amount = 0.5
+      bottom[channel] + (top[channel] - (bottom[channel])) / bestAlpha
 
-    baseColor1 = context.readColor(color1)
-    baseColor2 = context.readColor(color2)
+  bestAlpha = alpha if alpha?
+  bestAlpha = Math.max(Math.min(bestAlpha, 1), 0)
 
-    return @invalid = true if isInvalid(baseColor1) or isInvalid(baseColor2)
+  @red = processChannel('red')
+  @green = processChannel('green')
+  @blue = processChannel('blue')
+  @alpha = Math.round(bestAlpha * 100) / 100
 
-    {@rgba} = mixColors(baseColor1, baseColor2, amount)
+# hue(#855, 60deg)
+registry.createExpression 'pigments:hue', strip("
+  hue#{ps}
+    (#{notQuote})
+    #{comma}
+    (#{int}deg|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, subexpr, amount] = match
 
-  # tint(red, 50%)
-  registry.createExpression 'tint', strip("
-    tint#{ps}
-      (#{notQuote})
-      #{comma}
-      (#{floatOrPercent}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, subexpr, amount] = match
+  amount = context.readFloat(amount)
+  baseColor = context.readColor(subexpr)
 
+  return @invalid = true if context.isInvalid(baseColor)
+  return @invalid = true if isNaN(amount)
+
+  [h,s,l] = baseColor.hsl
+
+  @hsl = [amount % 360, s, l]
+  @alpha = baseColor.alpha
+
+# saturation(#855, 60deg)
+# lightness(#855, 60deg)
+registry.createExpression 'pigments:stylus_sl_component_functions', strip("
+  (saturation|lightness)#{ps}
+    (#{notQuote})
+    #{comma}
+    (#{intOrPercent}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, channel, subexpr, amount] = match
+
+  amount = context.readInt(amount)
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+  return @invalid = true if isNaN(amount)
+
+  baseColor[channel] = amount
+  @rgba = baseColor.rgba
+
+# adjust-hue(#855, 60deg)
+registry.createExpression 'pigments:adjust-hue', strip("
+  adjust-hue#{ps}
+    (#{notQuote})
+    #{comma}
+    (-?#{int}deg|#{variables}|-?#{optionalPercent})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, subexpr, amount] = match
+
+  amount = context.readFloat(amount)
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  [h,s,l] = baseColor.hsl
+
+  @hsl = [(h + amount) % 360, s, l]
+  @alpha = baseColor.alpha
+
+# mix(#f00, #00F, 25%)
+# mix(#f00, #00F)
+registry.createExpression 'pigments:mix', "mix#{ps}(#{notQuote})#{pe}", ['*'], (match, expression, context) ->
+  [_, expr] = match
+
+  [color1, color2, amount] = context.split(expr)
+
+  if amount?
     amount = context.readFloatOrPercent(amount)
-    baseColor = context.readColor(subexpr)
+  else
+    amount = 0.5
 
-    return @invalid = true if isInvalid(baseColor)
+  baseColor1 = context.readColor(color1)
+  baseColor2 = context.readColor(color2)
 
-    white = new Color(255, 255, 255)
+  return @invalid = true if context.isInvalid(baseColor1) or context.isInvalid(baseColor2)
 
-    @rgba = mixColors(white, baseColor, amount).rgba
+  {@rgba} = context.mixColors(baseColor1, baseColor2, amount)
 
-  # shade(red, 50%)
-  registry.createExpression 'shade', strip("
-    shade#{ps}
-      (#{notQuote})
+# tint(red, 50%)
+registry.createExpression 'pigments:stylus_tint', strip("
+  tint#{ps}
+    (#{notQuote})
+    #{comma}
+    (#{floatOrPercent}|#{variables})
+  #{pe}
+"), ['styl', 'stylus', 'less'], (match, expression, context) ->
+  [_, subexpr, amount] = match
+
+  amount = context.readFloatOrPercent(amount)
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  white = new context.Color(255, 255, 255)
+
+  @rgba = context.mixColors(white, baseColor, amount).rgba
+
+# shade(red, 50%)
+registry.createExpression 'pigments:stylus_shade', strip("
+  shade#{ps}
+    (#{notQuote})
+    #{comma}
+    (#{floatOrPercent}|#{variables})
+  #{pe}
+"), ['styl', 'stylus', 'less'], (match, expression, context) ->
+  [_, subexpr, amount] = match
+
+  amount = context.readFloatOrPercent(amount)
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  black = new context.Color(0,0,0)
+
+  @rgba = context.mixColors(black, baseColor, amount).rgba
+
+# tint(red, 50%)
+registry.createExpression 'pigments:compass_tint', strip("
+  tint#{ps}
+    (#{notQuote})
+    #{comma}
+    (#{floatOrPercent}|#{variables})
+  #{pe}
+"), ['sass:compass', 'scss:compass'], (match, expression, context) ->
+  [_, subexpr, amount] = match
+
+  amount = context.readFloatOrPercent(amount)
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  white = new context.Color(255, 255, 255)
+
+  @rgba = context.mixColors(baseColor, white, amount).rgba
+
+# shade(red, 50%)
+registry.createExpression 'pigments:compass_shade', strip("
+  shade#{ps}
+    (#{notQuote})
+    #{comma}
+    (#{floatOrPercent}|#{variables})
+  #{pe}
+"), ['sass:compass', 'scss:compass'], (match, expression, context) ->
+  [_, subexpr, amount] = match
+
+  amount = context.readFloatOrPercent(amount)
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  black = new context.Color(0,0,0)
+
+  @rgba = context.mixColors(baseColor, black, amount).rgba
+
+# tint(red, 50%)
+registry.createExpression 'pigments:bourbon_tint', strip("
+  tint#{ps}
+    (#{notQuote})
+    #{comma}
+    (#{floatOrPercent}|#{variables})
+  #{pe}
+"), ['sass:bourbon', 'scss:bourbon'], (match, expression, context) ->
+  [_, subexpr, amount] = match
+
+  amount = context.readFloatOrPercent(amount)
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  white = new context.Color(255, 255, 255)
+
+  @rgba = context.mixColors(white, baseColor, amount).rgba
+
+# shade(red, 50%)
+registry.createExpression 'pigments:bourbon_shade', strip("
+  shade#{ps}
+    (#{notQuote})
+    #{comma}
+    (#{floatOrPercent}|#{variables})
+  #{pe}
+"), ['sass:bourbon', 'scss:bourbon'], (match, expression, context) ->
+  [_, subexpr, amount] = match
+
+  amount = context.readFloatOrPercent(amount)
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  black = new context.Color(0,0,0)
+
+  @rgba = context.mixColors(black, baseColor, amount).rgba
+
+# desaturate(#855, 20%)
+# desaturate(#855, 0.2)
+registry.createExpression 'pigments:desaturate', "desaturate#{ps}(#{notQuote})#{comma}(#{floatOrPercent}|#{variables})#{pe}", ['*'], (match, expression, context) ->
+  [_, subexpr, amount] = match
+
+  amount = context.readFloatOrPercent(amount)
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  [h,s,l] = baseColor.hsl
+
+  @hsl = [h, context.clampInt(s - amount * 100), l]
+  @alpha = baseColor.alpha
+
+# saturate(#855, 20%)
+# saturate(#855, 0.2)
+registry.createExpression 'pigments:saturate', strip("
+  saturate#{ps}
+    (#{notQuote})
+    #{comma}
+    (#{floatOrPercent}|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, subexpr, amount] = match
+
+  amount = context.readFloatOrPercent(amount)
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  [h,s,l] = baseColor.hsl
+
+  @hsl = [h, context.clampInt(s + amount * 100), l]
+  @alpha = baseColor.alpha
+
+# grayscale(red)
+# greyscale(red)
+registry.createExpression 'pigments:grayscale', "gr(?:a|e)yscale#{ps}(#{notQuote})#{pe}", ['*'], (match, expression, context) ->
+  [_, subexpr] = match
+
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  [h,s,l] = baseColor.hsl
+
+  @hsl = [h, 0, l]
+  @alpha = baseColor.alpha
+
+# invert(green)
+registry.createExpression 'pigments:invert', "invert#{ps}(#{notQuote})#{pe}", ['*'], (match, expression, context) ->
+  [_, subexpr] = match
+
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  [r,g,b] = baseColor.rgb
+
+  @rgb = [255 - r, 255 - g, 255 - b]
+  @alpha = baseColor.alpha
+
+# complement(green)
+registry.createExpression 'pigments:complement', "complement#{ps}(#{notQuote})#{pe}", ['*'], (match, expression, context) ->
+  [_, subexpr] = match
+
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  [h,s,l] = baseColor.hsl
+
+  @hsl = [(h + 180) % 360, s, l]
+  @alpha = baseColor.alpha
+
+# spin(green, 20)
+# spin(green, 20deg)
+registry.createExpression 'pigments:spin', strip("
+  spin#{ps}
+    (#{notQuote})
+    #{comma}
+    (-?(#{int})(deg)?|#{variables})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, subexpr, angle] = match
+
+  baseColor = context.readColor(subexpr)
+  angle = context.readInt(angle)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  [h,s,l] = baseColor.hsl
+
+  @hsl = [(360 + h + angle) % 360, s, l]
+  @alpha = baseColor.alpha
+
+# contrast(#666666, #111111, #999999, threshold)
+registry.createExpression 'pigments:contrast_n_arguments', strip("
+  contrast#{ps}
+    (
+      #{notQuote}
       #{comma}
-      (#{floatOrPercent}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, subexpr, amount] = match
+      #{notQuote}
+    )
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, expr] = match
 
-    amount = context.readFloatOrPercent(amount)
-    baseColor = context.readColor(subexpr)
+  [base, dark, light, threshold] = context.split(expr)
 
-    return @invalid = true if isInvalid(baseColor)
+  baseColor = context.readColor(base)
+  dark = context.readColor(dark)
+  light = context.readColor(light)
+  threshold = context.readPercent(threshold) if threshold?
 
-    black = new Color(0,0,0)
+  return @invalid = true if context.isInvalid(baseColor)
+  return @invalid = true if dark?.invalid
+  return @invalid = true if light?.invalid
 
-    @rgba = mixColors(black, baseColor, amount).rgba
+  res = context.contrast(baseColor, dark, light)
 
-  # desaturate(#855, 20%)
-  # desaturate(#855, 0.2)
-  registry.createExpression 'desaturate', "desaturate#{ps}(#{notQuote})#{comma}(#{floatOrPercent}|#{variables})#{pe}", (match, expression, context) ->
-    [_, subexpr, amount] = match
+  return @invalid = true if context.isInvalid(res)
 
-    amount = context.readFloatOrPercent(amount)
-    baseColor = context.readColor(subexpr)
+  {@rgb} = context.contrast(baseColor, dark, light, threshold)
 
-    return @invalid = true if isInvalid(baseColor)
+# contrast(#666666)
+registry.createExpression 'pigments:contrast_1_argument', strip("
+  contrast#{ps}
+    (#{notQuote})
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, subexpr] = match
 
-    [h,s,l] = baseColor.hsl
+  baseColor = context.readColor(subexpr)
 
-    @hsl = [h, clampInt(s - amount * 100), l]
-    @alpha = baseColor.alpha
+  return @invalid = true if context.isInvalid(baseColor)
 
-  # saturate(#855, 20%)
-  # saturate(#855, 0.2)
-  registry.createExpression 'saturate', strip("
-    saturate#{ps}
-      (#{notQuote})
+  {@rgb} = context.contrast(baseColor)
+
+# color(green tint(50%))
+registry.createExpression 'pigments:css_color_function', "(?:#{namePrefixes})(#{insensitive 'color'}#{ps}(#{notQuote})#{pe})", ['css'], (match, expression, context) ->
+  try
+    [_,expr] = match
+    for k,v of context.vars
+      expr = expr.replace(///
+        #{k.replace(/\(/g, '\\(').replace(/\)/g, '\\)')}
+      ///g, v.value)
+
+    cssColor = require 'css-color-function'
+    rgba = cssColor.convert(expr.toLowerCase())
+    @rgba = context.readColor(rgba).rgba
+    @colorExpression = expr
+  catch e
+    @invalid = true
+
+# adjust-color(red, $lightness: 30%)
+registry.createExpression 'pigments:sass_adjust_color', "adjust-color#{ps}(#{notQuote})#{pe}", 1, ['*'], (match, expression, context) ->
+  [_, subexpr] = match
+  res = context.split(subexpr)
+  subject = res[0]
+  params = res.slice(1)
+
+  baseColor = context.readColor(subject)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  for param in params
+    context.readParam param, (name, value) ->
+      baseColor[name] += context.readFloat(value)
+
+  @rgba = baseColor.rgba
+
+# scale-color(red, $lightness: 30%)
+registry.createExpression 'pigments:sass_scale_color', "scale-color#{ps}(#{notQuote})#{pe}", 1, ['*'], (match, expression, context) ->
+  MAX_PER_COMPONENT =
+    red: 255
+    green: 255
+    blue: 255
+    alpha: 1
+    hue: 360
+    saturation: 100
+    lightness: 100
+
+  [_, subexpr] = match
+  res = context.split(subexpr)
+  subject = res[0]
+  params = res.slice(1)
+
+  baseColor = context.readColor(subject)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  for param in params
+    context.readParam param, (name, value) ->
+      value = context.readFloat(value) / 100
+
+      result = if value > 0
+        dif = MAX_PER_COMPONENT[name] - baseColor[name]
+        result = baseColor[name] + dif * value
+      else
+        result = baseColor[name] * (1 + value)
+
+      baseColor[name] = result
+
+  @rgba = baseColor.rgba
+
+# change-color(red, $lightness: 30%)
+registry.createExpression 'pigments:sass_change_color', "change-color#{ps}(#{notQuote})#{pe}", 1, ['*'], (match, expression, context) ->
+  [_, subexpr] = match
+  res = context.split(subexpr)
+  subject = res[0]
+  params = res.slice(1)
+
+  baseColor = context.readColor(subject)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  for param in params
+    context.readParam param, (name, value) ->
+      baseColor[name] = context.readFloat(value)
+
+  @rgba = baseColor.rgba
+
+# blend(rgba(#FFDE00,.42), 0x19C261)
+registry.createExpression 'pigments:stylus_blend', strip("
+  blend#{ps}
+    (
+      #{notQuote}
       #{comma}
-      (#{floatOrPercent}|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, subexpr, amount] = match
+      #{notQuote}
+    )
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, expr] = match
 
-    amount = context.readFloatOrPercent(amount)
-    baseColor = context.readColor(subexpr)
+  [color1, color2] = context.split(expr)
 
-    return @invalid = true if isInvalid(baseColor)
+  baseColor1 = context.readColor(color1)
+  baseColor2 = context.readColor(color2)
 
-    [h,s,l] = baseColor.hsl
+  return @invalid = true if context.isInvalid(baseColor1) or context.isInvalid(baseColor2)
 
-    @hsl = [h, clampInt(s + amount * 100), l]
-    @alpha = baseColor.alpha
+  @rgba = [
+    baseColor1.red * baseColor1.alpha + baseColor2.red * (1 - baseColor1.alpha)
+    baseColor1.green * baseColor1.alpha + baseColor2.green * (1 - baseColor1.alpha)
+    baseColor1.blue * baseColor1.alpha + baseColor2.blue * (1 - baseColor1.alpha)
+    baseColor1.alpha + baseColor2.alpha - baseColor1.alpha * baseColor2.alpha
+  ]
 
-  # grayscale(red)
-  # greyscale(red)
-  registry.createExpression 'grayscale', "gr(a|e)yscale#{ps}(#{notQuote})#{pe}", (match, expression, context) ->
-    [_, _, subexpr] = match
+# Color(50,120,200,255)
+registry.createExpression 'pigments:lua_rgba', strip("
+  (?:#{namePrefixes})Color#{ps}\\s*
+    (#{int}|#{variables})
+    #{comma}
+    (#{int}|#{variables})
+    #{comma}
+    (#{int}|#{variables})
+    #{comma}
+    (#{int}|#{variables})
+  #{pe}
+"), ['lua'], (match, expression, context) ->
+  [_,r,g,b,a] = match
 
-    baseColor = context.readColor(subexpr)
+  @red = context.readInt(r)
+  @green = context.readInt(g)
+  @blue = context.readInt(b)
+  @alpha = context.readInt(a) / 255
 
-    return @invalid = true if isInvalid(baseColor)
+##    ########  ##       ######## ##    ## ########
+##    ##     ## ##       ##       ###   ## ##     ##
+##    ##     ## ##       ##       ####  ## ##     ##
+##    ########  ##       ######   ## ## ## ##     ##
+##    ##     ## ##       ##       ##  #### ##     ##
+##    ##     ## ##       ##       ##   ### ##     ##
+##    ########  ######## ######## ##    ## ########
 
-    [h,s,l] = baseColor.hsl
-
-    @hsl = [h, 0, l]
-    @alpha = baseColor.alpha
-
-  # invert(green)
-  registry.createExpression 'invert', "invert#{ps}(#{notQuote})#{pe}", (match, expression, context) ->
-    [_, subexpr] = match
-
-    baseColor = context.readColor(subexpr)
-
-    return @invalid = true if isInvalid(baseColor)
-
-    [r,g,b] = baseColor.rgb
-
-    @rgb = [255 - r, 255 - g, 255 - b]
-    @alpha = baseColor.alpha
-
-  # complement(green)
-  registry.createExpression 'complement', "complement#{ps}(#{notQuote})#{pe}", (match, expression, context) ->
-    [_, subexpr] = match
-
-    baseColor = context.readColor(subexpr)
-
-    return @invalid = true if isInvalid(baseColor)
-
-    [h,s,l] = baseColor.hsl
-
-    @hsl = [(h + 180) % 360, s, l]
-    @alpha = baseColor.alpha
-
-  # spin(green, 20)
-  # spin(green, 20deg)
-  registry.createExpression 'spin', strip("
-    spin#{ps}
-      (#{notQuote})
+# multiply(#f00, #00F)
+registry.createExpression 'pigments:multiply', strip("
+  multiply#{ps}
+    (
+      #{notQuote}
       #{comma}
-      (-?(#{int})(deg)?|#{variables})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, subexpr, angle] = match
+      #{notQuote}
+    )
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, expr] = match
 
-    baseColor = context.readColor(subexpr)
-    angle = context.readInt(angle)
+  [color1, color2] = context.split(expr)
 
-    return @invalid = true if isInvalid(baseColor)
+  baseColor1 = context.readColor(color1)
+  baseColor2 = context.readColor(color2)
 
-    [h,s,l] = baseColor.hsl
+  return @invalid = true if context.isInvalid(baseColor1) or context.isInvalid(baseColor2)
 
-    @hsl = [(360 + h + angle) % 360, s, l]
-    @alpha = baseColor.alpha
+  {@rgba} = baseColor1.blend(baseColor2, context.BlendModes.MULTIPLY)
 
-  # contrast(#666666, #111111, #999999, threshold)
-  registry.createExpression 'contrast_n_arguments', strip("
-    contrast#{ps}
-      (
-        #{notQuote}
-        #{comma}
-        #{notQuote}
-      )
-    #{pe}
-  "), (match, expression, context) ->
-    [_, expr] = match
+# screen(#f00, #00F)
+registry.createExpression 'pigments:screen', strip("
+  screen#{ps}
+    (
+      #{notQuote}
+      #{comma}
+      #{notQuote}
+    )
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, expr] = match
 
-    [base, dark, light, threshold] = split(expr)
+  [color1, color2] = context.split(expr)
 
-    baseColor = context.readColor(base)
-    dark = context.readColor(dark)
-    light = context.readColor(light)
-    threshold = context.readPercent(threshold) if threshold?
+  baseColor1 = context.readColor(color1)
+  baseColor2 = context.readColor(color2)
 
-    return @invalid = true if isInvalid(baseColor)
-    return @invalid = true if dark?.invalid
-    return @invalid = true if light?.invalid
+  return @invalid = true if context.isInvalid(baseColor1) or context.isInvalid(baseColor2)
 
-    res = contrast(baseColor, dark, light)
+  {@rgba} = baseColor1.blend(baseColor2, context.BlendModes.SCREEN)
 
-    return @invalid = true if isInvalid(res)
 
-    {@rgb} = contrast(baseColor, dark, light, threshold)
+# overlay(#f00, #00F)
+registry.createExpression 'pigments:overlay', strip("
+  overlay#{ps}
+    (
+      #{notQuote}
+      #{comma}
+      #{notQuote}
+    )
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, expr] = match
 
-  # contrast(#666666)
-  registry.createExpression 'contrast_1_argument', strip("
-    contrast#{ps}
-      (#{notQuote})
-    #{pe}
-  "), (match, expression, context) ->
-    [_, subexpr] = match
+  [color1, color2] = context.split(expr)
 
-    baseColor = context.readColor(subexpr)
+  baseColor1 = context.readColor(color1)
+  baseColor2 = context.readColor(color2)
 
-    return @invalid = true if isInvalid(baseColor)
+  return @invalid = true if context.isInvalid(baseColor1) or context.isInvalid(baseColor2)
 
-    {@rgb} = contrast(baseColor)
+  {@rgba} = baseColor1.blend(baseColor2, context.BlendModes.OVERLAY)
 
-  # color(green tint(50%))
-  registry.createExpression 'css_color_function', "(#{namePrefixes})(color#{ps}(#{notQuote})#{pe})", (match, expression, context) ->
-    try
-      [_,_,expr] = match
-      rgba = cssColor.convert(expr)
-      @rgba = context.readColor(rgba).rgba
-      @colorExpression = expr
-    catch e
-      @invalid = true
 
-  # adjust-color(red, $lightness: 30%)
-  registry.createExpression 'sass_adjust_color', "adjust-color#{ps}(#{notQuote})#{pe}", 1, (match, expression, context) ->
-    [_, subexpr] = match
-    [subject, params...] = split(subexpr)
+# softlight(#f00, #00F)
+registry.createExpression 'pigments:softlight', strip("
+  softlight#{ps}
+    (
+      #{notQuote}
+      #{comma}
+      #{notQuote}
+    )
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, expr] = match
 
-    baseColor = context.readColor(subject)
+  [color1, color2] = context.split(expr)
 
-    return @invalid = true if isInvalid(baseColor)
+  baseColor1 = context.readColor(color1)
+  baseColor2 = context.readColor(color2)
 
-    for param in params
-      readParam param, (name, value) ->
-        baseColor[name] += context.readFloat(value)
+  return @invalid = true if context.isInvalid(baseColor1) or context.isInvalid(baseColor2)
 
-    @rgba = baseColor.rgba
+  {@rgba} = baseColor1.blend(baseColor2, context.BlendModes.SOFT_LIGHT)
 
-  # scale-color(red, $lightness: 30%)
-  registry.createExpression 'sass_scale_color', "scale-color#{ps}(#{notQuote})#{pe}", 1, (match, expression, context) ->
 
-    [_, subexpr] = match
-    [subject, params...] = split(subexpr)
+# hardlight(#f00, #00F)
+registry.createExpression 'pigments:hardlight', strip("
+  hardlight#{ps}
+    (
+      #{notQuote}
+      #{comma}
+      #{notQuote}
+    )
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, expr] = match
 
-    baseColor = context.readColor(subject)
+  [color1, color2] = context.split(expr)
 
-    return @invalid = true if isInvalid(baseColor)
+  baseColor1 = context.readColor(color1)
+  baseColor2 = context.readColor(color2)
 
-    for param in params
-      readParam param, (name, value) ->
-        value = context.readFloat(value) / 100
+  return @invalid = true if context.isInvalid(baseColor1) or context.isInvalid(baseColor2)
 
-        result = if value > 0
-          dif = MAX_PER_COMPONENT[name] - baseColor[name]
-          result = baseColor[name] + dif * value
-        else
-          result = baseColor[name] * (1 + value)
+  {@rgba} = baseColor1.blend(baseColor2, context.BlendModes.HARD_LIGHT)
 
-        baseColor[name] = result
 
-    @rgba = baseColor.rgba
+# difference(#f00, #00F)
+registry.createExpression 'pigments:difference', strip("
+  difference#{ps}
+    (
+      #{notQuote}
+      #{comma}
+      #{notQuote}
+    )
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, expr] = match
 
-  # change-color(red, $lightness: 30%)
-  registry.createExpression 'sass_change_color', "change-color#{ps}(#{notQuote})#{pe}", 1, (match, expression, context) ->
-    [_, subexpr] = match
-    [subject, params...] = split(subexpr)
+  [color1, color2] = context.split(expr)
 
-    baseColor = context.readColor(subject)
+  baseColor1 = context.readColor(color1)
+  baseColor2 = context.readColor(color2)
 
-    return @invalid = true if isInvalid(baseColor)
+  return @invalid = true if context.isInvalid(baseColor1) or context.isInvalid(baseColor2)
 
-    for param in params
-      readParam param, (name, value) ->
-        baseColor[name] = context.readFloat(value)
+  {@rgba} = baseColor1.blend(baseColor2, context.BlendModes.DIFFERENCE)
 
-    @rgba = baseColor.rgba
+# exclusion(#f00, #00F)
+registry.createExpression 'pigments:exclusion', strip("
+  exclusion#{ps}
+    (
+      #{notQuote}
+      #{comma}
+      #{notQuote}
+    )
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, expr] = match
 
-  # blend(rgba(#FFDE00,.42), 0x19C261)
-  registry.createExpression 'stylus_blend', strip("
-    blend#{ps}
-      (
-        #{notQuote}
-        #{comma}
-        #{notQuote}
-      )
-    #{pe}
-  "), (match, expression, context) ->
-    [_, expr] = match
+  [color1, color2] = context.split(expr)
 
-    [color1, color2] = split(expr)
+  baseColor1 = context.readColor(color1)
+  baseColor2 = context.readColor(color2)
 
-    baseColor1 = context.readColor(color1)
-    baseColor2 = context.readColor(color2)
+  return @invalid = true if context.isInvalid(baseColor1) or context.isInvalid(baseColor2)
 
-    return @invalid = true if isInvalid(baseColor1) or isInvalid(baseColor2)
+  {@rgba} = baseColor1.blend(baseColor2, context.BlendModes.EXCLUSION)
 
-    @rgba = [
-      baseColor1.red * baseColor1.alpha + baseColor2.red * (1 - baseColor1.alpha)
-      baseColor1.green * baseColor1.alpha + baseColor2.green * (1 - baseColor1.alpha)
-      baseColor1.blue * baseColor1.alpha + baseColor2.blue * (1 - baseColor1.alpha)
-      baseColor1.alpha + baseColor2.alpha - baseColor1.alpha * baseColor2.alpha
-    ]
+# average(#f00, #00F)
+registry.createExpression 'pigments:average', strip("
+  average#{ps}
+    (
+      #{notQuote}
+      #{comma}
+      #{notQuote}
+    )
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, expr] = match
 
-  # multiply(#f00, #00F)
-  blendMethod registry, 'multiply', BlendModes.MULTIPLY
+  [color1, color2] = context.split(expr)
 
-  # screen(#f00, #00F)
-  blendMethod registry, 'screen', BlendModes.SCREEN
+  baseColor1 = context.readColor(color1)
+  baseColor2 = context.readColor(color2)
 
-  # overlay(#f00, #00F)
-  blendMethod registry, 'overlay', BlendModes.OVERLAY
+  if context.isInvalid(baseColor1) or context.isInvalid(baseColor2)
+    return @invalid = true
 
-  # softlight(#f00, #00F)
-  blendMethod registry, 'softlight', BlendModes.SOFT_LIGHT
+  {@rgba} = baseColor1.blend(baseColor2, context.BlendModes.AVERAGE)
 
-  # hardlight(#f00, #00F)
-  blendMethod registry, 'hardlight', BlendModes.HARD_LIGHT
+# negation(#f00, #00F)
+registry.createExpression 'pigments:negation', strip("
+  negation#{ps}
+    (
+      #{notQuote}
+      #{comma}
+      #{notQuote}
+    )
+  #{pe}
+"), ['*'], (match, expression, context) ->
+  [_, expr] = match
 
-  # difference(#f00, #00F)
-  blendMethod registry, 'difference', BlendModes.DIFFERENCE
+  [color1, color2] = context.split(expr)
 
-  # exclusion(#f00, #00F)
-  blendMethod registry, 'exclusion', BlendModes.EXCLUSION
+  baseColor1 = context.readColor(color1)
+  baseColor2 = context.readColor(color2)
 
-  # average(#f00, #00F)
-  blendMethod registry, 'average', BlendModes.AVERAGE
+  return @invalid = true if context.isInvalid(baseColor1) or context.isInvalid(baseColor2)
 
-  # negation(#f00, #00F)
-  blendMethod registry, 'negation', BlendModes.NEGATION
+  {@rgba} = baseColor1.blend(baseColor2, context.BlendModes.NEGATION)
 
-  if context?.hasColorVariables()
-    paletteRegexpString = createVariableRegExpString(context.getColorVariables())
+##    ######## ##       ##     ##
+##    ##       ##       ###   ###
+##    ##       ##       #### ####
+##    ######   ##       ## ### ##
+##    ##       ##       ##     ##
+##    ##       ##       ##     ##
+##    ######## ######## ##     ##
 
-    registry.createExpression 'variables', paletteRegexpString, 1, (match, expression, context) ->
-      [_,_,name] = match
-      baseColor = context.readColor(name)
-      @colorExpression = name
-      @variables = baseColor?.variables
+# rgba 50 120 200 1
+registry.createExpression 'pigments:elm_rgba', strip("
+  rgba\\s+
+    (#{int}|#{variables})
+    \\s+
+    (#{int}|#{variables})
+    \\s+
+    (#{int}|#{variables})
+    \\s+
+    (#{float}|#{variables})
+"), ['elm'], (match, expression, context) ->
+  [_,r,g,b,a] = match
 
-      return @invalid = true if isInvalid(baseColor)
+  @red = context.readInt(r)
+  @green = context.readInt(g)
+  @blue = context.readInt(b)
+  @alpha = context.readFloat(a)
 
-      @rgba = baseColor.rgba
+# rgb 50 120 200
+registry.createExpression 'pigments:elm_rgb', strip("
+  rgb\\s+
+    (#{int}|#{variables})
+    \\s+
+    (#{int}|#{variables})
+    \\s+
+    (#{int}|#{variables})
+"), ['elm'], (match, expression, context) ->
+  [_,r,g,b] = match
 
-  registry
+  @red = context.readInt(r)
+  @green = context.readInt(g)
+  @blue = context.readInt(b)
+
+elmAngle = "(?:#{float}|\\(degrees\\s+(?:#{int}|#{variables})\\))"
+
+# hsl 210 50 50
+registry.createExpression 'pigments:elm_hsl', strip("
+  hsl\\s+
+    (#{elmAngle}|#{variables})
+    \\s+
+    (#{float}|#{variables})
+    \\s+
+    (#{float}|#{variables})
+"), ['elm'], (match, expression, context) ->
+  elmDegreesRegexp = new RegExp("\\(degrees\\s+(#{context.int}|#{context.variablesRE})\\)")
+
+  [_,h,s,l] = match
+
+  if m = elmDegreesRegexp.exec(h)
+    h = context.readInt(m[1])
+  else
+    h = context.readFloat(h) * 180 / Math.PI
+
+  hsl = [
+    h
+    context.readFloat(s)
+    context.readFloat(l)
+  ]
+
+  return @invalid = true if hsl.some (v) -> not v? or isNaN(v)
+
+  @hsl = hsl
+  @alpha = 1
+
+# hsla 210 50 50 0.7
+registry.createExpression 'pigments:elm_hsla', strip("
+  hsla\\s+
+    (#{elmAngle}|#{variables})
+    \\s+
+    (#{float}|#{variables})
+    \\s+
+    (#{float}|#{variables})
+    \\s+
+    (#{float}|#{variables})
+"), ['elm'], (match, expression, context) ->
+  elmDegreesRegexp = new RegExp("\\(degrees\\s+(#{context.int}|#{context.variablesRE})\\)")
+
+  [_,h,s,l,a] = match
+
+  if m = elmDegreesRegexp.exec(h)
+    h = context.readInt(m[1])
+  else
+    h = context.readFloat(h) * 180 / Math.PI
+
+  hsl = [
+    h
+    context.readFloat(s)
+    context.readFloat(l)
+  ]
+
+  return @invalid = true if hsl.some (v) -> not v? or isNaN(v)
+
+  @hsl = hsl
+  @alpha = context.readFloat(a)
+
+# grayscale 1
+registry.createExpression 'pigments:elm_grayscale', "gr(?:a|e)yscale\\s+(#{float}|#{variables})", ['elm'], (match, expression, context) ->
+  [_,amount] = match
+  amount = Math.floor(255 - context.readFloat(amount) * 255)
+  @rgb = [amount, amount, amount]
+
+registry.createExpression 'pigments:elm_complement', strip("
+  complement\\s+(#{notQuote})
+"), ['elm'], (match, expression, context) ->
+  [_, subexpr] = match
+
+  baseColor = context.readColor(subexpr)
+
+  return @invalid = true if context.isInvalid(baseColor)
+
+  [h,s,l] = baseColor.hsl
+
+  @hsl = [(h + 180) % 360, s, l]
+  @alpha = baseColor.alpha
+
+##    ##          ###    ######## ######## ##     ##
+##    ##         ## ##      ##    ##        ##   ##
+##    ##        ##   ##     ##    ##         ## ##
+##    ##       ##     ##    ##    ######      ###
+##    ##       #########    ##    ##         ## ##
+##    ##       ##     ##    ##    ##        ##   ##
+##    ######## ##     ##    ##    ######## ##     ##
+
+registry.createExpression 'pigments:latex_gray', strip("
+  \\[gray\\]\\{(#{float})\\}
+"), ['tex'], (match, expression, context) ->
+  [_, amount] = match
+
+  amount = context.readFloat(amount) * 255
+  @rgb = [amount, amount, amount]
+
+registry.createExpression 'pigments:latex_html', strip("
+  \\[HTML\\]\\{(#{hexadecimal}{6})\\}
+"), ['tex'], (match, expression, context) ->
+  [_, hexa] = match
+
+  @hex = hexa
+
+registry.createExpression 'pigments:latex_rgb', strip("
+  \\[rgb\\]\\{(#{float})#{comma}(#{float})#{comma}(#{float})\\}
+"), ['tex'], (match, expression, context) ->
+  [_, r,g,b] = match
+
+  r = Math.floor(context.readFloat(r) * 255)
+  g = Math.floor(context.readFloat(g) * 255)
+  b = Math.floor(context.readFloat(b) * 255)
+  @rgb = [r, g, b]
+
+registry.createExpression 'pigments:latex_RGB', strip("
+  \\[RGB\\]\\{(#{int})#{comma}(#{int})#{comma}(#{int})\\}
+"), ['tex'], (match, expression, context) ->
+  [_, r,g,b] = match
+
+  r = context.readInt(r)
+  g = context.readInt(g)
+  b = context.readInt(b)
+  @rgb = [r, g, b]
+
+registry.createExpression 'pigments:latex_cmyk', strip("
+  \\[cmyk\\]\\{(#{float})#{comma}(#{float})#{comma}(#{float})#{comma}(#{float})\\}
+"), ['tex'], (match, expression, context) ->
+  [_, c,m,y,k] = match
+
+  c = context.readFloat(c)
+  m = context.readFloat(m)
+  y = context.readFloat(y)
+  k = context.readFloat(k)
+  @cmyk = [c,m,y,k]
+
+registry.createExpression 'pigments:latex_predefined', strip('
+  \\{(black|blue|brown|cyan|darkgray|gray|green|lightgray|lime|magenta|olive|orange|pink|purple|red|teal|violet|white|yellow)\\}
+'), ['tex'], (match, expression, context) ->
+  [_, name] = match
+  @hex = context.SVGColors.allCases[name].replace('#','')
+
+
+registry.createExpression 'pigments:latex_predefined_dvipnames', strip('
+  \\{(Apricot|Aquamarine|Bittersweet|Black|Blue|BlueGreen|BlueViolet|BrickRed|Brown|BurntOrange|CadetBlue|CarnationPink|Cerulean|CornflowerBlue|Cyan|Dandelion|DarkOrchid|Emerald|ForestGreen|Fuchsia|Goldenrod|Gray|Green|GreenYellow|JungleGreen|Lavender|LimeGreen|Magenta|Mahogany|Maroon|Melon|MidnightBlue|Mulberry|NavyBlue|OliveGreen|Orange|OrangeRed|Orchid|Peach|Periwinkle|PineGreen|Plum|ProcessBlue|Purple|RawSienna|Red|RedOrange|RedViolet|Rhodamine|RoyalBlue|RoyalPurple|RubineRed|Salmon|SeaGreen|Sepia|SkyBlue|SpringGreen|Tan|TealBlue|Thistle|Turquoise|Violet|VioletRed|White|WildStrawberry|Yellow|YellowGreen|YellowOrange)\\}
+'), ['tex'], (match, expression, context) ->
+  [_, name] = match
+  @hex = context.DVIPnames[name].replace('#','')
+
+registry.createExpression 'pigments:latex_mix', strip('
+  \\{([^!\\n\\}]+[!][^\\}\\n]+)\\}
+'), ['tex'], (match, expression, context) ->
+  [_, expr] = match
+
+  op = expr.split('!')
+
+  mix = ([a,p,b]) ->
+    colorA = if a instanceof context.Color then a else context.readColor("{#{a}}")
+    colorB = if b instanceof context.Color then b else context.readColor("{#{b}}")
+    percent = context.readInt(p)
+
+    context.mixColors(colorA, colorB, percent / 100)
+
+  op.push(new context.Color(255, 255, 255)) if op.length is 2
+
+  nextColor = null
+
+  while op.length > 0
+    triplet = op.splice(0,3)
+    nextColor = mix(triplet)
+    op.unshift(nextColor) if op.length > 0
+
+  @rgb = nextColor.rgb
+
+#     #######  ########
+#    ##     ##    ##
+#    ##     ##    ##
+#    ##     ##    ##
+#    ##  ## ##    ##
+#    ##    ##     ##
+#     ##### ##    ##
+
+# Qt.rgba(1.0,0.5,0.0,0.7)
+registry.createExpression 'pigments:qt_rgba', strip("
+  Qt\\.rgba#{ps}\\s*
+    (#{float})
+    #{comma}
+    (#{float})
+    #{comma}
+    (#{float})
+    #{comma}
+    (#{float})
+  #{pe}
+"), ['qml', 'c', 'cc', 'cpp'], 1, (match, expression, context) ->
+  [_,r,g,b,a] = match
+
+  @red = context.readFloat(r) * 255
+  @green = context.readFloat(g) * 255
+  @blue = context.readFloat(b) * 255
+  @alpha = context.readFloat(a)

@@ -1,16 +1,10 @@
-git = require '../git'
-notifier = require '../notifier'
+git = require('../git-es').default
+ActivityLogger = require('../activity-logger').default
+Repository = require('../repository').default
 
-gitStashPop = (repo) ->
-  git.cmd
-    args: ['stash', 'pop']
-    cwd: repo.getWorkingDirectory()
-    options: {
-      env: process.env.NODE_ENV
-    }
-    stdout: (data) ->
-      notifier.addSuccess(data) if data.toString().length > 0
-    stderr: (data) ->
-      notifier.addError(data)
-
-module.exports = gitStashPop
+module.exports = (repo) ->
+  cwd = repo.getWorkingDirectory()
+  git(['stash', 'pop'], {cwd, color: true})
+  .then (result) ->
+    repoName = new Repository(repo).getName()
+    ActivityLogger.record(Object.assign({repoName, message: 'Pop stash'}, result))

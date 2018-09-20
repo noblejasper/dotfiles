@@ -1,13 +1,17 @@
-{Emitter, CompositeDisposable, Task, Range} = require 'atom'
-Color = require './color'
-ColorMarker = require './color-marker'
-VariablesCollection = require './variables-collection'
+[
+  Color, ColorMarker, VariablesCollection,
+  Emitter, CompositeDisposable, Task, Range,
+  fs
+] = []
 
 module.exports =
 class ColorBuffer
   constructor: (params={}) ->
+    unless Emitter?
+      {Emitter, CompositeDisposable, Task, Range} = require 'atom'
+
     {@editor, @project, colorMarkers} = params
-    {@id, @displayBuffer} = @editor
+    {@id} = @editor
     @emitter = new Emitter
     @subscriptions = new CompositeDisposable
     @ignoredScopes=[]
@@ -15,9 +19,15 @@ class ColorBuffer
     @colorMarkersByMarkerId = {}
 
     @subscriptions.add @editor.onDidDestroy => @destroy()
-    @subscriptions.add @editor.displayBuffer.onDidTokenize =>
+
+    tokenized = =>
       @getColorMarkers()?.forEach (marker) ->
         marker.checkMarkerScope(true)
+
+    if @editor.onDidTokenize?
+      @subscriptions.add @editor.onDidTokenize(tokenized)
+    else
+      @subscriptions.add @editor.displayBuffer.onDidTokenize(tokenized)
 
     @subscriptions.add @editor.onDidChange =>
       @terminateRunningTask() if @initialized and @variableInitialized
@@ -37,6 +47,20 @@ class ColorBuffer
       @project.appendPath(path) if @isVariablesSource()
       @update()
 
+    if @project.getPaths()? and @isVariablesSource() and !@project.hasPath(@editor.getPath())
+      fs ?= require 'fs'
+
+      if fs.existsSync(@editor.getPath())
+        @project.appendPath(@editor.getPath())
+      else
+        saveSubscription = @editor.onDidSave ({path}) =>
+          @project.appendPath(path)
+          @update()
+          saveSubscription.dispose()
+          @subscriptions.remove(saveSubscription)
+
+        @subscriptions.add(saveSubscription)
+
     @subscriptions.add @project.onDidUpdateVariables =>
       return unless @variableInitialized
       @scanBufferForColors().then (results) => @updateColorMarkers(results)
@@ -46,8 +70,10 @@ class ColorBuffer
 
     @subscriptions.add atom.config.observe 'pigments.delayBeforeScan', (@delayBeforeScan=0) =>
 
-    # Needed to clean the serialized markers from previous versions
-    @editor.findMarkers(type: 'pigments-variable').forEach (m) -> m.destroy()
+    if @editor.addMarkerLayer?
+      @markerLayer = @editor.addMarkerLayer()
+    else
+      @markerLayer = @editor
 
     if colorMarkers?
       @restoreMarkersState(colorMarkers)
@@ -79,15 +105,15 @@ class ColorBuffer
     @initializePromise
 
   restoreMarkersState: (colorMarkers) ->
+    Color ?= require './color'
+    ColorMarker ?= require './color-marker'
+
     @updateVariableRanges()
 
     @colorMarkers = colorMarkers
     .filter (state) -> state?
     .map (state) =>
-      marker = @editor.getMarker(state.markerId) ? @editor.markBufferRange(state.bufferRange, {
-        type: 'pigments-color'
-        invalidate: 'touch'
-      })
+      marker = @editor.getMarker(state.markerId) ? @markerLayer.markBufferRange(state.bufferRange, { invalidate: 'touch' })
       color = new Color(state.color)
       color.variables = state.variables
       color.invalid = state.invalid
@@ -99,7 +125,7 @@ class ColorBuffer
       }
 
   cleanUnusedTextEditorMarkers: ->
-    @editor.findMarkers(type: 'pigments-color').forEach (m) =>
+    @markerLayer.findMarkers().forEach (m) =>
       m.destroy() unless @colorMarkersByMarkerId[m.id]?
 
   variablesAvailable: ->
@@ -159,6 +185,8 @@ class ColorBuffer
 
   getPath: -> @editor.getPath()
 
+  getScope: -> @project.scopeFromFileName(@getPath())
+
   updateIgnoredScopes: ->
     @ignoredScopes = @project.getIgnoredScopes().map (scope) ->
       try new RegExp(scope)
@@ -186,12 +214,16 @@ class ColorBuffer
 
   scanBufferForVariables: ->
     return Promise.reject("This ColorBuffer is already destroyed") if @destroyed
+    return Promise.resolve([]) unless @editor.getPath()
+
     results = []
     taskPath = require.resolve('./tasks/scan-buffer-variables-handler')
     editor = @editor
     buffer = @editor.getBuffer()
     config =
       buffer: @editor.getText()
+      registry: @project.getVariableExpressionsRegistry().serialize()
+      scope: @getScope()
 
     new Promise (resolve, reject) =>
       @task = Task.once(
@@ -227,13 +259,15 @@ class ColorBuffer
   ##    ##     ## ##     ## ##    ##  ##   ##  ##       ##    ##  ##    ##
   ##    ##     ## ##     ## ##     ## ##    ## ######## ##     ##  ######
 
+  getMarkerLayer: -> @markerLayer
+
   getColorMarkers: -> @colorMarkers
 
-  getValidColorMarkers: -> @getColorMarkers().filter (m) -> m.color.isValid()
+  getValidColorMarkers: ->
+    @getColorMarkers()?.filter((m) -> m.color?.isValid() and not m.isIgnored()) ? []
 
   getColorMarkerAtBufferPosition: (bufferPosition) ->
-    markers = @editor.findMarkers({
-      type: 'pigments-color'
+    markers = @markerLayer.findMarkers({
       containsBufferPosition: bufferPosition
     })
 
@@ -243,6 +277,8 @@ class ColorBuffer
 
   createColorMarkers: (results) ->
     return Promise.resolve([]) if @destroyed
+
+    ColorMarker ?= require './color-marker'
 
     new Promise (resolve, reject) =>
       newResults = []
@@ -255,10 +291,7 @@ class ColorBuffer
         while results.length
           result = results.shift()
 
-          marker = @editor.markBufferRange(result.bufferRange, {
-            type: 'pigments-color'
-            invalidate: 'touch'
-          })
+          marker = @markerLayer.markBufferRange(result.bufferRange, {invalidate: 'touch'})
           newResults.push @colorMarkersByMarkerId[marker.id] = new ColorMarker {
             marker
             color: result.color
@@ -329,57 +362,64 @@ class ColorBuffer
       return marker if marker?.match(properties)
 
   findColorMarkers: (properties={}) ->
-    properties.type = 'pigments-color'
-    markers = @editor.findMarkers(properties)
+    markers = @markerLayer.findMarkers(properties)
     markers.map (marker) =>
       @colorMarkersByMarkerId[marker.id]
     .filter (marker) -> marker?
-
-  colorMarkerForMouseEvent: (event) ->
-    position = @screenPositionForMouseEvent(event)
-    bufferPosition = @displayBuffer.bufferPositionForScreenPosition(position)
-
-    @getColorMarkerAtBufferPosition(bufferPosition)
-
-  screenPositionForMouseEvent: (event) ->
-    pixelPosition = @pixelPositionForMouseEvent(event)
-    @editor.screenPositionForPixelPosition(pixelPosition)
-
-  pixelPositionForMouseEvent: (event) ->
-    {clientX, clientY} = event
-
-    editorElement = atom.views.getView(@editor)
-    rootElement = editorElement.shadowRoot ? editorElement
-    {top, left} = rootElement.querySelector('.lines').getBoundingClientRect()
-    top = clientY - top + @editor.getScrollTop()
-    left = clientX - left + @editor.getScrollLeft()
-    {top, left}
 
   findValidColorMarkers: (properties) ->
     @findColorMarkers(properties).filter (marker) =>
       marker? and marker.color?.isValid() and not marker?.isIgnored()
 
+  selectColorMarkerAndOpenPicker: (colorMarker) ->
+    return if @destroyed
+
+    @editor.setSelectedBufferRange(colorMarker.marker.getBufferRange())
+
+    # For the moment it seems only colors in #RRGGBB format are detected
+    # by the color picker, so we'll exclude anything else
+    return unless @editor.getSelectedText()?.match(/^#[0-9a-fA-F]{3,8}$/)
+
+    if @project.colorPickerAPI?
+      @project.colorPickerAPI.open(@editor, @editor.getLastCursor())
+
   scanBufferForColors: (options={}) ->
     return Promise.reject("This ColorBuffer is already destroyed") if @destroyed
+
+    Color ?= require './color'
+
     results = []
     taskPath = require.resolve('./tasks/scan-buffer-colors-handler')
     buffer = @editor.getBuffer()
+    registry = @project.getColorExpressionsRegistry().serialize()
 
     if options.variables?
+      VariablesCollection ?= require './variables-collection'
+
       collection = new VariablesCollection()
       collection.addMany(options.variables)
       options.variables = collection
 
     variables = if @isVariablesSource()
+      # In the case of files considered as source, the variables in the project
+      # are needed when parsing the files.
       (options.variables?.getVariables() ? []).concat(@project.getVariables() ? [])
     else
+      # Files that are not part of the sources will only use the variables
+      # defined in them and so the global variables expression must be
+      # discarded before sending the registry to the child process.
       options.variables?.getVariables() ? []
+
+    delete registry.expressions['pigments:variables']
+    delete registry.regexpString
 
     config =
       buffer: @editor.getText()
       bufferPath: @getPath()
+      scope: @getScope()
       variables: variables
       colorVariables: variables.filter (v) -> v.isColor
+      registry: registry
 
     new Promise (resolve, reject) =>
       @task = Task.once(

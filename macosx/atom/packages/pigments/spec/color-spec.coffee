@@ -1,4 +1,4 @@
-require './spec-helper'
+require './helpers/matchers'
 
 Color = require '../lib/color'
 
@@ -38,6 +38,16 @@ describe 'Color', ->
       color = new Color
       color.invalid = true
       expect(color).not.toBeValid()
+
+  describe '::isLiteral', ->
+    it 'returns true when the color does not rely on variables', ->
+      expect(new Color('orange').isLiteral()).toBeTruthy()
+
+    it 'returns false when the color does rely on variables', ->
+      color = new Color(0,0,0,1)
+      color.variables = ['foo']
+
+      expect(color.isLiteral()).toBeFalsy()
 
   describe '::rgb', ->
     it 'returns an array with the color components', ->
@@ -97,6 +107,24 @@ describe 'Color', ->
       color.hsva = [200,50,50,0.7]
 
       expect(color).toBeColor(64, 106, 128, 0.7)
+
+  describe '::hcg', ->
+    it 'returns an array with the hue, chroma and gray components', ->
+      expect(color.hcg).toBeComponentArrayCloseTo([16, 80, 100])
+
+    it 'sets the color components based on the passed-in values', ->
+      color.hcg = [200,50,50]
+
+      expect(color).toBeColor(64, 149, 191, 0.4)
+
+  describe '::hcga', ->
+    it 'returns an array with the hue, chroma, gray and alpha components', ->
+      expect(color.hcga).toBeComponentArrayCloseTo([16, 80, 100, 0.4])
+
+    it 'sets the color components based on the passed-in values', ->
+      color.hcga = [200,50,50,0.7]
+
+      expect(color).toBeColor(64, 149, 191, 0.7)
 
   describe '::hsl', ->
     it 'returns an array with the hue, saturation and luminosity components', ->
@@ -178,6 +206,18 @@ describe 'Color', ->
       color.lightness = 20
 
       expect(color.hsl).toBeComponentArrayCloseTo([16, 100, 20])
+
+  describe '::cmyk', ->
+    it 'returns an array with the color in CMYK color space', ->
+      color = new Color('#FF7F00')
+
+      expect(color.cmyk).toBeComponentArrayCloseTo([0,0.5,1,0])
+
+    it 'sets the color components using cmyk values', ->
+      color.alpha = 1
+      color.cmyk = [0, 0.5, 1, 0]
+
+      expect(color).toBeColor('#FF7F00')
 
   describe '::clone', ->
     it 'returns a copy of the current color', ->

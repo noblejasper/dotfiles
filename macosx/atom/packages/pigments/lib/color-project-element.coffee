@@ -1,5 +1,5 @@
-{CompositeDisposable} = require 'atom'
-{SpacePenDSL, EventsDelegation} = require 'atom-utils'
+{SpacePenDSL, EventsDelegation, registerOrUpdateElement} = require 'atom-utils'
+CompositeDisposable = null
 
 capitalize = (s) -> s.replace /^./, (m) -> m.toUpperCase()
 
@@ -25,6 +25,31 @@ class ColorProjectElement extends HTMLElement
                 @p(=> @raw description) if description?
 
               booleanField("ignoreGlobal#{capitalize name}", 'Ignore Global', null, true)
+
+    selectField = (name, label, {options, setting, description, useBoolean}={}) =>
+      settingName = "pigments.#{name}"
+
+      @div class: 'control-group array', =>
+        @div class: 'controls', =>
+          @label class: 'control-label', =>
+            @span class: 'setting-title', label
+
+          @div class: 'control-wrapper', =>
+            @select outlet: name, class: 'form-control', required: true, =>
+              options.forEach (option) =>
+                if option is ''
+                  @option value: option, 'Use global config'
+                else
+                  @option value: option, capitalize option
+
+            @div class: 'setting-description', =>
+              @div =>
+                @raw "Global config: <code>#{atom.config.get(setting ? settingName)}</code>"
+
+                @p(=> @raw description) if description?
+
+              if useBoolean
+                booleanField("ignoreGlobal#{capitalize name}", 'Ignore Global', null, true)
 
     booleanField = (name, label, description, nested) =>
       @div class: 'control-group boolean', =>
@@ -52,8 +77,14 @@ class ColorProjectElement extends HTMLElement
           themes = atom.themes.getActiveThemeNames()
           arrayField('sourceNames', 'Source Names')
           arrayField('ignoredNames', 'Ignored Names')
+          arrayField('supportedFiletypes', 'Supported Filetypes')
           arrayField('ignoredScopes', 'Ignored Scopes')
           arrayField('searchNames', 'Extended Search Names', 'pigments.extendedSearchNames')
+          selectField('sassShadeAndTintImplementation', 'Sass Shade And Tint Implementation', {
+            options: ['', 'compass', 'bourbon']
+            setting: 'pigments.sassShadeAndTintImplementation'
+            description: "Sass doesn't provide any implementation for shade and tint function, and Compass and Bourbon have different implementation for these two methods. This setting allow you to chose which implementation use."
+          })
 
           booleanField('includeThemes', 'Include Atom Themes Stylesheets', """
           The variables from <code>#{themes[0]}</code> and
@@ -62,6 +93,8 @@ class ColorProjectElement extends HTMLElement
           """)
 
   createdCallback: ->
+    {CompositeDisposable} = require 'atom' unless CompositeDisposable?
+
     @subscriptions = new CompositeDisposable
 
   setModel: (@project) ->
@@ -75,11 +108,14 @@ class ColorProjectElement extends HTMLElement
     @initializeTextEditor('searchNames')
     @initializeTextEditor('ignoredNames')
     @initializeTextEditor('ignoredScopes')
+    @initializeTextEditor('supportedFiletypes')
     @initializeCheckbox('includeThemes')
     @initializeCheckbox('ignoreGlobalSourceNames')
     @initializeCheckbox('ignoreGlobalIgnoredNames')
     @initializeCheckbox('ignoreGlobalIgnoredScopes')
     @initializeCheckbox('ignoreGlobalSearchNames')
+    @initializeCheckbox('ignoreGlobalSupportedFiletypes')
+    @initializeSelect('sassShadeAndTintImplementation')
 
   initializeTextEditor: (name) ->
     capitalizedName = capitalize name
@@ -90,6 +126,18 @@ class ColorProjectElement extends HTMLElement
     @subscriptions.add editor.onDidStopChanging =>
       array = editor.getText().split(/\s*,\s*/g).filter (s) -> s.length > 0
       @project["set#{capitalizedName}"](array)
+
+  initializeSelect: (name) ->
+    capitalizedName = capitalize name
+    select = @[name]
+    optionValues = [].slice.call(select.querySelectorAll('option')).map (o) -> o.value
+
+    if @project[name]
+      select.selectedIndex = optionValues.indexOf(@project[name])
+
+    @subscriptions.add @subscribeTo select, change: =>
+      value = select.selectedOptions[0]?.value
+      @project["set#{capitalizedName}"](if value is '' then null else value)
 
   initializeCheckbox: (name) ->
     capitalizedName = capitalize name
@@ -105,13 +153,8 @@ class ColorProjectElement extends HTMLElement
 
   getIconName: -> "pigments"
 
-module.exports = ColorProjectElement =
-document.registerElement 'pigments-color-project', {
-  prototype: ColorProjectElement.prototype
-}
+  serialize: -> {deserializer: 'ColorProjectElement'}
 
-ColorProjectElement.registerViewProvider = (modelClass) ->
-  atom.views.addViewProvider modelClass, (model) ->
-    element = new ColorProjectElement
-    element.setModel(model)
-    element
+module.exports =
+ColorProjectElement =
+registerOrUpdateElement 'pigments-color-project', ColorProjectElement.prototype
