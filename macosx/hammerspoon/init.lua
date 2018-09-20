@@ -26,7 +26,8 @@ end
 local function handleGlobalAppEvent(name, event, app)
    if event == hs.application.watcher.activated then
       -- hs.alert.show(name)
-      if name ~= "iTerm2" then
+      if name ~= "iTerm2" and name ~= "Emacs" and name ~= "Android Studio" then
+        --  hs.alert.show('enable')
          enableAllHotkeys()
       else
          disableAllHotkeys()
@@ -42,13 +43,18 @@ remapKey({'ctrl'}, 'f', keyCode('right'))
 remapKey({'ctrl'}, 'b', keyCode('left'))
 remapKey({'ctrl'}, 'n', keyCode('down'))
 remapKey({'ctrl'}, 'p', keyCode('up'))
+remapKey({'ctrl', 'shift'}, 'f', keyCode('right', {'shift'}))
+remapKey({'ctrl', 'shift'}, 'b', keyCode('left', {'shift'}))
+remapKey({'ctrl', 'shift'}, 'n', keyCode('down', {'shift'}))
+remapKey({'ctrl', 'shift'}, 'p', keyCode('up', {'shift'}))
 
 -- テキスト編集
+remapKey({'alt'}, 'w', keyCode('c', {'cmd'}))
 remapKey({'ctrl'}, 'w', keyCode('x', {'cmd'}))
 remapKey({'ctrl'}, 'y', keyCode('v', {'cmd'}))
 
 -- コマンド
-remapKey({'ctrl'}, 's', keyCode('f', {'cmd'}))
+-- remapKey({'ctrl'}, 's', keyCode('f', {'cmd'}))
 remapKey({'ctrl'}, '/', keyCode('z', {'cmd'}))
 remapKey({'ctrl'}, 'g', keyCode('escape'))
 
