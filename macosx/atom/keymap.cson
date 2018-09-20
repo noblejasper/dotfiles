@@ -38,6 +38,7 @@
   'f10': 'bookmarks:toggle-bookmark'
 'atom-text-editor:not([mini])':
   'ctrl-e': 'editor:move-to-end-of-line'
+  'alt->': 'core:move-to-bottom'
 'atom-text-editor:not(mini).autocomplete-active':
   'enter': 'autocomplete-plus:confirm'
   'up': 'unset!'
@@ -45,10 +46,14 @@
   'ctrl-w': 'unset!'
   'ctrl-p': 'core:move-up'
   'ctrl-n': 'core:move-down'
-
 '.platform-darwin':
   'ctrl-g': 'core:cancel'
   'alt-g': 'go-to-line:toggle'
 '.platform-darwin atom-text-editor:not([mini])':
   'ctrl-d': 'core:delete'
-  'ctrl-w': 'emacs-plus:kill-region'
+  'ctrl-w': 'core:cut'
+'body':
+  'ctrl-tab ^ctrl': 'unset!'
+  'ctrl-tab': 'pane:show-next-item'
+  'ctrl-shift-tab ^ctrl': 'unset!'
+  'ctrl-shift-tab': 'pane:show-previous-item'

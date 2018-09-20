@@ -7,3 +7,7 @@ function ppgrep() {
     ps aux | eval ${PECO} | awk '{ print $2 }'
 }
 
+function da() {
+    echo $(date "+%Y%m%d")
+}
+

@@ -7,7 +7,10 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias j='jobs'
 alias pyac='pyenv activate'
+alias py='bpython'
 alias e='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
+
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 ## for git
 function current_branch {
@@ -28,7 +31,7 @@ function mkopendir {
 }
 alias gc='git commit -v'
 alias gca='git commit -v -a'
-alias gco='git checkout'
+alias gco='git checkout `git branch | peco | sed -e "s/\* //g" | awk "{print \$1}"`'
 alias gb='git branch'
 alias gba='git branch -a'
 alias gcount='git shortlog -sn'
@@ -40,6 +43,7 @@ alias ga='git add'
 alias gm='git merge'
 alias gsr='git svn rebase'
 alias gsd='git svn dcommit'
+alias gprd='git pull --rebase develop'
 complete -o default -o nospace -F _git g
 complete -o default -o nospace -F _git_pull gl
 complete -o default -o nospace -F _git_push gp
@@ -69,3 +73,10 @@ alias cot='open $1 -a /Applications/CotEditor.app'
 alias csharp="/Applications/Unity4.3.4/MonoDevelop.app/Contents/Frameworks/Mono.framework/Commands/csharp"
 
 alias py=ipython
+# ruby
+alias bi='bundle install'
+alias be='bundle exec'
+alias resque='QUEUE=* bundle exec rake environment resque:work'
+
+# Emacs
+alias em='() { command /Applications/Emacs.app/Contents/MacOS/Emacs $@ &}'

@@ -1,4 +1,0 @@
-'.source.jinja':
-  'editor':
-    'commentStart': '{# '
-    'commentEnd': ' #}'

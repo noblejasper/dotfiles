@@ -10,3 +10,5 @@ recentf
 _mongodb
 mongodb
 projects.cson
+macosx/atom/packages
+blob-store
