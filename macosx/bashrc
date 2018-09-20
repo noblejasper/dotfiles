@@ -21,11 +21,9 @@ export HISTIGNORE=?:??:???:exit
 export HISTSIZE=10000000000000  # 履歴のMAX保存数を指定
 export GIT_COMMITTER_EMAIL=nobjas@gmail.com
 export GIT_AUTHOR_EMAIL=nobjas@gmail.com
-# go
-export GOPATH=$HOME/.go
 
 # PATH
-export PATH="$(brew --prefix coreutils)/libexec/gnubin:~/.bin:/usr/local/bin:/usr/local/sbin:~/.bin/mongodb:~/.composer/vendor/bin:~/.bin/flex_sdk/bin:$PATH"
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:~/.bin:/usr/local/sbin:~/.bin/mongodb:~/.composer/vendor/bin:~/.bin/flex_sdk/bin:$PATH"
 export MANPATH="$(brew --prefix coreutils)/libexec/gnuman:$MANPATH"
 
 #hub
@@ -51,7 +49,7 @@ function share_history {  # 以下の内容を関数として定義
 export PROMPT_COMMAND='share_history'  # 上記関数をプロンプト毎に自動実施
 
 # Homebrew Cask
-export HOMEBREW_CASK_OPTS="--appdir=/Applications --caskroom=/usr/local/Caskroom"
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 # Homebrew bash-completion
 if [ -f `brew --prefix`/etc/bash_completion ]; then
   . `brew --prefix`/etc/bash_completion
@@ -90,9 +88,9 @@ fi
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 # enhancd
-if [ -f "/Users/jasper/.enhancd/enhancd.sh" ]; then
-    source "/Users/jasper/.enhancd/enhancd.sh"
-    export ENHANCD_FILTER=fzf:peco;
+if [ -f ~/.enhancd/init.sh ]; then
+    source ~/.enhancd/init.sh
+    export ENHANCD_FILTER=fzf:peco:fzy;
 fi
 
 function random_cowsay() {
@@ -113,3 +111,31 @@ function random_cowsay() {
 
 ### Added GAE SDK for go
 export PATH=$PATH:/Applications/go_appengine_sdk_darwin_amd64-1.9.48/
+
+## mysql
+export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
+
+## rbenv
+eval "$(rbenv init -)"
+
+## ndenv
+export PATH="$HOME/.ndenv/bin:$PATH"
+eval "$(ndenv init -)"
+
+## goenv
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+
+## direnv
+eval "$(direnv hook bash)"
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[ -f /Users/iwai-yudai/git/noblejasper/metronome/node_modules/tabtab/.completions/serverless.bash ] && . /Users/iwai-yudai/git/noblejasper/metronome/node_modules/tabtab/.completions/serverless.bash
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[ -f /Users/iwai-yudai/git/noblejasper/metronome/node_modules/tabtab/.completions/sls.bash ] && . /Users/iwai-yudai/git/noblejasper/metronome/node_modules/tabtab/.completions/sls.bash
+
+# perlbrew
+source ~/perl5/perlbrew/etc/bashrc

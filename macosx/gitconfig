@@ -20,9 +20,9 @@
     mergelog = log --merges --pretty=format:'%C(yellow)%h %Cgreen%ci %Cblue%cn%Cred%d %Creset%s %C(cyan)%b'
     history = log --graph --date=short --decorate=short --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn%Cred%d %Creset%s'
     unmerged = !git --no-pager diff --name-only --diff-filter=U
-    sync = !git checkout master && git pull origin master && git fetch -p origin && git branch -d $(git branch --merged | grep -v master | grep -v '*')
+    sync = !git checkout develop && git pull --rebase upstream develop && git fetch -p upstream && git branch -d $(git branch --merged | grep -v master | grep -v develop | grep -v '*')
 [user]
-	name = 
+	name = nobjas
 	email = nobjas@gmail.com
 [push]
     default = current
@@ -33,11 +33,18 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	required = true
+	process = git-lfs filter-process
 [pager]
 	log = diff-highlight | less
 	show = diff-highlight | less
 	diff = diff-highlight | less
 [diff]
 	compactionHeuristic = true
-[commit]
-	template = /Users/jasper/.commit_template
+[url "ssh://git@github.com"]
+	insteadOf = git://git@github.com
+[url "ssh://github.com"]
+	insteadOf = https://github.com
+[credential]
+	helper = osxkeychain
+#[commit]
+#	template = /Users/iwai-yudai/.commit_template

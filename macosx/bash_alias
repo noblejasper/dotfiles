@@ -1,5 +1,5 @@
 #alias screen='screen -xRU -D -RR'
-alias ls='ls -v --color=auto'
+alias ls='ls -vG'
 alias la='ls -a'
 alias ll='ls -l'
 alias grep='grep --color=auto'
@@ -31,7 +31,7 @@ function mkopendir {
 }
 alias gc='git commit -v'
 alias gca='git commit -v -a'
-alias gco='git checkout'
+alias gco='git checkout `git branch | peco | sed -e "s/\* //g" | awk "{print \$1}"`'
 alias gb='git branch'
 alias gba='git branch -a'
 alias gcount='git shortlog -sn'
@@ -43,6 +43,7 @@ alias ga='git add'
 alias gm='git merge'
 alias gsr='git svn rebase'
 alias gsd='git svn dcommit'
+alias gprd='git pull --rebase develop'
 complete -o default -o nospace -F _git g
 complete -o default -o nospace -F _git_pull gl
 complete -o default -o nospace -F _git_push gp
@@ -70,3 +71,11 @@ alias cot='open $1 -a /Applications/CotEditor.app'
 
 # CSharp
 alias csharp="/Applications/Unity4.3.4/MonoDevelop.app/Contents/Frameworks/Mono.framework/Commands/csharp"
+
+# ruby
+alias bi='bundle install'
+alias be='bundle exec'
+alias resque='QUEUE=* bundle exec rake environment resque:work'
+
+# Emacs
+alias em='() { command /Applications/Emacs.app/Contents/MacOS/Emacs $@ &}'
