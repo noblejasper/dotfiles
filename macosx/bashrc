@@ -1,6 +1,10 @@
+start_time=`date +%s`
+
 . ~/.bash_alias
 . ~/.bash_functions
 . ~/.bash_secret
+
+end_time=`date +%s` && echo '[bashinit] included ' $((end_time - start_time))
 
 #set -euo pipefail
 
@@ -25,6 +29,8 @@ export GIT_AUTHOR_EMAIL=nobjas@gmail.com
 # PATH
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:~/.bin:/usr/local/sbin:~/.bin/mongodb:~/.composer/vendor/bin:~/.bin/flex_sdk/bin:$PATH"
 export MANPATH="$(brew --prefix coreutils)/libexec/gnuman:$MANPATH"
+
+end_time=`date +%s` && echo '[bashinit] exports ' $((end_time - start_time))
 
 #hub
 if which hub > /dev/null; then eval "$(hub alias -s)"; else echo "please 'brew install hub'" ; fi
@@ -65,6 +71,9 @@ fi
 
 # Git2.9のキレイなdiffを出すためのconfig - Qiita http://qiita.com/takyam/items/d6afacc7934de9b0e85e
 export PATH=$PATH:/usr/local/share/git-core/contrib/diff-highlight
+
+end_time=`date +%s` && echo '[bashinit] hub, pyenv, cask ' $((end_time - start_time))
+
 
 # keychain
 if ${ON_KEYCHAIN}; then
@@ -123,9 +132,14 @@ export PATH="$HOME/.ndenv/bin:$PATH"
 eval "$(ndenv init -)"
 
 ## goenv
-export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
-eval "$(goenv init -)"
+# export GOENV_ROOT="$HOME/.goenv"
+# export PATH="$GOENV_ROOT/bin:$PATH"
+# eval "$(goenv init -)"
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+end_time=`date +%s` && echo '[bashinit] keychain, Heroku Toolbelt, rbenv, ndenv, goenv' $((end_time - start_time))
+
 
 ## direnv
 eval "$(direnv hook bash)"
@@ -139,3 +153,9 @@ eval "$(direnv hook bash)"
 
 # perlbrew
 source ~/perl5/perlbrew/etc/bashrc
+export PATH="$HOME/.embulk/bin:$PATH"
+
+end_time=`date +%s` && echo '[bashinit] direnv, tabtab, perlbrew' $((end_time - start_time))
+
+# flutter
+export PATH="$PATH:/Applications/flutter/bin"
