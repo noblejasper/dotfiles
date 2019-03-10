@@ -9,3 +9,5 @@
 # atom.workspace.observeTextEditors (editor) ->
 #   editor.onDidSave ->
 #     console.log "Saved! #{editor.getPath()}"
+
+process.env.PATH = ['/usr/local/var/pyenv/shims/', process.env.PATH].join(':')
