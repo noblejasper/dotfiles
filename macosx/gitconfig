@@ -20,7 +20,9 @@
     mergelog = log --merges --pretty=format:'%C(yellow)%h %Cgreen%ci %Cblue%cn%Cred%d %Creset%s %C(cyan)%b'
     history = log --graph --date=short --decorate=short --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn%Cred%d %Creset%s'
     unmerged = !git --no-pager diff --name-only --diff-filter=U
-    sync = !git checkout develop && git pull --rebase upstream develop && git fetch -p upstream && git branch -d $(git branch --merged | grep -v master | grep -v develop | grep -v '*')
+    syncdev = !git checkout develop && git pull --rebase upstream develop && git fetch -p upstream && git branch -d $(git branch --merged | grep -v master | grep -v develop | grep -v '*')
+    syncmaster = !git checkout master && git pull --rebase upstream master && git fetch -p upstream && git branch -d $(git branch --merged | grep -v master | grep -v develop | grep -v '*')
+    syncorigindev = !git checkout develop && git pull origin develop && git fetch -p origin && git branch -d $(git branch --merged | grep -v master | grep -v develop | grep -v '*')
 [user]
 	name = nobjas
 	email = nobjas@gmail.com

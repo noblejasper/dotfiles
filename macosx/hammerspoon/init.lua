@@ -26,7 +26,8 @@ end
 local function handleGlobalAppEvent(name, event, app)
    if event == hs.application.watcher.activated then
       -- hs.alert.show(name)
-      if name ~= "iTerm2" and name ~= "Emacs" and name ~= "Android Studio" then
+      -- if name ~= "iTerm2" and name ~= "Emacs" and name ~= "Android Studio" then
+      if name ~= "Emacs" and name ~= "Android Studio" then
         --  hs.alert.show('enable')
          enableAllHotkeys()
       else
