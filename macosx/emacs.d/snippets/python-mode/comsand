@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: comsand
-# key: comsand
-# --
-# START: $1
-$2
-# END: $1

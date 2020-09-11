@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: space
-# key: space
-# --
-{{ $1|space|safe }}

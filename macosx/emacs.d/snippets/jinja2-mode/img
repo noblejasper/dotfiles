@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: img
-# key: img
-# --
-<img src="{{ g.image_base }}$1"${2: width="${3:width}"}${4: height="${5:height}"}${6: alt="${7:alt}"} />

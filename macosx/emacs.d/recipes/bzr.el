@@ -1,1 +1,0 @@
-(:name bzr :type emacswiki)

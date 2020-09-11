@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: emoji
-# key: emoji
-# --
-{{ color(e("$1"),"$2") }}

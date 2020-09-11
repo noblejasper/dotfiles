@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: linkbase
-# key: linkbase
-# --
-<a href="{{ link("$1") }}">$2</a>

@@ -1,4 +1,0 @@
-(:name smartchr
-       :type http
-       :url "https://raw.github.com/imakado/emacs-smartchr/master/smartchr.el"
-       :features smartchr)
