@@ -77,3 +77,9 @@ zplug load --verbose
 # anyenv
 export PATH="$HOME/.anyenv/bin:$PATH"
 eval "$(anyenv init -)"
+
+# Git2.9のキレイなdiffを出すためのconfig - Qiita http://qiita.com/takyam/items/d6afacc7934de9b0e85e
+export PATH=$PATH:/usr/local/share/git-core/contrib/diff-highlight
+
+# flutter
+export PATH="$PATH:$HOME/git/other/flutter/bin"
