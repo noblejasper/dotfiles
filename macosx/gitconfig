@@ -1,3 +1,5 @@
+[pull]
+	rebase = true
 [core]
     pager = lv -c
 	excludesfile = /Users/jasper/.gitignore_global
@@ -24,32 +26,17 @@
     syncdev = !git checkout develop && git pull --rebase upstream develop && git fetch -p upstream && git branch -d $(git branch --merged | grep -v main | grep -v master | grep -v develop | grep -v '*')
     syncmaster = !git checkout master && git pull --rebase upstream master && git fetch -p upstream && git branch -d $(git branch --merged | grep -v main | grep -v master | grep -v develop | grep -v '*')
     syncorigindev = !git checkout develop && git pull origin develop && git fetch -p origin && git branch -d $(git branch --merged | grep -v main | grep -v master | grep -v develop | grep -v '*')
+	syncoriginmain = !git checkout main && git pull origin main & git fetch -p origin && git branch -d $(git branch --merged | grep -v master | grep -v develop | grep -v main | grep -v '*')
 [user]
 	name = nobjas
 	email = nobjas@gmail.com
-[push]
-    default = current
-[filter "media"]
-    clean = git-media-clean %f
-    smudge = git-media-smudge %f
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	required = true
-	process = git-lfs filter-process
-[pager]
-	log = diff-highlight | less
-	show = diff-highlight | less
-	diff = diff-highlight | less
-[diff]
-	compactionHeuristic = true
-[url "ssh://git@github.com"]
-	insteadOf = git://git@github.com
-[url "ssh://github.com"]
-	insteadOf = https://github.com
 [credential]
 	helper = osxkeychain
-#[commit]
-#	template = /Users/iwai-yudai/.commit_template
 [init]
 	defaultBranch = main
+#[commit]
+#	template = /Users/iwai-yudai/.commit_template
+# [pager]
+# 	log = diff-highlight | less
+# 	show = diff-highlight | less
+# 	diff = diff-highlight | less
