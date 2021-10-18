@@ -1,5 +1,7 @@
 [pull]
 	rebase = true
+[push]
+    default = current
 [core]
     pager = lv -c
 	excludesfile = /Users/jasper/.gitignore_global
@@ -36,7 +38,7 @@
 	defaultBranch = main
 #[commit]
 #	template = /Users/iwai-yudai/.commit_template
-# [pager]
-# 	log = diff-highlight | less
-# 	show = diff-highlight | less
-# 	diff = diff-highlight | less
+[pager]
+	log = diff-highlight | less
+	show = diff-highlight | less
+	diff = diff-highlight | less
