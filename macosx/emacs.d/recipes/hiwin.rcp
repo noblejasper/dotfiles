@@ -1,4 +1,0 @@
-(:name hiwin
-       :type http
-       :url "https://raw.github.com/tomoya/hiwin-mode/master/hiwin.el"
-       :features hiwin)

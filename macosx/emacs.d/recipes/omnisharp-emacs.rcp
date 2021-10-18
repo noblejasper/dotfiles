@@ -1,5 +1,0 @@
-(:name omnisharp-emacs
-       :type http
-       :url "https://raw.githubusercontent.com/sp3ctum/omnisharp-emacs/master/omnisharp.el"
-       :depends (dash popup auto-complete flycheck csharp-mode)
-       :features omnisharp-emacs)

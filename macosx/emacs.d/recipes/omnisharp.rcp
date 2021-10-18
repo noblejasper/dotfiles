@@ -1,4 +1,0 @@
-(:name omnisharp
-       :type http
-       :url "https://raw.github.com/sp3ctum/omnisharp-emacs/master/omnisharp.el"
-       :features omnisharp)
