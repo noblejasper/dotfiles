@@ -1,0 +1,61 @@
+#alias screen='screen -xRU -D -RR'
+alias ls='ls -v --color=auto'
+alias la='ls -a'
+alias ll='ls -l'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+## for git
+function current_branch {
+      ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+        echo ${ref#refs/heads/}
+}
+alias g='git'
+alias gst='git status'
+alias gl='git pull'
+alias gup='git fetch && git rebase'
+alias gp='git push'
+function gdv {
+        git-diff -w "$@" | view -
+}
+function mkopendir {
+         d="$1"
+         mkdir "$d" && open "$d"
+}
+alias gc='git commit -v'
+alias gca='git commit -v -a'
+alias gco='git checkout `git branch | peco | sed -e "s/\* //g" | awk "{print \$1}"`'
+alias gb='git branch'
+alias gba='git branch -a'
+alias gcount='git shortlog -sn'
+alias gcp='git cherry-pick'
+alias glg='git log --stat --max-count=5'
+alias glgg='git log --graph --max-count=5'
+alias gss='git status -s'
+alias ga='git add'
+alias gm='git merge'
+alias gsr='git svn rebase'
+alias gsd='git svn dcommit'
+alias gprd='git pull --rebase main'
+complete -o default -o nospace -F _git g
+complete -o default -o nospace -F _git_pull gl
+complete -o default -o nospace -F _git_push gp
+complete -o default -o nospace -F _git_commit gc
+complete -o default -o nospace -F _git_checkout gco
+complete -o default -o nospace -F _git_branch gb
+complete -o default -o nospace -F _git_branch gba
+complete -o default -o nospace -F _git_status gss
+complete -o default -o nospace -F _git_add ga
+complete -o default -o nospace -F _git_merge gm
+
+# these aliases take advantage of the previous function
+alias ggpull='git pull origin $(current_branch)'
+alias ggpush='git push origin $(current_branch)'
+alias ggpnp='git pull origin $(current_branch) && git push origin $(current_branch)'
+
+# nobjas original
+alias gstpull='git stash && ggpull && git stash pop'
+
+# tmux
+alias ta="tmux attach"

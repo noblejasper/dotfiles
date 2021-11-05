@@ -1,0 +1,37 @@
+[pull]
+    rebase = true
+[push]
+    default = current
+[core]
+    pager = less
+[color]
+    # colorの設定(以下のコマンドは自動で色つける)
+    ui = 1
+    status = auto
+    diff = auto
+    branch = auto
+    interactive = auto
+    grep = auto
+[alias]
+    co = checkout
+    ci = commit -a
+    st = status
+    wdiff = diff --color-words
+    see = browse
+    amend = commit --amend -C HEAD
+    logg = log --stat --decorate=short --pretty=format:'%C(yellow)%h %Cgreen%cr %Cblue%cn%Cred%d %Creset%s %C(cyan)%b'
+    mergelog = log --merges --pretty=format:'%C(yellow)%h %Cgreen%ci %Cblue%cn%Cred%d %Creset%s %C(cyan)%b'
+    history = log --graph --date=short --decorate=short --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn%Cred%d %Creset%s'
+    unmerged = !git --no-pager diff --name-only --diff-filter=U
+    syncmain = !git checkout main && git pull --rebase upstream main && git fetch -p upstream && git branch -d $(git branch --merged | grep -v master | grep -v main | grep -v '*')
+    syncdev = !git checkout develop && git pull --rebase upstream develop && git fetch -p upstream && git branch -d $(git branch --merged | grep -v main | grep -v master | grep -v develop | grep -v '*')
+    syncmaster = !git checkout master && git pull --rebase upstream master && git fetch -p upstream && git branch -d $(git branch --merged | grep -v main | grep -v master | grep -v develop | grep -v '*')
+    syncorigindev = !git checkout develop && git pull origin develop && git fetch -p origin && git branch -d $(git branch --merged | grep -v main | grep -v master | grep -v develop | grep -v '*')
+    syncoriginmain = !git checkout main && git pull origin main & git fetch -p origin && git branch -d $(git branch --merged | grep -v master | grep -v develop | grep -v main | grep -v '*')
+[user]
+    name = nobjas
+    email = nobjas@gmail.com
+[init]
+    defaultBranch = main
+#[commit]
+#       template = /Users/iwai-yudai/.commit_template
